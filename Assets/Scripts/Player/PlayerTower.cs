@@ -4,17 +4,17 @@ using UnityEngine;
 
 public class PlayerTower : MonoBehaviour
 {
-    [SerializeField] private TurretController turret;
+    [SerializeField] private ShootingUnitController shootingUnitController;
     [SerializeField] private Stats stats;
 
     private void Start()
     {
-        if (!turret) turret = GetComponentInChildren<TurretController>();
+        if (!shootingUnitController) shootingUnitController = GetComponentInChildren<ShootingUnitController>();
     }
 
     private void Update()
     {
-        turret.UpdateTurret();
+        shootingUnitController.UpdateTurret();
     }
 
 
