@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UnitSelection : MonoBehaviour
+public class UnitSelectionMenu : MonoBehaviour
 {
     private void Awake()
     {
@@ -20,11 +20,13 @@ public class UnitSelection : MonoBehaviour
 
     public void FireUnitSelected()
     {
-        
+        MainPlayerControl.instance.activeUnitDeploymentArea.DeployUnit(MainPlayerControl.PlayerUnitType.FireAttackUnit);
+        this.gameObject.SetActive(false);
     }
 
     public void WindUnitSelected()
     {
-
+        MainPlayerControl.instance.activeUnitDeploymentArea.DeployUnit(MainPlayerControl.PlayerUnitType.WindAttackUnit);
+        this.gameObject.SetActive(false);
     }
 }
