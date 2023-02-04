@@ -1,10 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static MainPlayerControl;
+
 public class ShootingUnitController : MonoBehaviour
 {
-    [SerializeField] private List<TargetEnemy> targetsInRange = new List<TargetEnemy>();
+    [SerializeField] public List<TargetEnemy> targetsInRange = new List<TargetEnemy>();
     [SerializeField] private TurretState turretState;
+    [SerializeField] internal PlayerUnitType playerUnitType;
 
     [SerializeField] private GameObject bulletPrefab;
     [SerializeField, Range(0.01f, 10f)] private float delayBetweenShots = 0.5f;
@@ -32,7 +35,10 @@ public class ShootingUnitController : MonoBehaviour
     {
         turretState = TurretState.Idle;
     }
-
+    private void FixedUpdate()
+    {
+        UpdateTurret();
+    }
     public void UpdateTurret()
     {
         UpdateTurretState();
@@ -91,15 +97,20 @@ public class ShootingUnitController : MonoBehaviour
 
             foreach (TargetEnemy targetObj in targetsInRange)
             {
-                GameObject enemy = targetObj.gameObjectSelf;
-
-                float distance = Vector3.Distance(transform.position, enemy.transform.position);
-
-                if (distance < closestDistance && distance <= shootingRange)
+                GameObject enemy;
+                if (targetObj != null)
                 {
-                    closestDistance = distance;
-                    targetTF = enemy.transform;
+                    enemy = targetObj.gameObjectSelf;
+
+                    float distance = Vector3.Distance(transform.position, enemy.transform.position);
+
+                    if (distance < closestDistance && distance <= shootingRange)
+                    {
+                        closestDistance = distance;
+                        targetTF = enemy.transform;
+                    }
                 }
+                
             }
         }
 
@@ -118,6 +129,6 @@ public class ShootingUnitController : MonoBehaviour
     void ShootAtTarget()
     {
         GameObject bullet = Instantiate(bulletPrefab, transform.position, transform.rotation);
-        bullet.GetComponent<Bullet>().initializeBullet(targetTF);
+        bullet.GetComponent<Bullet>().initializeBullet(targetTF, playerUnitType);
     }
 }

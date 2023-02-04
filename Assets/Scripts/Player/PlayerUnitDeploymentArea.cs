@@ -20,6 +20,7 @@ public class PlayerUnitDeploymentArea : MonoBehaviour
         {
             GameObject objectToSpawn = MainPlayerControl.instance.GetUnitToSpawn(unitType);
             Instantiate(objectToSpawn, this.transform.position, Quaternion.identity, this.transform);
+            objectToSpawn.GetComponent<ShootingUnitController>().playerUnitType = unitType;
         }
     }
 }

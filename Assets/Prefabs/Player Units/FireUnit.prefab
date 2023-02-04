@@ -47,10 +47,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetsInRange: []
   turretState: 0
+  playerUnitType: 0
   bulletPrefab: {fileID: 4614153920458031038, guid: 84c53ce27c1612f4da1cb62b5a3e45a8,
     type: 3}
-  delayBetweenShots: 0.5
-  shootingRange: 12.5
+  delayBetweenShots: 2
+  shootingRange: 70.3
   targetsRefreshAfter: 2
 --- !u!1 &7775598517809808396
 GameObject:
@@ -114,7 +115,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: 860eb71a70e6b1540afe05a9b59564d1, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
