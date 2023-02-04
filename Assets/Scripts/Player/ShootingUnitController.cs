@@ -19,6 +19,14 @@ public class ShootingUnitController : MonoBehaviour
     [SerializeField, Range(0.01f, 10f)] private float targetsRefreshAfter = 2f;
     private float timeSinceTargetsRefresh = 0;
 
+    private float dist;
+    private bool dragging = false;
+    private Vector3 offset;
+    private Transform toDrag;
+    private Vector3 toDrags;
+
+    internal Vector3 initialPos;
+
     private enum TurretState
     {
         Idle,
@@ -28,11 +36,12 @@ public class ShootingUnitController : MonoBehaviour
     void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.magenta;
-        Gizmos.DrawWireSphere(transform.position, shootingRange);
+        Gizmos.DrawCube(transform.position, new Vector3(2, 2, 2));
 
     }
     private void Start()
     {
+        initialPos = this.transform.position;
         turretState = TurretState.Idle;
     }
     private void FixedUpdate()
@@ -130,5 +139,94 @@ public class ShootingUnitController : MonoBehaviour
     {
         GameObject bullet = Instantiate(bulletPrefab, transform.position, transform.rotation);
         bullet.GetComponent<Bullet>().initializeBullet(targetTF, playerUnitType);
+    }
+    void Update()
+    {
+
+        Vector3 v3;
+
+        if (Input.touchCount != 1)
+        {
+            dragging = false;
+            return;
+        }
+
+        Touch touch = Input.touches[0];
+        Vector3 pos = touch.position;
+
+        if (touch.phase == TouchPhase.Began)
+        {
+            Ray ray = Camera.main.ScreenPointToRay(pos);
+            RaycastHit hit;
+
+            if (Physics.Raycast(ray, out hit))
+            {
+                if (hit.collider.tag == "Player")
+                {
+                    toDrag = hit.transform;
+                    dist = hit.transform.position.z - Camera.main.transform.position.z;
+                    v3 = new Vector3(pos.x, pos.y, dist);
+                    v3 = Camera.main.ScreenToWorldPoint(v3);
+                    offset = toDrag.position - v3;
+                    dragging = true;
+                }
+            }
+        }
+
+        if (dragging && touch.phase == TouchPhase.Moved)
+        {
+            v3 = new Vector3(Input.mousePosition.x, Input.mousePosition.y, dist);
+            v3 = Camera.main.ScreenToWorldPoint(v3);
+            toDrag.position = v3 + offset;
+        }
+
+        if (dragging && (touch.phase == TouchPhase.Ended || touch.phase == TouchPhase.Canceled))
+        {
+            dragging = false;
+        }
+    }
+    Vector3 mousePosition;
+
+    Vector3 GetMousePos()
+    {
+        return Camera.main.WorldToScreenPoint(transform.position);
+    }
+    private void OnMouseDown()
+    {
+        mousePosition = Input.mousePosition - GetMousePos();
+        //toDrags = Input.mousePosition;
+        //dist = Input.mousePosition.z - Camera.main.transform.position.z;
+        //v3 = new Vector3(Input.mousePosition.x, Input.mousePosition.y, dist);
+        //v3 = Camera.main.ScreenToWorldPoint(v3);
+        //offset = toDrags - v3;
+
+    }
+    private void OnMouseDrag()
+    {
+        Vector3 aa = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        transform.position = new Vector3(aa.x, transform.position.y, aa.z);
+        //v3 = new Vector3(Input.mousePosition.x, Input.mousePosition.y, dist);
+        //v3 = Camera.main.ScreenToWorldPoint(v3);
+        //toDrags = v3 + offset;
+
+    }
+
+    private void OnMouseUp()
+    {
+        Collider[] hitColliders = Physics.OverlapBox(transform.position, new Vector3(1,1,1));
+        if(hitColliders.Length > 1)
+        {
+            for(int i = 0; i < hitColliders.Length; i++)
+            {
+                if (hitColliders[i].CompareTag("Player") && hitColliders[i].gameObject != this.gameObject)
+                {
+                    Destroy(this.gameObject);
+                }
+            }
+            transform.position = initialPos;
+
+        }
+        else
+        transform.position = initialPos;
     }
 }

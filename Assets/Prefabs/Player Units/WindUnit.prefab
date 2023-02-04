@@ -10,9 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 4696162491715773129}
   - component: {fileID: 2044738399098233001}
+  - component: {fileID: 6375831284587054576}
   m_Layer: 0
   m_Name: WindUnit
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -50,9 +51,23 @@ MonoBehaviour:
   playerUnitType: 1
   bulletPrefab: {fileID: 4614153920458031038, guid: 84c53ce27c1612f4da1cb62b5a3e45a8,
     type: 3}
-  delayBetweenShots: 2
+  delayBetweenShots: 1.5
   shootingRange: 70.3
   targetsRefreshAfter: 2
+--- !u!136 &6375831284587054576
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 981885232500819498}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.50968087
+  m_Height: 2.480496
+  m_Direction: 1
+  m_Center: {x: 0.030959547, y: 0.0017240047, z: 0.0062322617}
 --- !u!1 &1567842162437166438
 GameObject:
   m_ObjectHideFlags: 0

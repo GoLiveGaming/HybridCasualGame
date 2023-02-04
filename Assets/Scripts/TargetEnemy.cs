@@ -31,4 +31,6 @@ public class TargetEnemy : MonoBehaviour
             Debug.Log(stats.Damage);
         }
     }
+
+    
 }

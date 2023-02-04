@@ -20,7 +20,8 @@ public class MainPlayerControl : MonoBehaviour
     public enum PlayerUnitType
     {
         FireAttackUnit,
-        WindAttackUnit
+        WindAttackUnit,
+        FireWindAttackUnit
     }
 
     [System.Serializable]
