@@ -83,7 +83,7 @@ public class ShootingUnitController : MonoBehaviour
             Collider[] hitColliders = Physics.OverlapSphere(transform.position, shootingRange);
             foreach (var hitCollider in hitColliders)
             {
-                if (hitCollider.CompareTag("TurretTarget"))
+                if (hitCollider.CompareTag("TargetEnemy"))
                 {
                     hitCollider.TryGetComponent(out TargetEnemy target);
                     if (target) targetsInRange.Add(target);

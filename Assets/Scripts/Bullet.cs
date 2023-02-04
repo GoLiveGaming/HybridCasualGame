@@ -27,14 +27,7 @@ public class Bullet : MonoBehaviour
             return;
         }
 
-
         transform.position = transform.position + direction * speed * Time.deltaTime;
-
-        //if (Vector3.Distance(transform.position, target.position) < 0.1f)
-        //{
-        //    Destroy(gameObject);
-        //    return;
-        //}
 
         elapsedTime += Time.deltaTime;
 
@@ -46,38 +39,43 @@ public class Bullet : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.tag == "TurretTarget")
+        if (other.CompareTag("TargetEnemy"))
         {
+            other.TryGetComponent(out TargetEnemy targetEnemy);
+            other.TryGetComponent(out Stats stats);
+            other.TryGetComponent(out NPCStateManager npcSM);
+
             switch (parentUnitType)
             {
                 case PlayerUnitType.FireAttackUnit:
-                    other.GetComponent<TargetEnemy>().stats.Damage += 20f;
-                   // other.GetComponent<Rigidbody>().AddForce(transform.forward * 150f);
+
+                    if (stats) stats.StartDamageOverTime();
                     Destroy(gameObject);
                     break;
-                case PlayerUnitType.WindAttackUnit:
-                    
-                    //  other.GetComponent<Rigidbody>().AddForce(transform.forward * 150f);
 
-                    Collider[] hitColliders = Physics.OverlapSphere(transform.position, 5f);
-                    foreach (var hitCollider in hitColliders)
-                    {
-                        hitCollider.TryGetComponent(out Rigidbody rb);
-                        if (rb) 
-                        {
-                            rb.AddExplosionForce(5f, transform.position, 200, 0f, ForceMode.Impulse);
-                            rb.GetComponent<TargetEnemy>().stats.Damage += 5f;
-                        }
-                            
-                        //if (hitCollider.CompareTag("TurretTarget"))
-                        //{
-                        //}
-                    }
-                    
+                case PlayerUnitType.WindAttackUnit:
+                    StartWindAttackEffect();
                     Destroy(gameObject);
                     break;
             }
-            
+
+        }
+    }
+
+    void StartWindAttackEffect()
+    {
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, 5f);
+
+        foreach (var hitCollider in hitColliders)
+        {
+            hitCollider.TryGetComponent(out Rigidbody rb);
+            if (rb)
+            {
+                rb.AddExplosionForce(5f, transform.position, 5, 1f, ForceMode.Impulse);
+
+                //Modify Stats
+                rb.GetComponent<Stats>().AddDamage(5f);
+            }
         }
     }
 }

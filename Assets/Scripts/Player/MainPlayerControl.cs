@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+[RequireComponent(typeof(Stats))]
 public class MainPlayerControl : MonoBehaviour
 {
     public static MainPlayerControl instance;
@@ -14,7 +15,7 @@ public class MainPlayerControl : MonoBehaviour
     [SerializeField] private PlayerUnit[] playerUnits;
 
     [Header("Units Controller"), Space(2)]
-    public ShootingUnitController[] shootingUnitController;
+    public List<ShootingUnitController> shootingUnitControllers = new List<ShootingUnitController>();
     [SerializeField] private Stats stats;
 
     public enum PlayerUnitType
@@ -36,12 +37,12 @@ public class MainPlayerControl : MonoBehaviour
     }
     private void Start()
     {
-        shootingUnitController = GetComponentsInChildren<ShootingUnitController>();
+        shootingUnitControllers = GetComponentsInChildren<ShootingUnitController>().ToList();
     }
 
     void Update()
     {
-        foreach (ShootingUnitController controller in shootingUnitController)
+        foreach (ShootingUnitController controller in shootingUnitControllers)
         {
             controller.UpdateTurret();
         }
