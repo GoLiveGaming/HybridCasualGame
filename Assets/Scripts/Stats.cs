@@ -5,17 +5,11 @@ using UnityEngine.UI;
 public class Stats : MonoBehaviour
 {
     [SerializeField] private float m_Health = 100;
+    [SerializeField] private Image healthBar;
 
     [Header("ReadOnly Parameters"), Space(2)]
-    [SerializeField] private bool isStunned = false;
-    [SerializeField] private Rigidbody m_Rigidbody;
-    [SerializeField] NPCStateManager m_NPCStateManager;
+    public bool isDead = false;
 
-    private void Awake()
-    {
-        m_Rigidbody = GetComponent<Rigidbody>();
-        m_NPCStateManager = GetComponent<NPCStateManager>();
-    }
 
     public float Health
     {
@@ -27,12 +21,16 @@ public class Stats : MonoBehaviour
             if (Health <= 0) { Destroy(gameObject); isDead = true; }
         }
     }
-    public bool isDead = false;
-    public Image healthBar;
 
-    public void StartDamageOverTime()
+
+    /// <summary>
+    /// Gradually decreases health over given amount of time
+    /// </summary>
+    /// <param name="duration"></param>
+    /// <param name="damage"></param>
+    public void AddDamageOverTime(float duration, float damage)
     {
-        StartCoroutine(DamageOvertime(5, 2));
+        StartCoroutine(DamageOvertime(duration, damage));
     }
     public void AddDamage(float damage)
     {
@@ -47,8 +45,6 @@ public class Stats : MonoBehaviour
             Health -= damagePerSecond * Time.deltaTime;
             damageDuration -= Time.deltaTime;
             yield return null;
-
-            Debug.Log(damagePerSecond);
         }
     }
 }

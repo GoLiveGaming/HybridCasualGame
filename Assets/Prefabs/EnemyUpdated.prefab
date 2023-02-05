@@ -352,7 +352,6 @@ GameObject:
   - component: {fileID: 7399107961593517690}
   - component: {fileID: 7399107961593517691}
   - component: {fileID: 2468691223403189057}
-  - component: {fileID: 2007415120595770339}
   m_Layer: 0
   m_Name: EnemyUpdated
   m_TagString: TargetEnemy
@@ -478,41 +477,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51c5801774cc47d41a9e121865cd0551, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  activeState: 0
+  _canvas: {fileID: 27940962538736590}
   defaultMoveSpeed: 1
-  stoppingDistance: 3
+  stoppingDistance: 2
+  attackDamage: 1
+  stateRefreshDelay: 1
   playerTowerLayer:
     serializedVersion: 2
     m_Bits: 64
-  stateRefreshDelay: 1
   timeSinceLastStateRefresh: 0
-  doAnims: 0
-  pursueAnimBoolNames:
-  - Idle_01
-  - Idle_02
-  - Idle_03
-  attackAnimBoolNames:
-  - Roam_01
-  - Roam_02
-  - Roam_03
-  evadeAnimBoolNames:
-  - Evade_01
-  - Evade_02
-  - Evade_03
-  activeState: 0
-  agent: {fileID: 0}
-  animator: {fileID: 0}
-  player: {fileID: 0}
---- !u!114 &2007415120595770339
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7399107961593517685}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8a987c0136901c941b7dd93e482e16d1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  stats: {fileID: 7399107961593517691}
-  canvas: {fileID: 27940962538736590}
+  _agent: {fileID: 0}
+  _animator: {fileID: 0}
+  _player: {fileID: 0}
+  _stats: {fileID: 0}

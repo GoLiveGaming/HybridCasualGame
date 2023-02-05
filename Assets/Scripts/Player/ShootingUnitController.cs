@@ -5,7 +5,7 @@ using static MainPlayerControl;
 
 public class ShootingUnitController : MonoBehaviour
 {
-    [SerializeField] public List<TargetEnemy> targetsInRange = new List<TargetEnemy>();
+    [SerializeField] public List<NPCManagerScript> targetsInRange = new List<NPCManagerScript>();
     [SerializeField] private TurretState turretState;
     [SerializeField] internal PlayerUnitType playerUnitType;
 
@@ -85,7 +85,7 @@ public class ShootingUnitController : MonoBehaviour
             {
                 if (hitCollider.CompareTag("TargetEnemy"))
                 {
-                    hitCollider.TryGetComponent(out TargetEnemy target);
+                    hitCollider.TryGetComponent(out NPCManagerScript target);
                     if (target) targetsInRange.Add(target);
                 }
             }
@@ -104,7 +104,7 @@ public class ShootingUnitController : MonoBehaviour
         {
             float closestDistance = Mathf.Infinity;
 
-            foreach (TargetEnemy targetObj in targetsInRange)
+            foreach (NPCManagerScript targetObj in targetsInRange)
             {
                 GameObject enemy;
                 if (targetObj != null)

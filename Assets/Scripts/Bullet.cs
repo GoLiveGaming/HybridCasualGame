@@ -41,15 +41,13 @@ public class Bullet : MonoBehaviour
     {
         if (other.CompareTag("TargetEnemy"))
         {
-            other.TryGetComponent(out TargetEnemy targetEnemy);
-            other.TryGetComponent(out Stats stats);
-            other.TryGetComponent(out NPCStateManager npcSM);
+            other.TryGetComponent(out NPCManagerScript npcManager);
 
             switch (parentUnitType)
             {
                 case PlayerUnitType.FireAttackUnit:
 
-                    if (stats) stats.StartDamageOverTime();
+                    if (npcManager._stats) npcManager._stats.AddDamageOverTime(5, 2);
                     Destroy(gameObject);
                     break;
 
@@ -71,10 +69,10 @@ public class Bullet : MonoBehaviour
             hitCollider.TryGetComponent(out Rigidbody rb);
             if (rb)
             {
+                //Add Explosion Force
                 rb.AddExplosionForce(5f, transform.position, 5, 1f, ForceMode.Impulse);
-
                 //Modify Stats
-                rb.GetComponent<Stats>().AddDamage(5f);
+                rb.GetComponent<NPCManagerScript>()._stats.AddDamage(5f);
             }
         }
     }

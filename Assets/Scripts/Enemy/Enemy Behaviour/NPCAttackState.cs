@@ -1,26 +1,25 @@
 using UnityEngine;
-
 public class NPCAttackState : NPCBaseState
 {
-    public override void EnterState(NPCStateManager npcSM, Animator animator, GameObject player)
+    public override void EnterState(NPCManagerScript npcManager)
     {
-        npcSM.activeState = NPCStateManager.NPCStates.Attack;
-
-        npcSM.ResetAnimatorBools();
-        npcSM.agent.isStopped = true;
-        npcSM.agent.ResetPath();
-
-        animator.SetTrigger("Attacking");
+        npcManager.activeState = NPCManagerScript.NPCStates.Attack;
+        npcManager._agent.isStopped = true;
+        npcManager._agent.ResetPath();
+        npcManager._animator.SetTrigger("Attacking");
     }
-    public override void UpdateState(NPCStateManager npcSM, Animator animator, GameObject player)
+    public override void UpdateState(NPCManagerScript npcManager)
     {
-        Debug.Log("Attacking");
-
+        if (!npcManager.InTargetProximity())
+        {
+            npcManager._agent.ResetPath();
+            ExitState(npcManager);
+        }
     }
 
-    public override void ExitState(NPCStateManager npcSM, Animator animator, GameObject player)
+    public override void ExitState(NPCManagerScript npcManager)
     {
-        animator.ResetTrigger("Attacking");
-
+        npcManager._animator.ResetTrigger("Attacking");
+        npcManager.SwitchState(npcManager.PursueState);
     }
 }

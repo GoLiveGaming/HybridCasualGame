@@ -1,31 +1,26 @@
 using UnityEngine;
 public class NPCPursueState : NPCBaseState
 {
-    public override void EnterState(NPCStateManager npcSM, Animator animator, GameObject player)
+    public override void EnterState(NPCManagerScript npcManager)
     {
-        npcSM.activeState = NPCStateManager.NPCStates.Pursue;
-        if (npcSM.doAnims)
-        {
-            npcSM.ResetAnimatorBools();
-        }
-        npcSM.agent.isStopped = true;
-        npcSM.agent.ResetPath();
-
-        npcSM.agent.SetDestination(npcSM.GetTargetLocation());
-        npcSM.animator.SetTrigger("Running");
+        npcManager.activeState = NPCManagerScript.NPCStates.Pursue;
+        npcManager._agent.isStopped = true;
+        npcManager._agent.ResetPath();
+        npcManager.UpdateDestination();
+        npcManager._animator.SetTrigger("Running");
     }
-    public override void UpdateState(NPCStateManager npcSM, Animator animator, GameObject player)
+    public override void UpdateState(NPCManagerScript npcManager)
     {
-        if (npcSM.HasRechedDestination())
+        if (npcManager.InTargetProximity())
         {
-            npcSM.agent.ResetPath();
-            ExitState(npcSM, animator, player);
+            npcManager._agent.ResetPath();
+            ExitState(npcManager);
         }
     }
-    public override void ExitState(NPCStateManager npcSM, Animator animator, GameObject player)
+    public override void ExitState(NPCManagerScript npcManager)
     {
-        npcSM.animator.ResetTrigger("Running");
-        npcSM.SwitchState(npcSM.attackState);
+        npcManager._animator.ResetTrigger("Running");
+        npcManager.SwitchState(npcManager.AttackState);
     }
 
 }

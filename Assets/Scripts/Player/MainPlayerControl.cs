@@ -11,12 +11,15 @@ public class MainPlayerControl : MonoBehaviour
     [Header("Readonly Components")]
     public PlayerUnitDeploymentArea activeUnitDeploymentArea;
 
+    [Header("Player Components"), Space(2)]
+    public Stats stats;
+
     [Header("Unit Deployment"), Space(2)]
     [SerializeField] private PlayerUnit[] playerUnits;
 
     [Header("Units Controller"), Space(2)]
     public List<ShootingUnitController> shootingUnitControllers = new List<ShootingUnitController>();
-    [SerializeField] private Stats stats;
+
 
     public enum PlayerUnitType
     {
@@ -38,6 +41,7 @@ public class MainPlayerControl : MonoBehaviour
     private void Start()
     {
         shootingUnitControllers = GetComponentsInChildren<ShootingUnitController>().ToList();
+        stats = GetComponent<Stats>();
     }
 
     void Update()
