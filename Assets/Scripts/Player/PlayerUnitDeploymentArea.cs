@@ -12,7 +12,7 @@ public class PlayerUnitDeploymentArea : MonoBehaviour
         unitSelectionCanvas.SetActive(true);
     }
 
-    public void DeployUnit(MainPlayerControl.PlayerUnitType unitType)
+    public void DeployUnit(MainPlayerControl.AttackType unitType)
     {
         if (transform.childCount != 0) areaBusy = true;
         else areaBusy = false;

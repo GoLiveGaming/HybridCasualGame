@@ -21,17 +21,17 @@ public class MainPlayerControl : MonoBehaviour
     public List<ShootingUnitController> shootingUnitControllers = new List<ShootingUnitController>();
 
 
-    public enum PlayerUnitType
+    public enum AttackType
     {
-        FireAttackUnit,
-        WindAttackUnit,
-        FireWindAttackUnit
+        FireAttack,
+        WindAttack,
+        FireWindAttack
     }
 
     [System.Serializable]
     public class PlayerUnit
     {
-        public PlayerUnitType unitType;
+        public AttackType unitType;
         public GameObject unitPrefab;
     }
     private void Awake()
@@ -72,7 +72,7 @@ public class MainPlayerControl : MonoBehaviour
         }
     }
 
-    public GameObject GetUnitToSpawn(PlayerUnitType unitType)
+    public GameObject GetUnitToSpawn(AttackType unitType)
     {
         foreach (PlayerUnit unit in playerUnits)
         {

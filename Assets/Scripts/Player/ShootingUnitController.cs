@@ -7,7 +7,7 @@ public class ShootingUnitController : MonoBehaviour
 {
     [SerializeField] public List<NPCManagerScript> targetsInRange = new List<NPCManagerScript>();
     [SerializeField] private TurretState turretState;
-    [SerializeField] internal PlayerUnitType playerUnitType;
+    [SerializeField] internal AttackType playerUnitType;
 
     [SerializeField] private GameObject bulletPrefab;
     [SerializeField, Range(0.01f, 10f)] private float delayBetweenShots = 0.5f;
@@ -119,7 +119,7 @@ public class ShootingUnitController : MonoBehaviour
                         targetTF = enemy.transform;
                     }
                 }
-                
+
             }
         }
 
@@ -138,7 +138,7 @@ public class ShootingUnitController : MonoBehaviour
     void ShootAtTarget()
     {
         GameObject bullet = Instantiate(bulletPrefab, transform.position, transform.rotation);
-        bullet.GetComponent<Bullet>().initializeBullet(targetTF, playerUnitType);
+        bullet.GetComponent<Bullet>().initializeBullet(targetTF);
     }
     void Update()
     {
@@ -213,10 +213,10 @@ public class ShootingUnitController : MonoBehaviour
 
     private void OnMouseUp()
     {
-        Collider[] hitColliders = Physics.OverlapBox(transform.position, new Vector3(1,1,1));
-        if(hitColliders.Length > 1)
+        Collider[] hitColliders = Physics.OverlapBox(transform.position, new Vector3(1, 1, 1));
+        if (hitColliders.Length > 1)
         {
-            for(int i = 0; i < hitColliders.Length; i++)
+            for (int i = 0; i < hitColliders.Length; i++)
             {
                 if (hitColliders[i].CompareTag("Player") && hitColliders[i].gameObject != this.gameObject)
                 {
@@ -227,6 +227,6 @@ public class ShootingUnitController : MonoBehaviour
 
         }
         else
-        transform.position = initialPos;
+            transform.position = initialPos;
     }
 }

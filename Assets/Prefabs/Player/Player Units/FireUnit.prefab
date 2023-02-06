@@ -49,10 +49,10 @@ MonoBehaviour:
   targetsInRange: []
   turretState: 0
   playerUnitType: 0
-  bulletPrefab: {fileID: 4614153920458031038, guid: 84c53ce27c1612f4da1cb62b5a3e45a8,
+  bulletPrefab: {fileID: 9203068762116010779, guid: b5aed220e22844a4fb815e6910fb1d07,
     type: 3}
-  delayBetweenShots: 0.84
-  shootingRange: 70.3
+  delayBetweenShots: 0.25
+  shootingRange: 50
   targetsRefreshAfter: 2
 --- !u!136 &8439525505369022613
 CapsuleCollider:

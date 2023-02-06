@@ -20,13 +20,13 @@ public class UnitSelectionMenu : MonoBehaviour
 
     public void FireUnitSelected()
     {
-        MainPlayerControl.instance.activeUnitDeploymentArea.DeployUnit(MainPlayerControl.PlayerUnitType.FireAttackUnit);
+        MainPlayerControl.instance.activeUnitDeploymentArea.DeployUnit(MainPlayerControl.AttackType.FireAttack);
         this.gameObject.SetActive(false);
     }
 
     public void WindUnitSelected()
     {
-        MainPlayerControl.instance.activeUnitDeploymentArea.DeployUnit(MainPlayerControl.PlayerUnitType.WindAttackUnit);
+        MainPlayerControl.instance.activeUnitDeploymentArea.DeployUnit(MainPlayerControl.AttackType.WindAttack);
         this.gameObject.SetActive(false);
     }
 }
