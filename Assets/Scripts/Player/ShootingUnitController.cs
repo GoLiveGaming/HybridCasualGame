@@ -7,7 +7,6 @@ public class ShootingUnitController : MonoBehaviour
 {
     [SerializeField] public List<NPCManagerScript> targetsInRange = new List<NPCManagerScript>();
     [SerializeField] private TurretState turretState;
-    [SerializeField] internal AttackType playerUnitType;
 
     [SerializeField] private GameObject bulletPrefab;
     [SerializeField, Range(0.01f, 10f)] private float delayBetweenShots = 0.5f;

@@ -1,11 +1,18 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerUnitDeploymentArea : MonoBehaviour
 {
     [SerializeField] private GameObject unitSelectionCanvas;
+    [SerializeField] private float unitReplaceCooldownTime = 5f;
     [SerializeField] private bool areaBusy;
+
+    private UIManager uiManager;
+
+    private void Start()
+    {
+        uiManager = UIManager.Instance;
+    }
     public void OnUnitSelected()
     {
         MainPlayerControl.instance.activeUnitDeploymentArea = this;
@@ -14,13 +21,35 @@ public class PlayerUnitDeploymentArea : MonoBehaviour
 
     public void DeployUnit(MainPlayerControl.AttackType unitType)
     {
-        if (transform.childCount != 0) areaBusy = true;
-        else areaBusy = false;
-        if (!areaBusy)
+        if (areaBusy) return;
+        if (transform.childCount != 0) DeleteChildAttackUnits();
+
+        StartCoroutine(StartUnitReplaceCooldown());
+
+        GameObject objectToSpawn = MainPlayerControl.instance.GetUnitToSpawn(unitType);
+        GameObject spawnedObject = Instantiate(objectToSpawn, this.transform.position, Quaternion.identity);
+        spawnedObject.transform.SetParent(transform, true);
+    }
+
+    private void DeleteChildAttackUnits()
+    {
+        foreach (Transform child in transform)
         {
-            GameObject objectToSpawn = MainPlayerControl.instance.GetUnitToSpawn(unitType);
-            Instantiate(objectToSpawn, this.transform.position, Quaternion.identity, this.transform);
-            objectToSpawn.GetComponent<ShootingUnitController>().playerUnitType = unitType;
+            Destroy(child.gameObject);
         }
+    }
+
+    private IEnumerator StartUnitReplaceCooldown()
+    {
+        areaBusy = true;
+
+        float timer = 0;
+        while (timer < unitReplaceCooldownTime)
+        {
+            timer += Time.deltaTime;
+            uiManager.unitSelectionCooldownTimerImage.fillAmount = timer / unitReplaceCooldownTime;
+            yield return null;
+        }
+        areaBusy = false;
     }
 }

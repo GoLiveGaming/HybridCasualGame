@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class EnemySpawners : MonoBehaviour
 {
-    public NPCManagerScript targetEnemy;
-    public int spawnInterval;
-    int timespan = 2;
-    // Start is called before the first frame update
+    [SerializeField] private NPCManagerScript targetEnemy;
+    [SerializeField] private bool canSpawnEnemies;
+    [SerializeField, Range(0.1f, 100f)] private float spawnInterval = 2f;
+
     void Start()
     {
         // InvokeRepeating("EnemySpawningVoid", 0, spawnInterval);
@@ -16,19 +16,20 @@ public class EnemySpawners : MonoBehaviour
 
     IEnumerator SpawnEnemies()
     {
-        yield return new WaitForSeconds(timespan);
-        NPCManagerScript Obj = GameObject.Instantiate<NPCManagerScript>(targetEnemy);
-        Obj.transform.localPosition = transform.position;
-        Obj.gameObject.SetActive(true);
-        timespan = Random.Range(10, 15);
-        StartCoroutine(SpawnEnemies());
+        while (canSpawnEnemies)
+        {
+            NPCManagerScript Obj = Instantiate(targetEnemy, transform.position, Quaternion.identity);
+
+            yield return new WaitForSeconds(spawnInterval);
+
+        }
     }
     void EnemySpawningVoid()
     {
-       // spawnInterval = Random.Range(10, 15);
+        // spawnInterval = Random.Range(10, 15);
         NPCManagerScript Obj = GameObject.Instantiate<NPCManagerScript>(targetEnemy);
         Obj.transform.localPosition = transform.position;
         Obj.gameObject.SetActive(true);
-      //  Obj.transform.SetParent(neighbourhoodsContainer, false);
+        //  Obj.transform.SetParent(neighbourhoodsContainer, false);
     }
 }

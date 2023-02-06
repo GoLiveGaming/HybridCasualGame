@@ -149,8 +149,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4614153920458031025}
-  - component: {fileID: 666254745}
   - component: {fileID: -3464210933761916932}
+  - component: {fileID: 2936205560032537728}
   m_Layer: 0
   m_Name: Bullet Wind
   m_TagString: Untagged
@@ -175,22 +175,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &666254745
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4614153920458031038}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dac6050de5dfd074e86208a77cc5b326, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  target: {fileID: 0}
-  speed: 15
-  lifetime: 5
-  bulletAttackType: 1
 --- !u!54 &-3464210933761916932
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -207,6 +191,28 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &2936205560032537728
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4614153920458031038}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e60cb633c0f08645bdd9d1478f17513, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 0}
+  speed: 15
+  lifetime: 2
+  collisionLayerMask:
+    serializedVersion: 2
+    m_Bits: 128
+  aoeVisualObj: {fileID: 8272260640797488490, guid: 420da3018a06d1142b0125310e43532f,
+    type: 3}
+  explosionRadius: 5
+  explosionForce: 10
 --- !u!1 &4614153921484433200
 GameObject:
   m_ObjectHideFlags: 0
