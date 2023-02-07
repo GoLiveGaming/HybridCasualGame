@@ -15,18 +15,18 @@ public class PlayerUnitDeploymentArea : MonoBehaviour
     }
     public void OnUnitSelected()
     {
-        MainPlayerControl.instance.activeUnitDeploymentArea = this;
+        MainPlayerControl.Instance.activeUnitDeploymentArea = this;
         unitSelectionCanvas.SetActive(true);
     }
 
-    public void DeployUnit(MainPlayerControl.AttackType unitType)
+    public void DeployUnit(AttackType unitType)
     {
         if (areaBusy) return;
         if (transform.childCount != 0) DeleteChildAttackUnits();
 
         StartCoroutine(StartUnitReplaceCooldown());
 
-        GameObject objectToSpawn = MainPlayerControl.instance.GetUnitToSpawn(unitType);
+        GameObject objectToSpawn = MainPlayerControl.Instance.GetUnitToSpawn(unitType);
         GameObject spawnedObject = Instantiate(objectToSpawn, this.transform.position, Quaternion.identity);
         spawnedObject.transform.SetParent(transform, true);
     }

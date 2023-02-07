@@ -1,6 +1,7 @@
 using UnityEngine.AI;
 using UnityEngine;
-[RequireComponent(typeof(NavMeshAgent), (typeof(Animator)))]
+
+[RequireComponent(typeof(NavMeshAgent), typeof(Animator), typeof(Stats))]
 public class NPCManagerScript : MonoBehaviour
 {
     [Header("Current State(ReadOnly)"), Space(2)]
@@ -25,8 +26,6 @@ public class NPCManagerScript : MonoBehaviour
     [SerializeField] private LayerMask playerTowerLayer;
     [SerializeField] private float timeSinceLastStateRefresh = 0f;
 
-
-
     [HideInInspector] public NavMeshAgent _agent;
     [HideInInspector] public Animator _animator;
     [HideInInspector] public GameObject _player;
@@ -39,9 +38,6 @@ public class NPCManagerScript : MonoBehaviour
     public readonly NPCPursueState PursueState = new NPCPursueState();
     public readonly NPCAttackState AttackState = new NPCAttackState();
 
-
-
-
     public enum NPCStates
     {
         Pursue,
@@ -52,7 +48,7 @@ public class NPCManagerScript : MonoBehaviour
         _stats = GetComponent<Stats>();
         _animator = GetComponent<Animator>();
         _agent = GetComponent<NavMeshAgent>();
-        _playerControl = MainPlayerControl.instance;
+        _playerControl = MainPlayerControl.Instance;
         _player = _playerControl.gameObject;
 
         _agent.speed = defaultMoveSpeed;
@@ -75,11 +71,40 @@ public class NPCManagerScript : MonoBehaviour
         _currentState = state;
         _currentState.EnterState(this);
     }
+
     public void UpdateDestination()
     {
         if (isPlayerAvailable())
-            _agent.SetDestination(_player.transform.position);
+            SetTargetTower();
         else _agent.ResetPath();
+    }
+    public void SetTargetTower()
+    {
+        if (_playerControl.activePlayerTowersList.Count == 0
+            || _playerControl.activePlayerTowersList == null) return;
+
+        int rndnum = Random.Range(0, 100);
+
+        if (rndnum > 20)
+        {
+            float closestDistance = Mathf.Infinity;
+            GameObject targetTower = null;
+            foreach (PlayerTower tower in _playerControl.activePlayerTowersList)
+            {
+                float distance = Vector3.Distance(transform.position, tower.transform.position);
+                if (distance < closestDistance)
+                {
+                    closestDistance = distance;
+                    targetTower = tower.gameObject;
+                }
+            }
+            _agent.SetDestination(targetTower.transform.position);
+        }
+        else
+        {
+            int rndTower = Random.Range(0, _playerControl.activePlayerTowersList.Count);
+            _agent.SetDestination(_playerControl.activePlayerTowersList[rndTower].transform.position);
+        }
     }
     public bool InTargetProximity()
     {
@@ -115,7 +140,7 @@ public class NPCManagerScript : MonoBehaviour
     }
     private bool isPlayerAvailable()
     {
-        if (_player) return true;
+        if (_playerControl.activePlayerTowersList.Count != 0) return true;
         else return false;
 
     }
@@ -130,6 +155,15 @@ public class NPCManagerScript : MonoBehaviour
     public void AttackPlayer()
     {
         if (isPlayerAvailable())
-            _playerControl.stats.AddDamage(attackDamage);
+        {
+            RaycastHit hit;
+            // Does the ray intersect any objects excluding the player layer
+            if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, stoppingDistance, playerTowerLayer))
+            {
+                Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * hit.distance, Color.yellow);
+                hit.transform.TryGetComponent(out Stats stats);
+                if (stats) stats.AddDamage(attackDamage);
+            }
+        }
     }
 }

@@ -1,8 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using static MainPlayerControl;
-
 public class FireBullet : Bullet
 {
     protected override void OnTriggerEnter(Collider other)

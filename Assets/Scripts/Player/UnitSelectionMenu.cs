@@ -1,6 +1,4 @@
 using DG.Tweening;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class UnitSelectionMenu : MonoBehaviour
@@ -20,13 +18,13 @@ public class UnitSelectionMenu : MonoBehaviour
 
     public void FireUnitSelected()
     {
-        MainPlayerControl.instance.activeUnitDeploymentArea.DeployUnit(MainPlayerControl.AttackType.FireAttack);
+        MainPlayerControl.Instance.activeUnitDeploymentArea.DeployUnit(AttackType.FireAttack);
         this.gameObject.SetActive(false);
     }
 
     public void WindUnitSelected()
     {
-        MainPlayerControl.instance.activeUnitDeploymentArea.DeployUnit(MainPlayerControl.AttackType.WindAttack);
+        MainPlayerControl.Instance.activeUnitDeploymentArea.DeployUnit(AttackType.WindAttack);
         this.gameObject.SetActive(false);
     }
 }

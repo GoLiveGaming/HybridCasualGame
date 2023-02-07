@@ -23,20 +23,25 @@ public class Stats : MonoBehaviour
     }
 
 
+
+    /// <summary>
+    /// Decrese Health
+    /// </summary>
+    /// <param name="damageAmount"></param>
+    public void AddDamage(float damageAmount)
+    {
+        Health -= damageAmount;
+    }
+
     /// <summary>
     /// Gradually decreases health over given amount of time
     /// </summary>
     /// <param name="duration"></param>
-    /// <param name="damage"></param>
-    public void AddDamageOverTime(float duration, float damage)
+    /// <param name="damageAmount"></param>
+    public void AddDamageOverTime(float duration, float damageAmount)
     {
-        StartCoroutine(DamageOvertime(duration, damage));
+        StartCoroutine(DamageOvertime(duration, damageAmount));
     }
-    public void AddDamage(float damage)
-    {
-        Health -= damage;
-    }
-
 
     private IEnumerator DamageOvertime(float damageDuration, float damagePerSecond)
     {

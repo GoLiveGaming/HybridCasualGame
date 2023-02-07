@@ -1,91 +1,110 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using static MainPlayerControl;
 
-public class ShootingUnitController : MonoBehaviour
+[RequireComponent(typeof(AttackUnit), typeof(Stats))]
+public class PlayerTower : MonoBehaviour
 {
-    [SerializeField] public List<NPCManagerScript> targetsInRange = new List<NPCManagerScript>();
-    [SerializeField] private TurretState turretState;
+    [Header("ReadOnly")]
+    [SerializeField, ReadOnly] private TowerState towerState; [Space(2)]
 
-    [SerializeField] private GameObject bulletPrefab;
-    [SerializeField, Range(0.01f, 10f)] private float delayBetweenShots = 0.5f;
-    [SerializeField, Range(0.1f, 100f)] private float shootingRange = 10f;
+    [Header("Attack Properties")]
+    public AttackUnit attackUnit; [Space(2)]
 
-    private Transform targetTF;
-    private float lastFireTime = 0f;
-
-    [SerializeField, Range(0.01f, 10f)] private float targetsRefreshAfter = 2f;
-    private float timeSinceTargetsRefresh = 0;
+    [Header("Tower Properties")]
+    [SerializeField, Range(0.01f, 10f)]
+    private float towerRefreshAfter = 2f;
+    private float timeSinceTowerRefresh = 0;
+    private MainPlayerControl mainPlayerControl;
+    [HideInInspector] public Stats stats;
 
     private float dist;
     private bool dragging = false;
     private Vector3 offset;
     private Transform toDrag;
     private Vector3 toDrags;
-
     internal Vector3 initialPos;
 
-    private enum TurretState
+    public enum TowerState
     {
         Idle,
-        Track,
-        Attack
+        Attack,
+        Destroyed
     }
+
     void OnDrawGizmosSelected()
     {
-        Gizmos.color = Color.magenta;
-        Gizmos.DrawCube(transform.position, new Vector3(2, 2, 2));
+        if (!attackUnit) attackUnit = GetComponent<AttackUnit>();
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(transform.position, attackUnit.shootingRange);
+    }
+    private void OnEnable()
+    {
+        if (mainPlayerControl)
+            mainPlayerControl.activePlayerTowersList.Add(this);
+    }
+    private void OnDisable()
+    {
+        if (!mainPlayerControl) mainPlayerControl = MainPlayerControl.Instance;
+        mainPlayerControl.activePlayerTowersList.Remove(this);
+    }
+    private void Awake()
+    {
+        attackUnit = GetComponent<AttackUnit>();
+        stats = GetComponent<Stats>();
 
+        initialPos = transform.position;
+        towerState = TowerState.Idle;
+        timeSinceTowerRefresh = towerRefreshAfter;
     }
     private void Start()
     {
-        initialPos = this.transform.position;
-        turretState = TurretState.Idle;
+        if (!mainPlayerControl) mainPlayerControl = MainPlayerControl.Instance;
+        mainPlayerControl.activePlayerTowersList.Add(this);
     }
-    private void FixedUpdate()
+
+    private void Update()
     {
-        UpdateTurret();
+        UpdateUnit();
+        UpdateTouch();
     }
-    public void UpdateTurret()
+    public void UpdateUnit()
     {
         UpdateTurretState();
 
-        if (turretState == TurretState.Idle) TurretIdleAction();
-        else if (turretState == TurretState.Attack) TurretAttackAction();
+        if (towerState == TowerState.Idle) TurretIdleAction();
+        else if (towerState == TowerState.Attack) TurretAttackAction();
     }
     private void UpdateTurretState()
     {
-        RefreshTargets();
+        RefreshTargetsList();
 
         //Switch Between States of turret 
-        if (targetsInRange.Count > 0 && turretState != TurretState.Attack)
+        if (attackUnit.targetsInRange.Count > 0 && towerState != TowerState.Attack)
         {
-            turretState = TurretState.Attack;
+            towerState = TowerState.Attack;
         }
-        else if (targetsInRange.Count == 0 && turretState != TurretState.Idle)
+        else if (attackUnit.targetsInRange.Count == 0 && towerState != TowerState.Idle)
         {
-            turretState = TurretState.Idle;
+            towerState = TowerState.Idle;
         }
     }
 
-    void RefreshTargets()
+    void RefreshTargetsList()
     {
         // Refresh the target
-        timeSinceTargetsRefresh += Time.deltaTime;
-        if (targetsRefreshAfter < timeSinceTargetsRefresh)
+        timeSinceTowerRefresh += Time.deltaTime;
+        if (towerRefreshAfter < timeSinceTowerRefresh)
         {
-            targetTF = null;
-            targetsInRange.Clear();
-            timeSinceTargetsRefresh = 0;
+            attackUnit.targetTF = null;
+            attackUnit.targetsInRange.Clear();
+            timeSinceTowerRefresh = 0;
 
-            Collider[] hitColliders = Physics.OverlapSphere(transform.position, shootingRange);
+            Collider[] hitColliders = Physics.OverlapSphere(transform.position, attackUnit.shootingRange);
             foreach (var hitCollider in hitColliders)
             {
                 if (hitCollider.CompareTag("TargetEnemy"))
                 {
                     hitCollider.TryGetComponent(out NPCManagerScript target);
-                    if (target) targetsInRange.Add(target);
+                    if (target) attackUnit.targetsInRange.Add(target);
                 }
             }
         }
@@ -99,23 +118,23 @@ public class ShootingUnitController : MonoBehaviour
     {
 
         // Look for targets within shooting range
-        if (targetTF == null)
+        if (attackUnit.targetTF == null)
         {
             float closestDistance = Mathf.Infinity;
 
-            foreach (NPCManagerScript targetObj in targetsInRange)
+            foreach (NPCManagerScript targetNPC in attackUnit.targetsInRange)
             {
                 GameObject enemy;
-                if (targetObj != null)
+                if (targetNPC != null)
                 {
-                    enemy = targetObj.gameObjectSelf;
+                    enemy = targetNPC.gameObjectSelf;
 
                     float distance = Vector3.Distance(transform.position, enemy.transform.position);
 
-                    if (distance < closestDistance && distance <= shootingRange)
+                    if (distance < closestDistance && distance <= attackUnit.shootingRange)
                     {
                         closestDistance = distance;
-                        targetTF = enemy.transform;
+                        attackUnit.targetTF = enemy.transform;
                     }
                 }
 
@@ -123,23 +142,30 @@ public class ShootingUnitController : MonoBehaviour
         }
 
         // Shoot at the target if found
-        if (targetTF != null)
+        if (attackUnit.targetTF != null)
         {
-            if (lastFireTime > delayBetweenShots)
+            if (attackUnit.timeSinceLastAttack > attackUnit.delayBetweenShots)
             {
-                lastFireTime = 0f;
+                attackUnit.timeSinceLastAttack = 0f;
                 ShootAtTarget();
             }
-            else lastFireTime += Time.deltaTime;
+            else attackUnit.timeSinceLastAttack += Time.deltaTime;
         }
     }
 
     void ShootAtTarget()
     {
-        GameObject bullet = Instantiate(bulletPrefab, transform.position, transform.rotation);
-        bullet.GetComponent<Bullet>().initializeBullet(targetTF);
+        GameObject bullet = Instantiate(attackUnit.attackBulletPrefab, transform.position, transform.rotation);
+        bullet.GetComponent<Bullet>().initializeBullet(attackUnit.targetTF);
     }
-    void Update()
+
+
+
+
+
+
+    //MOVE THIS TO MAIN PLAYER CONTROL
+    void UpdateTouch()
     {
 
         Vector3 v3;
@@ -228,4 +254,5 @@ public class ShootingUnitController : MonoBehaviour
         else
             transform.position = initialPos;
     }
+
 }

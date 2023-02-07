@@ -1,32 +1,18 @@
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
-[RequireComponent(typeof(Stats))]
 public class MainPlayerControl : MonoBehaviour
 {
-    public static MainPlayerControl instance;
-
+    public static MainPlayerControl Instance;
     [Header("Readonly Components")]
-    public PlayerUnitDeploymentArea activeUnitDeploymentArea;
+    [ReadOnly] public List<PlayerTower> activePlayerTowersList = new List<PlayerTower>();
+    [ReadOnly] public PlayerUnitDeploymentArea activeUnitDeploymentArea;
 
     [Header("Player Components"), Space(2)]
     public Stats stats;
 
     [Header("Unit Deployment"), Space(2)]
-    [SerializeField] private PlayerUnit[] playerUnits;
-
-    [Header("Units Controller"), Space(2)]
-    public List<ShootingUnitController> shootingUnitControllers = new List<ShootingUnitController>();
-
-
-    public enum AttackType
-    {
-        FireAttack,
-        WindAttack,
-        FireWindAttack
-    }
+    [SerializeField] private PlayerTower[] playerTowersPrefabs;
 
     [System.Serializable]
     public class PlayerUnit
@@ -34,26 +20,22 @@ public class MainPlayerControl : MonoBehaviour
         public AttackType unitType;
         public GameObject unitPrefab;
     }
+
     private void Awake()
     {
-        instance = this;
+        Instance = this;
     }
     private void Start()
     {
-        shootingUnitControllers = GetComponentsInChildren<ShootingUnitController>().ToList();
         stats = GetComponent<Stats>();
     }
 
     void Update()
     {
-        foreach (ShootingUnitController controller in shootingUnitControllers)
-        {
-            controller.UpdateTurret();
-        }
-        GetInputs();
+        UpdateInputs();
     }
 
-    private void GetInputs()
+    private void UpdateInputs()
     {
         if (Input.GetButtonDown("Fire1")) SelectUnitDeploymentArea();
     }
@@ -74,13 +56,18 @@ public class MainPlayerControl : MonoBehaviour
 
     public GameObject GetUnitToSpawn(AttackType unitType)
     {
-        foreach (PlayerUnit unit in playerUnits)
+        foreach (PlayerTower tower in playerTowersPrefabs)
         {
-            if (unit.unitType == unitType)
-                return unit.unitPrefab;
+            if (tower.attackUnit.attackType == unitType)
+                return tower.gameObject;
         }
         return null;
     }
+}
 
-
+public enum AttackType
+{
+    FireAttack,
+    WindAttack,
+    FireWindAttack
 }
