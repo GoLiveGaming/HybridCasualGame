@@ -1223,6 +1223,7 @@ MonoBehaviour:
   unitSelectionCanvas: {fileID: 514912146}
   unitReplaceCooldownTime: 5
   areaBusy: 0
+  deployedTower: {fileID: 0}
 --- !u!65 &1265199795
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1470,6 +1471,7 @@ MonoBehaviour:
   unitSelectionCanvas: {fileID: 514912146}
   unitReplaceCooldownTime: 5
   areaBusy: 0
+  deployedTower: {fileID: 0}
 --- !u!65 &1489641951
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1646,6 +1648,7 @@ MonoBehaviour:
   unitSelectionCanvas: {fileID: 514912146}
   unitReplaceCooldownTime: 5
   areaBusy: 0
+  deployedTower: {fileID: 0}
 --- !u!1 &1618518106
 GameObject:
   m_ObjectHideFlags: 0

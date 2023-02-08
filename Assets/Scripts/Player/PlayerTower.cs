@@ -1,18 +1,18 @@
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 [RequireComponent(typeof(AttackUnit), typeof(Stats))]
 public class PlayerTower : MonoBehaviour
 {
     [Header("ReadOnly")]
-    [SerializeField, ReadOnly] private TowerState towerState; [Space(2)]
+    [ReadOnly] public TowerState towerState; [Space(2)]
 
     [Header("Attack Properties")]
     public AttackUnit attackUnit; [Space(2)]
 
     [Header("Tower Properties")]
-    [SerializeField, Range(0.01f, 10f)]
-    private float towerRefreshAfter = 2f;
-    private float timeSinceTowerRefresh = 0;
+    [SerializeField, Range(1, 5)] private int _towerLevel = 1;
+    [Range(0.01f, 10f)] public float upgradeDecreasedShootDelay = 0.1f;
     private MainPlayerControl mainPlayerControl;
     [HideInInspector] public Stats stats;
 
@@ -53,7 +53,6 @@ public class PlayerTower : MonoBehaviour
 
         initialPos = transform.position;
         towerState = TowerState.Idle;
-        timeSinceTowerRefresh = towerRefreshAfter;
     }
     private void Start()
     {
@@ -63,20 +62,16 @@ public class PlayerTower : MonoBehaviour
 
     private void Update()
     {
-        UpdateUnit();
+        UpdateTower();
         UpdateTouch();
     }
-    public void UpdateUnit()
+    public void UpdateTower()
     {
-        UpdateTurretState();
-
-        if (towerState == TowerState.Idle) TurretIdleAction();
-        else if (towerState == TowerState.Attack) TurretAttackAction();
+        UpdateTowerState();
+        attackUnit.UpdateUnit();
     }
-    private void UpdateTurretState()
+    private void UpdateTowerState()
     {
-        RefreshTargetsList();
-
         //Switch Between States of turret 
         if (attackUnit.targetsInRange.Count > 0 && towerState != TowerState.Attack)
         {
@@ -88,82 +83,14 @@ public class PlayerTower : MonoBehaviour
         }
     }
 
-    void RefreshTargetsList()
+
+    public void UpgradeTower()
     {
-        // Refresh the target
-        timeSinceTowerRefresh += Time.deltaTime;
-        if (towerRefreshAfter < timeSinceTowerRefresh)
-        {
-            attackUnit.targetTF = null;
-            attackUnit.targetsInRange.Clear();
-            timeSinceTowerRefresh = 0;
+        _towerLevel += 1;
+        Mathf.Clamp(_towerLevel, 1, 5);
 
-            Collider[] hitColliders = Physics.OverlapSphere(transform.position, attackUnit.shootingRange);
-            foreach (var hitCollider in hitColliders)
-            {
-                if (hitCollider.CompareTag("TargetEnemy"))
-                {
-                    hitCollider.TryGetComponent(out NPCManagerScript target);
-                    if (target) attackUnit.targetsInRange.Add(target);
-                }
-            }
-        }
+        attackUnit.UpdateDelayBetweenShots(_towerLevel);
     }
-
-    private void TurretIdleAction()
-    {
-
-    }
-    private void TurretAttackAction()
-    {
-
-        // Look for targets within shooting range
-        if (attackUnit.targetTF == null)
-        {
-            float closestDistance = Mathf.Infinity;
-
-            foreach (NPCManagerScript targetNPC in attackUnit.targetsInRange)
-            {
-                GameObject enemy;
-                if (targetNPC != null)
-                {
-                    enemy = targetNPC.gameObjectSelf;
-
-                    float distance = Vector3.Distance(transform.position, enemy.transform.position);
-
-                    if (distance < closestDistance && distance <= attackUnit.shootingRange)
-                    {
-                        closestDistance = distance;
-                        attackUnit.targetTF = enemy.transform;
-                    }
-                }
-
-            }
-        }
-
-        // Shoot at the target if found
-        if (attackUnit.targetTF != null)
-        {
-            if (attackUnit.timeSinceLastAttack > attackUnit.delayBetweenShots)
-            {
-                attackUnit.timeSinceLastAttack = 0f;
-                ShootAtTarget();
-            }
-            else attackUnit.timeSinceLastAttack += Time.deltaTime;
-        }
-    }
-
-    void ShootAtTarget()
-    {
-        GameObject bullet = Instantiate(attackUnit.attackBulletPrefab, transform.position, transform.rotation);
-        bullet.GetComponent<Bullet>().initializeBullet(attackUnit.targetTF);
-    }
-
-
-
-
-
-
     //MOVE THIS TO MAIN PLAYER CONTROL
     void UpdateTouch()
     {

@@ -6,6 +6,7 @@ public class PlayerUnitDeploymentArea : MonoBehaviour
     [SerializeField] private GameObject unitSelectionCanvas;
     [SerializeField] private float unitReplaceCooldownTime = 5f;
     [SerializeField] private bool areaBusy;
+    [SerializeField, ReadOnly] private PlayerTower deployedTower;
 
     private UIManager uiManager;
 
@@ -22,13 +23,20 @@ public class PlayerUnitDeploymentArea : MonoBehaviour
     public void DeployUnit(AttackType unitType)
     {
         if (areaBusy) return;
-        if (transform.childCount != 0) DeleteChildAttackUnits();
-
         StartCoroutine(StartUnitReplaceCooldown());
 
-        GameObject objectToSpawn = MainPlayerControl.Instance.GetUnitToSpawn(unitType);
-        GameObject spawnedObject = Instantiate(objectToSpawn, this.transform.position, Quaternion.identity);
-        spawnedObject.transform.SetParent(transform, true);
+        if (deployedTower && deployedTower.attackUnit.attackType == unitType)
+        {
+            deployedTower.UpgradeTower();
+        }
+        else
+        {
+            DeleteChildAttackUnits();
+            GameObject objectToSpawn = MainPlayerControl.Instance.GetUnitToSpawn(unitType);
+            GameObject spawnedObject = Instantiate(objectToSpawn, this.transform.position, Quaternion.identity);
+            spawnedObject.transform.SetParent(transform, true);
+            deployedTower = spawnedObject.GetComponent<PlayerTower>();
+        }
     }
 
     private void DeleteChildAttackUnits()
