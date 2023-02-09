@@ -51,9 +51,6 @@ public class NPCManagerScript : MonoBehaviour
         _agent.speed = defaultMoveSpeed;
         _agent.stoppingDistance = stoppingDistance;
 
-        if (!isPlayerAvailable())
-            Destroy(this.gameObject);
-
 
         //Adding random parity in state refresh delay to reduce stress on cpu when large quantity of npc's are used
         stateRefreshDelay = Mathf.Clamp(Random.Range(stateRefreshDelay - 1f, stateRefreshDelay + 1f), 0, 5f);
@@ -84,31 +81,33 @@ public class NPCManagerScript : MonoBehaviour
     }
     public void SetTargetTower()
     {
-        if (_playerControl.activePlayerTowersList.Count == 0
-            || _playerControl.activePlayerTowersList == null) return;
+        if (isPlayerAvailable())
+           _agent.SetDestination(_player.transform.position);
+        //if (_playerControl.activePlayerTowersList.Count == 0
+        //    || _playerControl.activePlayerTowersList == null) return;
 
-        int rndnum = Random.Range(0, 100);
+        //int rndnum = Random.Range(0, 100);
 
-        if (rndnum > 20)
-        {
-            float closestDistance = Mathf.Infinity;
-            GameObject targetTower = null;
-            foreach (PlayerTower tower in _playerControl.activePlayerTowersList)
-            {
-                float distance = Vector3.Distance(transform.position, tower.transform.position);
-                if (distance < closestDistance)
-                {
-                    closestDistance = distance;
-                    targetTower = tower.gameObject;
-                }
-            }
-            _agent.SetDestination(targetTower.transform.position);
-        }
-        else
-        {
-            int rndTower = Random.Range(0, _playerControl.activePlayerTowersList.Count);
-            _agent.SetDestination(_playerControl.activePlayerTowersList[rndTower].transform.position);
-        }
+        //if (rndnum > 20)
+        //{
+        //    float closestDistance = Mathf.Infinity;
+        //    GameObject targetTower = null;
+        //    foreach (PlayerTower tower in _playerControl.activePlayerTowersList)
+        //    {
+        //        float distance = Vector3.Distance(transform.position, tower.transform.position);
+        //        if (distance < closestDistance)
+        //        {
+        //            closestDistance = distance;
+        //            targetTower = tower.gameObject;
+        //        }
+        //    }
+        //    _agent.SetDestination(targetTower.transform.position);
+        //}
+        //else
+        //{
+        //    int rndTower = Random.Range(0, _playerControl.activePlayerTowersList.Count);
+        //    _agent.SetDestination(_playerControl.activePlayerTowersList[rndTower].transform.position);
+        //}
     }
     public bool InTargetProximity()
     {
@@ -144,7 +143,7 @@ public class NPCManagerScript : MonoBehaviour
     }
     private bool isPlayerAvailable()
     {
-        if (_playerControl.activePlayerTowersList.Count != 0) return true;
+        if (_playerControl) return true;
         else return false;
 
     }
