@@ -51,6 +51,9 @@ public class NPCManagerScript : MonoBehaviour
         _agent.speed = defaultMoveSpeed;
         _agent.stoppingDistance = stoppingDistance;
 
+        if (!isPlayerAvailable())
+            Destroy(this.gameObject);
+
 
         //Adding random parity in state refresh delay to reduce stress on cpu when large quantity of npc's are used
         stateRefreshDelay = Mathf.Clamp(Random.Range(stateRefreshDelay - 1f, stateRefreshDelay + 1f), 0, 5f);
@@ -73,7 +76,11 @@ public class NPCManagerScript : MonoBehaviour
     {
         if (isPlayerAvailable())
             SetTargetTower();
-        else _agent.ResetPath();
+        else
+        {
+            _agent.ResetPath();
+            _agent.isStopped = true;
+        }
     }
     public void SetTargetTower()
     {
@@ -138,11 +145,7 @@ public class NPCManagerScript : MonoBehaviour
     private bool isPlayerAvailable()
     {
         if (_playerControl.activePlayerTowersList.Count != 0) return true;
-        else
-        {
-            Destroy(this.gameObject);
-            return false;
-        }
+        else return false;
 
     }
 
