@@ -303,7 +303,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 0}
   speed: 15
-  lifetime: 2
+  lifetime: 5
   collisionLayerMask:
     serializedVersion: 2
     m_Bits: 128

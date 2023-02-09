@@ -1,25 +1,47 @@
 using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class Stats : MonoBehaviour
 {
-    [SerializeField] private float m_Health = 100;
-    [SerializeField] private Image healthBar;
+    [SerializeField] private float m_currentHealth = 100;
+    [SerializeField] private float m_MaxHealth = 100;
+    [SerializeField] private GameObject statsCanvas;
+    [SerializeField] private Image m_healthBar;
+    [SerializeField] private TextMeshProUGUI m_currentLeveltext;
+
 
     [Header("ReadOnly Parameters"), Space(2)]
-    public bool isDead = false;
-
-
+    [ReadOnly] public bool isDead = false;
     public float Health
     {
-        get { return m_Health; }
+        get { return m_currentHealth; }
         set
         {
-            m_Health = value;
-            if (healthBar) healthBar.fillAmount = m_Health / 100;
+            m_currentHealth = value;
+            m_currentHealth = Mathf.Clamp(Health, 0, m_MaxHealth);
+            if (m_healthBar) m_healthBar.fillAmount = m_currentHealth / m_MaxHealth;
             if (Health <= 0) { Destroy(gameObject); isDead = true; }
         }
+    }
+    public Image HealthBar
+    {
+        get { return m_healthBar; }
+    }
+
+    public void SetCurrentLeveltext(int lvl)
+    {
+        if (m_currentLeveltext) m_currentLeveltext.text = lvl.ToString();
+    }
+
+    private void Awake()
+    {
+        m_currentHealth = Mathf.Clamp(Health, 0, m_MaxHealth);
+    }
+    private void FixedUpdate()
+    {
+        if (statsCanvas) statsCanvas.transform.rotation = Camera.main.transform.rotation;
     }
 
 

@@ -13,7 +13,7 @@ public class FireBullet : Bullet
     protected override void StartAttack(NPCManagerScript hitNPC)
     {
         if (!hitNPC) return;
-        if (hitNPC._stats) hitNPC._stats.AddDamageOverTime(5, 2);
+        if (hitNPC._stats) hitNPC._stats.AddDamageOverTime(5, damage);
 
         //END ATTACK
         Destroy(gameObject);

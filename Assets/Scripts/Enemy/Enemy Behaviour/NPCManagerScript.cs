@@ -11,9 +11,6 @@ public class NPCManagerScript : MonoBehaviour
     [Header("AutoCache Componenets")]
     private MainPlayerControl _playerControl;
 
-    [Header("Componenets")]
-    [SerializeField] private Canvas _canvas;  //Move this later to central UI Manager
-
     [Header("Parameters")]
     [SerializeField] private float defaultMoveSpeed = 1f;
     [SerializeField] private float stoppingDistance = 2f;
@@ -45,14 +42,15 @@ public class NPCManagerScript : MonoBehaviour
     }
     void Start()
     {
+        _playerControl = MainPlayerControl.Instance;
+        _player = _playerControl.gameObject;
         _stats = GetComponent<Stats>();
         _animator = GetComponent<Animator>();
         _agent = GetComponent<NavMeshAgent>();
-        _playerControl = MainPlayerControl.Instance;
-        _player = _playerControl.gameObject;
 
         _agent.speed = defaultMoveSpeed;
         _agent.stoppingDistance = stoppingDistance;
+
 
         //Adding random parity in state refresh delay to reduce stress on cpu when large quantity of npc's are used
         stateRefreshDelay = Mathf.Clamp(Random.Range(stateRefreshDelay - 1f, stateRefreshDelay + 1f), 0, 5f);
@@ -62,7 +60,6 @@ public class NPCManagerScript : MonoBehaviour
     }
     private void Update()
     {
-        _canvas.transform.LookAt(Camera.main.transform);
 
         if (CanRefreshState()) _currentState.UpdateState(this);
     }
@@ -141,7 +138,11 @@ public class NPCManagerScript : MonoBehaviour
     private bool isPlayerAvailable()
     {
         if (_playerControl.activePlayerTowersList.Count != 0) return true;
-        else return false;
+        else
+        {
+            Destroy(this.gameObject);
+            return false;
+        }
 
     }
 

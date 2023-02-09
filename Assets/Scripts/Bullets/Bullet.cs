@@ -4,24 +4,27 @@ public class Bullet : MonoBehaviour
     [HideInInspector] public Transform target;
     [SerializeField] private float speed = 10f;
     [SerializeField] private float lifetime = 2f;
+    public float damage = 2f;
     public LayerMask collisionLayerMask;
 
     private Vector3 direction;
     private float elapsedTime = 0f;
 
 
-    public void initializeBullet(Transform targetPos)
+    public void initializeBullet(Transform targetTF)
     {
-        target = targetPos;
-        direction = (target.position - transform.position).normalized;
-    }
-    void Update()
-    {
+
+        target = targetTF;
         if (target == null)
         {
             Destroy(gameObject);
             return;
         }
+        direction = (target.position - transform.position).normalized;
+    }
+    void Update()
+    {
+
 
         transform.position = transform.position + direction * speed * Time.deltaTime;
 

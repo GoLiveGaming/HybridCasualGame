@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,11 +9,9 @@ public class MainPlayerControl : MonoBehaviour
     [ReadOnly] public List<PlayerTower> activePlayerTowersList = new List<PlayerTower>();
     [ReadOnly] public PlayerUnitDeploymentArea activeUnitDeploymentArea;
 
-    [Header("Player Components"), Space(2)]
-    public Stats stats;
-
-    [Header("Unit Deployment"), Space(2)]
-    [SerializeField] private PlayerTower[] playerTowersPrefabs;
+    [Header("Units Propertie"), Space(2)]
+    public PlayerTower[] playerTowersPrefabs;
+    public Bullets[] attackBulletVariants;
 
     [System.Serializable]
     public class PlayerUnit
@@ -25,11 +24,6 @@ public class MainPlayerControl : MonoBehaviour
     {
         Instance = this;
     }
-    private void Start()
-    {
-        stats = GetComponent<Stats>();
-    }
-
     void Update()
     {
         UpdateInputs();
@@ -58,7 +52,7 @@ public class MainPlayerControl : MonoBehaviour
     {
         foreach (PlayerTower tower in playerTowersPrefabs)
         {
-            if (tower.attackUnit.attackType == unitType)
+            if (tower.attackUnit.attackUnitType == unitType)
                 return tower.gameObject;
         }
         return null;
@@ -69,5 +63,12 @@ public enum AttackType
 {
     FireAttack,
     WindAttack,
-    FireWindAttack
+    LightningAttack
+}
+
+[Serializable]
+public class Bullets
+{
+    public GameObject bulletPrefab;
+    public AttackType associatedAttack;
 }

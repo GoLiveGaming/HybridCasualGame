@@ -25,10 +25,24 @@ public class PlayerUnitDeploymentArea : MonoBehaviour
         if (areaBusy) return;
         StartCoroutine(StartUnitReplaceCooldown());
 
-        if (deployedTower && deployedTower.attackUnit.attackType == unitType)
+        if (deployedTower)
         {
-            deployedTower.UpgradeTower();
+            if (deployedTower && deployedTower.attackUnit.attackUnitType == unitType)
+            {
+                deployedTower.UpgradeTower();
+            }
+            else if ((deployedTower.attackUnit.attackUnitType == AttackType.FireAttack &&
+                 unitType == AttackType.WindAttack) || (deployedTower.attackUnit.attackUnitType == AttackType.WindAttack &&
+                 unitType == AttackType.FireAttack))
+            {
+                DeleteChildAttackUnits();
+                GameObject objectToSpawn = MainPlayerControl.Instance.GetUnitToSpawn(AttackType.LightningAttack);
+                GameObject spawnedObject = Instantiate(objectToSpawn, this.transform.position, Quaternion.identity);
+                spawnedObject.transform.SetParent(transform, true);
+                deployedTower = spawnedObject.GetComponent<PlayerTower>();
+            }
         }
+
         else
         {
             DeleteChildAttackUnits();
@@ -37,7 +51,9 @@ public class PlayerUnitDeploymentArea : MonoBehaviour
             spawnedObject.transform.SetParent(transform, true);
             deployedTower = spawnedObject.GetComponent<PlayerTower>();
         }
+
     }
+
 
     private void DeleteChildAttackUnits()
     {

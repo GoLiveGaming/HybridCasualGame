@@ -7,12 +7,12 @@ using static PlayerTower;
 public class AttackUnit : MonoBehaviour
 {
     [Header("Attack Unit Properties"), Space(2)]
-    public AttackType attackType;
+    public AttackType attackUnitType;
 
-    [SerializeField] private Bullets[] _attackBullets;
+    [SerializeField, ReadOnly] private Bullets[] _attackBullets;
 
     [Range(0.01f, 10f)] public float delayBetweenShots = 0.5f;
-    [Range(0.01f, 10f)] public float baseDelayBetweenShots;
+    [ReadOnly][Range(0.01f, 10f)] private float baseDelayBetweenShots;
     [Range(0.1f, 100f)] public float shootingRange = 10f;
     [Range(0.01f, 10f)] public float unitRefreshAfter = 2f;
     private float timeSinceUnitRefresh = 0;
@@ -30,14 +30,15 @@ public class AttackUnit : MonoBehaviour
     {
         get
         {
-            if (oldAttackType == attackType) return _attackBullets[currentAttackBulletIndex].bulletPrefab;
+            if (_attackBullets.Length == 0) if (parentTower) _attackBullets = parentTower.mainPlayerControl.attackBulletVariants;
+            if (oldAttackType == attackUnitType) return _attackBullets[currentAttackBulletIndex].bulletPrefab;
             else
             {
-                oldAttackType = attackType;
+                oldAttackType = attackUnitType;
                 int index = 0;
                 foreach (Bullets bullet in _attackBullets)
                 {
-                    if (bullet.associatedAttack == attackType)
+                    if (bullet.associatedAttack == attackUnitType)
                     {
                         currentAttackBulletIndex = index;
                         return bullet.bulletPrefab;
@@ -50,12 +51,6 @@ public class AttackUnit : MonoBehaviour
             }
         }
     }
-    [Serializable]
-    public class Bullets
-    {
-        public GameObject bulletPrefab;
-        public AttackType associatedAttack;
-    }
     private void Awake()
     {
         baseDelayBetweenShots = delayBetweenShots;
@@ -63,6 +58,10 @@ public class AttackUnit : MonoBehaviour
         parentTower = GetComponent<PlayerTower>();
     }
 
+    private void Start()
+    {
+
+    }
     public void UpdateUnit()
     {
         RefreshTargetsList();

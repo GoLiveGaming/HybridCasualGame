@@ -118,7 +118,7 @@ GameObject:
   - component: {fileID: 2069814772752563306}
   - component: {fileID: 2069814772752563307}
   m_Layer: 6
-  m_Name: Wind_PlayerTower
+  m_Name: Lightning_PlayerTower
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -168,7 +168,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 689ffc0fd383b5248935607798051bc7, type: 2}
+  - {fileID: 2100000, guid: 1688c5a58e4ab7f42938bad6d987276d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -215,7 +215,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a2dfeacd6236eb47a4c690325cf6c6c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackUnitType: 1
+  attackUnitType: 2
   _attackBullets:
   - bulletPrefab: {fileID: 9203068762116010779, guid: b5aed220e22844a4fb815e6910fb1d07,
       type: 3}
@@ -226,7 +226,7 @@ MonoBehaviour:
   - bulletPrefab: {fileID: 4614153920458031038, guid: 75b2d220bec4179409ccd2ab7aba95ce,
       type: 3}
     associatedAttack: 2
-  delayBetweenShots: 2
+  delayBetweenShots: 1
   shootingRange: 50
   unitRefreshAfter: 2
   targetTF: {fileID: 0}
@@ -267,6 +267,7 @@ MonoBehaviour:
   attackUnit: {fileID: 2069814772752563301}
   _towerLevel: 1
   upgradeDecreasedShootDelay: 0.25
+  mainPlayerControl: {fileID: 0}
   stats: {fileID: 0}
 --- !u!1 &2462170748205072397
 GameObject:

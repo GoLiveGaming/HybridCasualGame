@@ -13,7 +13,7 @@ public class PlayerTower : MonoBehaviour
     [Header("Tower Properties")]
     [SerializeField, Range(1, 5)] private int _towerLevel = 1;
     [Range(0.01f, 10f)] public float upgradeDecreasedShootDelay = 0.1f;
-    private MainPlayerControl mainPlayerControl;
+    [HideInInspector] public MainPlayerControl mainPlayerControl;
     [HideInInspector] public Stats stats;
 
     private float dist;
@@ -58,6 +58,7 @@ public class PlayerTower : MonoBehaviour
     {
         if (!mainPlayerControl) mainPlayerControl = MainPlayerControl.Instance;
         mainPlayerControl.activePlayerTowersList.Add(this);
+        stats.SetCurrentLeveltext(_towerLevel);
     }
 
     private void Update()
@@ -88,6 +89,7 @@ public class PlayerTower : MonoBehaviour
     {
         _towerLevel += 1;
         Mathf.Clamp(_towerLevel, 1, 5);
+        stats.SetCurrentLeveltext(_towerLevel);
 
         attackUnit.UpdateDelayBetweenShots(_towerLevel);
     }
