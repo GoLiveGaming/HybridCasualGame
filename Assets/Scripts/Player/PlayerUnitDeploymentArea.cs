@@ -25,24 +25,16 @@ public class PlayerUnitDeploymentArea : MonoBehaviour
 
         if (!parentTower.attackUnit)
         {
-            DeployNewUnit(unitSelectedToDeploy);
+            DeployUnit(unitSelectedToDeploy);
         }
         else
         {
-            MergeWithNewUnit(unitSelectedToDeploy);
+            CheckIfCanMerge(unitSelectedToDeploy);
         }
+
+        mainPlayerControl.activeUnitDeploymentArea = null;
     }
-
-    public void DeployNewUnit(AttackUnit unitSelectedToDeploy)
-    {
-        DeleteChildAttackUnits();
-
-        AttackUnit spawnedAttackUnit = Instantiate(unitSelectedToDeploy, transform.position, Quaternion.identity);
-        spawnedAttackUnit.transform.SetParent(this.transform, true);
-        parentTower.ReInitializeTower(spawnedAttackUnit);
-    }
-
-    public void MergeWithNewUnit(AttackUnit unitSelectedToDeploy)
+    public void CheckIfCanMerge(AttackUnit unitSelectedToDeploy)
     {
         AttackUnit existingUnit = parentTower.attackUnit;
         if (existingUnit.supportsCombining)
@@ -53,7 +45,7 @@ public class PlayerUnitDeploymentArea : MonoBehaviour
                 {
                     DeleteChildAttackUnits();
                     AttackUnit combinedUnit = mainPlayerControl.GetAttackUnitObject(existingUnitCombination.toYield);
-                    DeployNewUnit(combinedUnit);
+                    DeployUnit(combinedUnit);
                     return;
                 }
             }
@@ -61,11 +53,23 @@ public class PlayerUnitDeploymentArea : MonoBehaviour
         else
         {
             DeleteChildAttackUnits();
-            DeployNewUnit(unitSelectedToDeploy);
+            DeployUnit(unitSelectedToDeploy);
             return;
         }
         Debug.Log("No Possible Combination Found");
     }
+    public void DeployUnit(AttackUnit unitSelectedToDeploy)
+    {
+        DeleteChildAttackUnits();
+
+        AttackUnit spawnedAttackUnit = Instantiate(unitSelectedToDeploy, transform.position, Quaternion.identity);
+        spawnedAttackUnit.transform.SetParent(this.transform, true);
+
+        parentTower.ReInitializeTower(spawnedAttackUnit);
+
+        mainPlayerControl.RemoveResource(spawnedAttackUnit.resourceCost);
+    }
+
 
     private void DeleteChildAttackUnits()
     {

@@ -214,13 +214,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackType: 2
-  attackUnitVisualPrefab: {fileID: 0}
-  delayBetweenShots: 1
-  shootingRange: 50
-  unitRefreshAfter: 2
+  resourceCost: 2
   enemyLayerMask:
     serializedVersion: 2
     m_Bits: 128
+  attackBulletPrefab: {fileID: 4614153920458031038, guid: 75b2d220bec4179409ccd2ab7aba95ce,
+    type: 3}
+  delayBetweenShots: 1
+  shootingRange: 50
+  unitRefreshAfter: 2
   supportsCombining: 0
   possibleCombinations: []
   targetTF: {fileID: 0}
@@ -228,16 +230,6 @@ MonoBehaviour:
   parentTower: {fileID: 0}
   targetsInRange: []
   currentUnitState: 0
-  _attackBullets:
-  - bulletPrefab: {fileID: 9203068762116010779, guid: b5aed220e22844a4fb815e6910fb1d07,
-      type: 3}
-    associatedAttack: 0
-  - bulletPrefab: {fileID: 4614153920458031038, guid: 84c53ce27c1612f4da1cb62b5a3e45a8,
-      type: 3}
-    associatedAttack: 1
-  - bulletPrefab: {fileID: 4614153920458031038, guid: 75b2d220bec4179409ccd2ab7aba95ce,
-      type: 3}
-    associatedAttack: 2
 --- !u!1 &2462170748205072397
 GameObject:
   m_ObjectHideFlags: 0

@@ -7,7 +7,9 @@ public class AttackUnit : MonoBehaviour
 {
     [Header("ATTACK UNIT PROPERTIES"), Space(2)]
     public AttackType attackType;
+    [Range(0, 10)] public int resourceCost = 2;
     [SerializeField] private LayerMask enemyLayerMask;
+    [SerializeField] private GameObject attackBulletPrefab;
 
     [Header("Attack Properties")]
     [Range(0.01f, 10f)] public float delayBetweenShots = 0.5f;
@@ -19,43 +21,13 @@ public class AttackUnit : MonoBehaviour
     public bool supportsCombining = false;
     public List<MergingCombinations> possibleCombinations = new();
 
-   
+
     [Space(2), Header("READONLY")]
     [ReadOnly] public Transform targetTF;
     [ReadOnly] public float timeSinceLastAttack = 0f;
     [ReadOnly] public PlayerTower parentTower;
     [ReadOnly] public List<NPCManagerScript> targetsInRange = new();
     [ReadOnly] public AttackUnitState currentUnitState;
-    [SerializeField, ReadOnly] private Bullets[] _attackBullets;
-
-    //Get AttackBullets
-    private AttackType oldAttackType;
-    private int currentAttackBulletIndex = 0;
-    public GameObject AttackBulletPrefab
-    {
-        get
-        {
-            if (_attackBullets.Length == 0) if (parentTower) _attackBullets = parentTower.mainPlayerControl.allAttackBullets;
-            if (oldAttackType == attackType) return _attackBullets[currentAttackBulletIndex].bulletPrefab;
-            else
-            {
-                oldAttackType = attackType;
-                int index = 0;
-                foreach (Bullets bullet in _attackBullets)
-                {
-                    if (bullet.associatedAttack == attackType)
-                    {
-                        currentAttackBulletIndex = index;
-                        return bullet.bulletPrefab;
-                    }
-                    index++;
-                }
-
-                Debug.LogError("No Bullets Assigned to " + this);
-                return null;
-            }
-        }
-    }
 
     private void OnDrawGizmosSelected()
     {
@@ -94,21 +66,21 @@ public class AttackUnit : MonoBehaviour
         timeSinceUnitRefresh += Time.deltaTime;
         if (unitRefreshAfter < timeSinceUnitRefresh)
         {
-            targetTF = null;
-            targetsInRange.Clear();
             timeSinceUnitRefresh = 0;
 
-            Collider[] hitColliders = new Collider[30];
+            targetTF = null;
+            targetsInRange.Clear();
 
-            Physics.OverlapSphereNonAlloc(transform.position, shootingRange, hitColliders, enemyLayerMask);
-            foreach (var hitCollider in hitColliders)
-            {
-                if (hitCollider.CompareTag("TargetEnemy"))
+            Collider[] hitColliders = new Collider[5];
+
+            int foundTargetCount = Physics.OverlapSphereNonAlloc(transform.position, shootingRange, hitColliders, enemyLayerMask);
+
+            if (foundTargetCount > 0)
+                foreach (var hitCollider in hitColliders)
                 {
                     hitCollider.TryGetComponent(out NPCManagerScript target);
                     if (target) targetsInRange.Add(target);
                 }
-            }
         }
     }
 
@@ -156,7 +128,7 @@ public class AttackUnit : MonoBehaviour
     }
     void ShootAtTarget()
     {
-        GameObject bullet = Instantiate(AttackBulletPrefab, transform.position, transform.rotation);
+        GameObject bullet = Instantiate(attackBulletPrefab, transform.position, transform.rotation);
         bullet.GetComponent<Bullet>().initializeBullet(targetTF);
     }
 }
