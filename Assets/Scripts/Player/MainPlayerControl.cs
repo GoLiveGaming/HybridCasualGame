@@ -79,7 +79,7 @@ public class Bullets
     public AttackType associatedAttack;
 }
 [Serializable]
-public class CombinationRecipe
+public class MergingCombinations
 {
     public AttackType combinesWith;
     public AttackType toYield;

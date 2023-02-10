@@ -47,7 +47,7 @@ public class PlayerUnitDeploymentArea : MonoBehaviour
         AttackUnit existingUnit = parentTower.attackUnit;
         if (existingUnit.supportsCombining)
         {
-            foreach (CombinationRecipe existingUnitCombination in existingUnit.possibleCombinations)
+            foreach (MergingCombinations existingUnitCombination in existingUnit.possibleCombinations)
             {
                 if (unitSelectedToDeploy.attackType == existingUnitCombination.combinesWith)
                 {

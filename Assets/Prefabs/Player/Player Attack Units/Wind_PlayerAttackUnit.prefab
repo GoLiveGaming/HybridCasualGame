@@ -218,6 +218,9 @@ MonoBehaviour:
   delayBetweenShots: 2
   shootingRange: 50
   unitRefreshAfter: 2
+  enemyLayerMask:
+    serializedVersion: 2
+    m_Bits: 128
   supportsCombining: 1
   possibleCombinations:
   - combinesWith: 0

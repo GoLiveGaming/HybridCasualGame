@@ -7,27 +7,31 @@ public class AttackUnit : MonoBehaviour
 {
     [Header("ATTACK UNIT PROPERTIES"), Space(2)]
     public AttackType attackType;
-    public GameObject attackUnitVisualPrefab;
+    [SerializeField] private LayerMask enemyLayerMask;
+
+    [Header("Attack Properties")]
     [Range(0.01f, 10f)] public float delayBetweenShots = 0.5f;
     [Range(0.1f, 100f)] public float shootingRange = 10f;
     [Range(0.01f, 10f)] public float unitRefreshAfter = 2f;
-    public bool supportsCombining = false;
-    public List<CombinationRecipe> possibleCombinations = new List<CombinationRecipe>();
-
     private float timeSinceUnitRefresh = 0;
 
-    [Space(2), Header("ReadOnly")]
+    [Header("Merging Properties")]
+    public bool supportsCombining = false;
+    public List<MergingCombinations> possibleCombinations = new();
+
+   
+    [Space(2), Header("READONLY")]
     [ReadOnly] public Transform targetTF;
     [ReadOnly] public float timeSinceLastAttack = 0f;
     [ReadOnly] public PlayerTower parentTower;
-    [ReadOnly] public List<NPCManagerScript> targetsInRange = new List<NPCManagerScript>();
+    [ReadOnly] public List<NPCManagerScript> targetsInRange = new();
     [ReadOnly] public AttackUnitState currentUnitState;
     [SerializeField, ReadOnly] private Bullets[] _attackBullets;
 
     //Get AttackBullets
     private AttackType oldAttackType;
     private int currentAttackBulletIndex = 0;
-    public GameObject attackBulletPrefab
+    public GameObject AttackBulletPrefab
     {
         get
         {
@@ -53,6 +57,11 @@ public class AttackUnit : MonoBehaviour
         }
     }
 
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.magenta;
+        Gizmos.DrawWireSphere(transform.position, shootingRange);
+    }
 
     void Awake()
     {
@@ -89,7 +98,9 @@ public class AttackUnit : MonoBehaviour
             targetsInRange.Clear();
             timeSinceUnitRefresh = 0;
 
-            Collider[] hitColliders = Physics.OverlapSphere(transform.position, shootingRange);
+            Collider[] hitColliders = new Collider[30];
+
+            Physics.OverlapSphereNonAlloc(transform.position, shootingRange, hitColliders, enemyLayerMask);
             foreach (var hitCollider in hitColliders)
             {
                 if (hitCollider.CompareTag("TargetEnemy"))
@@ -145,7 +156,7 @@ public class AttackUnit : MonoBehaviour
     }
     void ShootAtTarget()
     {
-        GameObject bullet = Instantiate(attackBulletPrefab, transform.position, transform.rotation);
+        GameObject bullet = Instantiate(AttackBulletPrefab, transform.position, transform.rotation);
         bullet.GetComponent<Bullet>().initializeBullet(targetTF);
     }
 }
