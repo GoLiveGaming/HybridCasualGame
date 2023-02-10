@@ -10,10 +10,10 @@ public class MainPlayerControl : MonoBehaviour
     [ReadOnly] public PlayerUnitDeploymentArea activeUnitDeploymentArea;
 
     [Header("Units Propertie"), Space(2)]
-    public PlayerTower[] playerTowersPrefabs;
-    public Bullets[] attackBulletVariants;
+    public AttackUnit[] allAttackUnits;
+    public Bullets[] allAttackBullets;
 
-    [System.Serializable]
+    [Serializable]
     public class PlayerUnit
     {
         public AttackType unitType;
@@ -43,17 +43,17 @@ public class MainPlayerControl : MonoBehaviour
         {
             if (hit.transform.gameObject.TryGetComponent(out PlayerUnitDeploymentArea playerUnitDeploymentArea))
             {
-                playerUnitDeploymentArea.OnUnitSelected();
+                playerUnitDeploymentArea.OnUnitSelectionStarted();
             }
         }
     }
 
-    public GameObject GetUnitToSpawn(AttackType unitType)
+    public AttackUnit GetAttackUnitObject(AttackType unitType)
     {
-        foreach (PlayerTower tower in playerTowersPrefabs)
+        foreach (AttackUnit unit in allAttackUnits)
         {
-            if (tower.attackUnit.attackUnitType == unitType)
-                return tower.gameObject;
+            if (unit.attackType == unitType)
+                return unit;
         }
         return null;
     }
@@ -65,10 +65,22 @@ public enum AttackType
     WindAttack,
     LightningAttack
 }
+public enum AttackUnitState
+{
+    Idle,
+    Attack,
+    Destroyed
+}
 
 [Serializable]
 public class Bullets
 {
     public GameObject bulletPrefab;
     public AttackType associatedAttack;
+}
+[Serializable]
+public class CombinationRecipe
+{
+    public AttackType combinesWith;
+    public AttackType toYield;
 }

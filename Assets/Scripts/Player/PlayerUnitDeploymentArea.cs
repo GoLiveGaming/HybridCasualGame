@@ -1,59 +1,71 @@
-using System.Collections;
 using UnityEngine;
 
 public class PlayerUnitDeploymentArea : MonoBehaviour
 {
     [SerializeField] private GameObject unitSelectionCanvas;
-    [SerializeField] private float unitReplaceCooldownTime = 5f;
-    [SerializeField] private bool areaBusy;
-    [SerializeField, ReadOnly] private PlayerTower deployedTower;
+    [SerializeField, ReadOnly] private PlayerTower parentTower;
 
-    private UIManager uiManager;
+    private MainPlayerControl mainPlayerControl;
 
     private void Start()
     {
-        uiManager = UIManager.Instance;
+        mainPlayerControl = MainPlayerControl.Instance;
+        parentTower = GetComponentInParent<PlayerTower>();
     }
-    public void OnUnitSelected()
+    public void OnUnitSelectionStarted()
     {
         MainPlayerControl.Instance.activeUnitDeploymentArea = this;
         unitSelectionCanvas.SetActive(true);
     }
 
-    public void DeployUnit(AttackType unitType)
+    public void DeployAttackUnit(AttackType unitType)
     {
-        if (areaBusy) return;
-        StartCoroutine(StartUnitReplaceCooldown());
 
-        if (deployedTower)
+        AttackUnit unitSelectedToDeploy = mainPlayerControl.GetAttackUnitObject(unitType);
+
+        if (!parentTower.attackUnit)
         {
-            if (deployedTower && deployedTower.attackUnit.attackUnitType == unitType)
+            DeployNewUnit(unitSelectedToDeploy);
+        }
+        else
+        {
+            MergeWithNewUnit(unitSelectedToDeploy);
+        }
+    }
+
+    public void DeployNewUnit(AttackUnit unitSelectedToDeploy)
+    {
+        DeleteChildAttackUnits();
+
+        AttackUnit spawnedAttackUnit = Instantiate(unitSelectedToDeploy, transform.position, Quaternion.identity);
+        spawnedAttackUnit.transform.SetParent(this.transform, true);
+        parentTower.ReInitializeTower(spawnedAttackUnit);
+    }
+
+    public void MergeWithNewUnit(AttackUnit unitSelectedToDeploy)
+    {
+        AttackUnit existingUnit = parentTower.attackUnit;
+        if (existingUnit.supportsCombining)
+        {
+            foreach (CombinationRecipe existingUnitCombination in existingUnit.possibleCombinations)
             {
-                deployedTower.UpgradeTower();
-            }
-            else if ((deployedTower.attackUnit.attackUnitType == AttackType.FireAttack &&
-                 unitType == AttackType.WindAttack) || (deployedTower.attackUnit.attackUnitType == AttackType.WindAttack &&
-                 unitType == AttackType.FireAttack))
-            {
-                DeleteChildAttackUnits();
-                GameObject objectToSpawn = MainPlayerControl.Instance.GetUnitToSpawn(AttackType.LightningAttack);
-                GameObject spawnedObject = Instantiate(objectToSpawn, this.transform.position, Quaternion.identity);
-                spawnedObject.transform.SetParent(transform, true);
-                deployedTower = spawnedObject.GetComponent<PlayerTower>();
+                if (unitSelectedToDeploy.attackType == existingUnitCombination.combinesWith)
+                {
+                    DeleteChildAttackUnits();
+                    AttackUnit combinedUnit = mainPlayerControl.GetAttackUnitObject(existingUnitCombination.toYield);
+                    DeployNewUnit(combinedUnit);
+                    return;
+                }
             }
         }
-
         else
         {
             DeleteChildAttackUnits();
-            GameObject objectToSpawn = MainPlayerControl.Instance.GetUnitToSpawn(unitType);
-            GameObject spawnedObject = Instantiate(objectToSpawn, this.transform.position, Quaternion.identity);
-            spawnedObject.transform.SetParent(transform, true);
-            deployedTower = spawnedObject.GetComponent<PlayerTower>();
+            DeployNewUnit(unitSelectedToDeploy);
+            return;
         }
-
+        Debug.Log("No Possible Combination Found");
     }
-
 
     private void DeleteChildAttackUnits()
     {
@@ -63,17 +75,4 @@ public class PlayerUnitDeploymentArea : MonoBehaviour
         }
     }
 
-    private IEnumerator StartUnitReplaceCooldown()
-    {
-        areaBusy = true;
-
-        float timer = 0;
-        while (timer < unitReplaceCooldownTime)
-        {
-            timer += Time.deltaTime;
-            uiManager.unitSelectionCooldownTimerImage.fillAmount = timer / unitReplaceCooldownTime;
-            yield return null;
-        }
-        areaBusy = false;
-    }
 }

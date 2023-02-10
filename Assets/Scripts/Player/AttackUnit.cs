@@ -1,44 +1,45 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using static PlayerTower;
 
 [Serializable]
 public class AttackUnit : MonoBehaviour
 {
-    [Header("Attack Unit Properties"), Space(2)]
-    public AttackType attackUnitType;
-
-    [SerializeField, ReadOnly] private Bullets[] _attackBullets;
-
+    [Header("ATTACK UNIT PROPERTIES"), Space(2)]
+    public AttackType attackType;
+    public GameObject attackUnitVisualPrefab;
     [Range(0.01f, 10f)] public float delayBetweenShots = 0.5f;
-    [ReadOnly][Range(0.01f, 10f)] private float baseDelayBetweenShots;
     [Range(0.1f, 100f)] public float shootingRange = 10f;
     [Range(0.01f, 10f)] public float unitRefreshAfter = 2f;
+    public bool supportsCombining = false;
+    public List<CombinationRecipe> possibleCombinations = new List<CombinationRecipe>();
+
     private float timeSinceUnitRefresh = 0;
 
     [Space(2), Header("ReadOnly")]
     [ReadOnly] public Transform targetTF;
     [ReadOnly] public float timeSinceLastAttack = 0f;
-    [ReadOnly] public List<NPCManagerScript> targetsInRange = new List<NPCManagerScript>();
     [ReadOnly] public PlayerTower parentTower;
+    [ReadOnly] public List<NPCManagerScript> targetsInRange = new List<NPCManagerScript>();
+    [ReadOnly] public AttackUnitState currentUnitState;
+    [SerializeField, ReadOnly] private Bullets[] _attackBullets;
 
-
+    //Get AttackBullets
     private AttackType oldAttackType;
     private int currentAttackBulletIndex = 0;
     public GameObject attackBulletPrefab
     {
         get
         {
-            if (_attackBullets.Length == 0) if (parentTower) _attackBullets = parentTower.mainPlayerControl.attackBulletVariants;
-            if (oldAttackType == attackUnitType) return _attackBullets[currentAttackBulletIndex].bulletPrefab;
+            if (_attackBullets.Length == 0) if (parentTower) _attackBullets = parentTower.mainPlayerControl.allAttackBullets;
+            if (oldAttackType == attackType) return _attackBullets[currentAttackBulletIndex].bulletPrefab;
             else
             {
-                oldAttackType = attackUnitType;
+                oldAttackType = attackType;
                 int index = 0;
                 foreach (Bullets bullet in _attackBullets)
                 {
-                    if (bullet.associatedAttack == attackUnitType)
+                    if (bullet.associatedAttack == attackType)
                     {
                         currentAttackBulletIndex = index;
                         return bullet.bulletPrefab;
@@ -51,22 +52,32 @@ public class AttackUnit : MonoBehaviour
             }
         }
     }
-    private void Awake()
+
+
+    void Awake()
     {
-        baseDelayBetweenShots = delayBetweenShots;
         timeSinceUnitRefresh = unitRefreshAfter;
-        parentTower = GetComponent<PlayerTower>();
-    }
-
-    private void Start()
-    {
-
+        currentUnitState = AttackUnitState.Idle;
     }
     public void UpdateUnit()
     {
         RefreshTargetsList();
-        if (parentTower.towerState == TowerState.Idle) TurretIdleAction();
-        else if (parentTower.towerState == TowerState.Attack) TurretAttackAction();
+        UpdateTowerState();
+        if (currentUnitState == AttackUnitState.Idle) TurretIdleAction();
+        else if (currentUnitState == AttackUnitState.Attack) TurretAttackAction();
+    }
+
+    private void UpdateTowerState()
+    {
+        //Switch Between States of turret 
+        if (targetsInRange.Count > 0 && currentUnitState != AttackUnitState.Attack)
+        {
+            currentUnitState = AttackUnitState.Attack;
+        }
+        else if (targetsInRange.Count == 0 && currentUnitState != AttackUnitState.Idle)
+        {
+            currentUnitState = AttackUnitState.Idle;
+        }
     }
     void RefreshTargetsList()
     {
@@ -132,19 +143,9 @@ public class AttackUnit : MonoBehaviour
             else timeSinceLastAttack += Time.deltaTime;
         }
     }
-
     void ShootAtTarget()
     {
         GameObject bullet = Instantiate(attackBulletPrefab, transform.position, transform.rotation);
         bullet.GetComponent<Bullet>().initializeBullet(targetTF);
     }
-
-
-
-    public void UpdateDelayBetweenShots(int towerLevel)
-    {
-        delayBetweenShots -= parentTower.upgradeDecreasedShootDelay;
-        delayBetweenShots = Mathf.Clamp(delayBetweenShots, 0.01f, 10f);
-    }
-
 }
