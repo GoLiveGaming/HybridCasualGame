@@ -115,10 +115,8 @@ GameObject:
   - component: {fileID: 2069814772752563310}
   - component: {fileID: 2069814772752563311}
   - component: {fileID: 2069814772752563301}
-  - component: {fileID: 2069814772752563306}
-  - component: {fileID: 2069814772752563307}
   m_Layer: 6
-  m_Name: Wind_PlayerTower
+  m_Name: Wind_PlayerAttackUnit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -215,59 +213,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a2dfeacd6236eb47a4c690325cf6c6c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackUnitType: 1
-  _attackBullets:
-  - bulletPrefab: {fileID: 9203068762116010779, guid: b5aed220e22844a4fb815e6910fb1d07,
-      type: 3}
-    associatedAttack: 0
-  - bulletPrefab: {fileID: 4614153920458031038, guid: 84c53ce27c1612f4da1cb62b5a3e45a8,
-      type: 3}
-    associatedAttack: 1
-  - bulletPrefab: {fileID: 4614153920458031038, guid: 75b2d220bec4179409ccd2ab7aba95ce,
-      type: 3}
-    associatedAttack: 2
+  attackType: 1
+  resourceCost: 2
+  enemyLayerMask:
+    serializedVersion: 2
+    m_Bits: 128
+  attackBulletPrefab: {fileID: 4614153920458031038, guid: 84c53ce27c1612f4da1cb62b5a3e45a8,
+    type: 3}
   delayBetweenShots: 2
   shootingRange: 50
   unitRefreshAfter: 2
+  supportsCombining: 1
+  possibleCombinations:
+  - combinesWith: 0
+    toYield: 2
   targetTF: {fileID: 0}
   timeSinceLastAttack: 0
-  targetsInRange: []
   parentTower: {fileID: 0}
---- !u!114 &2069814772752563306
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2069814772752563308}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9746430a183cc0e48ac989c7c4fc1d67, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_currentHealth: 100
-  m_MaxHealth: 100
-  statsCanvas: {fileID: 2054924159010101935}
-  m_healthBar: {fileID: 1227316064827263608}
-  m_currentLeveltext: {fileID: 3829140513165727758}
-  isDead: 0
---- !u!114 &2069814772752563307
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2069814772752563308}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 353d8da047099fd45935e8d38722a1cb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  towerState: 0
-  attackUnit: {fileID: 2069814772752563301}
-  _towerLevel: 1
-  upgradeDecreasedShootDelay: 0.25
-  stats: {fileID: 0}
+  targetsInRange: []
+  currentUnitState: 0
 --- !u!1 &2462170748205072397
 GameObject:
   m_ObjectHideFlags: 0

@@ -3,9 +3,11 @@ using UnityEngine;
 
 public class UnitSelectionMenu : MonoBehaviour
 {
-    private void Awake()
+    private MainPlayerControl playerControl;
+    private void Start()
     {
         gameObject.SetActive(false);
+        playerControl = MainPlayerControl.Instance;
     }
     private void OnEnable()
     {
@@ -18,13 +20,13 @@ public class UnitSelectionMenu : MonoBehaviour
 
     public void FireUnitSelected()
     {
-        MainPlayerControl.Instance.activeUnitDeploymentArea.DeployUnit(AttackType.FireAttack);
+        playerControl.activeUnitDeploymentArea.DeployAttackUnit(AttackType.FireAttack);
         this.gameObject.SetActive(false);
     }
 
     public void WindUnitSelected()
     {
-        MainPlayerControl.Instance.activeUnitDeploymentArea.DeployUnit(AttackType.WindAttack);
+        playerControl.activeUnitDeploymentArea.DeployAttackUnit(AttackType.WindAttack);
         this.gameObject.SetActive(false);
     }
 }

@@ -56,7 +56,7 @@ public class EnemySpawners : MonoBehaviour
                 if (spawnInProximity) spawnLocation = RandomNavSphere(transform.position, proxSpawnradius, -1);
                 else spawnLocation = transform.position;
             }
-            NPCManagerScript Obj = Instantiate(ObjectsToSpawn[objectToSpawnIndex], spawnLocation, Quaternion.identity);
+            Instantiate(ObjectsToSpawn[objectToSpawnIndex], spawnLocation, Quaternion.identity);
 
             currentSpawnInterval = spawnInterval + Random.Range(-spawnIntervalOffset, spawnIntervalOffset);
 
@@ -73,9 +73,8 @@ public class EnemySpawners : MonoBehaviour
 
         randDirection += origin;
 
-        NavMeshHit navHit;
 
-        NavMesh.SamplePosition(randDirection, out navHit, dist, layermask);
+        NavMesh.SamplePosition(randDirection, out NavMeshHit navHit, dist, layermask);
 
         return navHit.position;
     }

@@ -1,72 +1,64 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using static PlayerTower;
 
 [Serializable]
 public class AttackUnit : MonoBehaviour
 {
-    [Header("Attack Unit Properties"), Space(2)]
-    public AttackType attackUnitType;
+    [Header("ATTACK UNIT PROPERTIES"), Space(2)]
+    public AttackType attackType;
+    [Range(0, 10)] public int resourceCost = 2;
+    [SerializeField] private LayerMask enemyLayerMask;
+    [SerializeField] private GameObject attackBulletPrefab;
 
-    [SerializeField, ReadOnly] private Bullets[] _attackBullets;
-
+    [Header("Attack Properties")]
     [Range(0.01f, 10f)] public float delayBetweenShots = 0.5f;
-    [ReadOnly][Range(0.01f, 10f)] private float baseDelayBetweenShots;
     [Range(0.1f, 100f)] public float shootingRange = 10f;
     [Range(0.01f, 10f)] public float unitRefreshAfter = 2f;
     private float timeSinceUnitRefresh = 0;
 
-    [Space(2), Header("ReadOnly")]
+    [Header("Merging Properties")]
+    public bool supportsCombining = false;
+    public List<MergingCombinations> possibleCombinations = new();
+
+
+    [Space(2), Header("READONLY")]
     [ReadOnly] public Transform targetTF;
     [ReadOnly] public float timeSinceLastAttack = 0f;
-    [ReadOnly] public List<NPCManagerScript> targetsInRange = new List<NPCManagerScript>();
     [ReadOnly] public PlayerTower parentTower;
+    [ReadOnly] public List<NPCManagerScript> targetsInRange = new();
+    [ReadOnly] public AttackUnitState currentUnitState;
 
-
-    private AttackType oldAttackType;
-    private int currentAttackBulletIndex = 0;
-    public GameObject attackBulletPrefab
+    private void OnDrawGizmosSelected()
     {
-        get
-        {
-            if (_attackBullets.Length == 0) if (parentTower) _attackBullets = parentTower.mainPlayerControl.attackBulletVariants;
-            if (oldAttackType == attackUnitType) return _attackBullets[currentAttackBulletIndex].bulletPrefab;
-            else
-            {
-                oldAttackType = attackUnitType;
-                int index = 0;
-                foreach (Bullets bullet in _attackBullets)
-                {
-                    if (bullet.associatedAttack == attackUnitType)
-                    {
-                        currentAttackBulletIndex = index;
-                        return bullet.bulletPrefab;
-                    }
-                    index++;
-                }
-
-                Debug.LogError("No Bullets Assigned to " + this);
-                return null;
-            }
-        }
+        Gizmos.color = Color.magenta;
+        Gizmos.DrawWireSphere(transform.position, shootingRange);
     }
-    private void Awake()
+
+    void Awake()
     {
-        baseDelayBetweenShots = delayBetweenShots;
         timeSinceUnitRefresh = unitRefreshAfter;
-        parentTower = GetComponent<PlayerTower>();
-    }
-
-    private void Start()
-    {
-
+        currentUnitState = AttackUnitState.Idle;
     }
     public void UpdateUnit()
     {
         RefreshTargetsList();
-        if (parentTower.towerState == TowerState.Idle) TurretIdleAction();
-        else if (parentTower.towerState == TowerState.Attack) TurretAttackAction();
+        UpdateTowerState();
+        if (currentUnitState == AttackUnitState.Idle) TurretIdleAction();
+        else if (currentUnitState == AttackUnitState.Attack) TurretAttackAction();
+    }
+
+    private void UpdateTowerState()
+    {
+        //Switch Between States of turret 
+        if (targetsInRange.Count > 0 && currentUnitState != AttackUnitState.Attack)
+        {
+            currentUnitState = AttackUnitState.Attack;
+        }
+        else if (targetsInRange.Count == 0 && currentUnitState != AttackUnitState.Idle)
+        {
+            currentUnitState = AttackUnitState.Idle;
+        }
     }
     void RefreshTargetsList()
     {
@@ -74,19 +66,21 @@ public class AttackUnit : MonoBehaviour
         timeSinceUnitRefresh += Time.deltaTime;
         if (unitRefreshAfter < timeSinceUnitRefresh)
         {
-            targetTF = null;
-            targetsInRange.Clear();
             timeSinceUnitRefresh = 0;
 
-            Collider[] hitColliders = Physics.OverlapSphere(transform.position, shootingRange);
-            foreach (var hitCollider in hitColliders)
-            {
-                if (hitCollider.CompareTag("TargetEnemy"))
+            targetTF = null;
+            targetsInRange.Clear();
+
+            Collider[] hitColliders = new Collider[5];
+
+            int foundTargetCount = Physics.OverlapSphereNonAlloc(transform.position, shootingRange, hitColliders, enemyLayerMask);
+
+            if (foundTargetCount > 0)
+                foreach (var hitCollider in hitColliders)
                 {
                     hitCollider.TryGetComponent(out NPCManagerScript target);
                     if (target) targetsInRange.Add(target);
                 }
-            }
         }
     }
 
@@ -132,19 +126,9 @@ public class AttackUnit : MonoBehaviour
             else timeSinceLastAttack += Time.deltaTime;
         }
     }
-
     void ShootAtTarget()
     {
         GameObject bullet = Instantiate(attackBulletPrefab, transform.position, transform.rotation);
         bullet.GetComponent<Bullet>().initializeBullet(targetTF);
     }
-
-
-
-    public void UpdateDelayBetweenShots(int towerLevel)
-    {
-        delayBetweenShots -= parentTower.upgradeDecreasedShootDelay;
-        delayBetweenShots = Mathf.Clamp(delayBetweenShots, 0.01f, 10f);
-    }
-
 }
