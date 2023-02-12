@@ -22,7 +22,7 @@ public class Stats : MonoBehaviour
             m_currentHealth = value;
             m_currentHealth = Mathf.Clamp(Health, 0, m_MaxHealth);
             if (m_healthBar) m_healthBar.fillAmount = m_currentHealth / m_MaxHealth;
-            if (Health <= 0) 
+            if (Health <= 0)
             {
                 transform.TryGetComponent(out PlayerTower playerTower);
                 if (playerTower) UIManager.Instance.ShowText("Game Over");

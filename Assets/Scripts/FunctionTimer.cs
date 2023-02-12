@@ -556,11 +556,9 @@ namespace Utitlity
                 parent = new GameObject("Timers_Pool");
             mono.transform.SetParent(parent.transform, false);
             this.onUpdate = onUpdate;
-            this.onComplete = onComplete;
             this.onSecond = onSecond;
             this.useUnscaledTime = useUnscaledTime;
             this.time = time;
-            this.maxTime = maxTime;
             this.currentTime = time;
             this.currentSec = time;
             this.isFree = false;
@@ -703,11 +701,9 @@ namespace Utitlity
                 parent = new GameObject("Timers_Pool");
             mono.transform.SetParent(parent.transform, false);
             this.onUpdate = onUpdate;
-            this.onComplete = onComplete;
             this.onSecond = onSecond;
             this.useUnscaledTime = useUnscaledTime;
             this.time = time;
-            this.maxTime = maxTime;
             this.currentTime = time;
             this.currentSec = time;
             this.isFree = false;

@@ -35,13 +35,13 @@ public class Bullet : MonoBehaviour
             Destroy(gameObject);
         }
 
-        
+
     }
     public static bool IsInLayerMask(int layer, LayerMask layermask)
     {
         return layermask == (layermask | (1 << layer));
     }
-   // protected virtual void OnTriggerEnter(Collider other) { }
+    protected virtual void OnTriggerEnter(Collider other) { }
 
 
     protected virtual void StartAttack(NPCManagerScript hitNPC) { }
