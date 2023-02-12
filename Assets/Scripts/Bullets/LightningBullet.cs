@@ -8,7 +8,7 @@ public class LightningBullet : Bullet
     [SerializeField] private GameObject aoeVisualObj;
     [SerializeField] private float aoeLifetime = 0.15f;
     [SerializeField] private Vector3 aoeSpawnOffset = Vector3.zero;
-    protected override void OnTriggerEnter(Collider other)
+    protected void OnTriggerEnter(Collider other)
     {
         if (IsInLayerMask(other.gameObject.layer, collisionLayerMask))
         {

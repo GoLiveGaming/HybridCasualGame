@@ -11,6 +11,8 @@ public class MainPlayerControl : MonoBehaviour
     [ReadOnly] public List<PlayerTower> activePlayerTowersList = new();
     [ReadOnly] public PlayerUnitDeploymentArea activeUnitDeploymentArea;
 
+    [ReadOnly] public Stats _stats;
+
     [Header("ATTACK UNITS"), Space(2)]
     public AttackUnit[] allAttackUnits;
 
@@ -31,6 +33,10 @@ public class MainPlayerControl : MonoBehaviour
     private void Awake()
     {
         Instance = this;
+    }
+    private void Start()
+    {
+        _stats = GetComponent<Stats>();
     }
     void Update()
     {

@@ -3,13 +3,15 @@ using UnityEngine;
 [RequireComponent(typeof(Stats))]
 public class PlayerTower : MonoBehaviour
 {
+    public static PlayerTower Instance;
+
     [Space(2), Header("READONLY PARAMETERS")]
     [ReadOnly] public bool attackUnitAvailable = false;
 
     [Space(2), Header("READONLY COMPONENTS")]
     [ReadOnly] public MainPlayerControl mainPlayerControl;
     [ReadOnly] public AttackUnit attackUnit;
-    [ReadOnly] public Stats stats;
+     internal Stats _stats;
 
     private void OnEnable()
     {
@@ -23,7 +25,8 @@ public class PlayerTower : MonoBehaviour
     }
     private void Awake()
     {
-        stats = GetComponent<Stats>();
+        Instance = this;
+        _stats = GetComponent<Stats>();
 
         attackUnitAvailable = false;
     }

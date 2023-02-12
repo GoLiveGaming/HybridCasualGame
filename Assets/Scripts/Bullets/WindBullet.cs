@@ -7,12 +7,16 @@ public class WindBullet : Bullet
     [SerializeField] private float aoeLifetime = 0.15f;
     [SerializeField] private float explosionRadius = 5f;
     [SerializeField] private float explosionForce = 10f;
-    protected override void OnTriggerEnter(Collider other)
+    protected void OnTriggerEnter(Collider other)
     {
         if (IsInLayerMask(other.gameObject.layer, collisionLayerMask))
         {
             other.TryGetComponent(out NPCManagerScript npcManager);
             StartAttack(npcManager);
+        }
+        else
+        {
+
         }
     }
 

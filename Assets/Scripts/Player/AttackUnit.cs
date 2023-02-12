@@ -71,11 +71,11 @@ public class AttackUnit : MonoBehaviour
             targetTF = null;
             targetsInRange.Clear();
 
-            Collider[] hitColliders = new Collider[5];
+           //  = new Collider[5];
 
-            int foundTargetCount = Physics.OverlapSphereNonAlloc(transform.position, shootingRange, hitColliders, enemyLayerMask);
+            Collider[] hitColliders = Physics.OverlapSphere(transform.position, shootingRange);
 
-            if (foundTargetCount > 0)
+            if (hitColliders.Length > 0)
                 foreach (var hitCollider in hitColliders)
                 {
                     hitCollider.TryGetComponent(out NPCManagerScript target);
@@ -128,7 +128,7 @@ public class AttackUnit : MonoBehaviour
     }
     void ShootAtTarget()
     {
-        GameObject bullet = Instantiate(attackBulletPrefab, transform.position, transform.rotation);
+        GameObject bullet = Instantiate(attackBulletPrefab, transform.position + new Vector3(0,-5f,0), transform.rotation);
         bullet.GetComponent<Bullet>().initializeBullet(targetTF);
     }
 }

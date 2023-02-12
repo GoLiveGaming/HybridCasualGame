@@ -12,6 +12,7 @@ public class NPCPursueState : NPCBaseState
         if (npcManager.InTargetProximity())
         {
             npcManager._agent.ResetPath();
+          //  npcManager._agent.isStopped = true;
             ExitState(npcManager);
         }
     }
