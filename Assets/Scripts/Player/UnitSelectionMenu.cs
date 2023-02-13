@@ -1,12 +1,16 @@
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UnitSelectionMenu : MonoBehaviour
 {
     private MainPlayerControl playerControl;
     private void Start()
     {
-        gameObject.SetActive(false);
+        for (int i = 0; i < this.transform.childCount; i++)
+        {
+            this.transform.GetChild(i).GetComponent<Button>().interactable = false;
+        }
         playerControl = MainPlayerControl.Instance;
     }
     private void OnEnable()
@@ -21,12 +25,18 @@ public class UnitSelectionMenu : MonoBehaviour
     public void FireUnitSelected()
     {
         playerControl.activeUnitDeploymentArea.DeployAttackUnit(AttackType.FireAttack);
-        this.gameObject.SetActive(false);
+        for (int i = 0; i < this.transform.childCount; i++)
+        {
+            this.transform.GetChild(i).GetComponent<Button>().interactable = false;
+        }
     }
 
     public void WindUnitSelected()
     {
         playerControl.activeUnitDeploymentArea.DeployAttackUnit(AttackType.WindAttack);
-        this.gameObject.SetActive(false);
+        for (int i = 0; i < this.transform.childCount; i++)
+        {
+            this.transform.GetChild(i).GetComponent<Button>().interactable = false;
+        }
     }
 }

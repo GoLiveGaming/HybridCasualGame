@@ -29,6 +29,7 @@ public class MainPlayerControl : MonoBehaviour
 
     private void Awake()
     {
+        Time.timeScale = 1;
         Instance = this;
     }
     void Update()
@@ -81,6 +82,7 @@ public class MainPlayerControl : MonoBehaviour
             currentResourcesCount += resourceRechargeRate;
         }
         currentResourcesCount = Mathf.Clamp(currentResourcesCount, 0, maxResources);
+        UIManager.Instance.unitSelectionCooldownTimerImage.fillAmount = currentResourcesCount / maxResources;
         isRecharging = false;
     }
 
@@ -88,6 +90,7 @@ public class MainPlayerControl : MonoBehaviour
     {
         currentResourcesCount -= amount;
         currentResourcesCount = Mathf.Clamp(currentResourcesCount, 0, maxResources);
+        UIManager.Instance.unitSelectionCooldownTimerImage.fillAmount = currentResourcesCount / maxResources;
     }
 
     #endregion

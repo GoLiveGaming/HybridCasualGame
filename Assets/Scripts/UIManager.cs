@@ -10,14 +10,41 @@ public class UIManager : MonoBehaviour
 {
     public static UIManager Instance;
 
+    [Header("Rect Componenets")]
     public GameObject unitSelectionCanvas;
+    public GameObject pausePanel;
+
+    [Header ("Button Componenets")]
+    public Button pauseBtn;
+    public Button resumeBtn;
+    public Button restartBtn;
+    public Button quitBtn;
+
+    [Header("Image Componenets")]
     public Image unitSelectionCooldownTimerImage;
+
+    [Header("Text Componenets")]
     public TMP_Text waveTxt;
     private void Awake()
     {
         Instance = this;
+         pauseBtn.onClick.AddListener(PauseButton);
+        resumeBtn.onClick.AddListener(ResumeButton);
+        restartBtn.onClick.AddListener(RestartButton);
+        quitBtn.onClick.AddListener(QuitButton);
+    }
+    private void OnEnable()
+    {
+       
     }
 
+    private void OnDisable()
+    {
+        pauseBtn.onClick.RemoveListener(PauseButton);
+        resumeBtn.onClick.RemoveListener(ResumeButton);
+        restartBtn.onClick.RemoveListener(RestartButton);
+        quitBtn.onClick.RemoveListener(QuitButton);
+    }
     internal void ShowText(string tempTxt)
     {
         ShowResponseMessage(tempTxt, waveTxt);
@@ -35,5 +62,24 @@ public class UIManager : MonoBehaviour
         waveTxtTemp.transform.gameObject.SetActive(true);
         seq.AppendInterval(2f);
         seq.AppendCallback(() => { waveTxtTemp.transform.gameObject.SetActive(false); });
+    }
+
+    public void PauseButton()
+    {
+        pausePanel.gameObject.SetActive(true);
+        Time.timeScale = 0;
+    }
+    public void ResumeButton()
+    {
+        Time.timeScale = 1;
+        pausePanel.gameObject.SetActive(false);
+    }
+    public void RestartButton()
+    {
+        SceneManager.LoadScene(1);
+    }
+    public void QuitButton()
+    {
+        SceneManager.LoadSceneAsync(0);
     }
 }

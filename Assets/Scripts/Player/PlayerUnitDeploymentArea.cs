@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerUnitDeploymentArea : MonoBehaviour
 {
@@ -15,7 +16,10 @@ public class PlayerUnitDeploymentArea : MonoBehaviour
     public void OnUnitSelectionStarted()
     {
         MainPlayerControl.Instance.activeUnitDeploymentArea = this;
-        unitSelectionCanvas.SetActive(true);
+        for(int i = 0; i < unitSelectionCanvas.transform.childCount; i++)
+        {
+            unitSelectionCanvas.transform.GetChild(i).GetComponent<Button>().interactable = true;
+        }
     }
 
     public void DeployAttackUnit(AttackType unitType)
