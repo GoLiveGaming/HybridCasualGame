@@ -71,7 +71,7 @@ public class AttackUnit : MonoBehaviour
             targetTF = null;
             targetsInRange.Clear();
 
-            Collider[] hitColliders = new Collider[5];
+            Collider[] hitColliders = new Collider[32];
 
             int numTargetsFound = Physics.OverlapSphereNonAlloc(transform.position, shootingRange, hitColliders, enemyLayerMask);
 

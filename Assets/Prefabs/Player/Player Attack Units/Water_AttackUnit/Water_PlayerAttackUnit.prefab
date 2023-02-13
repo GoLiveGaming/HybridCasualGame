@@ -166,7 +166,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 689ffc0fd383b5248935607798051bc7, type: 2}
+  - {fileID: 2100000, guid: 256c261be84d9664ca4e6d8474ded2fd, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -223,8 +223,6 @@ MonoBehaviour:
   delayBetweenShots: 2
   shootingRange: 50
   unitRefreshAfter: 2
-  bulletsShotAtOnce: 1
-  horizontalSpread: 0
   supportsCombining: 0
   possibleCombinations: []
   targetTF: {fileID: 0}

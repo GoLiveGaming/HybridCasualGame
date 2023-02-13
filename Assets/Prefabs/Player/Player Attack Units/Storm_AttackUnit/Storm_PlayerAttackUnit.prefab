@@ -116,7 +116,7 @@ GameObject:
   - component: {fileID: 2069814772752563311}
   - component: {fileID: 2069814772752563301}
   m_Layer: 6
-  m_Name: Wind_PlayerAttackUnit
+  m_Name: Storm_PlayerAttackUnit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -166,7 +166,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 689ffc0fd383b5248935607798051bc7, type: 2}
+  - {fileID: 2100000, guid: c7c6cb2ed6a85984ba493604c26f8daf, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -213,22 +213,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a2dfeacd6236eb47a4c690325cf6c6c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackType: 1
+  attackType: 4
   resourceCost: 2
   enemyLayerMask:
     serializedVersion: 2
     m_Bits: 128
-  attackBulletPrefab: {fileID: 4614153920458031038, guid: 84c53ce27c1612f4da1cb62b5a3e45a8,
+  attackBulletPrefab: {fileID: 4614153920458031038, guid: 26b414ae20158984db7bbf0bdf6c71b0,
     type: 3}
   delayBetweenShots: 2
   shootingRange: 50
   unitRefreshAfter: 2
-  supportsCombining: 1
-  possibleCombinations:
-  - combinesWith: 0
-    toYield: 2
-  - combinesWith: 1
-    toYield: 4
+  supportsCombining: 0
+  possibleCombinations: []
   targetTF: {fileID: 0}
   timeSinceLastAttack: 0
   parentTower: {fileID: 0}

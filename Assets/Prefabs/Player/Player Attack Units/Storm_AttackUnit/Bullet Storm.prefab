@@ -104,8 +104,8 @@ TrailRenderer:
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 0, g: 0.46812057, b: 1, a: 1}
-      key1: {r: 0, g: 0.9534545, b: 1, a: 0.39607844}
+      key0: {r: 0.5660378, g: 0.5660378, b: 0.5660378, a: 1}
+      key1: {r: 0.2830189, g: 0.2830189, b: 0.2830189, a: 0.39607844}
       key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
@@ -113,7 +113,7 @@ TrailRenderer:
       key6: {r: 0, g: 0, b: 0, a: 0}
       key7: {r: 0, g: 0, b: 0, a: 0}
       ctime0: 0
-      ctime1: 27756
+      ctime1: 27949
       ctime2: 0
       ctime3: 0
       ctime4: 0
@@ -150,9 +150,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4614153920458031025}
   - component: {fileID: -3464210933761916932}
-  - component: {fileID: 522388020744044872}
+  - component: {fileID: 8176861115011823728}
   m_Layer: 0
-  m_Name: Bullet Water
+  m_Name: Bullet Storm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -191,7 +191,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &522388020744044872
+--- !u!114 &8176861115011823728
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -200,22 +200,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 4614153920458031038}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f9fe28db5e90c214eb1b9d67faff3558, type: 3}
+  m_Script: {fileID: 11500000, guid: d89646bc348c16c4b9cb153f898455cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   targetPos: {x: 0, y: 0, z: 0}
-  speed: 20
-  lifetime: 10
-  damage: 0
+  speed: 40
+  lifetime: 5
+  damage: 2
   collisionLayerMask:
     serializedVersion: 2
     m_Bits: 128
-  slowedDownSpeed: 1
-  slowDownDuration: 3
-  aoeVisualObj: {fileID: 8272260640797488490, guid: c41964a2a7b963b48af1699ca1255412,
+  aoeVisualObj: {fileID: 8272260640797488490, guid: 94b474d536f16f74b8387c934c7a6225,
     type: 3}
   aoeLifetime: 0.15
-  aoeRadius: 3
+  explosionRadius: 3.5
+  explosionForce: 30
 --- !u!1 &4614153921484433200
 GameObject:
   m_ObjectHideFlags: 0
@@ -278,7 +277,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 256c261be84d9664ca4e6d8474ded2fd, type: 2}
+  - {fileID: 2100000, guid: c7c6cb2ed6a85984ba493604c26f8daf, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

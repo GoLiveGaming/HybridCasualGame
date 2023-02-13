@@ -39,4 +39,12 @@ public class UnitSelectionMenu : MonoBehaviour
             this.transform.GetChild(i).GetComponent<Button>().interactable = false;
         }
     }
+    public void WaterUnitSelected()
+    {
+        playerControl.activeUnitDeploymentArea.DeployAttackUnit(AttackType.WaterAttack);
+        for (int i = 0; i < this.transform.childCount; i++)
+        {
+            this.transform.GetChild(i).GetComponent<Button>().interactable = false;
+        }
+    }
 }

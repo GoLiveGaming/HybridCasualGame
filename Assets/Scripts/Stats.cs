@@ -99,7 +99,7 @@ public class Stats : MonoBehaviour
 
     private IEnumerator StartSlowMoveSpeed(float speed, float duration)
     {
-        m_NPCManager.MoveSpeed = speed;
+        m_NPCManager.SetMoveSpeed(speed);
         yield return new WaitForSeconds(duration);
         m_NPCManager.ResetMoveSpeed();
 

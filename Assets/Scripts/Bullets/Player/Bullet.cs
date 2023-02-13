@@ -1,7 +1,7 @@
 using UnityEngine;
 public class Bullet : MonoBehaviour
 {
-    public Vector3 targetPos;
+    [HideInInspector] public Vector3 targetPos;
     public float speed = 10f;
     public float lifetime = 2f;
 

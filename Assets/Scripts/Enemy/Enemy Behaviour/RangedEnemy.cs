@@ -8,31 +8,10 @@ public class RangedEnemy : NPCManagerScript
     // [SerializeField] private LayerMask mainTowerLayer;
 
     public GameObject attackBulletPrefab;
-
-    private void Update()
-    {
-        if (CanRefreshState())
-        {
-            _currentState.UpdateState(this);
-
-            if (InTargetProximity())
-            {
-                // _agent.ResetPath();
-                _agent.isStopped = true;
-                //  ExitState(npcManager);
-            }
-            else
-            {
-                _agent.isStopped = false;
-            }
-        }
-
-    }
-
     /// <summary>
     /// Animation Event For attacking the player
     /// </summary>
-    public void AttackPlayer()
+    public override void AttackPlayer()
     {
         if (isPlayerAvailable())
         {

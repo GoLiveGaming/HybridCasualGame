@@ -33,15 +33,8 @@ public class NPCManagerScript : MonoBehaviour
 
     public GameObject gameObjectSelf { get { return this.gameObject; } }
 
-    public float MoveSpeed
-    {
-        get { return moveSpeed; }
-        set
-        {
-            if (_agent) moveSpeed = value; _agent.speed = moveSpeed;
-        }
-    }
-    public void ResetMoveSpeed() { moveSpeed = defaultMoveSpeed; }
+    public void SetMoveSpeed(float value) { moveSpeed = value; _agent.speed = moveSpeed; }
+    public void ResetMoveSpeed() { moveSpeed = defaultMoveSpeed; _agent.speed = moveSpeed; }
 
     //States initialization
     internal NPCBaseState _currentState;
@@ -67,10 +60,29 @@ public class NPCManagerScript : MonoBehaviour
 
 
         //Adding random parity in state refresh delay to reduce stress on cpu when large quantity of npc's are used
-      //  stateRefreshDelay = Mathf.Clamp(Random.Range(stateRefreshDelay - 1f, stateRefreshDelay + 1f), 0, 5f);
+        stateRefreshDelay = Mathf.Clamp(Random.Range(stateRefreshDelay - 1f, stateRefreshDelay + 1f), 0, 5f);
 
         _currentState = PursueState;
         _currentState.EnterState(this);
+    }
+    void Update()
+    {
+        if (CanRefreshState())
+        {
+            _currentState.UpdateState(this);
+
+            if (InTargetProximity())
+            {
+                // _agent.ResetPath();
+                _agent.isStopped = true;
+                //  ExitState(npcManager);
+            }
+            else
+            {
+                _agent.isStopped = false;
+            }
+        }
+
     }
 
     public void SwitchState(NPCBaseState state)
@@ -121,9 +133,7 @@ public class NPCManagerScript : MonoBehaviour
 
     public bool InTargetProximity()
     {
-        if (CheckIfTargetInFront()) return true;
-
-        return false;
+        return CheckIfTargetInFront();
     }
 
     private bool CheckIfTargetInFront()
@@ -132,10 +142,11 @@ public class NPCManagerScript : MonoBehaviour
         // Does the ray intersect any objects excluding the player layer
         if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, stoppingDistance, playerTowerLayer))
         {
-            Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * hit.distance, Color.yellow);
+            Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * hit.distance, Color.green);
             return true;
         }
-        return false;
+
+        else return false;
     }
 
     internal bool CanRefreshState()
@@ -162,6 +173,18 @@ public class NPCManagerScript : MonoBehaviour
 
 
     //ANIMATION EVENTS
-
-
+    public virtual void AttackPlayer()
+    {
+        if (isPlayerAvailable())
+        {
+            RaycastHit hit;
+            // Does the ray intersect any objects excluding the player layer
+            if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, stoppingDistance, playerTowerLayer))
+            {
+                Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * hit.distance, Color.yellow);
+                hit.transform.TryGetComponent(out Stats stats);
+                if (stats) stats.AddDamage(attackDamage);
+            }
+        }
+    }
 }
