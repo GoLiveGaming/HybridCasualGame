@@ -11,7 +11,7 @@ public class RangedEnemy : NPCManagerScript
 
     private void Update()
     {
-        if (CanRefreshState()) 
+        if (CanRefreshState())
         {
             _currentState.UpdateState(this);
 
@@ -26,7 +26,7 @@ public class RangedEnemy : NPCManagerScript
                 _agent.isStopped = false;
             }
         }
-        
+
     }
 
     /// <summary>
@@ -37,11 +37,8 @@ public class RangedEnemy : NPCManagerScript
         if (isPlayerAvailable())
         {
             GameObject bullet = Instantiate(attackBulletPrefab, transform.position, transform.rotation);
-            bullet.GetComponent<Bullet>().initializeBullet(_playerControl.transform);
+            bullet.GetComponent<Bullet>().InitializeBullet(_playerControl.transform.position);
         }
     }
-
-
-
 
 }

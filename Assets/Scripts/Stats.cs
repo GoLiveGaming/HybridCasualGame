@@ -5,12 +5,16 @@ using UnityEngine.UI;
 
 public class Stats : MonoBehaviour
 {
-    [SerializeField] private float m_currentHealth = 100;
     [SerializeField] private float m_MaxHealth = 100;
+    [SerializeField] private float m_currentHealth = 100;
+
+    [Space(2), Header("STATS UI")]
     [SerializeField] private GameObject statsCanvas;
     [SerializeField] private Image m_healthBar;
     [SerializeField] private TextMeshProUGUI m_currentLeveltext;
 
+    [ReadOnly] public bool ownerIsNPC = false;
+    [SerializeField] private NPCManagerScript m_NPCManager;
 
     [Header("ReadOnly Parameters"), Space(2)]
     [ReadOnly] public bool isDead = false;
@@ -43,6 +47,10 @@ public class Stats : MonoBehaviour
 
     private void Awake()
     {
+        if (GetComponent<NPCManagerScript>()) ownerIsNPC = true;
+
+        if (ownerIsNPC) m_NPCManager = GetComponent<NPCManagerScript>();
+
         m_currentHealth = Mathf.Clamp(Health, 0, m_MaxHealth);
     }
     private void FixedUpdate()
@@ -79,5 +87,21 @@ public class Stats : MonoBehaviour
             damageDuration -= Time.deltaTime;
             yield return null;
         }
+    }
+
+    public void SlowDownMoveSpeed(float speed, float duration)
+    {
+        if (ownerIsNPC && m_NPCManager)
+        {
+            StartCoroutine(StartSlowMoveSpeed(speed, duration));
+        }
+    }
+
+    private IEnumerator StartSlowMoveSpeed(float speed, float duration)
+    {
+        m_NPCManager.MoveSpeed = speed;
+        yield return new WaitForSeconds(duration);
+        m_NPCManager.ResetMoveSpeed();
+
     }
 }

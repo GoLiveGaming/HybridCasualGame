@@ -402,7 +402,7 @@ GameObject:
   - component: {fileID: 8196105173657867365}
   - component: {fileID: 8196105173657867362}
   - component: {fileID: 8196105173657867363}
-  - component: {fileID: 8196105173657867369}
+  - component: {fileID: 179071325843925810}
   m_Layer: 6
   m_Name: Fire_PlayerAttackUnit
   m_TagString: Untagged
@@ -489,7 +489,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &8196105173657867369
+--- !u!114 &179071325843925810
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -498,7 +498,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8196105173657867360}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a2dfeacd6236eb47a4c690325cf6c6c, type: 3}
+  m_Script: {fileID: 11500000, guid: 8eda2bc55a7905b458a730ea469bab1a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   attackType: 0
@@ -511,6 +511,8 @@ MonoBehaviour:
   delayBetweenShots: 0.5
   shootingRange: 50
   unitRefreshAfter: 2
+  bulletsShotAtOnce: 3
+  horizontalSpread: 5
   supportsCombining: 1
   possibleCombinations:
   - combinesWith: 1

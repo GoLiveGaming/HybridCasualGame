@@ -1,29 +1,29 @@
 using DG.Tweening;
 using UnityEngine;
 
-public class LightningBullet : Bullet
+public class WindBullet : Bullet
 {
-    [SerializeField] private float explosionRadius = 5f;
-    [SerializeField] private float explosionForce = 10f;
     [SerializeField] private GameObject aoeVisualObj;
     [SerializeField] private float aoeLifetime = 0.15f;
-    [SerializeField] private Vector3 aoeSpawnOffset = Vector3.zero;
-    protected void OnTriggerEnter(Collider other)
+    [SerializeField] private float explosionRadius = 5f;
+    [SerializeField] private float explosionForce = 10f;
+    protected override void OnTriggerEnter(Collider other)
     {
         if (IsInLayerMask(other.gameObject.layer, collisionLayerMask))
         {
             other.TryGetComponent(out NPCManagerScript npcManager);
             StartAttack(npcManager);
         }
+
     }
 
     protected override void StartAttack(NPCManagerScript hitNPC)
     {
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, 5f);
 
-        GameObject spawnedAOE = Instantiate(aoeVisualObj, this.transform.position + aoeSpawnOffset, Quaternion.identity);
+        GameObject spawnedAOE = Instantiate(aoeVisualObj, this.transform.position, Quaternion.identity);
 
-        if (spawnedAOE) spawnedAOE.transform.DOMove(this.transform.position, aoeLifetime);
+        if (spawnedAOE) spawnedAOE.transform.DOScale(Vector3.one * explosionRadius, aoeLifetime);
         if (spawnedAOE) Destroy(spawnedAOE, aoeLifetime);
 
         foreach (var hitCollider in hitColliders)
@@ -35,13 +35,13 @@ public class LightningBullet : Bullet
                 rb.AddExplosionForce(explosionForce, transform.position + new Vector3(0, 0, -1), explosionRadius, 1f, ForceMode.Impulse);
 
                 //Modify Stats
-                rb.GetComponent<NPCManagerScript>()._stats.AddDamageOverTime(5, damage);
+                rb.GetComponent<NPCManagerScript>()._stats.AddDamage(damage);
             }
         }
+
+
         //END ATTACK
         Destroy(gameObject);
     }
 
 }
-
-

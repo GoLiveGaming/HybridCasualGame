@@ -1,7 +1,7 @@
 using UnityEngine.AI;
 using UnityEngine;
 
-//[RequireComponent(typeof(NavMeshAgent), typeof(Animator), typeof(Stats))]
+[RequireComponent(typeof(NavMeshAgent), typeof(Animator), typeof(Stats))]
 public class NPCManagerScript : MonoBehaviour
 {
     [Header("Current State(ReadOnly)"), Space(2)]
@@ -9,12 +9,13 @@ public class NPCManagerScript : MonoBehaviour
 
     [Header("NPC PARAMETERS"), Space(2)]
     [Header("AutoCache Componenets")]
-    internal PlayerTower _playerControl;
+    internal MainPlayerControl _playerControl;
 
     [Header("Parameters")]
-    [SerializeField] private float defaultMoveSpeed = 1f;
+    [SerializeField] private float moveSpeed = 1f;
     [SerializeField] internal float stoppingDistance = 2f;
     [SerializeField] internal float attackDamage = 1f;
+    private float defaultMoveSpeed;
 
 
     [Header("AI BEHAVIOR PARAMETERS"), Space(2)]
@@ -32,6 +33,16 @@ public class NPCManagerScript : MonoBehaviour
 
     public GameObject gameObjectSelf { get { return this.gameObject; } }
 
+    public float MoveSpeed
+    {
+        get { return moveSpeed; }
+        set
+        {
+            if (_agent) moveSpeed = value; _agent.speed = moveSpeed;
+        }
+    }
+    public void ResetMoveSpeed() { moveSpeed = defaultMoveSpeed; }
+
     //States initialization
     internal NPCBaseState _currentState;
     public readonly NPCPursueState PursueState = new NPCPursueState();
@@ -44,13 +55,14 @@ public class NPCManagerScript : MonoBehaviour
     }
     public void Start()
     {
-        _playerControl = PlayerTower.Instance;
+        _playerControl = MainPlayerControl.Instance;
         _player = _playerControl.gameObject;
         _stats = GetComponent<Stats>();
         _animator = GetComponent<Animator>();
         _agent = GetComponent<NavMeshAgent>();
 
-        _agent.speed = defaultMoveSpeed;
+        defaultMoveSpeed = moveSpeed;
+        _agent.speed = moveSpeed;
         _agent.stoppingDistance = stoppingDistance;
 
 
@@ -79,33 +91,32 @@ public class NPCManagerScript : MonoBehaviour
     }
     public void SetTargetTower()
     {
-        if (isPlayerAvailable())
-           _agent.SetDestination(_player.transform.position);
-        //if (_playerControl.activePlayerTowersList.Count == 0
-        //    || _playerControl.activePlayerTowersList == null) return;
 
-        //int rndnum = Random.Range(0, 100);
+        if (_playerControl.activePlayerTowersList.Count == 0
+            || _playerControl.activePlayerTowersList == null) return;
 
-        //if (rndnum > 20)
-        //{
-        //    float closestDistance = Mathf.Infinity;
-        //    GameObject targetTower = null;
-        //    foreach (PlayerTower tower in _playerControl.activePlayerTowersList)
-        //    {
-        //        float distance = Vector3.Distance(transform.position, tower.transform.position);
-        //        if (distance < closestDistance)
-        //        {
-        //            closestDistance = distance;
-        //            targetTower = tower.gameObject;
-        //        }
-        //    }
-        //    _agent.SetDestination(targetTower.transform.position);
-        //}
-        //else
-        //{
-        //    int rndTower = Random.Range(0, _playerControl.activePlayerTowersList.Count);
-        //    _agent.SetDestination(_playerControl.activePlayerTowersList[rndTower].transform.position);
-        //}
+        int rndnum = Random.Range(0, 100);
+
+        if (rndnum > 20)
+        {
+            float closestDistance = Mathf.Infinity;
+            GameObject targetTower = null;
+            foreach (PlayerTower tower in _playerControl.activePlayerTowersList)
+            {
+                float distance = Vector3.Distance(transform.position, tower.transform.position);
+                if (distance < closestDistance)
+                {
+                    closestDistance = distance;
+                    targetTower = tower.gameObject;
+                }
+            }
+            _agent.SetDestination(targetTower.transform.position);
+        }
+        else
+        {
+            int rndTower = Random.Range(0, _playerControl.activePlayerTowersList.Count);
+            _agent.SetDestination(_playerControl.activePlayerTowersList[rndTower].transform.position);
+        }
     }
 
     public bool InTargetProximity()
@@ -121,7 +132,7 @@ public class NPCManagerScript : MonoBehaviour
         // Does the ray intersect any objects excluding the player layer
         if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, stoppingDistance, playerTowerLayer))
         {
-         //   Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * hit.distance, Color.yellow);
+            Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * hit.distance, Color.yellow);
             return true;
         }
         return false;

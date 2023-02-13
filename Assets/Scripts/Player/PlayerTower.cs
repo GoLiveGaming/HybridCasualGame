@@ -3,8 +3,6 @@ using UnityEngine;
 [RequireComponent(typeof(Stats))]
 public class PlayerTower : MonoBehaviour
 {
-    public static PlayerTower Instance;
-
     [Space(2), Header("READONLY PARAMETERS")]
     [ReadOnly] public bool attackUnitAvailable = false;
 
@@ -25,9 +23,7 @@ public class PlayerTower : MonoBehaviour
     }
     private void Awake()
     {
-        Instance = this;
         _stats = GetComponent<Stats>();
-
         attackUnitAvailable = false;
     }
     private void Start()

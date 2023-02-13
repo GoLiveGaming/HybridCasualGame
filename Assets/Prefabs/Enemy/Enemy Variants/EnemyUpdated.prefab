@@ -162,7 +162,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 1688c5a58e4ab7f42938bad6d987276d, type: 2}
+  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -274,9 +274,9 @@ GameObject:
   - component: {fileID: 7399107961593517700}
   - component: {fileID: 7399107961593517690}
   - component: {fileID: 7399107961593517691}
-  - component: {fileID: -2787298343720225454}
+  - component: {fileID: 2468691223403189057}
   m_Layer: 7
-  m_Name: RangedEnemy
+  m_Name: EnemyUpdated
   m_TagString: TargetEnemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -309,7 +309,7 @@ Animator:
   m_GameObject: {fileID: 7399107961593517685}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 35f9b27854876344497d483d2bfbb7db, type: 2}
+  m_Controller: {fileID: 9100000, guid: 6b16af8ed853f9d4fa3955a3ff6ca1cf, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -327,7 +327,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7399107961593517685}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
@@ -347,7 +347,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 80
-  m_CollisionDetection: 1
+  m_CollisionDetection: 0
 --- !u!195 &7399107961593517690
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -358,7 +358,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 3
+  m_Speed: 5
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
@@ -382,13 +382,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9746430a183cc0e48ac989c7c4fc1d67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_currentHealth: 100
-  m_MaxHealth: 100
+  m_currentHealth: 50
+  m_MaxHealth: 50
   statsCanvas: {fileID: 327896463742443150}
   m_healthBar: {fileID: 8657440326790069469}
   m_currentLeveltext: {fileID: 0}
   isDead: 0
---- !u!114 &-2787298343720225454
+--- !u!114 &2468691223403189057
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -397,11 +397,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 7399107961593517685}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d59d0b45ff553df40a9c274aa1eb02d8, type: 3}
+  m_Script: {fileID: 11500000, guid: 51c5801774cc47d41a9e121865cd0551, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   activeState: 0
-  defaultMoveSpeed: 1
+  defaultMoveSpeed: 10
   stoppingDistance: 2
   attackDamage: 1
   stateRefreshDelay: 1
@@ -414,7 +414,6 @@ MonoBehaviour:
   _player: {fileID: 0}
   _stats: {fileID: 0}
   enemyType: 0
-  attackBulletPrefab: {fileID: 0}
 --- !u!1 &8433264216578844686
 GameObject:
   m_ObjectHideFlags: 0

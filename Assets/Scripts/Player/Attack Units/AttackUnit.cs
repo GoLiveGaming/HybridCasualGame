@@ -8,13 +8,13 @@ public class AttackUnit : MonoBehaviour
     [Header("ATTACK UNIT PROPERTIES"), Space(2)]
     public AttackType attackType;
     [Range(0, 10)] public int resourceCost = 2;
-    [SerializeField] private LayerMask enemyLayerMask;
-    [SerializeField] private GameObject attackBulletPrefab;
+    public LayerMask enemyLayerMask;
+    public GameObject attackBulletPrefab;
 
     [Header("Attack Properties")]
-    [Range(0.01f, 10f)] public float delayBetweenShots = 0.5f;
-    [Range(0.1f, 100f)] public float shootingRange = 10f;
-    [Range(0.01f, 10f)] public float unitRefreshAfter = 2f;
+    [Range(0.01f, 10f)] public float delayBetweenShots = 0.5f;  // Delay between consequetive shots
+    [Range(0.1f, 100f)] public float shootingRange = 10f;       // Range of the attack unit to fins enemies
+    [Range(0.01f, 10f)] public float unitRefreshAfter = 2f;     // Dleay between unit searching for newer targets again
     private float timeSinceUnitRefresh = 0;
 
     [Header("Merging Properties")]
@@ -40,7 +40,7 @@ public class AttackUnit : MonoBehaviour
         timeSinceUnitRefresh = unitRefreshAfter;
         currentUnitState = AttackUnitState.Idle;
     }
-    public void UpdateUnit()
+    public virtual void UpdateUnit()
     {
         RefreshTargetsList();
         UpdateTowerState();
@@ -48,7 +48,7 @@ public class AttackUnit : MonoBehaviour
         else if (currentUnitState == AttackUnitState.Attack) TurretAttackAction();
     }
 
-    private void UpdateTowerState()
+    protected void UpdateTowerState()
     {
         //Switch Between States of turret 
         if (targetsInRange.Count > 0 && currentUnitState != AttackUnitState.Attack)
@@ -60,7 +60,7 @@ public class AttackUnit : MonoBehaviour
             currentUnitState = AttackUnitState.Idle;
         }
     }
-    void RefreshTargetsList()
+    protected void RefreshTargetsList()
     {
         // Refresh the target
         timeSinceUnitRefresh += Time.deltaTime;
@@ -71,24 +71,27 @@ public class AttackUnit : MonoBehaviour
             targetTF = null;
             targetsInRange.Clear();
 
-           //  = new Collider[5];
+            Collider[] hitColliders = new Collider[5];
 
-            Collider[] hitColliders = Physics.OverlapSphere(transform.position, shootingRange);
+            int numTargetsFound = Physics.OverlapSphereNonAlloc(transform.position, shootingRange, hitColliders, enemyLayerMask);
 
-            if (hitColliders.Length > 0)
+            if (numTargetsFound > 0)
                 foreach (var hitCollider in hitColliders)
                 {
-                    hitCollider.TryGetComponent(out NPCManagerScript target);
-                    if (target) targetsInRange.Add(target);
+                    if (hitCollider)
+                    {
+                        hitCollider.TryGetComponent(out NPCManagerScript target);
+                        if (target) targetsInRange.Add(target);
+                    }
                 }
         }
     }
 
-    private void TurretIdleAction()
+    protected virtual void TurretIdleAction()
     {
 
     }
-    private void TurretAttackAction()
+    protected virtual void TurretAttackAction()
     {
 
         // Look for targets within shooting range
@@ -126,9 +129,14 @@ public class AttackUnit : MonoBehaviour
             else timeSinceLastAttack += Time.deltaTime;
         }
     }
-    void ShootAtTarget()
+
+    protected virtual void ShootAtTarget()
     {
-        GameObject bullet = Instantiate(attackBulletPrefab, transform.position + new Vector3(0,-5f,0), transform.rotation);
-        bullet.GetComponent<Bullet>().initializeBullet(targetTF);
+
+        // Create a new bullet
+        GameObject bullet = Instantiate(attackBulletPrefab, transform.position + new Vector3(0, 0f, 0), transform.rotation);
+
+        bullet.GetComponent<Bullet>().InitializeBullet(targetTF.position);
+
     }
 }

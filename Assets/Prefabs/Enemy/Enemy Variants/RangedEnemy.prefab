@@ -162,7 +162,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: c9fe727aefaac6c46adbc949308631d9, type: 2}
+  - {fileID: 2100000, guid: 1688c5a58e4ab7f42938bad6d987276d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -274,9 +274,9 @@ GameObject:
   - component: {fileID: 7399107961593517700}
   - component: {fileID: 7399107961593517690}
   - component: {fileID: 7399107961593517691}
-  - component: {fileID: 5172318676530573550}
+  - component: {fileID: -2787298343720225454}
   m_Layer: 7
-  m_Name: MeleeEnemyBig
+  m_Name: RangedEnemy
   m_TagString: TargetEnemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -309,7 +309,7 @@ Animator:
   m_GameObject: {fileID: 7399107961593517685}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 6b16af8ed853f9d4fa3955a3ff6ca1cf, type: 2}
+  m_Controller: {fileID: 9100000, guid: 35f9b27854876344497d483d2bfbb7db, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -382,13 +382,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9746430a183cc0e48ac989c7c4fc1d67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_currentHealth: 100
-  m_MaxHealth: 100
+  m_currentHealth: 50
+  m_MaxHealth: 50
   statsCanvas: {fileID: 327896463742443150}
   m_healthBar: {fileID: 8657440326790069469}
   m_currentLeveltext: {fileID: 0}
   isDead: 0
---- !u!114 &5172318676530573550
+--- !u!114 &-2787298343720225454
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -397,7 +397,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7399107961593517685}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 36a07d9467b8d74439329e4145ec1a5f, type: 3}
+  m_Script: {fileID: 11500000, guid: d59d0b45ff553df40a9c274aa1eb02d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   activeState: 0
@@ -414,6 +414,7 @@ MonoBehaviour:
   _player: {fileID: 0}
   _stats: {fileID: 0}
   enemyType: 0
+  attackBulletPrefab: {fileID: 0}
 --- !u!1 &8433264216578844686
 GameObject:
   m_ObjectHideFlags: 0

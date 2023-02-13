@@ -1,9 +1,10 @@
 using UnityEngine;
 public class Bullet : MonoBehaviour
 {
-    [HideInInspector] public Transform target;
-    [SerializeField] private float speed = 10f;
-    [SerializeField] private float lifetime = 2f;
+    public Vector3 targetPos;
+    public float speed = 10f;
+    public float lifetime = 2f;
+
     public float damage = 2f;
     public LayerMask collisionLayerMask;
 
@@ -11,22 +12,20 @@ public class Bullet : MonoBehaviour
     private float elapsedTime = 0f;
 
 
-    public void initializeBullet(Transform targetTF)
+    public virtual void InitializeBullet(Vector3 target)
     {
 
-        target = targetTF;
-        if (target == null)
+        targetPos = target;
+        if (this.targetPos == null)
         {
             Destroy(gameObject);
             return;
         }
-        direction = (target.position - transform.position).normalized;
+        direction = (targetPos - transform.position).normalized;
     }
-    void Update()
+    protected virtual void Update()
     {
-
-
-        transform.position = transform.position + direction * speed * Time.deltaTime;
+        transform.position = transform.position + (direction * speed * Time.deltaTime);
 
         elapsedTime += Time.deltaTime;
 
@@ -37,12 +36,11 @@ public class Bullet : MonoBehaviour
 
 
     }
-    public static bool IsInLayerMask(int layer, LayerMask layermask)
+    protected static bool IsInLayerMask(int layer, LayerMask layermask)
     {
         return layermask == (layermask | (1 << layer));
     }
     protected virtual void OnTriggerEnter(Collider other) { }
-
 
     protected virtual void StartAttack(NPCManagerScript hitNPC) { }
 

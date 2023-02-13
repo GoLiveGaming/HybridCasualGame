@@ -203,8 +203,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e60cb633c0f08645bdd9d1478f17513, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 0}
-  speed: 40
+  target: {x: 0, y: 0, z: 0}
+  speed: 30
   lifetime: 5
   damage: 1
   collisionLayerMask:

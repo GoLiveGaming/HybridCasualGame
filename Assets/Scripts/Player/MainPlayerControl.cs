@@ -97,7 +97,8 @@ public enum AttackType
 {
     FireAttack,
     WindAttack,
-    LightningAttack
+    LightningAttack,
+    WaterAttack
 }
 public enum AttackUnitState
 {
