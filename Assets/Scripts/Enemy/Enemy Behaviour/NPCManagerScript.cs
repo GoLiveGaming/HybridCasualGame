@@ -67,7 +67,7 @@ public class NPCManagerScript : MonoBehaviour
 
 
         //Adding random parity in state refresh delay to reduce stress on cpu when large quantity of npc's are used
-        stateRefreshDelay = Mathf.Clamp(Random.Range(stateRefreshDelay - 1f, stateRefreshDelay + 1f), 0, 5f);
+      //  stateRefreshDelay = Mathf.Clamp(Random.Range(stateRefreshDelay - 1f, stateRefreshDelay + 1f), 0, 5f);
 
         _currentState = PursueState;
         _currentState.EnterState(this);

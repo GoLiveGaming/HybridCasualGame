@@ -301,7 +301,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &2468691223403189062
 Animator:
-  serializedVersion: 5
+  serializedVersion: 4
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -318,7 +318,7 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!65 &7399107961593517684
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -382,11 +382,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9746430a183cc0e48ac989c7c4fc1d67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_currentHealth: 50
   m_MaxHealth: 50
+  m_currentHealth: 50
   statsCanvas: {fileID: 327896463742443150}
   m_healthBar: {fileID: 8657440326790069469}
   m_currentLeveltext: {fileID: 0}
+  ownerIsNPC: 0
+  m_NPCManager: {fileID: 0}
   isDead: 0
 --- !u!114 &-2787298343720225454
 MonoBehaviour:
@@ -401,7 +403,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   activeState: 0
-  defaultMoveSpeed: 1
+  moveSpeed: 3
   stoppingDistance: 2
   attackDamage: 1
   stateRefreshDelay: 1

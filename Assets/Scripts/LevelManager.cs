@@ -9,11 +9,14 @@ public class LevelManager : MonoBehaviour
     public LevelData[] levelData;
     internal bool isGameOver;
     int WaveIndexMain = 0;
+    int levelNum = 0;
     private void Start()
     {
+        levelNum = PlayerPrefs.GetInt("CurrentLevel");
+        Debug.Log(levelNum);
         //try
         //{
-            StartCoroutine(InstaniateEnemies(levelData[0].Waves[WaveIndexMain].enemyData[0].TimeInterval));
+            StartCoroutine(InstaniateEnemies(levelData[levelNum].Waves[WaveIndexMain].enemyData[0].TimeInterval));
         //}
         //catch
         //{
@@ -26,28 +29,28 @@ public class LevelManager : MonoBehaviour
     {
         //while (!isGameOver)
         //{
-            UIManager.Instance.ShowText("Wave " + (levelData[0].Waves[WaveIndexMain].waveNum));
+            UIManager.Instance.ShowText("Wave " + (levelData[levelNum].Waves[WaveIndexMain].waveNum));
             SpawnEnemies(WaveIndexMain);
             WaveIndexMain++;
             yield return new WaitForSeconds(time);
-            if (levelData[0].Waves.Length <= WaveIndexMain)
+            if (levelData[levelNum].Waves.Length <= WaveIndexMain)
             {
                 isGameOver = true;
             }
             else
             {
-                StartCoroutine(InstaniateEnemies(levelData[0].Waves[WaveIndexMain].enemyData[0].TimeInterval));
+                StartCoroutine(InstaniateEnemies(levelData[levelNum].Waves[WaveIndexMain].enemyData[0].TimeInterval));
             }
        // }
     }
 
     void SpawnEnemies(int waveIndex)
     {
-        for (int i = 0; i < levelData[0].Waves[waveIndex].enemyData.Length; i++)
+        for (int i = 0; i < levelData[levelNum].Waves[waveIndex].enemyData.Length; i++)
         {
-            for (int j = 0; j < levelData[0].Waves[waveIndex].enemyData[i].enemyCount; j++)
+            for (int j = 0; j < levelData[levelNum].Waves[waveIndex].enemyData[i].enemyCount; j++)
             {
-                EnemySpawners.Instance.SpawnEnemiesInWaves(levelData[0].Waves[waveIndex].enemyData[i].enemyType, levelData[0].Waves[waveIndex].enemyData[i].SpawnLocation);
+                EnemySpawners.Instance.SpawnEnemiesInWaves(levelData[levelNum].Waves[waveIndex].enemyData[i].enemyType, levelData[levelNum].Waves[waveIndex].enemyData[i].SpawnLocation);
             }
         }
     }
