@@ -203,10 +203,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ebc5aff4a533b9749bff504a0c2a36ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 0}
+  targetPos: {x: 0, y: 0, z: 0}
   speed: 40
   lifetime: 3
-  damage: 1
+  damage: 2
   collisionLayerMask:
     serializedVersion: 2
     m_Bits: 128

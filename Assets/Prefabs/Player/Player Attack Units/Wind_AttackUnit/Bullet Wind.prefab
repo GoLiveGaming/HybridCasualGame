@@ -213,7 +213,7 @@ MonoBehaviour:
   aoeVisualObj: {fileID: 8272260640797488490, guid: 420da3018a06d1142b0125310e43532f,
     type: 3}
   aoeLifetime: 0.15
-  explosionRadius: 7.5
+  explosionRadius: 5
   explosionForce: 15
 --- !u!1 &4614153921484433200
 GameObject:

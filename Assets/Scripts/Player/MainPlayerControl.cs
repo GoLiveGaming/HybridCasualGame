@@ -6,18 +6,19 @@ using UnityEngine;
 public class MainPlayerControl : MonoBehaviour
 {
     public static MainPlayerControl Instance;
-    [Header("Readonly Components")]
-    [ReadOnly] public List<PlayerTower> activePlayerTowersList = new();
-    [ReadOnly] public PlayerUnitDeploymentArea activeUnitDeploymentArea;
 
     [Header("ATTACK UNITS"), Space(2)]
-    public AttackUnit[] allAttackUnits;
+    public PlayerTower[] allPlayerTowers;
 
-    [Header("RESOURCE METER")]  //RENAME THIS  BLOCK LATER TO WHAT WE ARE USING FOR THE NAME OF RESOURCE
+    [Header("RESOURCE METER")]                                          //RENAME THIS  BLOCK LATER TO WHAT WE ARE USING FOR THE NAME OF RESOURCE
     [Range(1, 20)] public float maxResources = 10;
-    [Range(0.1f, 5f)] public float resourceRechargeRate = 1.0f; //Recharge Rate per second
+    [Range(0.1f, 5f)] public float resourceRechargeRate = 1.0f;         //Recharge Rate per second
+
+    [Space(2), Header("READONLY")]
     [ReadOnly, Range(1, 20)] public float currentResourcesCount = 10;
-    private bool isRecharging = false;
+    [ReadOnly] public List<PlayerUnitBase> activePlayerTowersList = new();
+    [ReadOnly] public PlayerUnitDeploymentArea activeUnitDeploymentArea;
+    [ReadOnly] public bool isRecharging = false;
 
 
     [Serializable]
@@ -53,12 +54,12 @@ public class MainPlayerControl : MonoBehaviour
             }
         }
     }
-    public AttackUnit GetAttackUnitObject(AttackType unitType)
+    public PlayerTower GetAttackUnitObject(AttackType unitType)
     {
-        foreach (AttackUnit unit in allAttackUnits)
+        foreach (PlayerTower tower in allPlayerTowers)
         {
-            if (unit.attackType == unitType)
-                return unit;
+            if (tower.TowerAttackType == unitType)
+                return tower;
         }
         return null;
     }
@@ -104,7 +105,7 @@ public enum AttackType
     WaterAttack,
     StormAttack
 }
-public enum AttackUnitState
+public enum TowerState
 {
     Idle,
     Attack,

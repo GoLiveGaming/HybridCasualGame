@@ -35,11 +35,10 @@ public class WindBullet : Bullet
                 rb.AddExplosionForce(explosionForce, transform.position + new Vector3(0, 0, -1), explosionRadius, 1f, ForceMode.Impulse);
 
                 //Modify Stats
-                rb.GetComponent<NPCManagerScript>()._stats.AddDamage(damage);
+                rb.TryGetComponent(out NPCManagerScript npc);
+                if (npc) npc._stats.AddDamage(damage);
             }
         }
-
-
         //END ATTACK
         Destroy(gameObject);
     }

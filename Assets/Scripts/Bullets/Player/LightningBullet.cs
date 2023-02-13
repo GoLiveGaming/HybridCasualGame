@@ -35,7 +35,9 @@ public class LightningBullet : Bullet
                 rb.AddExplosionForce(explosionForce, transform.position + new Vector3(0, 0, -1), explosionRadius, 1f, ForceMode.Impulse);
 
                 //Modify Stats
-                rb.GetComponent<NPCManagerScript>()._stats.AddDamageOverTime(5, damage);
+
+                rb.TryGetComponent(out NPCManagerScript npc);
+                if (npc) npc._stats.AddDamageOverTime(5, damage);
             }
         }
         //END ATTACK
@@ -43,5 +45,3 @@ public class LightningBullet : Bullet
     }
 
 }
-
-

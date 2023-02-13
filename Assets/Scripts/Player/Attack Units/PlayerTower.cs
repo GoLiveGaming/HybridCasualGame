@@ -1,63 +1,74 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
-
-[Serializable]
-public class AttackUnit : MonoBehaviour
+public class PlayerTower : PlayerUnitBase
 {
-    [Header("ATTACK UNIT PROPERTIES"), Space(2)]
-    public AttackType attackType;
+    [Space(2), Header("PLAYER TOWER PROPERTIES"), Space(2)]
+    public AttackType TowerAttackType;
     [Range(0, 10)] public int resourceCost = 2;
-    public LayerMask enemyLayerMask;
-    public GameObject attackBulletPrefab;
 
-    [Header("Attack Properties")]
-    [Range(0.01f, 10f)] public float delayBetweenShots = 0.5f;  // Delay between consequetive shots
-    [Range(0.1f, 100f)] public float shootingRange = 10f;       // Range of the attack unit to fins enemies
-    [Range(0.01f, 10f)] public float unitRefreshAfter = 2f;     // Dleay between unit searching for newer targets again
-    private float timeSinceUnitRefresh = 0;
-
-    [Header("Merging Properties")]
+    [Space(2), Header("Merging Properties")]
     public bool supportsCombining = false;
     public List<MergingCombinations> possibleCombinations = new();
 
+    [Header("Attack Properties")]
+    [Range(0.01f, 10f)] public float delayBetweenShots = 0.5f;      // Delay between consequetive shots
+    [Range(0.1f, 100f)] public float shootingRange = 10f;           // Range of the attack unit to fins enemies
+    [Range(0.01f, 10f)] public float unitRefreshAfter = 2f;         // Dleay between unit searching for newer targets again
+    public GameObject attackBulletPrefab;
+    public Transform turretMuzzleTF;
+    public LayerMask enemyLayerMask;
+    private float timeSinceUnitRefresh = 0;
 
     [Space(2), Header("READONLY")]
-    [ReadOnly] public Transform targetTF;
-    [ReadOnly] public float timeSinceLastAttack = 0f;
-    [ReadOnly] public PlayerTower parentTower;
     [ReadOnly] public List<NPCManagerScript> targetsInRange = new();
-    [ReadOnly] public AttackUnitState currentUnitState;
+    [ReadOnly] public TowerState currentTowerState;
+    [ReadOnly] public float timeSinceLastAttack = 0f;
+    [ReadOnly] public Transform targetTF;
+
+    internal Stats _stats;
+
+
 
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.magenta;
         Gizmos.DrawWireSphere(transform.position, shootingRange);
     }
-
-    void Awake()
+    protected override void Awake()
     {
+        base.Awake();
+        _stats = GetComponent<Stats>();
         timeSinceUnitRefresh = unitRefreshAfter;
-        currentUnitState = AttackUnitState.Idle;
+        currentTowerState = TowerState.Idle;
     }
-    public virtual void UpdateUnit()
+    protected override void Start()
+    {
+        base.Start();
+    }
+
+    private void Update()
+    {
+        UpdateUnit();
+    }
+
+    public void UpdateUnit()
     {
         RefreshTargetsList();
         UpdateTowerState();
-        if (currentUnitState == AttackUnitState.Idle) TurretIdleAction();
-        else if (currentUnitState == AttackUnitState.Attack) TurretAttackAction();
+        if (currentTowerState == TowerState.Idle) TurretIdleAction();
+        else if (currentTowerState == TowerState.Attack) TurretAttackAction();
     }
 
     protected void UpdateTowerState()
     {
         //Switch Between States of turret 
-        if (targetsInRange.Count > 0 && currentUnitState != AttackUnitState.Attack)
+        if (targetsInRange.Count > 0 && currentTowerState != TowerState.Attack)
         {
-            currentUnitState = AttackUnitState.Attack;
+            currentTowerState = TowerState.Attack;
         }
-        else if (targetsInRange.Count == 0 && currentUnitState != AttackUnitState.Idle)
+        else if (targetsInRange.Count == 0 && currentTowerState != TowerState.Idle)
         {
-            currentUnitState = AttackUnitState.Idle;
+            currentTowerState = TowerState.Idle;
         }
     }
     protected void RefreshTargetsList()
@@ -132,9 +143,9 @@ public class AttackUnit : MonoBehaviour
 
     protected virtual void ShootAtTarget()
     {
-
+        Vector3 bulletSpawnPos = turretMuzzleTF ? turretMuzzleTF.position : transform.position;
         // Create a new bullet
-        GameObject bullet = Instantiate(attackBulletPrefab, transform.position + new Vector3(0, 0f, 0), transform.rotation);
+        GameObject bullet = Instantiate(attackBulletPrefab, bulletSpawnPos, transform.rotation);
 
         bullet.GetComponent<Bullet>().InitializeBullet(targetTF.position);
 

@@ -105,30 +105,22 @@ public class NPCManagerScript : MonoBehaviour
     {
 
         if (_playerControl.activePlayerTowersList.Count == 0
-            || _playerControl.activePlayerTowersList == null) return;
+            || _playerControl.activePlayerTowersList == null) { Debug.LogError("NO TARGET DESTINATION FOUND FOR" + this); return; }
 
-        int rndnum = Random.Range(0, 100);
-
-        if (rndnum > 20)
+        float closestDistance = Mathf.Infinity;
+        GameObject targetTower = null;
+        foreach (PlayerUnitBase tower in _playerControl.activePlayerTowersList)
         {
-            float closestDistance = Mathf.Infinity;
-            GameObject targetTower = null;
-            foreach (PlayerTower tower in _playerControl.activePlayerTowersList)
+            float distance = Vector3.Distance(transform.position, tower.transform.position);
+            if (distance < closestDistance)
             {
-                float distance = Vector3.Distance(transform.position, tower.transform.position);
-                if (distance < closestDistance)
-                {
-                    closestDistance = distance;
-                    targetTower = tower.gameObject;
-                }
+                closestDistance = distance;
+                targetTower = tower.gameObject;
             }
-            _agent.SetDestination(targetTower.transform.position);
         }
-        else
-        {
-            int rndTower = Random.Range(0, _playerControl.activePlayerTowersList.Count);
-            _agent.SetDestination(_playerControl.activePlayerTowersList[rndTower].transform.position);
-        }
+        _agent.SetDestination(targetTower.transform.position);
+
+
     }
 
     public bool InTargetProximity()
