@@ -12,6 +12,7 @@ public class StartSceneManager : MonoBehaviour
 
     private void Awake()
     {
+        Time.timeScale = 1;
 #if UNITY_STANDALONE
         Screen.SetResolution(450, 750, true);
 

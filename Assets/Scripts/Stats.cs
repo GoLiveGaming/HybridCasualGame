@@ -21,8 +21,7 @@ public class Stats : MonoBehaviour
     [Space(2), Header("NPC EXCLUSIVE OPTIONS")]
     [SerializeField] private NPCManagerScript m_NPCManager;
 
-    [Header("ReadOnly Parameters"), Space(2)]
-    [ReadOnly] public bool isDead = false;
+    bool isDead = false;
     private UIManager m_UIManager;
     public float Health
     {
@@ -32,12 +31,31 @@ public class Stats : MonoBehaviour
             m_currentHealth = value;
             m_currentHealth = Mathf.Clamp(Health, 0, m_MaxHealth);
             if (m_healthBar) m_healthBar.fillAmount = m_currentHealth / m_MaxHealth;
-            if (Health <= 0)
+            if (m_currentHealth <= 0 && !isDead)
             {
-                transform.TryGetComponent(out PlayerTower playerTower);
-                if (playerTower) UIManager.Instance.ShowText("Game Over");
+                transform.TryGetComponent(out PlayerMainTower playerMainTower);
+                if (playerMainTower) 
+                {
+                    UIManager.Instance.GameOverVoid("You lose the level", false);
+                    Destroy(gameObject);
+                    isDead = true;
+                    return;
+                }
+                transform.TryGetComponent(out NPCManagerScript nPCManagerScript);
+                if (nPCManagerScript)
+                {
+                    LevelManager.Instance.deadEnemiesCount++;
+                    if(LevelManager.Instance.deadEnemiesCount >= LevelManager.Instance.maxEnemyCount)
+                    {
+                        UIManager.Instance.GameOverVoid("You won the level", true);  
+                    }
+                    Destroy(gameObject);
+                    isDead = true;
+                    return;
+                }
                 Destroy(gameObject);
                 isDead = true;
+
             }
         }
     }

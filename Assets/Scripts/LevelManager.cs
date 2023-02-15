@@ -5,18 +5,31 @@ using UnityEngine;
 
 public class LevelManager : MonoBehaviour
 {
+    public static LevelManager Instance;
+
     // [Header("Level Data"), Space(2)]
     public LevelData[] levelData;
+
     internal bool isGameOver;
     int WaveIndexMain = 0;
-    int levelNum = 0;
+    [ReadOnly] public int levelNum = 0;
+    [ReadOnly] public int deadEnemiesCount = 0;
+    [ReadOnly] public int maxEnemyCount;
+    [ReadOnly] public int spawnedEnemyCount;
+
+    private void Awake()
+    {
+        Instance = this;
+    }
+
     private void Start()
     {
         levelNum = PlayerPrefs.GetInt("CurrentLevel");
         Debug.Log(levelNum);
         //try
         //{
-            StartCoroutine(InstaniateEnemies(levelData[levelNum].Waves[WaveIndexMain].enemyData[0].TimeInterval));
+        maxEnemyCount = levelData[levelNum].totalEnemies;
+        StartCoroutine(InstaniateEnemies(levelData[levelNum].Waves[WaveIndexMain].enemyData[0].TimeInterval));
         //}
         //catch
         //{
@@ -50,6 +63,7 @@ public class LevelManager : MonoBehaviour
         {
             for (int j = 0; j < levelData[levelNum].Waves[waveIndex].enemyData[i].enemyCount; j++)
             {
+                spawnedEnemyCount++;
                 EnemySpawners.Instance.SpawnEnemiesInWaves(levelData[levelNum].Waves[waveIndex].enemyData[i].enemyType, levelData[levelNum].Waves[waveIndex].enemyData[i].SpawnLocation);
             }
         }
@@ -61,6 +75,7 @@ public class LevelManager : MonoBehaviour
 [Serializable]
 public class LevelData
 {
+    public int totalEnemies;
     public WaveData[] Waves;
 }
 

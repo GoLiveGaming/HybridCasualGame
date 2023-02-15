@@ -13,6 +13,7 @@ public class UIManager : MonoBehaviour
     [Header("Rect Componenets")]
     public GameObject unitSelectionCanvas;
     public GameObject pausePanel;
+    public GameObject gameOverPanel;
 
     [Header("Button Componenets")]
     public Button pauseBtn;
@@ -25,6 +26,7 @@ public class UIManager : MonoBehaviour
 
     [Header("Text Componenets")]
     public TMP_Text waveTxt;
+    public TMP_Text overTxt;
     private void Awake()
     {
         Instance = this;
@@ -81,6 +83,20 @@ public class UIManager : MonoBehaviour
     public void QuitButton()
     {
         SceneManager.LoadSceneAsync(0);
+    }
+
+    public void GameOverVoid(string textTemp, bool isWon)
+    {
+        gameOverPanel.SetActive(true);
+        overTxt.text = textTemp;
+
+        if (isWon)
+        {
+            int tempInt = PlayerPrefs.GetInt("CurrentLevel");
+            tempInt++;
+            PlayerPrefs.SetInt("CurrentLevel", tempInt);
+        }
+        Time.timeScale = 0;
     }
 
     public string FormatStringNextLineOnUpperCase(string value)
