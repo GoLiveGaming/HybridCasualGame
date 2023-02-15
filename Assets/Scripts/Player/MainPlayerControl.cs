@@ -101,9 +101,14 @@ public enum AttackType
 {
     FireAttack,
     WindAttack,
-    LightningAttack,
     WaterAttack,
-    StormAttack
+    LightningAttack,
+    IceAttack,
+    ExplosionAttack,
+    HellfireAttack,
+    StormAttack,
+    FloodAttack
+
 }
 public enum TowerState
 {

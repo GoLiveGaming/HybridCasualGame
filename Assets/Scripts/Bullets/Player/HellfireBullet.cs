@@ -1,12 +1,11 @@
-using DG.Tweening;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
-public class WaterBullet : Bullet
+public class HellfireBullet : Bullet
 {
     [Space(2), Header("BULLET EXTENDED PROPERTIES")]
-    [SerializeField] private float slowedDownSpeed = 0.25f;
-    [SerializeField] private float slowDownDuration = 3;
-
+    [SerializeField] private float damageDuration = 5f;
     protected override void OnTriggerEnter(Collider other)
     {
         if (IsInLayerMask(other.gameObject.layer, collisionLayerMask))
@@ -19,7 +18,7 @@ public class WaterBullet : Bullet
     protected override void StartAttack(NPCManagerScript hitNPC)
     {
         if (!hitNPC) return;
-        hitNPC._stats.SlowDownMoveSpeed(slowedDownSpeed, slowDownDuration);
+        if (hitNPC._stats) hitNPC._stats.AddDamageOverTime(damageDuration, damage);
 
         //END ATTACK
         Destroy(gameObject);

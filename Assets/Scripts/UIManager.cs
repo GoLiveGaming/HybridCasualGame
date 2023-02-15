@@ -14,7 +14,7 @@ public class UIManager : MonoBehaviour
     public GameObject unitSelectionCanvas;
     public GameObject pausePanel;
 
-    [Header ("Button Componenets")]
+    [Header("Button Componenets")]
     public Button pauseBtn;
     public Button resumeBtn;
     public Button restartBtn;
@@ -28,14 +28,14 @@ public class UIManager : MonoBehaviour
     private void Awake()
     {
         Instance = this;
-         pauseBtn.onClick.AddListener(PauseButton);
+        pauseBtn.onClick.AddListener(PauseButton);
         resumeBtn.onClick.AddListener(ResumeButton);
         restartBtn.onClick.AddListener(RestartButton);
         quitBtn.onClick.AddListener(QuitButton);
     }
     private void OnEnable()
     {
-       
+
     }
 
     private void OnDisable()
@@ -81,5 +81,22 @@ public class UIManager : MonoBehaviour
     public void QuitButton()
     {
         SceneManager.LoadSceneAsync(0);
+    }
+
+    public string FormatStringNextLineOnUpperCase(string value)
+    {
+
+        string formattedString = "";
+
+        for (int i = 0; i < value.Length; i++)
+        {
+            if (i > 0 && char.IsUpper(value[i]))
+            {
+                formattedString += "\n";
+            }
+            formattedString += value[i];
+        }
+
+        return formattedString;
     }
 }

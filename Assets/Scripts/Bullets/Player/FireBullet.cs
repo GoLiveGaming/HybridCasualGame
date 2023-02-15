@@ -1,6 +1,8 @@
 using UnityEngine;
 public class FireBullet : Bullet
 {
+    [Space(2), Header("BULLET EXTENDED PROPERTIES")]
+    [SerializeField] private float damageDuration = 5f;
     protected override void OnTriggerEnter(Collider other)
     {
         if (IsInLayerMask(other.gameObject.layer, collisionLayerMask))
@@ -13,7 +15,7 @@ public class FireBullet : Bullet
     protected override void StartAttack(NPCManagerScript hitNPC)
     {
         if (!hitNPC) return;
-        if (hitNPC._stats) hitNPC._stats.AddDamageOverTime(5, damage);
+        if (hitNPC._stats) hitNPC._stats.AddDamageOverTime(damageDuration, damage);
 
         //END ATTACK
         Destroy(gameObject);

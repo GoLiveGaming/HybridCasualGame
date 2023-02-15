@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class RangedEnemy : NPCManagerScript
 {
-    // [SerializeField] private float rangedEnemyStoppedDistance = 25f;
-    // [SerializeField] private LayerMask mainTowerLayer;
 
     public GameObject attackBulletPrefab;
     /// <summary>

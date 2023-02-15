@@ -1,11 +1,12 @@
 using DG.Tweening;
 using UnityEngine;
 
-public class WaterBullet : Bullet
+public class IceBullet : Bullet
 {
     [Space(2), Header("BULLET EXTENDED PROPERTIES")]
-    [SerializeField] private float slowedDownSpeed = 0.25f;
+    [SerializeField] private float slowedDownSpeed = 0;
     [SerializeField] private float slowDownDuration = 3;
+
 
     protected override void OnTriggerEnter(Collider other)
     {

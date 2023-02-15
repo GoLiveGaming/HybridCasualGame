@@ -10,7 +10,7 @@ public class PlayerTower : PlayerUnitBase
     public bool supportsCombining = false;
     public List<MergingCombinations> possibleCombinations = new();
 
-    [Header("Attack Properties")]
+    [Header("ATTACK UNIT PROPERTIES")]
     [Range(0.01f, 10f)] public float delayBetweenShots = 0.5f;      // Delay between consequetive shots
     [Range(0.1f, 100f)] public float shootingRange = 10f;           // Range of the attack unit to fins enemies
     [Range(0.01f, 10f)] public float unitRefreshAfter = 2f;         // Dleay between unit searching for newer targets again

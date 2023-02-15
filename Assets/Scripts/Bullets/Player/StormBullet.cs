@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class StormBullet : Bullet
 {
+    [Space(2), Header("BULLET EXTENDED PROPERTIES")]
     [SerializeField] private GameObject aoeVisualObj;
     [SerializeField] private float aoeLifetime = 0.15f;
     [SerializeField] private float explosionRadius = 5f;
@@ -37,7 +38,8 @@ public class StormBullet : Bullet
                 rb.AddExplosionForce(explosionForce, transform.position + new Vector3(0, 0, -1), explosionRadius, 1f, ForceMode.Impulse);
 
                 //Modify Stats
-                rb.GetComponent<NPCManagerScript>()._stats.AddDamage(damage);
+                rb.TryGetComponent(out NPCManagerScript npc);
+                if (npc) npc._stats.AddDamage(damage);
             }
         }
 

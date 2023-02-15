@@ -1,13 +1,15 @@
 using DG.Tweening;
 using UnityEngine;
 
-public class WindBullet : Bullet
+public class FloodBullet : Bullet
 {
     [Space(2), Header("BULLET EXTENDED PROPERTIES")]
+    [SerializeField] private float slowedDownSpeed = 0.25f;
+    [SerializeField] private float slowDownDuration = 3;
     [SerializeField] private GameObject aoeVisualObj;
     [SerializeField] private float aoeLifetime = 0.15f;
-    [SerializeField] private float impactAreaRadius = 5f;
-    [SerializeField] private float impactForce = 10f;
+    [SerializeField] private float aoeRadius = 5f;
+
     protected override void OnTriggerEnter(Collider other)
     {
         if (IsInLayerMask(other.gameObject.layer, collisionLayerMask))
@@ -15,34 +17,33 @@ public class WindBullet : Bullet
             other.TryGetComponent(out NPCManagerScript npcManager);
             StartAttack(npcManager);
         }
-
     }
 
     protected override void StartAttack(NPCManagerScript hitNPC)
     {
-        Collider[] hitColliders = Physics.OverlapSphere(transform.position, 5f);
+        if (!hitNPC) return;
+
+        Collider[] hitColliders = new Collider[10];
+
+        int numTargets = Physics.OverlapSphereNonAlloc(transform.position, aoeRadius, hitColliders, collisionLayerMask);
 
         GameObject spawnedAOE = Instantiate(aoeVisualObj, this.transform.position, Quaternion.identity);
 
-        if (spawnedAOE) spawnedAOE.transform.DOScale(Vector3.one * impactAreaRadius, aoeLifetime);
+        if (spawnedAOE) spawnedAOE.transform.DOScale(Vector3.one * aoeRadius, aoeLifetime);
         if (spawnedAOE) Destroy(spawnedAOE, aoeLifetime);
 
-        foreach (var hitCollider in hitColliders)
+        if (numTargets > 0)
         {
-            hitCollider.TryGetComponent(out Rigidbody rb);
-            if (rb)
+            foreach (var hitCollider in hitColliders)
             {
-                //Add Explosion Force
-                Vector3 direction = rb.transform.position - transform.position;
-                rb.AddForce(direction.normalized * impactForce, ForceMode.Impulse);
-
-                //Modify Stats
-                rb.TryGetComponent(out NPCManagerScript npc);
-                if (npc) npc._stats.AddDamage(damage);
+                if (hitCollider)
+                {
+                    hitCollider.TryGetComponent(out NPCManagerScript npc);
+                    npc._stats.SlowDownMoveSpeed(slowedDownSpeed, slowDownDuration);
+                }
             }
         }
         //END ATTACK
         Destroy(gameObject);
     }
-
 }

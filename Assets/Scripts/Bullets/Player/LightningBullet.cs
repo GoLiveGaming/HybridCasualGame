@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class LightningBullet : Bullet
 {
+    [Space(2), Header("BULLET EXTENDED PROPERTIES")]
     [SerializeField] private float explosionRadius = 5f;
     [SerializeField] private float explosionForce = 10f;
     [SerializeField] private GameObject aoeVisualObj;

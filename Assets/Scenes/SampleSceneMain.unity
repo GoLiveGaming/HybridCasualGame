@@ -723,7 +723,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -29.38, y: -43.119995}
+  m_AnchoredPosition: {x: -29.379883, y: -43.120117}
   m_SizeDelta: {x: 204.3, y: 212.6}
   m_Pivot: {x: 1, y: 1}
 --- !u!114 &234012329
@@ -1090,7 +1090,7 @@ Camera:
   m_FOVAxisMode: 0
   m_SensorSize: {x: 70.41, y: 52.63}
   m_LensShift: {x: 0, y: 0}
-  m_FocalLength: 45.57892
+  m_FocalLength: 56.4327
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
@@ -1099,7 +1099,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 60.000004
+  field of view: 50
   orthographic: 0
   orthographic size: 60
   m_Depth: -1
@@ -1125,7 +1125,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
   m_LocalRotation: {x: 0.70710707, y: -0, z: -0, w: 0.7071066}
-  m_LocalPosition: {x: 0, y: 50, z: -20}
+  m_LocalPosition: {x: 0, y: 50, z: -25}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2092,8 +2092,9 @@ MonoBehaviour:
   m_currentHealth: 100
   statsCanvas: {fileID: 0}
   m_healthBar: {fileID: 0}
-  m_currentLeveltext: {fileID: 0}
-  ownerIsNPC: 0
+  ownerIsPlayer: 0
+  m_currentTowerTypeText: {fileID: 0}
+  m_currentTower: {fileID: 0}
   m_NPCManager: {fileID: 0}
   isDead: 0
 --- !u!1 &891323915
@@ -3604,11 +3605,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   allPlayerTowers:
-  - {fileID: 5781498035940459879, guid: 0039a93d28e70044d9423a2046666af1, type: 3}
+  - {fileID: 9155262638970726652, guid: 0039a93d28e70044d9423a2046666af1, type: 3}
   - {fileID: 5781498035940459879, guid: d228718b81c02ed46a407acdb21e2d76, type: 3}
   - {fileID: 5781498035940459879, guid: 894036c0138174c4eb9149503ae48d35, type: 3}
-  - {fileID: 5781498035940459879, guid: 6063ec8c01d690c459443bb2e818565b, type: 3}
   - {fileID: 5781498035940459879, guid: 524ffa7e988f71442a5221f8d2e0bab0, type: 3}
+  - {fileID: 5781498035940459879, guid: 6063ec8c01d690c459443bb2e818565b, type: 3}
+  - {fileID: 9155262638970726652, guid: d26db631fd13724469c3f1e92fbc02ae, type: 3}
+  - {fileID: 9155262638970726652, guid: 830d2d542fd281f4e8017a9df1d1da52, type: 3}
+  - {fileID: -8936886559788239264, guid: 1cefc530cd52abf4b93e5753a52b62b9, type: 3}
+  - {fileID: 5781498035940459879, guid: e2fe3767b5cc2774394d5edb83c3dc6c, type: 3}
   maxResources: 10
   resourceRechargeRate: 1
   currentResourcesCount: 10

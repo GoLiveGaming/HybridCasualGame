@@ -11,13 +11,19 @@ public class Stats : MonoBehaviour
     [Space(2), Header("STATS UI")]
     [SerializeField] private GameObject statsCanvas;
     [SerializeField] private Image m_healthBar;
-    [SerializeField] private TextMeshProUGUI m_currentLeveltext;
+    [ReadOnly] public bool ownerIsPlayer = false;
 
-    [ReadOnly] public bool ownerIsNPC = false;
+
+    [Space(2), Header("PLAYER EXCLUSIVE OPTIONS")]
+    [SerializeField] private TextMeshProUGUI m_currentTowerTypeText;
+    [SerializeField] private PlayerTower m_currentTower;
+
+    [Space(2), Header("NPC EXCLUSIVE OPTIONS")]
     [SerializeField] private NPCManagerScript m_NPCManager;
 
     [Header("ReadOnly Parameters"), Space(2)]
     [ReadOnly] public bool isDead = false;
+    private UIManager m_UIManager;
     public float Health
     {
         get { return m_currentHealth; }
@@ -40,18 +46,22 @@ public class Stats : MonoBehaviour
         get { return m_healthBar; }
     }
 
-    public void SetCurrentLeveltext(int lvl)
+    public void SetCurrentUnitTypeText(AttackType type)
     {
-        if (m_currentLeveltext) m_currentLeveltext.text = lvl.ToString();
+        if (m_currentTowerTypeText) m_currentTowerTypeText.text = m_UIManager.FormatStringNextLineOnUpperCase(type.ToString());
     }
 
-    private void Awake()
+    private void Start()
     {
-        if (GetComponent<NPCManagerScript>()) ownerIsNPC = true;
+        m_UIManager = UIManager.Instance;
 
-        if (ownerIsNPC) m_NPCManager = GetComponent<NPCManagerScript>();
+        if (m_currentTower = GetComponent<PlayerTower>()) ownerIsPlayer = true;
+        else m_NPCManager = GetComponent<NPCManagerScript>();
+
+        if (ownerIsPlayer && m_currentTower) SetCurrentUnitTypeText(m_currentTower.TowerAttackType);
 
         m_currentHealth = Mathf.Clamp(Health, 0, m_MaxHealth);
+
     }
     private void FixedUpdate()
     {
@@ -91,7 +101,7 @@ public class Stats : MonoBehaviour
 
     public void SlowDownMoveSpeed(float speed, float duration)
     {
-        if (ownerIsNPC && m_NPCManager)
+        if (!ownerIsPlayer && m_NPCManager)
         {
             StartCoroutine(StartSlowMoveSpeed(speed, duration));
         }
