@@ -79,7 +79,7 @@ public class EnemySpawners : MonoBehaviour
         Vector3 spawnLocation;
         spawnLocation = RandomNavSphere(transform.position, proxSpawnradius, -1);
         int objectindex = ObjectToSpawnIndex(type);
-        NPCManagerScript tempObj = Instantiate(ObjectsToSpawn[objectindex],spawnLocations[objectSpawnPosIndex].position, Quaternion.identity);
+        NPCManagerScript tempObj = Instantiate(ObjectsToSpawn[2],spawnLocations[objectSpawnPosIndex].position, Quaternion.identity);
         tempObj.transform.SetParent(enemiesParent);
     }
 

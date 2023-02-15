@@ -27,6 +27,7 @@ public class UIManager : MonoBehaviour
     [Header("Text Componenets")]
     public TMP_Text waveTxt;
     public TMP_Text overTxt;
+    public TMP_Text enemiesCountTxt;
 
     [SerializeField] private TextMeshProUGUI m_warningText;
 
@@ -97,7 +98,7 @@ public class UIManager : MonoBehaviour
     }
     public void RestartButton()
     {
-        SceneManager.LoadScene(1);
+        SceneManager.LoadSceneAsync(1);
     }
     public void QuitButton()
     {
@@ -109,7 +110,7 @@ public class UIManager : MonoBehaviour
         gameOverPanel.SetActive(true);
         overTxt.text = textTemp;
 
-        if (isWon)
+        if (isWon && (PlayerPrefs.GetInt("CurrentLevel") < 2))
         {
             int tempInt = PlayerPrefs.GetInt("CurrentLevel");
             tempInt++;

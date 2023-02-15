@@ -14,7 +14,7 @@ public class RangedEnemy : NPCManagerScript
         if (isPlayerAvailable())
         {
             GameObject bullet = Instantiate(attackBulletPrefab, transform.position, transform.rotation);
-            bullet.GetComponent<Bullet>().InitializeBullet(_playerControl.transform.position);
+            bullet.GetComponent<Bullet>().InitializeBullet(targetTower.transform.position);
         }
     }
 

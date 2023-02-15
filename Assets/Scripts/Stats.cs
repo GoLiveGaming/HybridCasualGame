@@ -44,8 +44,9 @@ public class Stats : MonoBehaviour
                 transform.TryGetComponent(out NPCManagerScript nPCManagerScript);
                 if (nPCManagerScript)
                 {
-                    LevelManager.Instance.deadEnemiesCount++;
-                    if(LevelManager.Instance.deadEnemiesCount >= LevelManager.Instance.maxEnemyCount)
+                    LevelManager.Instance.deadEnemiesCount--;
+                    UIManager.Instance.enemiesCountTxt.text = LevelManager.Instance.deadEnemiesCount.ToString();
+                    if (LevelManager.Instance.deadEnemiesCount <= 0)
                     {
                         UIManager.Instance.GameOverVoid("You won the level", true);  
                     }

@@ -469,7 +469,6 @@ MonoBehaviour:
   m_currentTowerTypeText: {fileID: 4803466928755212132}
   m_currentTower: {fileID: 0}
   m_NPCManager: {fileID: 0}
-  isDead: 0
 --- !u!114 &9155262638970726652
 MonoBehaviour:
   m_ObjectHideFlags: 0

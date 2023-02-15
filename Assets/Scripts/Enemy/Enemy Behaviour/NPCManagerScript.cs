@@ -41,6 +41,7 @@ public class NPCManagerScript : MonoBehaviour
     public readonly NPCPursueState PursueState = new NPCPursueState();
     public readonly NPCAttackState AttackState = new NPCAttackState();
 
+    public GameObject targetTower = null;
     public enum NPCStates
     {
         Pursue,
@@ -108,7 +109,7 @@ public class NPCManagerScript : MonoBehaviour
             || _playerControl.activePlayerTowersList == null) { Debug.LogError("NO TARGET DESTINATION FOUND FOR" + this); return; }
 
         float closestDistance = Mathf.Infinity;
-        GameObject targetTower = null;
+        
         foreach (PlayerUnitBase tower in _playerControl.activePlayerTowersList)
         {
             float distance = Vector3.Distance(transform.position, tower.transform.position);
@@ -119,6 +120,7 @@ public class NPCManagerScript : MonoBehaviour
             }
         }
         _agent.SetDestination(targetTower.transform.position);
+        transform.LookAt(targetTower.transform);
 
 
     }

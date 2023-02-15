@@ -7,6 +7,7 @@ using TMPro;
 public class StartSceneManager : MonoBehaviour
 {
     [SerializeField]private RectTransform levelPanel;
+    [SerializeField]private RectTransform quitPanel;
     [SerializeField]private TMP_Text levelText;
 
 
@@ -41,10 +42,18 @@ public class StartSceneManager : MonoBehaviour
     {
         Application.Quit();
     }
+    public void ResetVoid()
+    {
+        PlayerPrefs.SetInt("CurrentLevel", 0);
+        quitPanel.gameObject.SetActive(false);
+
+    }
 
     public void OnEnterVoid()
     {
-          SceneManager.LoadSceneAsync(1);
+        int tempInt = PlayerPrefs.GetInt("CurrentLevel");
+        tempInt++;
+          SceneManager.LoadSceneAsync(tempInt);
     }
 
 

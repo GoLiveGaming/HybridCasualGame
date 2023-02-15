@@ -29,6 +29,8 @@ public class LevelManager : MonoBehaviour
         //try
         //{
         maxEnemyCount = levelData[levelNum].totalEnemies;
+        deadEnemiesCount = levelData[levelNum].totalEnemies;
+        UIManager.Instance.enemiesCountTxt.text = levelData[levelNum].totalEnemies.ToString();
         StartCoroutine(InstaniateEnemies(levelData[levelNum].Waves[WaveIndexMain].enemyData[0].TimeInterval));
         //}
         //catch

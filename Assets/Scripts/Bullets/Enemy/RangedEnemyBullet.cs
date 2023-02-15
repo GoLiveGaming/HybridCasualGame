@@ -6,11 +6,18 @@ public class RangedEnemyBullet : Bullet
 {
     protected override void OnTriggerEnter(Collider other)
     {
-        if (IsInLayerMask(other.gameObject.layer, collisionLayerMask))
+        if(other.gameObject.layer == 6)
         {
-            other.TryGetComponent(out PlayerTower tower);
-            StartAttackTower(tower);
+            other.TryGetComponent(out Stats stats);
+            if (stats) stats.AddDamage(damage);
+            Destroy(gameObject);
+            //StartAttackTower(tower);
         }
+        //if (IsInLayerMask(other.gameObject.layer, collisionLayerMask))
+        //{
+        //    other.TryGetComponent(out PlayerTower tower);
+        //    StartAttackTower(tower);
+        //}
     }
 
     protected override void StartAttackTower(PlayerTower hitMain)
