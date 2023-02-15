@@ -162,8 +162,6 @@ public class NPCManagerScript : MonoBehaviour
 
     }
 
-
-
     //ANIMATION EVENTS
     public virtual void AttackPlayer()
     {

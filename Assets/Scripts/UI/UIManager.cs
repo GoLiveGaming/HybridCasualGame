@@ -27,6 +27,25 @@ public class UIManager : MonoBehaviour
     [Header("Text Componenets")]
     public TMP_Text waveTxt;
     public TMP_Text overTxt;
+
+    [SerializeField] private TextMeshProUGUI m_warningText;
+
+    public string ShowWarningText
+    {
+        get { return m_warningText.text; }
+        set
+        {
+            if (!m_warningText) return;
+            m_warningText.text = value;
+            m_warningText.gameObject.SetActive(true);
+            (m_warningText.transform as RectTransform).DOShakeAnchorPos(3, 25).OnComplete(() =>
+            {
+                m_warningText.text = "";
+                m_warningText.gameObject.SetActive(false);
+            });
+
+        }
+    }
     private void Awake()
     {
         Instance = this;
@@ -115,4 +134,5 @@ public class UIManager : MonoBehaviour
 
         return formattedString;
     }
+
 }

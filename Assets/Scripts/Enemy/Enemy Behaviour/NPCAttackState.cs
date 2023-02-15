@@ -13,6 +13,7 @@ public class NPCAttackState : NPCBaseState
         if (!npcManager.InTargetProximity())
         {
             npcManager._agent.ResetPath();
+            npcManager.UpdateDestination();
             ExitState(npcManager);
         }
     }

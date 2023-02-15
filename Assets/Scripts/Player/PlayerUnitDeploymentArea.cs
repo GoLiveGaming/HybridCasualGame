@@ -7,10 +7,12 @@ public class PlayerUnitDeploymentArea : MonoBehaviour
     [SerializeField, ReadOnly] private PlayerTower deployedTower;
 
     private MainPlayerControl mainPlayerControl;
+    private UIManager uiManager;
 
     private void Start()
     {
         mainPlayerControl = MainPlayerControl.Instance;
+        uiManager = UIManager.Instance;
         deployedTower = GetComponentInChildren<PlayerTower>();
     }
     public void OnUnitSelectionStarted()
@@ -46,7 +48,6 @@ public class PlayerUnitDeploymentArea : MonoBehaviour
             {
                 if (towerSelectedToDeploy.TowerAttackType == existingUnitCombination.combinesWith)
                 {
-                    DeleteChildTowers();
                     PlayerTower combinedTower = mainPlayerControl.GetAttackUnitObject(existingUnitCombination.toYield);
                     DeployUnit(combinedTower);
                     return;
@@ -55,7 +56,6 @@ public class PlayerUnitDeploymentArea : MonoBehaviour
         }
         else
         {
-            DeleteChildTowers();
             DeployUnit(towerSelectedToDeploy);
             return;
         }
@@ -63,6 +63,11 @@ public class PlayerUnitDeploymentArea : MonoBehaviour
     }
     public void DeployUnit(PlayerTower towerSelectedToDeploy)
     {
+        if (towerSelectedToDeploy.resourceCost > mainPlayerControl.currentResourcesCount)
+        {
+            uiManager.ShowWarningText = towerSelectedToDeploy.TowerAttackType.ToString() + "Unit Needs: " + towerSelectedToDeploy.resourceCost.ToString() + "Gems";
+            return;
+        }
         DeleteChildTowers();
 
         PlayerTower spawnedTower = Instantiate(towerSelectedToDeploy, transform.position, Quaternion.identity);

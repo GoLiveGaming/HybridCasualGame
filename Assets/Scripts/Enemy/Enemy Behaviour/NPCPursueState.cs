@@ -12,8 +12,12 @@ public class NPCPursueState : NPCBaseState
         if (npcManager.InTargetProximity())
         {
             npcManager._agent.ResetPath();
-          //  npcManager._agent.isStopped = true;
+            //  npcManager._agent.isStopped = true;
             ExitState(npcManager);
+        }
+        else
+        {
+            npcManager.UpdateDestination();
         }
     }
     public override void ExitState(NPCManagerScript npcManager)

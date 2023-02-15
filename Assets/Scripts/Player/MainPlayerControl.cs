@@ -19,6 +19,7 @@ public class MainPlayerControl : MonoBehaviour
     [ReadOnly] public List<PlayerUnitBase> activePlayerTowersList = new();
     [ReadOnly] public PlayerUnitDeploymentArea activeUnitDeploymentArea;
     [ReadOnly] public bool isRecharging = false;
+    private UIManager uiManager;
 
 
     [Serializable]
@@ -35,6 +36,8 @@ public class MainPlayerControl : MonoBehaviour
     }
     void Update()
     {
+        uiManager = UIManager.Instance;
+
         UpdateInputs();
         UpdateResourceMeter();
     }
@@ -81,9 +84,10 @@ public class MainPlayerControl : MonoBehaviour
         {
             yield return new WaitForSeconds(1f);
             currentResourcesCount += resourceRechargeRate;
+            uiManager.unitSelectionCooldownTimerImage.fillAmount = currentResourcesCount / maxResources;
         }
         currentResourcesCount = Mathf.Clamp(currentResourcesCount, 0, maxResources);
-        UIManager.Instance.unitSelectionCooldownTimerImage.fillAmount = currentResourcesCount / maxResources;
+        uiManager.unitSelectionCooldownTimerImage.fillAmount = currentResourcesCount / maxResources;
         isRecharging = false;
     }
 
@@ -91,7 +95,7 @@ public class MainPlayerControl : MonoBehaviour
     {
         currentResourcesCount -= amount;
         currentResourcesCount = Mathf.Clamp(currentResourcesCount, 0, maxResources);
-        UIManager.Instance.unitSelectionCooldownTimerImage.fillAmount = currentResourcesCount / maxResources;
+        uiManager.unitSelectionCooldownTimerImage.fillAmount = currentResourcesCount / maxResources;
     }
 
     #endregion
