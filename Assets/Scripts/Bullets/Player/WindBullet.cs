@@ -33,8 +33,8 @@ public class WindBullet : Bullet
             if (rb)
             {
                 //Add Explosion Force
-                Vector3 direction = rb.transform.position - transform.position;
-                rb.AddForce(direction.normalized * impactForce, ForceMode.Impulse);
+                rb.AddExplosionForce(impactForce, transform.position + new Vector3(0, 0, -1), impactAreaRadius, 1f, ForceMode.Impulse);
+
 
                 //Modify Stats
                 rb.TryGetComponent(out NPCManagerScript npc);

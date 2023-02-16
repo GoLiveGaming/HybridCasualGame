@@ -19,7 +19,9 @@ public class WaterBullet : Bullet
     protected override void StartAttack(NPCManagerScript hitNPC)
     {
         if (!hitNPC) return;
+
         hitNPC._stats.SlowDownMoveSpeed(slowedDownSpeed, slowDownDuration);
+        hitNPC._stats.AddDamage(damage);
 
         //END ATTACK
         Destroy(gameObject);
