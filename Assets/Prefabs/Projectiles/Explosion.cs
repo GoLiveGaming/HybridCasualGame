@@ -7,7 +7,7 @@ public class Explosion : MonoBehaviour
     [SerializeField] private GameObject ExplosionPrefab;
     private void OnCollisionEnter(Collision collision)
     {
-        if(collision.gameObject.CompareTag("Wall"))
+        if(collision.gameObject.CompareTag("TargetEnemy"))
         {
             GameObject Explosion = Instantiate(ExplosionPrefab, transform.position, Quaternion.identity);
             Destroy(gameObject);
