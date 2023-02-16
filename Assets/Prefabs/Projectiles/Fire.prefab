@@ -14777,7 +14777,6 @@ GameObject:
   - component: {fileID: 198642742753815182}
   - component: {fileID: 54378844565543512}
   - component: {fileID: 136350987479803286}
-  - component: {fileID: -4601859624280060885}
   m_Layer: 0
   m_Name: Fire
   m_TagString: Untagged
@@ -19693,20 +19692,6 @@ CapsuleCollider:
   m_Height: 0.8
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0.1}
---- !u!114 &-4601859624280060885
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1707102027251842}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f71b8139e9bb30243b28cb05d326ad9c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ExplosionPrefab: {fileID: 1131664612534456145, guid: 1638c487653d4df43960a69cea7ee998,
-    type: 3}
 --- !u!1 &1739691434595618
 GameObject:
   m_ObjectHideFlags: 0

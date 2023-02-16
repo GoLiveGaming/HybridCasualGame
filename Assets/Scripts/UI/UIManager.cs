@@ -69,7 +69,7 @@ public class UIManager : MonoBehaviour
     }
     internal void ShowText(string tempTxt)
     {
-        ShowResponseMessage(tempTxt, waveTxt);
+     //   ShowResponseMessage(tempTxt, waveTxt);
     }
 
     public void CloseTheLevel()

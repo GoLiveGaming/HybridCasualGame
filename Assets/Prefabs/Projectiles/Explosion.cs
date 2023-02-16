@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,7 +10,7 @@ public class Explosion : MonoBehaviour
     {
         if(collision.gameObject.CompareTag("TargetEnemy"))
         {
-            GameObject Explosion = Instantiate(ExplosionPrefab, transform.position, Quaternion.identity);
+            
             Destroy(gameObject);
         }
         else

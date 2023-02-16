@@ -280,6 +280,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   damageDuration: 3
+  ExplosionPrefab: {fileID: 968909009344584005, guid: 1638c487653d4df43960a69cea7ee998,
+    type: 3}
 --- !u!136 &5179492825132372
 CapsuleCollider:
   m_ObjectHideFlags: 0

@@ -900,8 +900,8 @@ MonoBehaviour:
   - {fileID: 1798902566}
   ObjectsToSpawn:
   - {fileID: 1291241305760107781, guid: ead85dcfca7478148bdeddc8fb3e0eaa, type: 3}
-  - {fileID: 1291241305760107781, guid: ead85dcfca7478148bdeddc8fb3e0eaa, type: 3}
-  - {fileID: 6274569744429699181, guid: 830928857fff5654dbe608bcb05de899, type: 3}
+  - {fileID: 1291241305760107781, guid: d3113c10cf3d58040aa756802764914e, type: 3}
+  - {fileID: 6274569744429699181, guid: 196e616c144cd0e4f8a49cbc49d54bbf, type: 3}
   - {fileID: 6274569744429699181, guid: 830928857fff5654dbe608bcb05de899, type: 3}
   canSpawnEnemies: 1
   enemiesParent: {fileID: 261723878}

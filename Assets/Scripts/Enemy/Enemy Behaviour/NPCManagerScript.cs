@@ -121,8 +121,6 @@ public class NPCManagerScript : MonoBehaviour
         }
         _agent.SetDestination(targetTower.transform.position);
         transform.LookAt(targetTower.transform);
-
-
     }
 
     public bool InTargetProximity()
