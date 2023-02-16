@@ -461,8 +461,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9746430a183cc0e48ac989c7c4fc1d67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_MaxHealth: 500
-  m_currentHealth: 500
+  m_MaxHealth: 300
+  m_currentHealth: 300
   statsCanvas: {fileID: 925684410495288915}
   m_healthBar: {fileID: 344725364652099105}
   ownerIsPlayer: 0

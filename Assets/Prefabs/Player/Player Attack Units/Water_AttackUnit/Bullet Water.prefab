@@ -206,16 +206,12 @@ MonoBehaviour:
   targetPos: {x: 0, y: 0, z: 0}
   speed: 20
   lifetime: 10
-  damage: 0
+  damage: 2
   collisionLayerMask:
     serializedVersion: 2
     m_Bits: 128
   slowedDownSpeed: 1
   slowDownDuration: 3
-  aoeVisualObj: {fileID: 8272260640797488490, guid: c41964a2a7b963b48af1699ca1255412,
-    type: 3}
-  aoeLifetime: 0.15
-  aoeRadius: 3
 --- !u!1 &4614153921484433200
 GameObject:
   m_ObjectHideFlags: 0

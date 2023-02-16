@@ -278,6 +278,7 @@ MonoBehaviour:
   collisionLayerMask:
     serializedVersion: 2
     m_Bits: 128
+  damageDuration: 3
 --- !u!136 &5179492825132372
 CapsuleCollider:
   m_ObjectHideFlags: 0

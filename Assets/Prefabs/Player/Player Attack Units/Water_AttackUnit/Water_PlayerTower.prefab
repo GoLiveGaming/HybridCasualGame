@@ -384,15 +384,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9746430a183cc0e48ac989c7c4fc1d67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_MaxHealth: 500
-  m_currentHealth: 500
+  m_MaxHealth: 300
+  m_currentHealth: 300
   statsCanvas: {fileID: 4164418153056358258}
   m_healthBar: {fileID: 7285519689191966292}
   ownerIsPlayer: 0
   m_currentTowerTypeText: {fileID: 4836183197491519275}
   m_currentTower: {fileID: 0}
   m_NPCManager: {fileID: 0}
-  isDead: 0
 --- !u!114 &5781498035940459879
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -416,7 +415,7 @@ MonoBehaviour:
     toYield: 4
   - combinesWith: 0
     toYield: 5
-  delayBetweenShots: 2
+  delayBetweenShots: 0.3
   shootingRange: 45
   unitRefreshAfter: 2
   attackBulletPrefab: {fileID: 4614153920458031038, guid: de114901e425d674ca7704511d9efcd1,

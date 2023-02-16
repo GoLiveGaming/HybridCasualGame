@@ -3861,7 +3861,7 @@ Light:
   m_Type: 1
   m_Shape: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 6
+  m_Intensity: 3.09
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -4785,7 +4785,7 @@ MonoBehaviour:
   - {fileID: -8936886559788239264, guid: 1cefc530cd52abf4b93e5753a52b62b9, type: 3}
   - {fileID: 5781498035940459879, guid: e2fe3767b5cc2774394d5edb83c3dc6c, type: 3}
   maxResources: 10
-  resourceRechargeRate: 1
+  resourceRechargeRate: 0.5
   currentResourcesCount: 10
   activePlayerTowersList: []
   activeUnitDeploymentArea: {fileID: 0}
@@ -5264,7 +5264,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1604538178
 Transform:
   m_ObjectHideFlags: 0
