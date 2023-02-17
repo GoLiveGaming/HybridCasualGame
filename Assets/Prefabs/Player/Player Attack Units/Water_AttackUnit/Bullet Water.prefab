@@ -213,7 +213,7 @@ MonoBehaviour:
     m_Bits: 128
   slowedDownSpeed: 1
   slowDownDuration: 3
-  ExplosionPrefab: {fileID: 19800000, guid: bf5d0dc419d293c4e80f9489f76c3415, type: 3}
+  ExplosionPrefab: {fileID: 19800000, guid: d5f666ee035dc4148b02b615079dcb8f, type: 3}
 --- !u!1 &4614153921484433200
 GameObject:
   m_ObjectHideFlags: 0
