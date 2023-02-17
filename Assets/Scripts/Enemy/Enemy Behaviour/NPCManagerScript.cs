@@ -121,8 +121,15 @@ public class NPCManagerScript : MonoBehaviour
         }
         _agent.SetDestination(targetTower.transform.position);
         transform.LookAt(targetTower.transform);
+        //FaceTarget(targetTower.transform.position);
     }
-
+    private void FaceTarget(Vector3 destination)
+    {
+        Vector3 lookPos = destination - transform.position;
+        lookPos.y = 0;
+        Quaternion rotation = Quaternion.LookRotation(lookPos);
+        transform.rotation = Quaternion.Slerp(transform.rotation, rotation, _agent.angularSpeed);
+    }
     public bool InTargetProximity()
     {
         return CheckIfTargetInFront();

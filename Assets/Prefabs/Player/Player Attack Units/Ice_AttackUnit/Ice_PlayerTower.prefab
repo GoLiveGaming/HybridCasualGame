@@ -435,15 +435,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9746430a183cc0e48ac989c7c4fc1d67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_MaxHealth: 500
-  m_currentHealth: 500
+  m_MaxHealth: 300
+  m_currentHealth: 300
   statsCanvas: {fileID: 8177104570760166253}
   m_healthBar: {fileID: 3605123285755065488}
   ownerIsPlayer: 0
   m_currentTowerTypeText: {fileID: 6693432254680283043}
   m_currentTower: {fileID: 0}
   m_NPCManager: {fileID: 0}
-  isDead: 0
 --- !u!114 &-8936886559788239264
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -458,10 +457,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainPlayerControl: {fileID: 0}
   TowerAttackType: 4
-  resourceCost: 6
+  resourceCost: 4
   supportsCombining: 0
   possibleCombinations: []
-  delayBetweenShots: 0.1
+  delayBetweenShots: 0.3
   shootingRange: 50
   unitRefreshAfter: 2
   attackBulletPrefab: {fileID: 9203068762116010779, guid: bb1ee1f560dddb841bf0761490c028c3,

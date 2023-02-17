@@ -80,11 +80,13 @@ public class Stats : MonoBehaviour
         if (ownerIsPlayer && m_currentTower) SetCurrentUnitTypeText(m_currentTower.TowerAttackType);
 
         m_currentHealth = Mathf.Clamp(Health, 0, m_MaxHealth);
-
+       // if (statsCanvas) statsCanvas.transform.rotation = Camera.main.transform.rotation;
     }
     private void FixedUpdate()
     {
-        if (statsCanvas) statsCanvas.transform.rotation = Camera.main.transform.rotation;
+        // Vector3 loc = Camera.main.transform.up;
+        if (statsCanvas) statsCanvas.transform.rotation = Quaternion.Euler(90, 0, 0);
+            /* statsCanvas.transform.rotation = Camera.main.transform.rotation;*/
     }
 
 

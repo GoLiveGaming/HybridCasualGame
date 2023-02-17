@@ -459,9 +459,9 @@ CapsuleCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1918737455689029565}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
-  m_Radius: 0.5
+  m_Radius: 0.25
   m_Height: 1.5377316
   m_Direction: 1
   m_Center: {x: 0, y: 0.7535603, z: 0}
@@ -474,7 +474,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 1918737455689029565}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.5
+  m_Radius: 0.25
   m_Speed: 3.5
   m_Acceleration: 8
   avoidancePriority: 50
@@ -520,7 +520,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   activeState: 0
-  moveSpeed: 3
+  moveSpeed: 5
   stoppingDistance: 2
   attackDamage: 2
   stateRefreshDelay: 0.25
@@ -543,8 +543,8 @@ Rigidbody:
   m_GameObject: {fileID: 1918737455689029565}
   serializedVersion: 2
   m_Mass: 5
-  m_Drag: 0.1
-  m_AngularDrag: 0.05
+  m_Drag: 0.15
+  m_AngularDrag: 0.25
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
@@ -2595,6 +2595,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1291241305760107783}
     m_Modifications:
+    - target: {fileID: 1637085564023819960, guid: 6f3ccf49da6d5a048bd53eb308d7c435,
+        type: 3}
+      propertyPath: m_PresetInfoIsWorld
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4636356980741223425, guid: 6f3ccf49da6d5a048bd53eb308d7c435,
         type: 3}
       propertyPath: m_Name

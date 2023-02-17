@@ -1477,7 +1477,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 6654190893145590472}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.5
+  m_Radius: 0.25
   m_Speed: 3.5
   m_Acceleration: 8
   avoidancePriority: 50
@@ -1523,7 +1523,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   activeState: 0
-  moveSpeed: 3
+  moveSpeed: 5
   stoppingDistance: 15
   attackDamage: 3
   stateRefreshDelay: 1
@@ -1548,8 +1548,8 @@ Rigidbody:
   m_GameObject: {fileID: 6654190893145590472}
   serializedVersion: 2
   m_Mass: 5
-  m_Drag: 0.1
-  m_AngularDrag: 0.05
+  m_Drag: 0.15
+  m_AngularDrag: 0.25
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
@@ -1563,9 +1563,9 @@ CapsuleCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6654190893145590472}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
-  m_Radius: 0.5
+  m_Radius: 0.25
   m_Height: 1.6601372
   m_Direction: 1
   m_Center: {x: 0, y: 0.7451768, z: 0}
