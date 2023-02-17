@@ -8,6 +8,8 @@ public class WindBullet : Bullet
     [SerializeField] private float aoeLifetime = 0.15f;
     [SerializeField] private float impactAreaRadius = 5f;
     [SerializeField] private float impactForce = 10f;
+
+    [SerializeField] private ParticleSystem ExplosionPrefab;
     protected override void OnTriggerEnter(Collider other)
     {
         if (IsInLayerMask(other.gameObject.layer, collisionLayerMask))
@@ -41,6 +43,12 @@ public class WindBullet : Bullet
                 if (npc) npc._stats.AddDamage(damage);
             }
         }
+
+        ParticleSystem Explosion = Instantiate(ExplosionPrefab, transform.position, Quaternion.identity);
+        Explosion.transform.DOScale(Vector3.one, Explosion.main.duration).OnComplete(() =>
+        {
+            Destroy(Explosion.gameObject);
+        });
         //END ATTACK
         Destroy(gameObject);
     }

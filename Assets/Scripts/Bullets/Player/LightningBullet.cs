@@ -9,6 +9,8 @@ public class LightningBullet : Bullet
     [SerializeField] private GameObject aoeVisualObj;
     [SerializeField] private float aoeLifetime = 0.15f;
     [SerializeField] private Vector3 aoeSpawnOffset = Vector3.zero;
+
+    [SerializeField] private ParticleSystem ExplosionPrefab;
     protected override void OnTriggerEnter(Collider other)
     {
         if (IsInLayerMask(other.gameObject.layer, collisionLayerMask))
@@ -41,6 +43,12 @@ public class LightningBullet : Bullet
                 if (npc) npc._stats.AddDamageOverTime(5, damage);
             }
         }
+
+        ParticleSystem Explosion = Instantiate(ExplosionPrefab, transform.position, Quaternion.identity);
+        Explosion.transform.DOScale(Vector3.one, Explosion.main.duration).OnComplete(() =>
+        {
+            Destroy(Explosion.gameObject);
+        });
         //END ATTACK
         Destroy(gameObject);
     }

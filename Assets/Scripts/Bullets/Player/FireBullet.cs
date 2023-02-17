@@ -11,13 +11,7 @@ public class FireBullet : Bullet
         if (IsInLayerMask(other.gameObject.layer, collisionLayerMask))
         {
             other.TryGetComponent(out NPCManagerScript npcManager);
-            StartAttack(npcManager);
-
-            ParticleSystem Explosion = Instantiate(ExplosionPrefab, transform.position, Quaternion.identity);
-            Explosion.transform.DOScale(Vector3.one, Explosion.main.duration).OnComplete(() =>
-            {
-                Destroy(Explosion.gameObject);
-            });
+            StartAttack(npcManager);     
         }
     }
 
@@ -27,6 +21,11 @@ public class FireBullet : Bullet
         if (hitNPC._stats) hitNPC._stats.AddDamageOverTime(damageDuration, damage);
 
         //END ATTACK
+        ParticleSystem Explosion = Instantiate(ExplosionPrefab, transform.position, Quaternion.identity);
+        Explosion.transform.DOScale(Vector3.one, Explosion.main.duration).OnComplete(() =>
+        {
+            Destroy(Explosion.gameObject);
+        });
         Destroy(gameObject);
     }
 }
