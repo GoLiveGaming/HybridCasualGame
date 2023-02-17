@@ -6,7 +6,6 @@ public class LightningBullet : Bullet
     [Space(2), Header("BULLET EXTENDED PROPERTIES")]
     [SerializeField] private float explosionRadius = 5f;
     [SerializeField] private float explosionForce = 10f;
-    [SerializeField] private GameObject aoeVisualObj;
     [SerializeField] private float aoeLifetime = 0.15f;
     [SerializeField] private Vector3 aoeSpawnOffset = Vector3.zero;
 
@@ -23,12 +22,6 @@ public class LightningBullet : Bullet
     protected override void StartAttack(NPCManagerScript hitNPC)
     {
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, 5f);
-
-        GameObject spawnedAOE = Instantiate(aoeVisualObj, this.transform.position + aoeSpawnOffset, Quaternion.identity);
-
-        if (spawnedAOE) spawnedAOE.transform.DOMove(this.transform.position, aoeLifetime);
-        if (spawnedAOE) Destroy(spawnedAOE, aoeLifetime);
-
         foreach (var hitCollider in hitColliders)
         {
             hitCollider.TryGetComponent(out Rigidbody rb);

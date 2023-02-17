@@ -4,7 +4,6 @@ using UnityEngine;
 public class WindBullet : Bullet
 {
     [Space(2), Header("BULLET EXTENDED PROPERTIES")]
-    [SerializeField] private GameObject aoeVisualObj;
     [SerializeField] private float aoeLifetime = 0.15f;
     [SerializeField] private float impactAreaRadius = 5f;
     [SerializeField] private float impactForce = 10f;
@@ -23,12 +22,6 @@ public class WindBullet : Bullet
     protected override void StartAttack(NPCManagerScript hitNPC)
     {
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, 5f);
-
-        GameObject spawnedAOE = Instantiate(aoeVisualObj, this.transform.position, Quaternion.identity);
-
-        if (spawnedAOE) spawnedAOE.transform.DOScale(Vector3.one * impactAreaRadius, aoeLifetime);
-        if (spawnedAOE) Destroy(spawnedAOE, aoeLifetime);
-
         foreach (var hitCollider in hitColliders)
         {
             hitCollider.TryGetComponent(out Rigidbody rb);
