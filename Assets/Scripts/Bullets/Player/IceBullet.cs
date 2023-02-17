@@ -7,6 +7,8 @@ public class IceBullet : Bullet
     [SerializeField] private float slowedDownSpeed = 0;
     [SerializeField] private float slowDownDuration = 3;
 
+    [SerializeField] private ParticleSystem ExplosionPrefab;
+
 
     protected override void OnTriggerEnter(Collider other)
     {
@@ -22,6 +24,11 @@ public class IceBullet : Bullet
         if (!hitNPC) return;
         hitNPC._stats.SlowDownMoveSpeed(slowedDownSpeed, slowDownDuration);
 
+        ParticleSystem Explosion = Instantiate(ExplosionPrefab, transform.position, Quaternion.identity);
+        Explosion.transform.DOScale(Explosion.transform.localScale, Explosion.main.duration).OnComplete(() =>
+        {
+            Destroy(Explosion.gameObject);
+        });
         //END ATTACK
         Destroy(gameObject);
     }

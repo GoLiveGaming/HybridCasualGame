@@ -14,7 +14,6 @@ public class Bullet : MonoBehaviour
 
     public virtual void InitializeBullet(Vector3 target)
     {
-
         targetPos = target;
         if (this.targetPos == null)
         {
@@ -22,6 +21,7 @@ public class Bullet : MonoBehaviour
             return;
         }
         direction = (targetPos - transform.position).normalized;
+        this.transform.LookAt(target);
     }
     protected virtual void Update()
     {

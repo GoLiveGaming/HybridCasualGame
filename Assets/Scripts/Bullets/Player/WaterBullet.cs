@@ -6,7 +6,7 @@ public class WaterBullet : Bullet
     [Space(2), Header("BULLET EXTENDED PROPERTIES")]
     [SerializeField] private float slowedDownSpeed = 0.25f;
     [SerializeField] private float slowDownDuration = 3;
-
+    [SerializeField] private ParticleSystem ExplosionPrefab;
     protected override void OnTriggerEnter(Collider other)
     {
         if (IsInLayerMask(other.gameObject.layer, collisionLayerMask))
@@ -22,7 +22,11 @@ public class WaterBullet : Bullet
 
         hitNPC._stats.SlowDownMoveSpeed(slowedDownSpeed, slowDownDuration);
         hitNPC._stats.AddDamage(damage);
-
+        ParticleSystem Explosion = Instantiate(ExplosionPrefab, transform.position, Quaternion.identity);
+        Explosion.transform.DOScale(Vector3.one, Explosion.main.duration).OnComplete(() =>
+        {
+            Destroy(Explosion.gameObject);
+        });
         //END ATTACK
         Destroy(gameObject);
     }
