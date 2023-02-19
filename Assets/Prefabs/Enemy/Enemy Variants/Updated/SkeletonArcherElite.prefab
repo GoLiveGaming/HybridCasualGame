@@ -1418,11 +1418,11 @@ GameObject:
   m_Component:
   - component: {fileID: 6274569744429699186}
   - component: {fileID: 140617799333087752}
-  - component: {fileID: 6274569744429699183}
-  - component: {fileID: 6274569744429699182}
-  - component: {fileID: 6274569744429699181}
-  - component: {fileID: 6274569744429699180}
-  - component: {fileID: 6274569744429699187}
+  - component: {fileID: -427975556173660541}
+  - component: {fileID: -4517958122532393756}
+  - component: {fileID: -1146096918326469494}
+  - component: {fileID: -3241644265311093811}
+  - component: {fileID: 3056548114851736608}
   m_Layer: 7
   m_Name: SkeletonArcherElite
   m_TagString: TargetEnemy
@@ -1439,18 +1439,19 @@ Transform:
   m_GameObject: {fileID: 6654190893145590472}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 3, y: 3, z: 3}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 5406400342429822654}
   - {fileID: 7857573756147325926}
+  - {fileID: 4539801153420085056}
   - {fileID: 2478091586079812843}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &140617799333087752
 Animator:
-  serializedVersion: 4
+  serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -1458,7 +1459,7 @@ Animator:
   m_GameObject: {fileID: 6654190893145590472}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 6834433ddde433e428b2326364f12c4c, type: 3}
-  m_Controller: {fileID: 9100000, guid: 7a5703cee7ecdd64880ec07d32a93083, type: 2}
+  m_Controller: {fileID: 22100000, guid: 32462a7e6ecc7014cbfc2c550215f6fa, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -1467,8 +1468,38 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
---- !u!195 &6274569744429699183
+  m_KeepAnimatorStateOnDisable: 0
+--- !u!54 &-427975556173660541
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6654190893145590472}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0.2
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 112
+  m_CollisionDetection: 2
+--- !u!136 &-4517958122532393756
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6654190893145590472}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.5
+  m_Height: 1.5
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.75, z: 0}
+--- !u!195 &-1146096918326469494
 NavMeshAgent:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1477,8 +1508,8 @@ NavMeshAgent:
   m_GameObject: {fileID: 6654190893145590472}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.25
-  m_Speed: 3.5
+  m_Radius: 0.5
+  m_Speed: 3
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
@@ -1490,7 +1521,7 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &6274569744429699182
+--- !u!114 &-3241644265311093811
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1502,15 +1533,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9746430a183cc0e48ac989c7c4fc1d67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_MaxHealth: 20
-  m_currentHealth: 20
+  m_MaxHealth: 25
+  m_currentHealth: 25
   statsCanvas: {fileID: 1747196264125290645}
   m_healthBar: {fileID: 7248206865658346182}
-  ownerIsPlayer: 0
   m_currentTowerTypeText: {fileID: 0}
   m_currentTower: {fileID: 0}
   m_NPCManager: {fileID: 0}
---- !u!114 &6274569744429699181
+  ownerIsPlayer: 0
+--- !u!114 &3056548114851736608
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1523,52 +1554,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   activeState: 0
-  moveSpeed: 5
-  stoppingDistance: 15
-  attackDamage: 3
-  stateRefreshDelay: 1
+  moveSpeed: 2
+  animatorSpeed: 0.25
+  attackDamage: 1
+  detectionRange: 20
+  firePointTransform: {fileID: 4539801153420085056}
+  stateRefreshDelay: 1.25
   playerTowerLayer:
     serializedVersion: 2
     m_Bits: 64
   timeSinceLastStateRefresh: 0
   _agent: {fileID: 0}
-  _animator: {fileID: 0}
-  _player: {fileID: 0}
   _stats: {fileID: 0}
-  enemyType: 3
+  m_Animator: {fileID: 0}
+  enemyType: 2
   targetTower: {fileID: 0}
   attackBulletPrefab: {fileID: 9203068762116010779, guid: afb285c5b80ac0647af0307019512e74,
     type: 3}
---- !u!54 &6274569744429699180
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6654190893145590472}
-  serializedVersion: 2
-  m_Mass: 5
-  m_Drag: 0.15
-  m_AngularDrag: 0.25
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 80
-  m_CollisionDetection: 2
---- !u!136 &6274569744429699187
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6654190893145590472}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  m_Radius: 0.25
-  m_Height: 1.6601372
-  m_Direction: 1
-  m_Center: {x: 0, y: 0.7451768, z: 0}
 --- !u!1 &7036046321329309728
 GameObject:
   m_ObjectHideFlags: 0
@@ -1662,6 +1664,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 340435990044904396}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &7291037260716196451
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4539801153420085056}
+  m_Layer: 7
+  m_Name: FirePoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4539801153420085056
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7291037260716196451}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.8333334, z: 0.16666667}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6274569744429699186}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7309455882351479588
 GameObject:
@@ -2600,7 +2633,7 @@ PrefabInstance:
     - target: {fileID: 4636356980741223425, guid: 6f3ccf49da6d5a048bd53eb308d7c435,
         type: 3}
       propertyPath: m_Name
-      value: Stats Canvas (1)
+      value: Stats Canvas
       objectReference: {fileID: 0}
     - target: {fileID: 8794154075492155519, guid: 6f3ccf49da6d5a048bd53eb308d7c435,
         type: 3}
@@ -2615,7 +2648,7 @@ PrefabInstance:
     - target: {fileID: 8794154075492155519, guid: 6f3ccf49da6d5a048bd53eb308d7c435,
         type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8794154075492155519, guid: 6f3ccf49da6d5a048bd53eb308d7c435,
         type: 3}
