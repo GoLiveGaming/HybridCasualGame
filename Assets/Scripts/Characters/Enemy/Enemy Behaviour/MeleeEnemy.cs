@@ -10,7 +10,7 @@ public class MeleeEnemy : NPCManagerScript
         if (isPlayerAvailable())
         {
             // Does the ray intersect any objects excluding the player layer
-            Vector3 spawnPos = firePointTransform ? firePointTransform.position : transform.position;
+            Vector3 spawnPos = firePointTransform != null ? firePointTransform.position : transform.position;
 
             if (Physics.Raycast(spawnPos, transform.TransformDirection(Vector3.forward), out RaycastHit hit, detectionRange, playerTowerLayer))
             {

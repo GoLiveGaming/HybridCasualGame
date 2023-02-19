@@ -9,5 +9,6 @@ AnimatorOverrideController:
   m_Name: Humanoid_ArcherElite_Override
   m_Controller: {fileID: 9100000, guid: e2cf68ff4b1ffda45a77f7307dd789b9, type: 2}
   m_Clips:
-  - m_OriginalClip: {fileID: 7400000, guid: 8818e1561b91442468ca0aa16abea6da, type: 2}
+  - m_OriginalClip: {fileID: -203655887218126122, guid: 4400f5fbc5335fb408823909e4d64b26,
+      type: 3}
     m_OverrideClip: {fileID: 7400000, guid: 32fd18301c25d6e46850fbf52018e608, type: 2}
