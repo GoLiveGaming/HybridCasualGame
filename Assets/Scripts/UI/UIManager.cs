@@ -10,7 +10,9 @@ public class UIManager : MonoBehaviour
 {
     public static UIManager Instance;
 
+    [Header("GAMEMODE INFO UI")]
     [Header("Rect Componenets")]
+    public Canvas rootcanvas;
     public GameObject unitSelectionCanvas;
     public GameObject pausePanel;
     public GameObject gameOverPanel;
@@ -28,8 +30,10 @@ public class UIManager : MonoBehaviour
     public TMP_Text waveTxt;
     public TMP_Text overTxt;
     public TMP_Text enemiesCountTxt;
+    public TMP_Text m_warningText;
 
-    [SerializeField] private TextMeshProUGUI m_warningText;
+    [Header("GLOBAL REFRENCE UI")]
+    public TMP_Text m_damageTextPrefab;
 
     public string ShowWarningText
     {
@@ -69,7 +73,7 @@ public class UIManager : MonoBehaviour
     }
     internal void ShowText(string tempTxt)
     {
-     //   ShowResponseMessage(tempTxt, waveTxt);
+        //   ShowResponseMessage(tempTxt, waveTxt);
     }
 
     public void CloseTheLevel()
@@ -119,6 +123,19 @@ public class UIManager : MonoBehaviour
         Time.timeScale = 0;
     }
 
+    public void ShowFloatingDamage(float damageAmount, Vector3 atPosition)
+    {
+        if (!m_damageTextPrefab) return;
+
+        Vector3 spawnPos = Camera.main.WorldToScreenPoint(atPosition);
+
+        TMP_Text damageText = Instantiate(m_damageTextPrefab, spawnPos, Quaternion.identity, rootcanvas.transform);
+        damageText.text = damageAmount.ToString();
+
+        (damageText.transform as RectTransform).DOJump(spawnPos + new Vector3(0, 200, 0), 10, 2, 1);
+        Destroy(damageText.gameObject,1);
+
+    }
     public string FormatStringNextLineOnUpperCase(string value)
     {
 

@@ -211,10 +211,9 @@ MonoBehaviour:
   collisionLayerMask:
     serializedVersion: 2
     m_Bits: 128
-  explosionRadius: 5
-  explosionForce: 15
+  explosionRadius: 20
+  explosionForce: 10
   aoeLifetime: 0.2
-  aoeSpawnOffset: {x: 0, y: 20, z: 0}
   ExplosionPrefab: {fileID: 9027514048236820043, guid: 5250bfc2f84ca3b46be6d72b20d7d2b9,
     type: 3}
 --- !u!1 &4614153921484433200

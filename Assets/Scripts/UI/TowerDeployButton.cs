@@ -15,15 +15,16 @@ public class TowerDeployButton : DraggableButton
 
         Ray ray = Camera.main.ScreenPointToRay(transform.position);
 
-        if (Physics.Raycast(ray, out RaycastHit hit, 100, layersToCollide))
+        if (Physics.Raycast(ray, out RaycastHit hit, 200, layersToCollide))
         {
             if (hit.transform.TryGetComponent(out PlayerUnitDeploymentArea playerUnitDeploymentArea))
             {
-                Debug.Log(playerUnitDeploymentArea.transform.name);
+                Debug.Log(playerUnitDeploymentArea.transform.name + " Selected");
                 deploymentArea = playerUnitDeploymentArea;
             }
             else
             {
+                Debug.Log("No Deployment Selected");
                 deploymentArea = null;
             }
         }

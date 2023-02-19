@@ -125,7 +125,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.toonshader": {
-      "version": "0.8.3-preview",
+      "version": "0.8.5-preview",
       "depth": 0,
       "source": "registry",
       "dependencies": {

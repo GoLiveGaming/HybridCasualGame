@@ -211,10 +211,8 @@ MonoBehaviour:
   collisionLayerMask:
     serializedVersion: 2
     m_Bits: 128
-  aoeVisualObj: {fileID: 8272260640797488490, guid: 420da3018a06d1142b0125310e43532f,
-    type: 3}
   aoeLifetime: 0.15
-  impactAreaRadius: 5
+  impactAreaRadius: 10
   impactForce: 20
   ExplosionPrefab: {fileID: 4593184484909914550, guid: d445c5b82c1429b4caeb9994ca89299c,
     type: 3}
