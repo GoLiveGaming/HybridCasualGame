@@ -21,6 +21,7 @@ public class PlayerTower : PlayerUnitBase
 
     [Space(2), Header("READONLY")]
     [ReadOnly] public List<NPCManagerScript> targetsInRange = new();
+    [ReadOnly] public PlayerUnitDeploymentArea deployedAtArea;
     [ReadOnly] public TowerState currentTowerState;
     [ReadOnly] public float timeSinceLastAttack = 0f;
     [ReadOnly] public Transform targetTF;
@@ -44,6 +45,7 @@ public class PlayerTower : PlayerUnitBase
     protected override void Start()
     {
         base.Start();
+        deployedAtArea = GetComponentInParent<PlayerUnitDeploymentArea>();
     }
 
     private void Update()
@@ -149,5 +151,10 @@ public class PlayerTower : PlayerUnitBase
 
         bullet.GetComponent<Bullet>().InitializeBullet(targetTF.position);
 
+    }
+
+    public void OnTowerDestroyed()
+    {
+        if (deployedAtArea) deployedAtArea.isAreaAvailable = false;
     }
 }

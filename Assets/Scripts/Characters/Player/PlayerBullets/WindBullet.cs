@@ -4,7 +4,6 @@ using UnityEngine;
 public class WindBullet : Bullet
 {
     [Space(2), Header("BULLET EXTENDED PROPERTIES")]
-    [SerializeField] private float aoeLifetime = 0.15f;
     [SerializeField] private float impactAreaRadius = 5f;
     [SerializeField] private float impactForce = 10f;
 

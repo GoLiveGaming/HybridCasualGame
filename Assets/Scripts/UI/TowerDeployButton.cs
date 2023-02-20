@@ -1,3 +1,4 @@
+using DG.Tweening.Core.Easing;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -5,9 +6,17 @@ public class TowerDeployButton : DraggableButton
 {
     [Space(2), Header("DRAGGABLE BUTTON EXTENDED"), Space(2)]
     [SerializeField] private AttackType attackType;
+    [SerializeField] private GameObject rangeVisualObjPrefab;
 
     [Space(2), Header("Readonly")]
-    [SerializeField, ReadOnly] private PlayerUnitDeploymentArea deploymentArea;
+    [SerializeField, ReadOnly] private PlayerUnitDeploymentArea activeDeploymentArea;
+    private MainPlayerControl mainPlayerControl;
+    private GameObject spawnedRangeVisualObj;
+
+    private void Start()
+    {
+        mainPlayerControl = MainPlayerControl.Instance;
+    }
     public override void OnDrag(PointerEventData eventData)
     {
         base.OnDrag(eventData);
@@ -17,17 +26,39 @@ public class TowerDeployButton : DraggableButton
 
         if (Physics.Raycast(ray, out RaycastHit hit, 200, layersToCollide))
         {
-            if (hit.transform.TryGetComponent(out PlayerUnitDeploymentArea playerUnitDeploymentArea))
+            if (hit.transform.TryGetComponent(out PlayerUnitDeploymentArea possibleDeploymentArea))
             {
-                Debug.Log(playerUnitDeploymentArea.transform.name + " Selected");
-                deploymentArea = playerUnitDeploymentArea;
+                Debug.Log(possibleDeploymentArea.transform.name + " Detected");
+
+                if (possibleDeploymentArea != activeDeploymentArea)
+                {
+                    Clear();
+                    possibleDeploymentArea.ToggleHighlightArea(true);
+                    activeDeploymentArea = possibleDeploymentArea;
+                }
+                HandleRangeVisuaizer(possibleDeploymentArea);
+                return;
+
             }
-            else
-            {
-                Debug.Log("No Deployment Selected");
-                deploymentArea = null;
-            }
+            Clear();
         }
+
+    }
+
+    void HandleRangeVisuaizer(PlayerUnitDeploymentArea possibleDeploymentArea)
+    {
+
+        if (!spawnedRangeVisualObj) spawnedRangeVisualObj = Instantiate(rangeVisualObjPrefab);
+        if (spawnedRangeVisualObj)
+        {
+            spawnedRangeVisualObj.transform.position = possibleDeploymentArea.transform.position;
+            //Multiplied Local Scale by 2 becuase we are dealing with radius in shoooting range,
+            //But setting scale here, scale is on either side of pivot while radius extends on one side
+            spawnedRangeVisualObj.transform.localScale =
+                2 * possibleDeploymentArea.GetUnitAfterMergeCheck(mainPlayerControl.
+                GetAttackUnitObject(attackType)).shootingRange * Vector3.one;
+        }
+
 
     }
 
@@ -35,9 +66,23 @@ public class TowerDeployButton : DraggableButton
     {
         base.OnPointerUp(eventData);
 
-        if (deploymentArea)
-            deploymentArea.DeployAttackUnit(attackType);
+        if (activeDeploymentArea)
+            activeDeploymentArea.DeployAttackUnit(attackType);
 
-        deploymentArea = null;
+        Clear();
+    }
+
+    void Clear()
+    {
+        if (activeDeploymentArea)
+        {
+            activeDeploymentArea.ToggleHighlightArea(false);
+        }
+
+        if (spawnedRangeVisualObj)
+            Destroy(spawnedRangeVisualObj);
+
+
+        activeDeploymentArea = null;
     }
 }

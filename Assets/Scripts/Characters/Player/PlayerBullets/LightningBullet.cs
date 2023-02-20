@@ -8,8 +8,6 @@ public class LightningBullet : Bullet
     [Space(2), Header("BULLET EXTENDED PROPERTIES")]
     [SerializeField] private float explosionRadius = 5f;
     [SerializeField] private float explosionForce = 10f;
-    [SerializeField] private float aoeLifetime = 0.15f;
-    //[SerializeField] private Vector3 aoeSpawnOffset = Vector3.zero;
 
     [SerializeField] private ParticleSystem ExplosionPrefab;
     protected override void OnTriggerEnter(Collider other)

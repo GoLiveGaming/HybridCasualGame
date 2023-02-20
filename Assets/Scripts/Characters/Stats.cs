@@ -41,10 +41,13 @@ public class Stats : MonoBehaviour
 
                 if (ownerIsPlayer)
                 {
-                    if (TryGetComponent(out PlayerMainTower playerMainTower))
+                    if (GetComponent<PlayerMainTower>())
                     {
                         m_UIManager.GameOverVoid("You lost the level", false);
+                        return;
                     }
+
+                    m_currentTower.OnTowerDestroyed();
                 }
                 else
                 {

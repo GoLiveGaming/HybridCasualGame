@@ -6,6 +6,7 @@ TagManager:
   tags:
   - TargetEnemy
   - TurretTarget
+  - FxTemporaire
   layers:
   - Default
   - TransparentFX
@@ -17,7 +18,7 @@ TagManager:
   - EnemyLayer
   - BulletHitLayer
   - DeployArea
-  - 
+  - RaycastIgnoreLayer
   - 
   - 
   - 

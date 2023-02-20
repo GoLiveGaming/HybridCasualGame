@@ -1,63 +1,77 @@
 using UnityEngine;
-using UnityEngine.UI;
 
+[RequireComponent(typeof(BoxCollider))]
 public class PlayerUnitDeploymentArea : MonoBehaviour
 {
-    [SerializeField] private GameObject unitSelectionCanvas;
-    [SerializeField, ReadOnly] private PlayerTower deployedTower;
-
+    [ReadOnly] public PlayerTower deployedTower;
+    [ReadOnly] public bool isAreaAvailable = true;
     private MainPlayerControl mainPlayerControl;
     private UIManager uiManager;
+    private BoxCollider boxCollider;
 
+    private void OnDrawGizmos()
+    {
+        // Draw a semitransparent red cube at the transforms position
+        if (!boxCollider)
+            boxCollider = GetComponent<BoxCollider>();
+        Gizmos.color = new Color(1, 0, 0.25f, 0.5f);
+        Gizmos.DrawCube(transform.position, new Vector3(boxCollider.size.x, boxCollider.size.y, boxCollider.size.z));
+    }
     private void Start()
     {
         mainPlayerControl = MainPlayerControl.Instance;
         uiManager = UIManager.Instance;
         deployedTower = GetComponentInChildren<PlayerTower>();
-    }
-    public void OnUnitSelectionStarted()
-    {
-        for (int i = 0; i < unitSelectionCanvas.transform.childCount; i++)
-        {
-            unitSelectionCanvas.transform.GetChild(i).GetComponent<Button>().interactable = true;
-        }
+        isAreaAvailable = true;
     }
 
     public void DeployAttackUnit(AttackType unitType)
     {
-        PlayerTower unitSelectedToDeploy = mainPlayerControl.GetAttackUnitObject(unitType);
+        if (!isAreaAvailable) { Debug.Log("Area Not Available"); return; }
 
-        if (!deployedTower)
+        PlayerTower unitSelectedToDeploy = mainPlayerControl.GetAttackUnitObject(unitType);
+        StartDeployemnt(unitSelectedToDeploy);
+
+    }
+    public void StartDeployemnt(PlayerTower towerSelectedToDeploy)
+    {
+        PlayerTower existingUnit = deployedTower;
+
+        if (existingUnit == null)
         {
-            DeployUnit(unitSelectedToDeploy);
+            DeployUnit(towerSelectedToDeploy);
         }
         else
         {
-            CheckIfCanMerge(unitSelectedToDeploy);
+            DeployUnit(GetUnitAfterMergeCheck(towerSelectedToDeploy));
         }
+
     }
-    public void CheckIfCanMerge(PlayerTower towerSelectedToDeploy)
+    public PlayerTower GetUnitAfterMergeCheck(PlayerTower towerSelectedToDeploy)
     {
         PlayerTower existingUnit = deployedTower;
-        if (existingUnit.supportsCombining)
+        if (existingUnit == null)
+        {
+            return towerSelectedToDeploy;
+        }
+        if (existingUnit && existingUnit.supportsCombining)
         {
             foreach (MergingCombinations existingUnitCombination in existingUnit.possibleCombinations)
             {
                 if (towerSelectedToDeploy.TowerAttackType == existingUnitCombination.combinesWith)
                 {
                     PlayerTower combinedTower = mainPlayerControl.GetAttackUnitObject(existingUnitCombination.toYield);
-                    DeployUnit(combinedTower);
-                    return;
+                    return combinedTower;
                 }
             }
         }
-        else
-        {
-            DeployUnit(towerSelectedToDeploy);
-            return;
-        }
-        Debug.Log("No Possible Combination Found");
+
+        Debug.Log("No possible merge combinations found for: " + towerSelectedToDeploy);
+        return towerSelectedToDeploy;
+
+
     }
+
     public void DeployUnit(PlayerTower towerSelectedToDeploy)
     {
         if (towerSelectedToDeploy.resourceCost > mainPlayerControl.currentResourcesCount)
@@ -72,11 +86,36 @@ public class PlayerUnitDeploymentArea : MonoBehaviour
         mainPlayerControl.RemoveResource(spawnedTower.resourceCost);
         deployedTower = spawnedTower;
     }
+
     private void DeleteChildTowers()
     {
         foreach (Transform child in transform)
         {
             Destroy(child.gameObject);
+        }
+    }
+
+
+    public void ToggleHighlightArea(bool value)
+    {
+        TryGetComponent(out MeshRenderer renderer);
+        if (renderer)
+        {
+            if (value == true)
+            {
+                if (isAreaAvailable)
+                {
+                    renderer.material.color = Color.green;
+                }
+                else
+                {
+                    renderer.material.color = Color.red;
+                }
+            }
+            else
+            {
+                renderer.material.color = new Color(1, 1, 1, 0);
+            }
         }
     }
 

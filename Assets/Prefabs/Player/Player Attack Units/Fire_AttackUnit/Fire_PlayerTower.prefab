@@ -465,10 +465,10 @@ MonoBehaviour:
   m_currentHealth: 300
   statsCanvas: {fileID: 925684410495288915}
   m_healthBar: {fileID: 344725364652099105}
-  ownerIsPlayer: 0
   m_currentTowerTypeText: {fileID: 4803466928755212132}
   m_currentTower: {fileID: 0}
   m_NPCManager: {fileID: 0}
+  ownerIsPlayer: 0
 --- !u!114 &9155262638970726652
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -493,7 +493,7 @@ MonoBehaviour:
   - combinesWith: 2
     toYield: 5
   delayBetweenShots: 0.5
-  shootingRange: 50
+  shootingRange: 15
   unitRefreshAfter: 2
   attackBulletPrefab: {fileID: 9203068762116010779, guid: b5aed220e22844a4fb815e6910fb1d07,
     type: 3}
@@ -502,6 +502,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   targetsInRange: []
+  deployedAtArea: {fileID: 0}
   currentTowerState: 0
   timeSinceLastAttack: 0
   targetTF: {fileID: 0}
