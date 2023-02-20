@@ -10,9 +10,6 @@ public class MainPlayerControl : MonoBehaviour
     [Header("ATTACK UNITS"), Space(2)]
     public PlayerTower[] allPlayerTowers;
 
-    [Header("GLOBAL REFRENCES"), Space(2)]
-    public GameObject towerRadiusVisualObj;
-
     [Header("RESOURCE METER")]                                          //RENAME THIS  BLOCK LATER TO WHAT WE ARE USING FOR THE NAME OF RESOURCE
     [Range(1, 20)] public float maxResources = 10;
     [Range(0.1f, 5f)] public float resourceRechargeRate = 1.0f;         //Recharge Rate per second

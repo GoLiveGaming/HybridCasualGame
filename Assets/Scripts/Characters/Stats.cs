@@ -11,7 +11,7 @@ public class Stats : MonoBehaviour
 
     [Space(2), Header("STATS UI")]
     [SerializeField] private GameObject statsCanvas;
-    [SerializeField] private Image m_healthBar;
+    public Image m_healthBar;
 
 
     [Space(2), Header("PLAYER EXCLUSIVE OPTIONS")]
@@ -111,6 +111,8 @@ public class Stats : MonoBehaviour
             yield return null;
         }
     }
+
+
     #region NPC EXCLUSIVES
     public void SlowDownMoveSpeed(float speed, float duration)
     {

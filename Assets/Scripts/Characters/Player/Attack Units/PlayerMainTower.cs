@@ -1,21 +1,21 @@
 public class PlayerMainTower : PlayerUnitBase
 {
-    protected override void Start()
+    protected void Start()
     {
-        base.Start();
+        AddUnitToMain();
         if (mainPlayerControl && !mainPlayerControl.mainPlayerTower.Contains(this))
             mainPlayerControl.mainPlayerTower.Add(this);
     }
 
-    protected override void OnEnable()
+    protected void OnEnable()
     {
-        base.OnEnable();
+        AddUnitToMain();
         if (mainPlayerControl && !mainPlayerControl.mainPlayerTower.Contains(this))
             mainPlayerControl.mainPlayerTower.Add(this);
     }
-    protected override void OnDisable()
+    protected void OnDisable()
     {
-        base.OnDisable();
+        RemoveUnitFromMain();
         if (mainPlayerControl && mainPlayerControl.mainPlayerTower.Contains(this))
             mainPlayerControl.mainPlayerTower.Remove(this);
     }

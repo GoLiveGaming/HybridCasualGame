@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 public class PlayerTower : PlayerUnitBase
@@ -5,6 +6,7 @@ public class PlayerTower : PlayerUnitBase
     [Space(2), Header("PLAYER TOWER PROPERTIES"), Space(2)]
     public AttackType TowerAttackType;
     [Range(0, 10)] public int resourceCost = 2;
+    [Range(0, 10)] public int constructionTime = 3;
 
     [Space(2), Header("Merging Properties")]
     public bool supportsCombining = false;
@@ -25,6 +27,8 @@ public class PlayerTower : PlayerUnitBase
     [ReadOnly] public TowerState currentTowerState;
     [ReadOnly] public float timeSinceLastAttack = 0f;
     [ReadOnly] public Transform targetTF;
+    private bool isActive;
+    private bool initialized = false;
 
     internal Stats _stats;
 
@@ -35,17 +39,13 @@ public class PlayerTower : PlayerUnitBase
         Gizmos.color = Color.magenta;
         Gizmos.DrawWireSphere(transform.position, shootingRange);
     }
-    protected override void Awake()
+    protected void OnDisable()
     {
-        base.Awake();
-        _stats = GetComponent<Stats>();
-        timeSinceUnitRefresh = unitRefreshAfter;
-        currentTowerState = TowerState.Idle;
+        RemoveUnitFromMain();
     }
-    protected override void Start()
+    protected void Start()
     {
-        base.Start();
-        deployedAtArea = GetComponentInParent<PlayerUnitDeploymentArea>();
+        if (!initialized) Initialize();
     }
 
     private void Update()
@@ -53,12 +53,47 @@ public class PlayerTower : PlayerUnitBase
         UpdateUnit();
     }
 
+    void Initialize()
+    {
+        isActive = false;
+        _stats = GetComponent<Stats>();
+
+        timeSinceUnitRefresh = unitRefreshAfter;
+        currentTowerState = TowerState.Idle;
+        deployedAtArea = GetComponentInParent<PlayerUnitDeploymentArea>();
+        initialized = true;
+
+        StartCoroutine(StartDeploymentSequence());
+    }
+    IEnumerator StartDeploymentSequence()
+    {
+        isActive = false;
+        _stats.m_healthBar.fillAmount = 0;
+        float elapsedTime = 0;
+        float startValue = _stats.m_healthBar.fillAmount;
+        float endValue = 1f;
+
+        while (elapsedTime < constructionTime)
+        {
+            float t = elapsedTime / constructionTime;
+            _stats.m_healthBar.fillAmount = Mathf.Lerp(startValue, endValue, t);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+        _stats.m_healthBar.fillAmount = endValue;
+        AddUnitToMain();
+        isActive = true;
+    }
+
     public void UpdateUnit()
     {
-        RefreshTargetsList();
-        UpdateTowerState();
-        if (currentTowerState == TowerState.Idle) TurretIdleAction();
-        else if (currentTowerState == TowerState.Attack) TurretAttackAction();
+        if (isActive)
+        {
+            RefreshTargetsList();
+            UpdateTowerState();
+            if (currentTowerState == TowerState.Idle) TurretIdleAction();
+            else if (currentTowerState == TowerState.Attack) TurretAttackAction();
+        }
     }
 
     protected void UpdateTowerState()
@@ -152,6 +187,7 @@ public class PlayerTower : PlayerUnitBase
         bullet.GetComponent<Bullet>().InitializeBullet(targetTF.position);
 
     }
+
 
     public void OnTowerDestroyed()
     {

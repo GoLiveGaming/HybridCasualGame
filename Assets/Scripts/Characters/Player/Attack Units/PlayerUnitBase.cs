@@ -1,28 +1,19 @@
-
-using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Stats))]
 public class PlayerUnitBase : MonoBehaviour
 {
     [ReadOnly] public MainPlayerControl mainPlayerControl;
-
-    protected virtual void Awake() { }
-
-    protected virtual void Start()
+    protected void AddUnitToMain()
     {
+
         if (!mainPlayerControl) mainPlayerControl = MainPlayerControl.Instance;
         if (mainPlayerControl && !mainPlayerControl.activePlayerTowersList.Contains(this))
             mainPlayerControl.activePlayerTowersList.Add(this);
+
     }
 
-    protected virtual void OnEnable()
-    {
-        if (!mainPlayerControl) mainPlayerControl = MainPlayerControl.Instance;
-        if (mainPlayerControl && !mainPlayerControl.activePlayerTowersList.Contains(this))
-            mainPlayerControl.activePlayerTowersList.Add(this);
-    }
-    protected virtual void OnDisable()
+    protected void RemoveUnitFromMain()
     {
         if (!mainPlayerControl) mainPlayerControl = MainPlayerControl.Instance;
         if (mainPlayerControl && mainPlayerControl.activePlayerTowersList.Contains(this))
