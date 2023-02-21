@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18315063, g: 0.22881421, b: 0.3065624, a: 1}
+  m_IndirectSpecularColor: {r: 0.4651029, g: 0.51565063, b: 0.5896173, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -871,9 +871,11 @@ MonoBehaviour:
   layersToCollide:
     serializedVersion: 2
     m_Bits: 513
+  costImg: {fileID: 0}
   parentCanvas: {fileID: 0}
   attackType: 2
-  deploymentArea: {fileID: 0}
+  rangeVisualObjPrefab: {fileID: 0}
+  activeDeploymentArea: {fileID: 0}
 --- !u!1 &142754169
 GameObject:
   m_ObjectHideFlags: 0
@@ -928,10 +930,10 @@ MonoBehaviour:
   - {fileID: 1479879460}
   - {fileID: 1798902566}
   ObjectsToSpawn:
-  - {fileID: 1291241305760107781, guid: ead85dcfca7478148bdeddc8fb3e0eaa, type: 3}
-  - {fileID: 1291241305760107781, guid: d3113c10cf3d58040aa756802764914e, type: 3}
-  - {fileID: 6274569744429699181, guid: 196e616c144cd0e4f8a49cbc49d54bbf, type: 3}
-  - {fileID: 6274569744429699181, guid: 830928857fff5654dbe608bcb05de899, type: 3}
+  - {fileID: 5701197444138071026, guid: 1707dafde0e219c41959f1ac0ebc6b3e, type: 3}
+  - {fileID: 248936595516059210, guid: 4a2926f1744041940bdb864442d3bafc, type: 3}
+  - {fileID: 723438294760183354, guid: 3ce5f69a570869942b908758431e9431, type: 3}
+  - {fileID: 4097628284369559533, guid: 91966aeb50a90974f93b03e7472ea629, type: 3}
   canSpawnEnemies: 1
   enemiesParent: {fileID: 261723878}
   spawnInterval: 1
@@ -1818,18 +1820,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b8ff3569b061064a9e6f762b29c11f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rootcanvas: {fileID: 0}
   unitSelectionCanvas: {fileID: 514912146}
   pausePanel: {fileID: 1489812441}
   gameOverPanel: {fileID: 1349553021}
+  loadingPanel: {fileID: 0}
   pauseBtn: {fileID: 234012329}
   resumeBtn: {fileID: 422513925}
   restartBtn: {fileID: 64032665}
   quitBtn: {fileID: 1209031283}
   unitSelectionCooldownTimerImage: {fileID: 1690991044}
+  loadingfiller: {fileID: 0}
   waveTxt: {fileID: 1685746447}
   overTxt: {fileID: 295948385}
   enemiesCountTxt: {fileID: 171035479}
   m_warningText: {fileID: 475330094}
+  m_damageTextPrefab: {fileID: 0}
 --- !u!1 &300940050
 GameObject:
   m_ObjectHideFlags: 0
@@ -2278,9 +2284,11 @@ MonoBehaviour:
   layersToCollide:
     serializedVersion: 2
     m_Bits: 513
+  costImg: {fileID: 0}
   parentCanvas: {fileID: 0}
   attackType: 0
-  deploymentArea: {fileID: 0}
+  rangeVisualObjPrefab: {fileID: 0}
+  activeDeploymentArea: {fileID: 0}
 --- !u!1001 &414789318
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3260,8 +3268,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d819f42b7fd5d5e45b336fa3e7b58dc3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unitSelectionCanvas: {fileID: 514912146}
   deployedTower: {fileID: 0}
+  isAreaAvailable: 1
 --- !u!65 &704495412
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4303,8 +4311,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d819f42b7fd5d5e45b336fa3e7b58dc3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unitSelectionCanvas: {fileID: 514912146}
   deployedTower: {fileID: 0}
+  isAreaAvailable: 1
 --- !u!65 &1107322828
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5310,11 +5318,13 @@ MonoBehaviour:
   - {fileID: 9155262638970726652, guid: 830d2d542fd281f4e8017a9df1d1da52, type: 3}
   - {fileID: -8936886559788239264, guid: 1cefc530cd52abf4b93e5753a52b62b9, type: 3}
   - {fileID: 5781498035940459879, guid: e2fe3767b5cc2774394d5edb83c3dc6c, type: 3}
+  towerParticles: []
+  enemyParticles: []
   maxResources: 10
   resourceRechargeRate: 1
   currentResourcesCount: 10
   activePlayerTowersList: []
-  activeUnitDeploymentArea: {fileID: 0}
+  mainPlayerTower: []
   isRecharging: 0
 --- !u!1 &1479879459
 GameObject:
@@ -6189,9 +6199,11 @@ MonoBehaviour:
   layersToCollide:
     serializedVersion: 2
     m_Bits: 513
+  costImg: {fileID: 0}
   parentCanvas: {fileID: 0}
   attackType: 1
-  deploymentArea: {fileID: 0}
+  rangeVisualObjPrefab: {fileID: 0}
+  activeDeploymentArea: {fileID: 0}
 --- !u!1 &1631536442
 GameObject:
   m_ObjectHideFlags: 0
@@ -6455,8 +6467,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d819f42b7fd5d5e45b336fa3e7b58dc3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unitSelectionCanvas: {fileID: 514912146}
   deployedTower: {fileID: 0}
+  isAreaAvailable: 1
 --- !u!65 &1672783765
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -6907,8 +6919,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d819f42b7fd5d5e45b336fa3e7b58dc3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unitSelectionCanvas: {fileID: 514912146}
   deployedTower: {fileID: 0}
+  isAreaAvailable: 1
 --- !u!65 &1771972154
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -7196,8 +7208,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d819f42b7fd5d5e45b336fa3e7b58dc3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unitSelectionCanvas: {fileID: 514912146}
   deployedTower: {fileID: 0}
+  isAreaAvailable: 1
 --- !u!65 &1958575305
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -12388,10 +12400,10 @@ MonoBehaviour:
   m_currentHealth: 900
   statsCanvas: {fileID: 9214874315411211878}
   m_healthBar: {fileID: 9214874315530781734}
-  ownerIsPlayer: 0
   m_currentTowerTypeText: {fileID: 0}
   m_currentTower: {fileID: 0}
   m_NPCManager: {fileID: 0}
+  ownerIsPlayer: 0
 --- !u!114 &9214874315783043167
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12404,6 +12416,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 333636e054d194345aeb3bd458fc67a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TowerAttackType: 0
   mainPlayerControl: {fileID: 0}
 --- !u!33 &9214874315829827188
 MeshFilter:

@@ -16,6 +16,7 @@ public class UIManager : MonoBehaviour
     public GameObject unitSelectionCanvas;
     public GameObject pausePanel;
     public GameObject gameOverPanel;
+    public GameObject loadingPanel;
 
     [Header("Button Componenets")]
     public Button pauseBtn;
@@ -25,6 +26,7 @@ public class UIManager : MonoBehaviour
 
     [Header("Image Componenets")]
     public Image unitSelectionCooldownTimerImage;
+    public Image loadingfiller;
 
     [Header("Text Componenets")]
     public TMP_Text waveTxt;
@@ -34,6 +36,8 @@ public class UIManager : MonoBehaviour
 
     [Header("GLOBAL REFRENCE UI")]
     public TMP_Text m_damageTextPrefab;
+
+    Queue<TMP_Text> damageTextQueue = new Queue<TMP_Text>();
 
     public string ShowWarningText
     {
@@ -59,10 +63,6 @@ public class UIManager : MonoBehaviour
         restartBtn.onClick.AddListener(RestartButton);
         quitBtn.onClick.AddListener(QuitButton);
     }
-    private void OnEnable()
-    {
-
-    }
 
     private void OnDisable()
     {
@@ -73,9 +73,21 @@ public class UIManager : MonoBehaviour
     }
     internal void ShowText(string tempTxt)
     {
-        //   ShowResponseMessage(tempTxt, waveTxt);
+        ShowResponseMessage(tempTxt, waveTxt);
     }
-
+    private void Start()
+    {
+        SpawndamageTexts();
+    }
+    void SpawndamageTexts()
+    {
+        for(int i = 0; i < 40; i++)
+        {
+            TMP_Text damageText = Instantiate(m_damageTextPrefab, rootcanvas.transform.position, Quaternion.identity, rootcanvas.transform);
+            damageTextQueue.Enqueue(damageText);
+            damageText.gameObject.SetActive(false);
+        }
+    }
     public void CloseTheLevel()
     {
         SceneManager.LoadSceneAsync(0);
@@ -108,13 +120,16 @@ public class UIManager : MonoBehaviour
     {
         SceneManager.LoadSceneAsync(0);
     }
-
+    public void TempVoid()
+    {
+        GameOverVoid("", true);
+    }
     public void GameOverVoid(string textTemp, bool isWon)
     {
         gameOverPanel.SetActive(true);
         overTxt.text = textTemp;
 
-        if (isWon && (PlayerPrefs.GetInt("CurrentLevel") < 2))
+        if (isWon && (PlayerPrefs.GetInt("CurrentLevel") < 3))
         {
             int tempInt = PlayerPrefs.GetInt("CurrentLevel");
             tempInt++;
@@ -129,11 +144,16 @@ public class UIManager : MonoBehaviour
 
         Vector3 spawnPos = Camera.main.WorldToScreenPoint(atPosition);
 
-        TMP_Text damageText = Instantiate(m_damageTextPrefab, spawnPos, Quaternion.identity, rootcanvas.transform);
-        damageText.text = damageAmount.ToString();
-
-        (damageText.transform as RectTransform).DOJump(spawnPos + new Vector3(0, 200, 0), 10, 2, 1);
-        Destroy(damageText.gameObject,1);
+        //  TMP_Text damageText = Instantiate(m_damageTextPrefab, spawnPos, Quaternion.identity, rootcanvas.transform);
+        TMP_Text tempTxt = damageTextQueue.Dequeue();
+        tempTxt.transform.position = spawnPos;
+        tempTxt.text = damageAmount.ToString();
+        tempTxt.gameObject.SetActive(true);
+        (tempTxt.transform as RectTransform).DOJump(spawnPos + new Vector3(0, 200, 0), 10, 2, 1).OnComplete(() =>
+        {
+            tempTxt.gameObject.SetActive(false);
+            damageTextQueue.Enqueue(tempTxt);
+        });
 
     }
     public string FormatStringNextLineOnUpperCase(string value)

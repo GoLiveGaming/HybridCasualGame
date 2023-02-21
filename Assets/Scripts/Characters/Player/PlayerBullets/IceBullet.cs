@@ -9,6 +9,10 @@ public class IceBullet : Bullet
 
     [SerializeField] private ParticleSystem ExplosionPrefab;
 
+    private void Awake()
+    {
+        if(AudioManager.Instance)AudioManager.Instance.audioSource.PlayOneShot(AudioManager.Instance.IceAttack);
+    }
 
     protected override void OnTriggerEnter(Collider other)
     {

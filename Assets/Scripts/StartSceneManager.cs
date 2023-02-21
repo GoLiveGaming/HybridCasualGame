@@ -36,6 +36,10 @@ public class StartSceneManager : MonoBehaviour
         {
             levelText.text = "Level 3";
         }
+        else if (PlayerPrefs.GetInt("CurrentLevel") == 3)
+        {
+            levelText.text = "Level 4";
+        }
     }
 
     public void QuitGame()
@@ -52,6 +56,7 @@ public class StartSceneManager : MonoBehaviour
     public void OnEnterVoid()
     {
         int tempInt = PlayerPrefs.GetInt("CurrentLevel");
+        if(tempInt < 4)
         tempInt++;
           SceneManager.LoadSceneAsync(tempInt);
     }

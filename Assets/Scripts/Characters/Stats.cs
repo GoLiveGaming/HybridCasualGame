@@ -44,6 +44,7 @@ public class Stats : MonoBehaviour
                     if (GetComponent<PlayerMainTower>())
                     {
                         m_UIManager.GameOverVoid("You lost the level", false);
+                        if(AudioManager.Instance)AudioManager.Instance.audioSource.PlayOneShot(AudioManager.Instance.LevelLost);
                         return;
                     }
 
@@ -56,6 +57,7 @@ public class Stats : MonoBehaviour
                     if (m_LevelManager.deadEnemiesCount <= 0)
                     {
                         m_UIManager.GameOverVoid("You won the level", true);
+                        if(AudioManager.Instance)AudioManager.Instance.audioSource.PlayOneShot(AudioManager.Instance.Victory);
                     }
                 }
                 Destroy(gameObject);

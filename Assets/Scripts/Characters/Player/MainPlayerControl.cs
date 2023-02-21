@@ -10,6 +10,9 @@ public class MainPlayerControl : MonoBehaviour
     [Header("ATTACK UNITS"), Space(2)]
     public PlayerTower[] allPlayerTowers;
 
+    public ParticleSystem[] towerParticles;
+    public ParticleSystem[] enemyParticles;
+
     [Header("RESOURCE METER")]                                          //RENAME THIS  BLOCK LATER TO WHAT WE ARE USING FOR THE NAME OF RESOURCE
     [Range(1, 20)] public float maxResources = 10;
     [Range(0.1f, 5f)] public float resourceRechargeRate = 1.0f;         //Recharge Rate per second
@@ -56,20 +59,25 @@ public class MainPlayerControl : MonoBehaviour
         {
             StartCoroutine(RechargeResource());
         }
-
     }
     IEnumerator RechargeResource()
     {
         isRecharging = true;
+        if(currentResourcesCount == 0 && AudioManager.Instance)
+           AudioManager.Instance.audioSource.PlayOneShot(AudioManager.Instance.ManaOut);
+        
 
         while (currentResourcesCount < maxResources)
         {
             yield return new WaitForSeconds(1f);
             currentResourcesCount += resourceRechargeRate;
             uiManager.unitSelectionCooldownTimerImage.fillAmount = currentResourcesCount / maxResources;
+            if(currentResourcesCount == maxResources && AudioManager.Instance)
+            AudioManager.Instance.audioSource.PlayOneShot(AudioManager.Instance.ManaFull);
         }
         currentResourcesCount = Mathf.Clamp(currentResourcesCount, 0, maxResources);
         uiManager.unitSelectionCooldownTimerImage.fillAmount = currentResourcesCount / maxResources;
+        
         isRecharging = false;
     }
 

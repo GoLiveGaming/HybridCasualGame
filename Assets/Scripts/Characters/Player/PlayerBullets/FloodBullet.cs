@@ -27,10 +27,10 @@ public class FloodBullet : Bullet
 
         int numTargets = Physics.OverlapSphereNonAlloc(transform.position, aoeRadius, hitColliders, collisionLayerMask);
 
-        GameObject spawnedAOE = Instantiate(aoeVisualObj, this.transform.position, Quaternion.identity);
+        //GameObject spawnedAOE = Instantiate(aoeVisualObj, this.transform.position, Quaternion.identity);
 
-        if (spawnedAOE) spawnedAOE.transform.DOScale(Vector3.one * aoeRadius, aoeLifetime);
-        if (spawnedAOE) Destroy(spawnedAOE, aoeLifetime);
+        //if (spawnedAOE) spawnedAOE.transform.DOScale(Vector3.one * aoeRadius, aoeLifetime);
+        //if (spawnedAOE) Destroy(spawnedAOE, aoeLifetime);
 
         if (numTargets > 0)
         {

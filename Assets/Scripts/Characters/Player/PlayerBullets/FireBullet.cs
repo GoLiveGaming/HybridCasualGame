@@ -6,12 +6,18 @@ public class FireBullet : Bullet
     [SerializeField] private float damageDuration = 5f;
 
     [SerializeField] private ParticleSystem ExplosionPrefab;
+
+    private void Awake()
+    {
+        if(AudioManager.Instance)AudioManager.Instance.audioSource.PlayOneShot(AudioManager.Instance.FireBallProjectile);
+    }
     protected override void OnTriggerEnter(Collider other)
     {
         if (IsInLayerMask(other.gameObject.layer, collisionLayerMask))
         {
             other.TryGetComponent(out NPCManagerScript npcManager);
-            StartAttack(npcManager);     
+            if(AudioManager.Instance)AudioManager.Instance.audioSource.PlayOneShot(AudioManager.Instance.FireBallHit);
+            StartAttack(npcManager);
         }
     }
 

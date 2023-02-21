@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -18,6 +19,9 @@ public class EnemySpawners : MonoBehaviour
 
     [SerializeField, Range(0.1f, 100f)] private float spawnInterval = 2f;
     [SerializeField, Range(0.1f, 100f)] private float spawnIntervalOffset = 2f;
+
+   // public Dictionary<EnemyTypes, Queue<NPCManagerScript>> spawnDictionary = new Dictionary<EnemyTypes, Queue<NPCManagerScript>>();
+    List<NPCManagerScript> spawnList = new List<NPCManagerScript>();
 
     private float currentSpawnInterval;
 
@@ -43,17 +47,28 @@ public class EnemySpawners : MonoBehaviour
         Instance = this;
     }
     void Start()
-    {
+    { 
        // if (spawnInProximity) StartCoroutine(SpawnEnemiesInProximity());
     }
+
+    internal void SpawnEverythingAtStart(EnemyTypes type, int objectSpawnPosIndex)
+    {
+        int objectindex = ObjectToSpawnIndex(type);
+        NPCManagerScript tempObj = Instantiate(ObjectsToSpawn[objectindex], spawnLocations[objectSpawnPosIndex].position, Quaternion.identity);
+        tempObj.transform.SetParent(enemiesParent);
+        tempObj.gameObject.SetActive(false);
+        spawnList.Add(tempObj);
+    }
+
+    
 
     IEnumerator SpawnEnemiesInProximity()
     {
         while (canSpawnEnemies)
         {
             Vector3 spawnLocation;
-            int spawnLocationIndex = Random.Range(0, spawnLocations.Length);
-            int objectToSpawnIndex = Random.Range(0, ObjectsToSpawn.Length);
+            int spawnLocationIndex = UnityEngine.Random.Range(0, spawnLocations.Length);
+            int objectToSpawnIndex = UnityEngine.Random.Range(0, ObjectsToSpawn.Length);
 
             if (spawnLocations.Length > 0)
             {
@@ -67,25 +82,29 @@ public class EnemySpawners : MonoBehaviour
             }
             Instantiate(ObjectsToSpawn[objectToSpawnIndex], spawnLocation, Quaternion.identity);
 
-            currentSpawnInterval = spawnInterval + Random.Range(-spawnIntervalOffset, spawnIntervalOffset);
+            currentSpawnInterval = spawnInterval + UnityEngine.Random.Range(-spawnIntervalOffset, spawnIntervalOffset);
 
             yield return new WaitForSeconds(currentSpawnInterval);
 
         }
     }
 
-    internal void SpawnEnemiesInWaves(EnemyTypes type, int objectSpawnPosIndex)
+    internal void SpawnEnemiesInWaves(EnemyTypes type)
     {
+        var spawnObj = spawnList.Find(new System.Predicate<NPCManagerScript>
+            (c =>c.enemyType == type));
+        int Idx = spawnList.FindIndex(new System.Predicate<NPCManagerScript>(t => t == spawnObj));
+
         Vector3 spawnLocation;
-        spawnLocation = RandomNavSphere(transform.position, proxSpawnradius, -1);
-        int objectindex = ObjectToSpawnIndex(type);
-        NPCManagerScript tempObj = Instantiate(ObjectsToSpawn[objectindex],spawnLocations[objectSpawnPosIndex].position, Quaternion.identity);
-        tempObj.transform.SetParent(enemiesParent);
+        spawnLocation = RandomNavSphere(spawnObj.transform.position, proxSpawnradius, -1);
+        spawnObj.transform.position = spawnLocation;
+        spawnObj.gameObject.SetActive(true);
+        spawnList.Remove(spawnList[Idx]);
     }
 
     public static Vector3 RandomNavSphere(Vector3 origin, float dist, int layermask)
     {
-        Vector3 randDirection = Random.insideUnitSphere * dist;
+        Vector3 randDirection = UnityEngine.Random.insideUnitSphere * dist;
 
         randDirection += origin;
 

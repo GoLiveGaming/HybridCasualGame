@@ -15,7 +15,7 @@ public class LevelManager : MonoBehaviour
     [ReadOnly] public int levelNum = 0;
     [ReadOnly] public int deadEnemiesCount = 0;
     [ReadOnly] public int maxEnemyCount;
-    [ReadOnly] public int spawnedEnemyCount;
+    [ReadOnly] public int spawnedEnemyCount = 0;
 
     private void Awake()
     {
@@ -24,23 +24,46 @@ public class LevelManager : MonoBehaviour
 
     private void Start()
     {
+        UIManager.Instance.loadingPanel.gameObject.SetActive(true);
         levelNum = PlayerPrefs.GetInt("CurrentLevel");
-        Debug.Log(levelNum);
-        //try
-        //{
         maxEnemyCount = levelData[levelNum].totalEnemies;
         deadEnemiesCount = levelData[levelNum].totalEnemies;
         UIManager.Instance.enemiesCountTxt.text = levelData[levelNum].totalEnemies.ToString();
-        StartCoroutine(InstaniateEnemies(levelData[levelNum].Waves[WaveIndexMain].enemyData[0].TimeInterval));
-        //}
-        //catch
-        //{
-        //    Debug.LogError("There are no levels");
-        //}
-        
+        StartCoroutine(LoadingScene());
+        InstantiateAllEnemiesAtStart();
     }
 
-    IEnumerator InstaniateEnemies(int time)
+    IEnumerator LoadingScene()
+    {
+        while (maxEnemyCount > spawnedEnemyCount)
+        {
+            UIManager.Instance.loadingfiller.fillAmount = spawnedEnemyCount / maxEnemyCount;
+            yield return null;
+        }
+        yield return new WaitWhile(() => maxEnemyCount > spawnedEnemyCount);
+        UIManager.Instance.loadingPanel.gameObject.SetActive(false);
+        if(AudioManager.Instance)AudioManager.Instance.audioSource.PlayOneShot(AudioManager.Instance.LevelStart);
+        StartCoroutine(SpawnEnemiesInIntervels(levelData[levelNum].Waves[WaveIndexMain].enemyData[0].TimeInterval));
+    }
+
+    
+
+    void InstantiateAllEnemiesAtStart()
+    {
+        for(int i =0; i < levelData[levelNum].Waves.Length; i++)
+        {
+            for (int j = 0; j < levelData[levelNum].Waves[i].enemyData.Length; j++)
+            {
+                for (int k = 0; k < levelData[levelNum].Waves[i].enemyData[j].enemyCount; k++)
+                {
+                    EnemySpawners.Instance.SpawnEverythingAtStart(levelData[levelNum].Waves[i].enemyData[j].enemyType, levelData[levelNum].Waves[i].enemyData[j].SpawnLocation);
+                    spawnedEnemyCount++;
+                }
+            }
+        }
+    }
+
+    IEnumerator SpawnEnemiesInIntervels(int time)
     {
         //while (!isGameOver)
         //{
@@ -54,19 +77,20 @@ public class LevelManager : MonoBehaviour
             }
             else
             {
-                StartCoroutine(InstaniateEnemies(levelData[levelNum].Waves[WaveIndexMain].enemyData[0].TimeInterval));
+                StartCoroutine(SpawnEnemiesInIntervels(levelData[levelNum].Waves[WaveIndexMain].enemyData[0].TimeInterval));
             }
        // }
     }
-
+    int aa = 0;
     void SpawnEnemies(int waveIndex)
     {
         for (int i = 0; i < levelData[levelNum].Waves[waveIndex].enemyData.Length; i++)
         {
             for (int j = 0; j < levelData[levelNum].Waves[waveIndex].enemyData[i].enemyCount; j++)
             {
-                spawnedEnemyCount++;
-                EnemySpawners.Instance.SpawnEnemiesInWaves(levelData[levelNum].Waves[waveIndex].enemyData[i].enemyType, levelData[levelNum].Waves[waveIndex].enemyData[i].SpawnLocation);
+                //if(aa < -1)
+                EnemySpawners.Instance.SpawnEnemiesInWaves(levelData[levelNum].Waves[waveIndex].enemyData[i].enemyType);
+                aa++;
             }
         }
     }

@@ -3,6 +3,7 @@ using UnityEngine;
 [RequireComponent(typeof(Stats))]
 public class PlayerUnitBase : MonoBehaviour
 {
+    public AttackType TowerAttackType;
     [ReadOnly] public MainPlayerControl mainPlayerControl;
     protected void AddUnitToMain()
     {

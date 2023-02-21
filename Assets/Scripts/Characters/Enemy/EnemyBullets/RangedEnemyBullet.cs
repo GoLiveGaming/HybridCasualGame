@@ -20,6 +20,16 @@ public class RangedEnemyBullet : Bullet
         //}
     }
 
+    private void OnDestroy()
+    {
+        if (MainPlayerControl.Instance)
+        {
+            if(AudioManager.Instance) AudioManager.Instance.audioSource.PlayOneShot(AudioManager.Instance.EnemyHit);
+            ParticleSystem deathParticle = Instantiate(MainPlayerControl.Instance.enemyParticles[0], transform.position, Quaternion.identity);
+            Destroy(deathParticle.gameObject, deathParticle.main.duration);
+        }
+    }
+
     protected override void StartAttackTower(PlayerTower hitMain)
     {
         if (!hitMain) return;

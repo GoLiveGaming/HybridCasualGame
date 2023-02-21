@@ -4,7 +4,6 @@ using UnityEngine;
 public class PlayerTower : PlayerUnitBase
 {
     [Space(2), Header("PLAYER TOWER PROPERTIES"), Space(2)]
-    public AttackType TowerAttackType;
     [Range(0, 10)] public int resourceCost = 2;
     [Range(0, 10)] public int constructionTime = 3;
 
@@ -192,5 +191,15 @@ public class PlayerTower : PlayerUnitBase
     public void OnTowerDestroyed()
     {
         if (deployedAtArea) deployedAtArea.isAreaAvailable = false;
+    }
+
+    private void OnDestroy()
+    {
+        if (mainPlayerControl)
+        {
+            ParticleSystem deathParticle = Instantiate(mainPlayerControl.towerParticles[2], transform.position, Quaternion.identity);
+            if(AudioManager.Instance) AudioManager.Instance.audioSource.PlayOneShot(AudioManager.Instance.TowerDestroyed);
+            Destroy(deathParticle.gameObject, deathParticle.main.duration);
+        }
     }
 }
