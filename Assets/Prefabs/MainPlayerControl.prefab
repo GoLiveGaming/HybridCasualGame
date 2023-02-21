@@ -1,0 +1,69 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &4191099963764659743
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4191099963764659740}
+  - component: {fileID: 4191099963764659741}
+  m_Layer: 0
+  m_Name: MainPlayerControl
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4191099963764659740
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4191099963764659743}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -21.45}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4191099963764659741
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4191099963764659743}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d079bbf72f6fa584caa72b148179d0ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  allPlayerTowers:
+  - {fileID: 9155262638970726652, guid: 80f48ff350784bc44801f2726fa84d79, type: 3}
+  - {fileID: 5781498035940459879, guid: 192567f583c1d7c48b6df90e5ed961ab, type: 3}
+  - {fileID: 5781498035940459879, guid: 2c2b360639b89a44783a7c8b6cc677f4, type: 3}
+  - {fileID: 5781498035940459879, guid: e395ea30aefae3c48ae4b3709bc553be, type: 3}
+  - {fileID: 5781498035940459879, guid: bd7a8c08feb24a34dbd25d2f1b6c537b, type: 3}
+  - {fileID: 9155262638970726652, guid: e5c254b6988d2fa489be80bd69416140, type: 3}
+  - {fileID: 9155262638970726652, guid: 0c315d7dd8ee16240a7564024eb987f3, type: 3}
+  - {fileID: -8936886559788239264, guid: e217fbe8d60bada48972d1f3aafb6970, type: 3}
+  - {fileID: 5781498035940459879, guid: 870aef230b5b44643944e43265483026, type: 3}
+  towerParticles:
+  - {fileID: 4271093393614929224, guid: af7053c970d2cb44e8c1904918ddd843, type: 3}
+  - {fileID: 19800000, guid: b5d5bac6bdebee7429499e3341bdc6fa, type: 3}
+  - {fileID: 2433282508523890284, guid: d037d5dc95c91c64281843a93533370b, type: 3}
+  enemyParticles:
+  - {fileID: 19800000, guid: a7027a47f33ce3d49887fe2019a51abc, type: 3}
+  - {fileID: 5985634496115995770, guid: 1670c3ffa9290c249862358be822a81d, type: 3}
+  maxResources: 10
+  resourceRechargeRate: 0.5
+  currentResourcesCount: 10
+  activePlayerTowersList: []
+  mainPlayerTower: []
+  isRecharging: 0
