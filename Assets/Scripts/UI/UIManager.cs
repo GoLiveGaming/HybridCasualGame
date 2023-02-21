@@ -114,7 +114,7 @@ public class UIManager : MonoBehaviour
     }
     public void RestartButton()
     {
-        SceneManager.LoadSceneAsync(1);
+        SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex);
     }
     public void QuitButton()
     {
@@ -140,10 +140,11 @@ public class UIManager : MonoBehaviour
 
     public void ShowFloatingDamage(float damageAmount, Vector3 atPosition)
     {
-        if (!m_damageTextPrefab) return;
+        
 
         Vector3 spawnPos = Camera.main.WorldToScreenPoint(atPosition);
 
+        if (damageTextQueue.Count < 1) return;
         //  TMP_Text damageText = Instantiate(m_damageTextPrefab, spawnPos, Quaternion.identity, rootcanvas.transform);
         TMP_Text tempTxt = damageTextQueue.Dequeue();
         tempTxt.transform.position = spawnPos;

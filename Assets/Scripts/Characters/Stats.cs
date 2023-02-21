@@ -16,7 +16,7 @@ public class Stats : MonoBehaviour
 
     [Space(2), Header("PLAYER EXCLUSIVE OPTIONS")]
     [SerializeField] private TextMeshProUGUI m_currentTowerTypeText;
-    [SerializeField] private PlayerTower m_currentTower;
+    [SerializeField] private PlayerUnitBase m_currentTower;
 
     [Space(2), Header("NPC EXCLUSIVE OPTIONS")]
     [SerializeField] private NPCManagerScript m_NPCManager;
@@ -47,8 +47,8 @@ public class Stats : MonoBehaviour
                         if(AudioManager.Instance)AudioManager.Instance.audioSource.PlayOneShot(AudioManager.Instance.LevelLost);
                         return;
                     }
-
-                    m_currentTower.OnTowerDestroyed();
+                    if(m_currentTower.TryGetComponent(out PlayerTower tower))
+                        tower.OnTowerDestroyed();
                 }
                 else
                 {
@@ -71,7 +71,7 @@ public class Stats : MonoBehaviour
         m_UIManager = UIManager.Instance;
         m_LevelManager = LevelManager.Instance;
 
-        if (m_currentTower = GetComponent<PlayerTower>()) ownerIsPlayer = true;
+        if (m_currentTower = GetComponent<PlayerUnitBase>()) ownerIsPlayer = true;
         else m_NPCManager = GetComponent<NPCManagerScript>();
 
         if (ownerIsPlayer && m_currentTower) SetCurrentUnitTypeText(m_currentTower.TowerAttackType);

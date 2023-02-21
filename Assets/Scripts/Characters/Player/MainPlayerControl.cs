@@ -36,11 +36,16 @@ public class MainPlayerControl : MonoBehaviour
     {
         Time.timeScale = 1;
         Instance = this;
-        uiManager = UIManager.Instance;
+        
     }
     void Update()
     {
         UpdateResourceMeter();
+    }
+
+    private void Start()
+    {
+        uiManager = UIManager.Instance;
     }
     public PlayerTower GetAttackUnitObject(AttackType unitType)
     {
