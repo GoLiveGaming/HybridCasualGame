@@ -36,8 +36,7 @@ public class UIManager : MonoBehaviour
 
     [Header("GLOBAL REFRENCE UI")]
     public TMP_Text m_damageTextPrefab;
-
-    Queue<TMP_Text> damageTextQueue = new Queue<TMP_Text>();
+    readonly Queue<TMP_Text> damageTextQueue = new();
 
     public string ShowWarningText
     {
@@ -104,13 +103,13 @@ public class UIManager : MonoBehaviour
 
     public void PauseButton()
     {
-        pausePanel.gameObject.SetActive(true);
+        pausePanel.SetActive(true);
         Time.timeScale = 0;
     }
     public void ResumeButton()
     {
         Time.timeScale = 1;
-        pausePanel.gameObject.SetActive(false);
+        pausePanel.SetActive(false);
     }
     public void RestartButton()
     {
@@ -140,7 +139,6 @@ public class UIManager : MonoBehaviour
 
     public void ShowFloatingDamage(float damageAmount, Vector3 atPosition)
     {
-        
 
         Vector3 spawnPos = Camera.main.WorldToScreenPoint(atPosition);
 

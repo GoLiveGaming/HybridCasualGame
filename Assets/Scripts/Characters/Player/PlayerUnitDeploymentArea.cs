@@ -40,13 +40,12 @@ public class PlayerUnitDeploymentArea : MonoBehaviour
         if (existingUnit == null)
         {
             DeployUnit(towerSelectedToDeploy);
-            if(AudioManager.Instance)AudioManager.Instance.audioSource.PlayOneShot(AudioManager.Instance.BuildingConstruction);
-            SpawnParticles(0, -90);
+            if (AudioManager.Instance) AudioManager.Instance.audioSource.PlayOneShot(AudioManager.Instance.BuildingConstruction);
         }
         else
         {
             DeployUnit(GetUnitAfterMergeCheck(towerSelectedToDeploy));
-            if(AudioManager.Instance)AudioManager.Instance.audioSource.PlayOneShot(AudioManager.Instance.TowerUpgrade);
+            if (AudioManager.Instance) AudioManager.Instance.audioSource.PlayOneShot(AudioManager.Instance.TowerUpgrade);
             SpawnParticles(1, -90);
         }
 
@@ -54,8 +53,7 @@ public class PlayerUnitDeploymentArea : MonoBehaviour
 
     void SpawnParticles(int particleIndex, int rotation)
     {
-        ParticleSystem particleTemp = Instantiate(MainPlayerControl.Instance.towerParticles[particleIndex], transform.position, Quaternion.Euler(rotation, 0f,0f));
-        if(particleIndex == 0)
+        ParticleSystem particleTemp = Instantiate(MainPlayerControl.Instance.towerParticles[particleIndex], transform.position, Quaternion.Euler(rotation, 0f, 0f));
         Destroy(particleTemp.gameObject, particleTemp.main.duration);
     }
     public PlayerTower GetUnitAfterMergeCheck(PlayerTower towerSelectedToDeploy)

@@ -6,6 +6,8 @@ public class PlayerTower : PlayerUnitBase
     [Space(2), Header("PLAYER TOWER PROPERTIES"), Space(2)]
     [Range(0, 10)] public int resourceCost = 2;
     [Range(0, 10)] public int constructionTime = 3;
+    [SerializeField] private GameObject incompleteTowerObject;
+    [SerializeField] private GameObject completedTowerObject;
 
     [Space(2), Header("Merging Properties")]
     public bool supportsCombining = false;
@@ -56,7 +58,6 @@ public class PlayerTower : PlayerUnitBase
     {
         isActive = false;
         _stats = GetComponent<Stats>();
-
         timeSinceUnitRefresh = unitRefreshAfter;
         currentTowerState = TowerState.Idle;
         deployedAtArea = GetComponentInParent<PlayerUnitDeploymentArea>();
@@ -66,6 +67,8 @@ public class PlayerTower : PlayerUnitBase
     }
     IEnumerator StartDeploymentSequence()
     {
+
+        BuildTower(false);
         isActive = false;
         _stats.m_healthBar.fillAmount = 0;
         float elapsedTime = 0;
@@ -81,7 +84,24 @@ public class PlayerTower : PlayerUnitBase
         }
         _stats.m_healthBar.fillAmount = endValue;
         AddUnitToMain();
+
+        BuildTower(true);
         isActive = true;
+    }
+
+    private void BuildTower(bool complete)
+    {
+        if (!incompleteTowerObject || !completedTowerObject) return;
+        if (complete)
+        {
+            incompleteTowerObject.SetActive(false);
+            completedTowerObject.SetActive(true);
+        }
+        else
+        {
+            incompleteTowerObject.SetActive(true);
+            completedTowerObject.SetActive(false);
+        }
     }
 
     public void UpdateUnit()
@@ -197,9 +217,14 @@ public class PlayerTower : PlayerUnitBase
     {
         if (mainPlayerControl)
         {
-            ParticleSystem deathParticle = Instantiate(mainPlayerControl.towerParticles[2], transform.position, Quaternion.identity);
-            if(AudioManager.Instance) AudioManager.Instance.audioSource.PlayOneShot(AudioManager.Instance.TowerDestroyed);
-            Destroy(deathParticle.gameObject, deathParticle.main.duration);
+            SpawnParticles(2, -90);
         }
+    }
+
+
+    void SpawnParticles(int particleIndex, int rotation)
+    {
+        ParticleSystem particleTemp = Instantiate(MainPlayerControl.Instance.towerParticles[particleIndex], transform.position, Quaternion.Euler(rotation, 0f, 0f));
+        Destroy(particleTemp.gameObject, particleTemp.main.duration);
     }
 }
