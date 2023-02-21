@@ -45,19 +45,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   allPlayerTowers:
-  - {fileID: 9155262638970726652, guid: 80f48ff350784bc44801f2726fa84d79, type: 3}
-  - {fileID: 5781498035940459879, guid: 192567f583c1d7c48b6df90e5ed961ab, type: 3}
-  - {fileID: 5781498035940459879, guid: 2c2b360639b89a44783a7c8b6cc677f4, type: 3}
-  - {fileID: 5781498035940459879, guid: e395ea30aefae3c48ae4b3709bc553be, type: 3}
-  - {fileID: 5781498035940459879, guid: bd7a8c08feb24a34dbd25d2f1b6c537b, type: 3}
-  - {fileID: 9155262638970726652, guid: e5c254b6988d2fa489be80bd69416140, type: 3}
-  - {fileID: 9155262638970726652, guid: 0c315d7dd8ee16240a7564024eb987f3, type: 3}
-  - {fileID: -8936886559788239264, guid: e217fbe8d60bada48972d1f3aafb6970, type: 3}
-  - {fileID: 5781498035940459879, guid: 870aef230b5b44643944e43265483026, type: 3}
+  - {fileID: 7579487409418218424, guid: 877a79ab1586ac34fb1bca1ca8b739f5, type: 3}
+  - {fileID: 781124210954116597, guid: 9543c29d4fee9084f90119392a67d238, type: 3}
+  - {fileID: 1986586701075442758, guid: db34c3ebab9745d47997fbbddcddfffa, type: 3}
+  - {fileID: 8688840971930629863, guid: 674ae240f19387348b3977b98e0fed62, type: 3}
+  - {fileID: 5713686120818814882, guid: d0962ab2f5c37a54eb1ed32494651546, type: 3}
+  - {fileID: 8420134239235843006, guid: eac079114216ff54bb342149d368330c, type: 3}
+  - {fileID: 6666375904809360311, guid: 950ff478283111e40ba252f62f57e68e, type: 3}
+  - {fileID: 5900153598678678189, guid: 6ea3fb5564a9d4745a4d7eacecf5c903, type: 3}
+  - {fileID: 6373990908122441788, guid: 120a93b724b613c4d9dab76cd1bd9097, type: 3}
   towerParticles:
   - {fileID: 4271093393614929224, guid: af7053c970d2cb44e8c1904918ddd843, type: 3}
   - {fileID: 19800000, guid: b5d5bac6bdebee7429499e3341bdc6fa, type: 3}
   - {fileID: 2433282508523890284, guid: d037d5dc95c91c64281843a93533370b, type: 3}
+  - {fileID: 4271093393614929224, guid: af7053c970d2cb44e8c1904918ddd843, type: 3}
   enemyParticles:
   - {fileID: 19800000, guid: a7027a47f33ce3d49887fe2019a51abc, type: 3}
   - {fileID: 5985634496115995770, guid: 1670c3ffa9290c249862358be822a81d, type: 3}

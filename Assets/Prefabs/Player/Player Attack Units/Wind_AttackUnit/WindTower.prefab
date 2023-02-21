@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 781124210954116594}
   - component: {fileID: 781124210954116597}
   - component: {fileID: 781124210954116596}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WindTower
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -89,8 +89,7 @@ MonoBehaviour:
   unitRefreshAfter: 2
   attackBulletPrefab: {fileID: 4614153920458031038, guid: 84c53ce27c1612f4da1cb62b5a3e45a8,
     type: 3}
-  turretMuzzleTF: {fileID: 3636760930552840288, guid: d228718b81c02ed46a407acdb21e2d76,
-    type: 3}
+  turretMuzzleTF: {fileID: 1897376075360980621}
   enemyLayerMask:
     serializedVersion: 2
     m_Bits: 128
@@ -121,7 +120,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1897376075360980621}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: FirePoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -154,7 +153,7 @@ GameObject:
   - component: {fileID: 5807272178113771168}
   - component: {fileID: 5832283825106753620}
   - component: {fileID: 5823895216930101332}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: TB_ArcherTower_Lvl2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -237,7 +236,7 @@ GameObject:
   - component: {fileID: 8655798072784558462}
   - component: {fileID: 8680803966100738720}
   - component: {fileID: 8673213418745449406}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: TB_ArcherTower_Lvl2_Cons
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -316,6 +315,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 781124210954116599}
     m_Modifications:
+    - target: {fileID: 1018155704253493930, guid: 9c1565f0361a59e44858a06a6b305ea7,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 1622175445631997838, guid: 9c1565f0361a59e44858a06a6b305ea7,
         type: 3}
       propertyPath: m_Pivot.x
@@ -421,10 +425,25 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2380552611379657378, guid: 9c1565f0361a59e44858a06a6b305ea7,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6969687894186308724, guid: 9c1565f0361a59e44858a06a6b305ea7,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 8007623357219460829, guid: 9c1565f0361a59e44858a06a6b305ea7,
         type: 3}
       propertyPath: m_Name
       value: Stats Canvas Player Tower
+      objectReference: {fileID: 0}
+    - target: {fileID: 8007623357219460829, guid: 9c1565f0361a59e44858a06a6b305ea7,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9c1565f0361a59e44858a06a6b305ea7, type: 3}

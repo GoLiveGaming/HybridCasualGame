@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6373990907123104413}
   - component: {fileID: 6373990907123104411}
   - component: {fileID: 6373990907123104412}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: TB_MageTower_Lvl1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -96,7 +96,7 @@ GameObject:
   - component: {fileID: 6373990908122441787}
   - component: {fileID: 6373990908122441788}
   - component: {fileID: 6373990908122441789}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: LightingTower
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -111,12 +111,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6373990908122441791}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -18.71, y: 0, z: 14.14}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6373990908338198289}
   - {fileID: 6373990907123104413}
+  - {fileID: 8985148020004372994}
   - {fileID: 5690272895377989277}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -166,8 +167,7 @@ MonoBehaviour:
   unitRefreshAfter: 2
   attackBulletPrefab: {fileID: 4614153920458031038, guid: 75b2d220bec4179409ccd2ab7aba95ce,
     type: 3}
-  turretMuzzleTF: {fileID: 3636760930552840288, guid: 524ffa7e988f71442a5221f8d2e0bab0,
-    type: 3}
+  turretMuzzleTF: {fileID: 8985148020004372994}
   enemyLayerMask:
     serializedVersion: 2
     m_Bits: 128
@@ -200,7 +200,7 @@ GameObject:
   - component: {fileID: 6373990908241194619}
   - component: {fileID: 6373990908241194617}
   - component: {fileID: 6373990908241194618}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: TB_MageTower_Lvl1_Crystal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -283,7 +283,7 @@ GameObject:
   - component: {fileID: 6373990908338198289}
   - component: {fileID: 6373990908338198287}
   - component: {fileID: 6373990908338198288}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: TB_MageTower_Lvl1_Cons
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -355,6 +355,37 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &7258853146287664129
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8985148020004372994}
+  m_Layer: 6
+  m_Name: FirePoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8985148020004372994
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7258853146287664129}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 5, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6373990908122441790}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &6373990908727675155
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -362,6 +393,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6373990908122441790}
     m_Modifications:
+    - target: {fileID: 1018155704253493930, guid: 9c1565f0361a59e44858a06a6b305ea7,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 1622175445631997838, guid: 9c1565f0361a59e44858a06a6b305ea7,
         type: 3}
       propertyPath: m_Pivot.x
@@ -375,7 +411,7 @@ PrefabInstance:
     - target: {fileID: 1622175445631997838, guid: 9c1565f0361a59e44858a06a6b305ea7,
         type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1622175445631997838, guid: 9c1565f0361a59e44858a06a6b305ea7,
         type: 3}
@@ -420,7 +456,7 @@ PrefabInstance:
     - target: {fileID: 1622175445631997838, guid: 9c1565f0361a59e44858a06a6b305ea7,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -4
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1622175445631997838, guid: 9c1565f0361a59e44858a06a6b305ea7,
         type: 3}
@@ -467,10 +503,25 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2380552611379657378, guid: 9c1565f0361a59e44858a06a6b305ea7,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6969687894186308724, guid: 9c1565f0361a59e44858a06a6b305ea7,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 8007623357219460829, guid: 9c1565f0361a59e44858a06a6b305ea7,
         type: 3}
       propertyPath: m_Name
       value: Stats Canvas Player Tower
+      objectReference: {fileID: 0}
+    - target: {fileID: 8007623357219460829, guid: 9c1565f0361a59e44858a06a6b305ea7,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9c1565f0361a59e44858a06a6b305ea7, type: 3}

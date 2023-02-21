@@ -40,6 +40,10 @@ public class PlayerTower : PlayerUnitBase
         Gizmos.color = Color.magenta;
         Gizmos.DrawWireSphere(transform.position, shootingRange);
     }
+    protected void OnEnable()
+    {
+        SpawnParticles(0, -90);
+    }
     protected void OnDisable()
     {
         RemoveUnitFromMain();
@@ -84,7 +88,7 @@ public class PlayerTower : PlayerUnitBase
         }
         _stats.m_healthBar.fillAmount = endValue;
         AddUnitToMain();
-
+        SpawnParticles(3, -90);
         BuildTower(true);
         isActive = true;
     }
@@ -220,7 +224,6 @@ public class PlayerTower : PlayerUnitBase
             SpawnParticles(2, -90);
         }
     }
-
 
     void SpawnParticles(int particleIndex, int rotation)
     {

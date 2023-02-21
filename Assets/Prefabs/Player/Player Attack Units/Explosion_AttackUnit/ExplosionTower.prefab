@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 99485829029531568}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: FirePoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -42,7 +42,7 @@ GameObject:
   - component: {fileID: 4316146228714489035}
   - component: {fileID: 4291970462938483591}
   - component: {fileID: 4303864416009193477}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: TB_MageTower_Lvl4_B
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -126,7 +126,7 @@ GameObject:
   - component: {fileID: 4321263170479504827}
   - component: {fileID: 4296181621250791509}
   - component: {fileID: 4303890702832085809}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: TB_MageTower_Lvl4_B_Crystal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -209,7 +209,7 @@ GameObject:
   - component: {fileID: 4945249009479797845}
   - component: {fileID: 4961465862036575813}
   - component: {fileID: 4970535191174813767}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: TB_MageTower_Lvl4_A_Cons
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -293,7 +293,7 @@ GameObject:
   - component: {fileID: 6666375904809360310}
   - component: {fileID: 6666375904809360311}
   - component: {fileID: 6666375904809360308}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: ExplosionTower
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -308,7 +308,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6666375904809360306}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -11.71, y: -0, z: -9.69}
+  m_LocalPosition: {x: 0, y: -0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -364,8 +364,7 @@ MonoBehaviour:
   unitRefreshAfter: 2
   attackBulletPrefab: {fileID: 9203068762116010779, guid: da6c56fbf9dfac84c944bc809c14a6d1,
     type: 3}
-  turretMuzzleTF: {fileID: 3636760930552840288, guid: d26db631fd13724469c3f1e92fbc02ae,
-    type: 3}
+  turretMuzzleTF: {fileID: 99485829029531568}
   enemyLayerMask:
     serializedVersion: 2
     m_Bits: 128
@@ -399,6 +398,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6666375904809360309}
     m_Modifications:
+    - target: {fileID: 1018155704253493930, guid: 9c1565f0361a59e44858a06a6b305ea7,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 1622175445631997838, guid: 9c1565f0361a59e44858a06a6b305ea7,
         type: 3}
       propertyPath: m_Pivot.x
@@ -457,7 +461,7 @@ PrefabInstance:
     - target: {fileID: 1622175445631997838, guid: 9c1565f0361a59e44858a06a6b305ea7,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -4
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1622175445631997838, guid: 9c1565f0361a59e44858a06a6b305ea7,
         type: 3}
@@ -487,7 +491,7 @@ PrefabInstance:
     - target: {fileID: 1622175445631997838, guid: 9c1565f0361a59e44858a06a6b305ea7,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 8
+      value: 15.5
       objectReference: {fileID: 0}
     - target: {fileID: 1622175445631997838, guid: 9c1565f0361a59e44858a06a6b305ea7,
         type: 3}
@@ -504,10 +508,25 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2380552611379657378, guid: 9c1565f0361a59e44858a06a6b305ea7,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6969687894186308724, guid: 9c1565f0361a59e44858a06a6b305ea7,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 8007623357219460829, guid: 9c1565f0361a59e44858a06a6b305ea7,
         type: 3}
       propertyPath: m_Name
       value: Stats Canvas Player Tower
+      objectReference: {fileID: 0}
+    - target: {fileID: 8007623357219460829, guid: 9c1565f0361a59e44858a06a6b305ea7,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9c1565f0361a59e44858a06a6b305ea7, type: 3}
