@@ -112,8 +112,8 @@ Transform:
   m_GameObject: {fileID: 6373990908122441791}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.7, y: 0.7, z: 0.7}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 6373990908338198289}
   - {fileID: 6373990907123104413}
@@ -163,7 +163,7 @@ MonoBehaviour:
   supportsCombining: 0
   possibleCombinations: []
   delayBetweenShots: 1
-  shootingRange: 45
+  shootingRange: 15
   unitRefreshAfter: 2
   attackBulletPrefab: {fileID: 4614153920458031038, guid: 75b2d220bec4179409ccd2ab7aba95ce,
     type: 3}

@@ -45,7 +45,6 @@ public class Stats : MonoBehaviour
                     {
                         m_UIManager.GameOverVoid("You lost the level", false);
                         if(AudioManager.Instance)AudioManager.Instance.audioSource.PlayOneShot(AudioManager.Instance.LevelLost);
-                        return;
                     }
                     if(m_currentTower.TryGetComponent(out PlayerTower tower))
                         tower.OnTowerDestroyed();

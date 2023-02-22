@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8276134890417828553}
   - component: {fileID: 8276134890417828554}
   m_Layer: 0
-  m_Name: LevelManger
+  m_Name: LevelMangerOld
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -45,239 +45,290 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levelData:
-  - totalEnemies: 37
+  - totalEnemies: 52
     Waves:
     - waveNum: 1
-      totalEniemies: 3
       enemyData:
       - SpawnLocation: 0
         enemyType: 0
         enemyCount: 3
         TimeInterval: 5
     - waveNum: 2
-      totalEniemies: 5
       enemyData:
       - SpawnLocation: 0
         enemyType: 0
-        enemyCount: 3
-        TimeInterval: 10
-      - SpawnLocation: 2
+        enemyCount: 5
+        TimeInterval: 8
+      - SpawnLocation: 1
         enemyType: 2
-        enemyCount: 2
-        TimeInterval: 10
+        enemyCount: 3
+        TimeInterval: 8
     - waveNum: 3
-      totalEniemies: 11
       enemyData:
       - SpawnLocation: 0
         enemyType: 0
-        enemyCount: 5
-        TimeInterval: 20
+        enemyCount: 10
+        TimeInterval: 15
       - SpawnLocation: 1
         enemyType: 2
         enemyCount: 3
-        TimeInterval: 20
+        TimeInterval: 15
       - SpawnLocation: 2
         enemyType: 1
         enemyCount: 3
-        TimeInterval: 20
+        TimeInterval: 15
     - waveNum: 4
-      totalEniemies: 18
       enemyData:
       - SpawnLocation: 0
         enemyType: 0
-        enemyCount: 8
-        TimeInterval: 30
+        enemyCount: 10
+        TimeInterval: 25
       - SpawnLocation: 1
         enemyType: 2
-        enemyCount: 5
-        TimeInterval: 30
+        enemyCount: 10
+        TimeInterval: 25
       - SpawnLocation: 2
         enemyType: 1
         enemyCount: 5
-        TimeInterval: 30
-  - totalEnemies: 95
+        TimeInterval: 25
+  - totalEnemies: 198
     Waves:
     - waveNum: 1
-      totalEniemies: 5
       enemyData:
       - SpawnLocation: 0
         enemyType: 0
         enemyCount: 3
-        TimeInterval: 5
-      - SpawnLocation: 2
-        enemyType: 2
-        enemyCount: 2
         TimeInterval: 5
     - waveNum: 2
-      totalEniemies: 7
-      enemyData:
-      - SpawnLocation: 0
-        enemyType: 0
-        enemyCount: 5
-        TimeInterval: 10
-      - SpawnLocation: 2
-        enemyType: 2
-        enemyCount: 2
-        TimeInterval: 10
-    - waveNum: 3
-      totalEniemies: 14
-      enemyData:
-      - SpawnLocation: 0
-        enemyType: 0
-        enemyCount: 8
-        TimeInterval: 20
-      - SpawnLocation: 1
-        enemyType: 2
-        enemyCount: 3
-        TimeInterval: 20
-      - SpawnLocation: 2
-        enemyType: 1
-        enemyCount: 3
-        TimeInterval: 20
-    - waveNum: 4
-      totalEniemies: 21
-      enemyData:
-      - SpawnLocation: 0
-        enemyType: 0
-        enemyCount: 8
-        TimeInterval: 30
-      - SpawnLocation: 1
-        enemyType: 2
-        enemyCount: 8
-        TimeInterval: 30
-      - SpawnLocation: 2
-        enemyType: 1
-        enemyCount: 5
-        TimeInterval: 30
-    - waveNum: 5
-      totalEniemies: 25
       enemyData:
       - SpawnLocation: 0
         enemyType: 0
         enemyCount: 12
-        TimeInterval: 45
-      - SpawnLocation: 1
-        enemyType: 2
-        enemyCount: 8
-        TimeInterval: 45
-      - SpawnLocation: 2
-        enemyType: 3
-        enemyCount: 5
-        TimeInterval: 45
-    - waveNum: 6
-      totalEniemies: 23
+        TimeInterval: 8
+    - waveNum: 3
       enemyData:
       - SpawnLocation: 0
-        enemyType: 2
+        enemyType: 0
         enemyCount: 10
-        TimeInterval: 60
-      - SpawnLocation: 1
-        enemyType: 1
-        enemyCount: 5
-        TimeInterval: 60
+        TimeInterval: 12
       - SpawnLocation: 2
-        enemyType: 3
-        enemyCount: 8
-        TimeInterval: 60
-  - totalEnemies: 150
+        enemyType: 1
+        enemyCount: 3
+        TimeInterval: 12
+    - waveNum: 4
+      enemyData:
+      - SpawnLocation: 0
+        enemyType: 0
+        enemyCount: 15
+        TimeInterval: 20
+      - SpawnLocation: 1
+        enemyType: 2
+        enemyCount: 5
+        TimeInterval: 20
+      - SpawnLocation: 2
+        enemyType: 1
+        enemyCount: 10
+        TimeInterval: 20
+    - waveNum: 5
+      enemyData:
+      - SpawnLocation: 0
+        enemyType: 0
+        enemyCount: 30
+        TimeInterval: 25
+      - SpawnLocation: 1
+        enemyType: 2
+        enemyCount: 20
+        TimeInterval: 25
+    - waveNum: 6
+      enemyData:
+      - SpawnLocation: 0
+        enemyType: 0
+        enemyCount: 45
+        TimeInterval: 30
+      - SpawnLocation: 1
+        enemyType: 2
+        enemyCount: 30
+        TimeInterval: 30
+      - SpawnLocation: 2
+        enemyType: 1
+        enemyCount: 15
+        TimeInterval: 30
+  - totalEnemies: 351
     Waves:
     - waveNum: 1
-      totalEniemies: 5
       enemyData:
-      - SpawnLocation: 0
-        enemyType: 0
+      - SpawnLocation: 1
+        enemyType: 3
         enemyCount: 3
-        TimeInterval: 5
-      - SpawnLocation: 2
-        enemyType: 1
-        enemyCount: 2
         TimeInterval: 5
     - waveNum: 2
-      totalEniemies: 10
       enemyData:
       - SpawnLocation: 0
         enemyType: 0
-        enemyCount: 5
-        TimeInterval: 10
+        enemyCount: 12
+        TimeInterval: 8
       - SpawnLocation: 1
+        enemyType: 3
+        enemyCount: 8
+        TimeInterval: 8
+    - waveNum: 3
+      enemyData:
+      - SpawnLocation: 0
+        enemyType: 0
+        enemyCount: 15
+        TimeInterval: 12
+      - SpawnLocation: 1
+        enemyType: 3
+        enemyCount: 5
+        TimeInterval: 12
+      - SpawnLocation: 2
         enemyType: 1
         enemyCount: 3
-        TimeInterval: 10
-      - SpawnLocation: 2
-        enemyType: 3
-        enemyCount: 2
-        TimeInterval: 10
-    - waveNum: 3
-      totalEniemies: 15
-      enemyData:
-      - SpawnLocation: 1
-        enemyType: 2
-        enemyCount: 10
-        TimeInterval: 20
-      - SpawnLocation: 2
-        enemyType: 3
-        enemyCount: 5
-        TimeInterval: 20
+        TimeInterval: 12
     - waveNum: 4
-      totalEniemies: 30
       enemyData:
       - SpawnLocation: 0
         enemyType: 0
-        enemyCount: 10
-        TimeInterval: 35
+        enemyCount: 15
+        TimeInterval: 20
       - SpawnLocation: 1
         enemyType: 2
-        enemyCount: 10
-        TimeInterval: 35
+        enemyCount: 5
+        TimeInterval: 20
       - SpawnLocation: 2
-        enemyType: 1
+        enemyType: 3
         enemyCount: 10
-        TimeInterval: 35
+        TimeInterval: 20
     - waveNum: 5
-      totalEniemies: 25
+      enemyData:
+      - SpawnLocation: 0
+        enemyType: 0
+        enemyCount: 30
+        TimeInterval: 25
+      - SpawnLocation: 1
+        enemyType: 2
+        enemyCount: 20
+        TimeInterval: 25
+      - SpawnLocation: 2
+        enemyType: 3
+        enemyCount: 10
+        TimeInterval: 25
+    - waveNum: 6
+      enemyData:
+      - SpawnLocation: 0
+        enemyType: 0
+        enemyCount: 45
+        TimeInterval: 35
+      - SpawnLocation: 1
+        enemyType: 2
+        enemyCount: 30
+        TimeInterval: 35
+      - SpawnLocation: 2
+        enemyType: 3
+        enemyCount: 20
+        TimeInterval: 35
+    - waveNum: 7
+      enemyData:
+      - SpawnLocation: 0
+        enemyType: 0
+        enemyCount: 50
+        TimeInterval: 45
+      - SpawnLocation: 1
+        enemyType: 2
+        enemyCount: 30
+        TimeInterval: 45
+      - SpawnLocation: 2
+        enemyType: 3
+        enemyCount: 40
+        TimeInterval: 45
+  - totalEnemies: 351
+    Waves:
+    - waveNum: 1
+      enemyData:
+      - SpawnLocation: 1
+        enemyType: 3
+        enemyCount: 3
+        TimeInterval: 5
+    - waveNum: 2
+      enemyData:
+      - SpawnLocation: 0
+        enemyType: 0
+        enemyCount: 12
+        TimeInterval: 8
+      - SpawnLocation: 1
+        enemyType: 3
+        enemyCount: 8
+        TimeInterval: 8
+    - waveNum: 3
       enemyData:
       - SpawnLocation: 0
         enemyType: 0
         enemyCount: 15
-        TimeInterval: 50
+        TimeInterval: 12
       - SpawnLocation: 1
-        enemyType: 2
-        enemyCount: 5
-        TimeInterval: 50
-      - SpawnLocation: 2
         enemyType: 3
         enemyCount: 5
-        TimeInterval: 50
-    - waveNum: 6
-      totalEniemies: 30
-      enemyData:
-      - SpawnLocation: 0
-        enemyType: 2
-        enemyCount: 10
-        TimeInterval: 60
-      - SpawnLocation: 1
-        enemyType: 1
-        enemyCount: 10
-        TimeInterval: 60
+        TimeInterval: 12
       - SpawnLocation: 2
-        enemyType: 3
-        enemyCount: 10
-        TimeInterval: 60
-    - waveNum: 7
-      totalEniemies: 35
+        enemyType: 1
+        enemyCount: 3
+        TimeInterval: 12
+    - waveNum: 4
       enemyData:
       - SpawnLocation: 0
-        enemyType: 1
+        enemyType: 0
         enemyCount: 15
-        TimeInterval: 75
+        TimeInterval: 20
       - SpawnLocation: 1
         enemyType: 2
-        enemyCount: 10
-        TimeInterval: 75
+        enemyCount: 5
+        TimeInterval: 20
       - SpawnLocation: 2
         enemyType: 3
         enemyCount: 10
-        TimeInterval: 75
+        TimeInterval: 20
+    - waveNum: 5
+      enemyData:
+      - SpawnLocation: 0
+        enemyType: 0
+        enemyCount: 30
+        TimeInterval: 25
+      - SpawnLocation: 1
+        enemyType: 2
+        enemyCount: 20
+        TimeInterval: 25
+      - SpawnLocation: 2
+        enemyType: 3
+        enemyCount: 10
+        TimeInterval: 25
+    - waveNum: 6
+      enemyData:
+      - SpawnLocation: 0
+        enemyType: 0
+        enemyCount: 45
+        TimeInterval: 35
+      - SpawnLocation: 1
+        enemyType: 2
+        enemyCount: 30
+        TimeInterval: 35
+      - SpawnLocation: 2
+        enemyType: 3
+        enemyCount: 20
+        TimeInterval: 35
+    - waveNum: 7
+      enemyData:
+      - SpawnLocation: 0
+        enemyType: 0
+        enemyCount: 50
+        TimeInterval: 45
+      - SpawnLocation: 1
+        enemyType: 2
+        enemyCount: 30
+        TimeInterval: 45
+      - SpawnLocation: 2
+        enemyType: 3
+        enemyCount: 40
+        TimeInterval: 45
   levelNum: 0
   deadEnemiesCount: 0
   maxEnemyCount: 0

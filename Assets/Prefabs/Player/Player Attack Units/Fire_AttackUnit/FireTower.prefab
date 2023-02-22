@@ -28,7 +28,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 7579487409418218425}
   m_RootOrder: 0
@@ -111,7 +111,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 3196092476501957044}
   m_Father: {fileID: 7579487409418218425}
@@ -278,8 +278,8 @@ Transform:
   m_GameObject: {fileID: 7579487409418218422}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -4.81, y: 0, z: 19.49}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.7, y: 0.7, z: 0.7}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 2416743100743115392}
   - {fileID: 3196364364066239536}
@@ -404,11 +404,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7579487409418218425}
     m_Modifications:
-    - target: {fileID: 1018155704253493930, guid: 9c1565f0361a59e44858a06a6b305ea7,
-        type: 3}
-      propertyPath: m_Layer
-      value: 6
-      objectReference: {fileID: 0}
     - target: {fileID: 1622175445631997838, guid: 9c1565f0361a59e44858a06a6b305ea7,
         type: 3}
       propertyPath: m_Pivot.x
@@ -467,7 +462,7 @@ PrefabInstance:
     - target: {fileID: 1622175445631997838, guid: 9c1565f0361a59e44858a06a6b305ea7,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -4
+      value: -9
       objectReference: {fileID: 0}
     - target: {fileID: 1622175445631997838, guid: 9c1565f0361a59e44858a06a6b305ea7,
         type: 3}
@@ -514,25 +509,27 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2380552611379657378, guid: 9c1565f0361a59e44858a06a6b305ea7,
+    - target: {fileID: 3291015390431649465, guid: 9c1565f0361a59e44858a06a6b305ea7,
         type: 3}
-      propertyPath: m_Layer
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 6969687894186308724, guid: 9c1565f0361a59e44858a06a6b305ea7,
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 1ca0eec2a965f294f9978980eb1c8bdc,
+        type: 2}
+    - target: {fileID: 3291015390431649465, guid: 9c1565f0361a59e44858a06a6b305ea7,
         type: 3}
-      propertyPath: m_Layer
-      value: 6
+      propertyPath: m_fontStyle
+      value: 16
       objectReference: {fileID: 0}
+    - target: {fileID: 3291015390431649465, guid: 9c1565f0361a59e44858a06a6b305ea7,
+        type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: -1163052468010577150, guid: 1ca0eec2a965f294f9978980eb1c8bdc,
+        type: 2}
     - target: {fileID: 8007623357219460829, guid: 9c1565f0361a59e44858a06a6b305ea7,
         type: 3}
       propertyPath: m_Name
       value: Stats Canvas Player Tower
-      objectReference: {fileID: 0}
-    - target: {fileID: 8007623357219460829, guid: 9c1565f0361a59e44858a06a6b305ea7,
-        type: 3}
-      propertyPath: m_Layer
-      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9c1565f0361a59e44858a06a6b305ea7, type: 3}

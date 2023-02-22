@@ -214,7 +214,6 @@ MonoBehaviour:
   slowDownDuration: 5
   aoeVisualObj: {fileID: 8272260640797488490, guid: 8df5663a454d9064f82a31abc70b80d7,
     type: 3}
-  aoeLifetime: 0.15
   aoeRadius: 5
 --- !u!1 &4614153921484433200
 GameObject:
@@ -265,7 +264,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4614153921484433200}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1

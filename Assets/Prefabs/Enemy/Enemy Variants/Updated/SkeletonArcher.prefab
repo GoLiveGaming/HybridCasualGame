@@ -1482,7 +1482,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &140617799333087752
 Animator:
-  serializedVersion: 5
+  serializedVersion: 4
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -1499,7 +1499,7 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!54 &-5429091587896569900
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1585,12 +1585,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   activeState: 0
-  moveSpeed: 3
+  moveSpeed: 8
   animatorSpeed: 1
   attackDamage: 1
   detectionRange: 10
   firePointTransform: {fileID: 1166312278386833069}
-  stateRefreshDelay: 1
+  stateRefreshDelay: 0.5
   playerTowerLayer:
     serializedVersion: 2
     m_Bits: 64

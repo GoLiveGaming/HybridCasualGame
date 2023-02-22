@@ -17,6 +17,7 @@ public class UIManager : MonoBehaviour
     public GameObject pausePanel;
     public GameObject gameOverPanel;
     public GameObject loadingPanel;
+    public GameObject floatingTextPanel;
 
     [Header("Button Componenets")]
     public Button pauseBtn;
@@ -58,17 +59,11 @@ public class UIManager : MonoBehaviour
     {
         Instance = this;
         pauseBtn.onClick.AddListener(PauseButton);
-        resumeBtn.onClick.AddListener(ResumeButton);
-        restartBtn.onClick.AddListener(RestartButton);
-        quitBtn.onClick.AddListener(QuitButton);
     }
 
     private void OnDisable()
     {
         pauseBtn.onClick.RemoveListener(PauseButton);
-        resumeBtn.onClick.RemoveListener(ResumeButton);
-        restartBtn.onClick.RemoveListener(RestartButton);
-        quitBtn.onClick.RemoveListener(QuitButton);
     }
     internal void ShowText(string tempTxt)
     {
@@ -82,7 +77,7 @@ public class UIManager : MonoBehaviour
     {
         for(int i = 0; i < 40; i++)
         {
-            TMP_Text damageText = Instantiate(m_damageTextPrefab, rootcanvas.transform.position, Quaternion.identity, rootcanvas.transform);
+            TMP_Text damageText = Instantiate(m_damageTextPrefab, rootcanvas.transform.position, Quaternion.identity, floatingTextPanel.transform);
             damageTextQueue.Enqueue(damageText);
             damageText.gameObject.SetActive(false);
         }
@@ -103,21 +98,44 @@ public class UIManager : MonoBehaviour
 
     public void PauseButton()
     {
-        pausePanel.SetActive(true);
-        Time.timeScale = 0;
+        floatingTextPanel.gameObject.SetActive(false);
+        pausePanel.gameObject.SetActive(true);
+        pausePanel.transform.GetChild(1).transform.localScale = new Vector3(0.9f, 0.9f, 0.9f);
+        pausePanel.transform.GetChild(1).DOScale(new Vector3(1.25f, 1.25f, 1.25f), 0.15f).OnComplete(() =>
+        {
+            pausePanel.transform.GetChild(1).DOScale(new Vector3(1f, 1f, 1f), 0.15f).OnComplete(() => { Time.timeScale = 0; });
+        });
     }
-    public void ResumeButton()
+    public void ResumeButton(Button btn)
     {
         Time.timeScale = 1;
-        pausePanel.SetActive(false);
+        btn.transform.DOScale(new Vector3(0.85f, 0.85f, 0.85f), 0.3f).OnComplete(() =>
+        {
+            pausePanel.SetActive(false);
+            floatingTextPanel.SetActive(true);
+            btn.transform.localScale = Vector3.one;
+        });
+        
     }
-    public void RestartButton()
+    public void RestartButton(Button btn)
     {
-        SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex);
+        Time.timeScale = 1;
+        btn.transform.DOScale(new Vector3(0.85f, 0.85f, 0.85f), 0.3f).OnComplete(() =>
+        {
+            SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex);
+            btn.transform.localScale = Vector3.one;
+        });
+        
     }
-    public void QuitButton()
+    public void QuitButton(Button btn)
     {
-        SceneManager.LoadSceneAsync(0);
+        Time.timeScale = 1;
+        btn.transform.DOScale(new Vector3(0.85f, 0.85f, 0.85f), 0.3f).OnComplete(() =>
+        {
+            SceneManager.LoadSceneAsync(0);
+            btn.transform.localScale = Vector3.one;
+        });
+        
     }
     public void TempVoid()
     {
@@ -125,10 +143,11 @@ public class UIManager : MonoBehaviour
     }
     public void GameOverVoid(string textTemp, bool isWon)
     {
+        floatingTextPanel.gameObject.SetActive(false);
         gameOverPanel.SetActive(true);
         overTxt.text = textTemp;
 
-        if (isWon && (PlayerPrefs.GetInt("CurrentLevel") < 3))
+        if (isWon && (PlayerPrefs.GetInt("CurrentLevel") < 2))
         {
             int tempInt = PlayerPrefs.GetInt("CurrentLevel");
             tempInt++;
@@ -172,4 +191,16 @@ public class UIManager : MonoBehaviour
         return formattedString;
     }
 
+    internal void WaveBouncyText(int firstLevel, int firstEnemies, int secondLevel, int secondEnemies)
+    {
+        waveTxt.text = "Wave " + firstLevel + "\n" + firstEnemies + " Enemies";
+        waveTxt.transform.DOScale(new Vector3(1.5f, 1.5f, 1.5f), 2f).OnComplete(() =>
+        {
+            waveTxt.transform.localScale = Vector3.one;
+            if (secondEnemies > 0)
+                waveTxt.text = "Wave " + secondLevel + "\n" + secondEnemies + " Enemies Incoming";
+            else
+                waveTxt.text = "";
+        });
+    }
 }

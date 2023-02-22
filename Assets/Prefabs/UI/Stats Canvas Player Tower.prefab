@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5868567604736521921}
   - component: {fileID: 4301068401268987730}
   - component: {fileID: 2294619782257198284}
-  m_Layer: 7
+  m_Layer: 6
   m_Name: HealthBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -87,7 +87,7 @@ GameObject:
   - component: {fileID: 4044279413110977085}
   - component: {fileID: 3808766098470892549}
   - component: {fileID: 190484277256884291}
-  m_Layer: 7
+  m_Layer: 6
   m_Name: HealthBarBG
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -164,7 +164,7 @@ GameObject:
   - component: {fileID: 2761277863643060148}
   - component: {fileID: 7420288343477637968}
   - component: {fileID: 3291015390431649465}
-  m_Layer: 7
+  m_Layer: 6
   m_Name: Attack Type
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -223,8 +223,9 @@ MonoBehaviour:
 
 '
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: f69cd21d7093c2c4a93aa4d2dcb825a1, type: 2}
+  m_sharedMaterial: {fileID: -1163052468010577150, guid: f69cd21d7093c2c4a93aa4d2dcb825a1,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -302,7 +303,7 @@ GameObject:
   - component: {fileID: 5282722815249854112}
   - component: {fileID: 6891369122512379433}
   - component: {fileID: 4244655183231981109}
-  m_Layer: 7
+  m_Layer: 6
   m_Name: Stats Canvas Player Tower
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -316,7 +317,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8007623357219460829}
-  m_LocalRotation: {x: 0.70710677, y: -0, z: -0, w: 0.7071068}
+  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: -4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0

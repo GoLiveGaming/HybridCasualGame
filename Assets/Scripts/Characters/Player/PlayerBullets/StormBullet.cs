@@ -24,7 +24,9 @@ public class StormBullet : Bullet
     {
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, 5f);
 
-        GameObject spawnedAOE = Instantiate(aoeVisualObj, this.transform.position, Quaternion.identity);
+        GameObject spawnedAOE = null;
+
+        if (aoeVisualObj)spawnedAOE = Instantiate(aoeVisualObj, this.transform.position, Quaternion.identity);
 
         if (spawnedAOE) spawnedAOE.transform.DOScale(Vector3.one * explosionRadius, aoeLifetime);
         if (spawnedAOE) Destroy(spawnedAOE, aoeLifetime);
