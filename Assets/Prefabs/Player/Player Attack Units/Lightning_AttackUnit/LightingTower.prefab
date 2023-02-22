@@ -18,7 +18,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &6373990908122441790
 Transform:
   m_ObjectHideFlags: 0
@@ -217,6 +217,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: TB_Str_Crystal_F
       objectReference: {fileID: 0}
+    - target: {fileID: 1959366747931238, guid: c01b5551e9343b041afe8bd3e1d991ac, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4167621842855108, guid: c01b5551e9343b041afe8bd3e1d991ac, type: 3}
       propertyPath: m_RootOrder
       value: 4
@@ -279,6 +283,10 @@ PrefabInstance:
     - target: {fileID: 1064594759508384, guid: e58080f49911f2b4daa4c5be922b82a4, type: 3}
       propertyPath: m_Name
       value: TB_MageTower_Lvl2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1064594759508384, guid: e58080f49911f2b4daa4c5be922b82a4, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4309869630053334, guid: e58080f49911f2b4daa4c5be922b82a4, type: 3}
       propertyPath: m_RootOrder
