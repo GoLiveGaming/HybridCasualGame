@@ -29,6 +29,7 @@ public class PlayerTowerMultiShots : PlayerTower
 
         for (int i = 0; i < burstCount; i++)
         {
+            if (targetTF == null) break;
             GameObject bullet = Instantiate(attackBulletPrefab, bulletSpawnPos, transform.rotation);
             bullet.GetComponent<Bullet>().InitializeBullet(targetTF.position);
 

@@ -606,7 +606,7 @@ MonoBehaviour:
   costImg: {fileID: 0}
   parentCanvas: {fileID: 0}
   attackType: 2
-  rangeVisualObjPrefab: {fileID: 1764777824061738594, guid: 60868d854e1d92b4483d4d86b7891e38,
+  rangeVisualObjPrefab: {fileID: 8617230624144353683, guid: 140452e840a01154c95f6480c247f73b,
     type: 3}
   activeDeploymentArea: {fileID: 0}
 --- !u!1 &7625882687455070726
@@ -1070,7 +1070,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
   m_AnchoredPosition: {x: 0, y: 1800}
-  m_SizeDelta: {x: 500, y: 100}
+  m_SizeDelta: {x: 1000, y: 100}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &7625882687563789246
 CanvasRenderer:
@@ -1655,7 +1655,7 @@ MonoBehaviour:
   costImg: {fileID: 0}
   parentCanvas: {fileID: 0}
   attackType: 0
-  rangeVisualObjPrefab: {fileID: 1764777824061738594, guid: 60868d854e1d92b4483d4d86b7891e38,
+  rangeVisualObjPrefab: {fileID: 8617230624144353683, guid: 140452e840a01154c95f6480c247f73b,
     type: 3}
   activeDeploymentArea: {fileID: 0}
 --- !u!1 &7625882687759285891
@@ -4524,7 +4524,7 @@ MonoBehaviour:
   costImg: {fileID: 0}
   parentCanvas: {fileID: 0}
   attackType: 1
-  rangeVisualObjPrefab: {fileID: 1764777824061738594, guid: 60868d854e1d92b4483d4d86b7891e38,
+  rangeVisualObjPrefab: {fileID: 8617230624144353683, guid: 140452e840a01154c95f6480c247f73b,
     type: 3}
   activeDeploymentArea: {fileID: 0}
 --- !u!1 &7625882689132752580

@@ -51,7 +51,7 @@ public class TowerDeployButton : DraggableButton
         if (!spawnedRangeVisualObj) spawnedRangeVisualObj = Instantiate(rangeVisualObjPrefab);
         if (spawnedRangeVisualObj)
         {
-            spawnedRangeVisualObj.transform.position = possibleDeploymentArea.transform.position;
+            spawnedRangeVisualObj.transform.position = possibleDeploymentArea.transform.position + new Vector3(0, 0.1f, 0);
             //Multiplied Local Scale by 2 becuase we are dealing with radius in shoooting range,
             //But setting scale here, scale is on either side of pivot while radius extends on one side
             spawnedRangeVisualObj.transform.localScale =
