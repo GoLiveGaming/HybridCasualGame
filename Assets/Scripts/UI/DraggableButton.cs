@@ -11,8 +11,6 @@ public class DraggableButton : MonoBehaviour, IBeginDragHandler, IDragHandler, I
     private float OnSelectSclaeMultiplier = 1.5f;
     [SerializeField] protected LayerMask layersToCollide;
 
-    [SerializeField] protected Image costImg;
-
     [Space(2), Header("Readonly")]
     [ReadOnly, SerializeField] private Canvas parentCanvas;
     private bool isDragging = false;
@@ -46,7 +44,6 @@ public class DraggableButton : MonoBehaviour, IBeginDragHandler, IDragHandler, I
     public virtual void OnPointerDown(PointerEventData eventData)
     {
         (transform as RectTransform).DOScale(Vector3.one * OnSelectSclaeMultiplier, 0.25f);
-        //costImg.gameObject.SetActive(false);
     }
 
     public virtual void OnPointerUp(PointerEventData eventData)
@@ -56,7 +53,6 @@ public class DraggableButton : MonoBehaviour, IBeginDragHandler, IDragHandler, I
             (transform as RectTransform).DOAnchorPos(defaultPosition, 0.25f).OnComplete(() =>
             {
                 (transform as RectTransform).DOScale(Vector3.one, 0.25f);
-                //costImg.gameObject.SetActive(true);
             });
         });
     }

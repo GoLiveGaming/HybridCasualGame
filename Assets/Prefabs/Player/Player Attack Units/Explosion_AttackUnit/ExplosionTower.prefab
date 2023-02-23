@@ -354,6 +354,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TowerAttackType: 5
   mainPlayerControl: {fileID: 0}
+  TowerIcon: {fileID: 21300000, guid: e6bbbb27645e2144197e74193501065b, type: 3}
   resourceCost: 4
   constructionTime: 3
   incompleteTowerObject: {fileID: 909290068789466159}

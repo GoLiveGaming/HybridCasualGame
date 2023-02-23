@@ -29,11 +29,11 @@ public class PlayerUnitDeploymentArea : MonoBehaviour
     {
         if (!isAreaAvailable) { Debug.Log("Area Not Available"); return; }
 
-        PlayerTower unitSelectedToDeploy = mainPlayerControl.GetAttackUnitObject(unitType);
+        PlayerUnit unitSelectedToDeploy = mainPlayerControl.GetPlayerUnit(unitType);
         StartDeployemnt(unitSelectedToDeploy);
 
     }
-    public void StartDeployemnt(PlayerTower towerSelectedToDeploy)
+    public void StartDeployemnt(PlayerUnit towerSelectedToDeploy)
     {
         PlayerTower existingUnit = deployedTower;
 
@@ -56,7 +56,7 @@ public class PlayerUnitDeploymentArea : MonoBehaviour
         ParticleSystem particleTemp = Instantiate(MainPlayerControl.Instance.towerParticles[particleIndex], transform.position, Quaternion.Euler(rotation, 0f, 0f));
         Destroy(particleTemp.gameObject, particleTemp.main.duration);
     }
-    public PlayerTower GetUnitAfterMergeCheck(PlayerTower towerSelectedToDeploy)
+    public PlayerUnit GetUnitAfterMergeCheck(PlayerUnit towerSelectedToDeploy)
     {
         PlayerTower existingUnit = deployedTower;
         if (existingUnit == null)
@@ -67,9 +67,9 @@ public class PlayerUnitDeploymentArea : MonoBehaviour
         {
             foreach (MergingCombinations existingUnitCombination in existingUnit.possibleCombinations)
             {
-                if (towerSelectedToDeploy.TowerAttackType == existingUnitCombination.combinesWith)
+                if (towerSelectedToDeploy.unitPrefab.TowerAttackType == existingUnitCombination.combinesWith)
                 {
-                    PlayerTower combinedTower = mainPlayerControl.GetAttackUnitObject(existingUnitCombination.toYield);
+                    PlayerUnit combinedTower = mainPlayerControl.GetPlayerUnit(existingUnitCombination.toYield);
                     return combinedTower;
                 }
             }
@@ -81,16 +81,16 @@ public class PlayerUnitDeploymentArea : MonoBehaviour
 
     }
 
-    public void DeployUnit(PlayerTower towerSelectedToDeploy)
+    public void DeployUnit(PlayerUnit towerSelectedToDeploy)
     {
-        if (towerSelectedToDeploy.resourceCost > mainPlayerControl.currentResourcesCount)
+        if (towerSelectedToDeploy.unitPrefab.resourceCost > mainPlayerControl.currentResourcesCount)
         {
-            uiManager.ShowWarningText = towerSelectedToDeploy.TowerAttackType.ToString() + "Unit Needs: " + towerSelectedToDeploy.resourceCost.ToString() + "Gems";
+            uiManager.ShowWarningText = towerSelectedToDeploy.unitPrefab.TowerAttackType.ToString() + "Unit Needs: " + towerSelectedToDeploy.unitPrefab.resourceCost.ToString() + "Gems";
             return;
         }
         DeleteChildTowers();
 
-        PlayerTower spawnedTower = Instantiate(towerSelectedToDeploy, transform.position, Quaternion.identity);
+        PlayerTower spawnedTower = Instantiate(towerSelectedToDeploy.unitPrefab, transform.position, Quaternion.identity);
         spawnedTower.transform.SetParent(this.transform, true);
         mainPlayerControl.RemoveResource(spawnedTower.resourceCost);
         deployedTower = spawnedTower;

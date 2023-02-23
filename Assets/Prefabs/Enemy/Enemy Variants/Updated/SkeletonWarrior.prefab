@@ -2478,7 +2478,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &3258608742297490575
 Animator:
-  serializedVersion: 4
+  serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -2495,7 +2495,7 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
+  m_KeepAnimatorStateOnDisable: 0
 --- !u!54 &2136262676603197433
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2560,8 +2560,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9746430a183cc0e48ac989c7c4fc1d67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_MaxHealth: 500
-  m_currentHealth: 500
+  m_MaxHealth: 15
+  m_currentHealth: 15
   statsCanvas: {fileID: 7809115939391045503}
   m_healthBar: {fileID: 1222174869722062124}
   m_currentTowerTypeText: {fileID: 0}

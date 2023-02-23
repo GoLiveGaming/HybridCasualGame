@@ -1,26 +1,31 @@
-using DG.Tweening.Core.Easing;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class TowerDeployButton : DraggableButton
 {
     [Space(2), Header("DRAGGABLE BUTTON EXTENDED"), Space(2)]
     [SerializeField] private AttackType attackType;
+    [SerializeField] private Image buttonIcon;
+    [SerializeField] private TextMeshProUGUI costText;
     [SerializeField] private GameObject rangeVisualObjPrefab;
 
     [Space(2), Header("Readonly")]
     [SerializeField, ReadOnly] private PlayerUnitDeploymentArea activeDeploymentArea;
     private MainPlayerControl mainPlayerControl;
     private GameObject spawnedRangeVisualObj;
+    private bool initialized = false;
 
     private void Start()
     {
         mainPlayerControl = MainPlayerControl.Instance;
+        initialized = false;
+        InitilizeButton();
     }
     public override void OnDrag(PointerEventData eventData)
     {
         base.OnDrag(eventData);
-
 
         Ray ray = Camera.main.ScreenPointToRay(transform.position);
 
@@ -32,19 +37,74 @@ public class TowerDeployButton : DraggableButton
 
                 if (possibleDeploymentArea != activeDeploymentArea)
                 {
-                    Clear();
+                    ResetButton();
+                    ReInitializeButton(possibleDeploymentArea);
                     possibleDeploymentArea.ToggleHighlightArea(true);
-                    activeDeploymentArea = possibleDeploymentArea;
                 }
                 HandleRangeVisuaizer(possibleDeploymentArea);
                 return;
-
             }
-            Clear();
+
         }
+        ResetButton();
 
     }
 
+    public override void OnPointerUp(PointerEventData eventData)
+    {
+        base.OnPointerUp(eventData);
+
+        if (activeDeploymentArea)
+            activeDeploymentArea.DeployAttackUnit(attackType);
+
+        ResetButton();
+    }
+    void ReInitializeButton(PlayerUnitDeploymentArea possibleDeploymentArea)
+    {
+        if (initialized) return;
+        initialized = true;
+
+        if (!possibleDeploymentArea) return;
+
+        activeDeploymentArea = possibleDeploymentArea;
+
+        InitilizeButton(possibleDeploymentArea);
+
+    }
+    void ResetButton()
+    {
+        if (!initialized) return;
+        initialized = false;
+
+        if (activeDeploymentArea)
+        {
+            activeDeploymentArea.ToggleHighlightArea(false);
+        }
+
+        if (spawnedRangeVisualObj)
+            Destroy(spawnedRangeVisualObj);
+
+        activeDeploymentArea = null;
+
+        InitilizeButton(null);
+    }
+
+    void InitilizeButton(PlayerUnitDeploymentArea possibleDeploymentArea = null)
+    {
+        if (possibleDeploymentArea)
+        {
+            PlayerUnit possibleTower = possibleDeploymentArea.GetUnitAfterMergeCheck(mainPlayerControl.
+                   GetPlayerUnit(attackType));
+            buttonIcon.sprite = possibleTower.unitPrefab.TowerIcon;
+            costText.text = possibleTower.unitPrefab.resourceCost.ToString();
+        }
+        else
+        {
+            PlayerUnit defaultPlayerUnit = mainPlayerControl.GetPlayerUnit(attackType);
+            buttonIcon.sprite = defaultPlayerUnit.unitPrefab.TowerIcon;
+            costText.text = defaultPlayerUnit.unitPrefab.resourceCost.ToString();
+        }
+    }
     void HandleRangeVisuaizer(PlayerUnitDeploymentArea possibleDeploymentArea)
     {
 
@@ -56,33 +116,9 @@ public class TowerDeployButton : DraggableButton
             //But setting scale here, scale is on either side of pivot while radius extends on one side
             spawnedRangeVisualObj.transform.localScale =
                 2 * possibleDeploymentArea.GetUnitAfterMergeCheck(mainPlayerControl.
-                GetAttackUnitObject(attackType)).shootingRange * Vector3.one;
+                GetPlayerUnit(attackType)).unitPrefab.shootingRange * Vector3.one;
         }
 
 
-    }
-
-    public override void OnPointerUp(PointerEventData eventData)
-    {
-        base.OnPointerUp(eventData);
-
-        if (activeDeploymentArea)
-            activeDeploymentArea.DeployAttackUnit(attackType);
-
-        Clear();
-    }
-
-    void Clear()
-    {
-        if (activeDeploymentArea)
-        {
-            activeDeploymentArea.ToggleHighlightArea(false);
-        }
-
-        if (spawnedRangeVisualObj)
-            Destroy(spawnedRangeVisualObj);
-
-
-        activeDeploymentArea = null;
     }
 }

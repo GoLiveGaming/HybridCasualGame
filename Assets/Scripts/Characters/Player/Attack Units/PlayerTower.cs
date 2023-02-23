@@ -4,6 +4,7 @@ using UnityEngine;
 public class PlayerTower : PlayerUnitBase
 {
     [Space(2), Header("PLAYER TOWER PROPERTIES"), Space(2)]
+    public Sprite TowerIcon;
     [Range(0, 10)] public int resourceCost = 2;
     [Range(0, 10)] public int constructionTime = 3;
     [SerializeField] private GameObject incompleteTowerObject;

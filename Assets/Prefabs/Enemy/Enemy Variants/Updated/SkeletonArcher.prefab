@@ -1565,8 +1565,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9746430a183cc0e48ac989c7c4fc1d67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_MaxHealth: 25
-  m_currentHealth: 25
+  m_MaxHealth: 15
+  m_currentHealth: 15
   statsCanvas: {fileID: 5104218174570816593}
   m_healthBar: {fileID: 4214339429552997890}
   m_currentTowerTypeText: {fileID: 0}

@@ -2,13 +2,14 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MainPlayerControl : MonoBehaviour
 {
     public static MainPlayerControl Instance;
 
     [Header("ATTACK UNITS"), Space(2)]
-    public PlayerTower[] allPlayerTowers;
+    public PlayerUnit[] allPlayerUnits;
 
     public ParticleSystem[] towerParticles;
     public ParticleSystem[] enemyParticles;
@@ -24,19 +25,11 @@ public class MainPlayerControl : MonoBehaviour
     [ReadOnly] public bool isRecharging = false;
     private UIManager uiManager;
 
-
-    [Serializable]
-    public class PlayerUnit
-    {
-        public AttackType unitType;
-        public GameObject unitPrefab;
-    }
-
     private void Awake()
     {
         Time.timeScale = 1;
         Instance = this;
-        
+
     }
     void Update()
     {
@@ -47,12 +40,13 @@ public class MainPlayerControl : MonoBehaviour
     {
         uiManager = UIManager.Instance;
     }
-    public PlayerTower GetAttackUnitObject(AttackType unitType)
+
+    public PlayerUnit GetPlayerUnit(AttackType unitType)
     {
-        foreach (PlayerTower tower in allPlayerTowers)
+        foreach (PlayerUnit unit in allPlayerUnits)
         {
-            if (tower.TowerAttackType == unitType)
-                return tower;
+            if (unit.unitType == unitType)
+                return unit;
         }
         return null;
     }
@@ -68,21 +62,21 @@ public class MainPlayerControl : MonoBehaviour
     IEnumerator RechargeResource()
     {
         isRecharging = true;
-        if(currentResourcesCount == 0 && AudioManager.Instance)
-           AudioManager.Instance.audioSource.PlayOneShot(AudioManager.Instance.ManaOut);
-        
+        if (currentResourcesCount == 0 && AudioManager.Instance)
+            AudioManager.Instance.audioSource.PlayOneShot(AudioManager.Instance.ManaOut);
+
 
         while (currentResourcesCount < maxResources)
         {
             yield return new WaitForSeconds(1f);
             currentResourcesCount += resourceRechargeRate;
             uiManager.unitSelectionCooldownTimerImage.fillAmount = currentResourcesCount / maxResources;
-            if(currentResourcesCount == maxResources && AudioManager.Instance)
-            AudioManager.Instance.audioSource.PlayOneShot(AudioManager.Instance.ManaFull);
+            if (currentResourcesCount == maxResources && AudioManager.Instance)
+                AudioManager.Instance.audioSource.PlayOneShot(AudioManager.Instance.ManaFull);
         }
         currentResourcesCount = Mathf.Clamp(currentResourcesCount, 0, maxResources);
         uiManager.unitSelectionCooldownTimerImage.fillAmount = currentResourcesCount / maxResources;
-        
+
         isRecharging = false;
     }
 
@@ -114,6 +108,14 @@ public enum TowerState
     Idle,
     Attack,
     Destroyed
+}
+
+
+[Serializable]
+public class PlayerUnit
+{
+    public AttackType unitType;
+    public PlayerTower unitPrefab;
 }
 
 [Serializable]
