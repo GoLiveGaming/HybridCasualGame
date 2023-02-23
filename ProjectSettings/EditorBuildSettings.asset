@@ -9,6 +9,12 @@ EditorBuildSettings:
     path: Assets/Scenes/Final Scenes/StartScene.unity
     guid: 05a94535b33d726489d3ac4e8a865832
   - enabled: 1
-    path: Assets/Scenes/SampleSceneMain.unity
-    guid: e6f43f2cfcb16e34190cdc700176b3a3
+    path: Assets/Scenes/Final Scenes/Gameplay Scenes/MainSceneLevel_01_Ridham.unity
+    guid: d6f4fa2a6db0bd44a9f06cc9388b51cd
+  - enabled: 1
+    path: Assets/Scenes/Final Scenes/Gameplay Scenes/MainSceneLevel_02_Ridham.unity
+    guid: cf2fb8e7cadb1e344ac0d21fd2aa2ec2
+  - enabled: 1
+    path: Assets/Scenes/Final Scenes/Gameplay Scenes/MainSceneLevel_03_Ridham.unity
+    guid: 49321d95212529b4d85f9a0d8cee903b
   m_configObjects: {}
