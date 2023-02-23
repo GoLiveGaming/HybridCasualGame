@@ -420,8 +420,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9746430a183cc0e48ac989c7c4fc1d67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_MaxHealth: 25
-  m_currentHealth: 25
+  m_MaxHealth: 20
+  m_currentHealth: 20
   statsCanvas: {fileID: 4431146030406955769}
   m_healthBar: {fileID: 4744282540024975530}
   m_currentTowerTypeText: {fileID: 0}
@@ -443,7 +443,7 @@ MonoBehaviour:
   activeState: 0
   moveSpeed: 8
   animatorSpeed: 1
-  attackDamage: 1
+  attackDamage: 3
   detectionRange: 15
   firePointTransform: {fileID: 6327999607364315113}
   stateRefreshDelay: 0.5

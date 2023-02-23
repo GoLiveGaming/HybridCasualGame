@@ -355,7 +355,7 @@ MonoBehaviour:
   TowerAttackType: 6
   mainPlayerControl: {fileID: 0}
   TowerIcon: {fileID: 21300000, guid: f61ff0003eed1804f8d7d21176292ed1, type: 3}
-  resourceCost: 5
+  resourceCost: 7
   constructionTime: 3
   incompleteTowerObject: {fileID: 7111411654092834216}
   completedTowerObject: {fileID: 931685927982519010}

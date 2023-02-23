@@ -1293,7 +1293,7 @@ MonoBehaviour:
   activeState: 0
   moveSpeed: 3
   animatorSpeed: 1
-  attackDamage: 1
+  attackDamage: 3
   detectionRange: 2
   firePointTransform: {fileID: 3301426487259657474}
   stateRefreshDelay: 0.5

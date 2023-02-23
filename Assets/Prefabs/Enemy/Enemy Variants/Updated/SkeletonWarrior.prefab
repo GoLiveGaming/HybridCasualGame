@@ -2560,8 +2560,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9746430a183cc0e48ac989c7c4fc1d67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_MaxHealth: 15
-  m_currentHealth: 15
+  m_MaxHealth: 5
+  m_currentHealth: 5
   statsCanvas: {fileID: 7809115939391045503}
   m_healthBar: {fileID: 1222174869722062124}
   m_currentTowerTypeText: {fileID: 0}
