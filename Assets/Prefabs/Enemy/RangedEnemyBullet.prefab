@@ -70,6 +70,7 @@ MonoBehaviour:
   collisionLayerMask:
     serializedVersion: 2
     m_Bits: 64
+  associatedColor: {r: 0.9254902, g: 0, b: 0.31655562, a: 1}
 --- !u!65 &8264365667205687406
 BoxCollider:
   m_ObjectHideFlags: 0

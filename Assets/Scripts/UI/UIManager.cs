@@ -156,7 +156,7 @@ public class UIManager : MonoBehaviour
         Time.timeScale = 0;
     }
 
-    public void ShowFloatingDamage(float damageAmount, Vector3 atPosition)
+    public void ShowFloatingDamage(float damageAmount, Vector3 atPosition, Color textColor)
     {
 
         Vector3 spawnPos = Camera.main.WorldToScreenPoint(atPosition);
@@ -165,6 +165,7 @@ public class UIManager : MonoBehaviour
         //  TMP_Text damageText = Instantiate(m_damageTextPrefab, spawnPos, Quaternion.identity, rootcanvas.transform);
         TMP_Text tempTxt = damageTextQueue.Dequeue();
         tempTxt.transform.position = spawnPos;
+        tempTxt.color = textColor;
         tempTxt.text = damageAmount.ToString();
         tempTxt.gameObject.SetActive(true);
         (tempTxt.transform as RectTransform).DOJump(spawnPos + new Vector3(0, 200, 0), 10, 2, 1).OnComplete(() =>

@@ -11,7 +11,7 @@ public class IceBullet : Bullet
 
     private void Awake()
     {
-        if(AudioManager.Instance)AudioManager.Instance.audioSource.PlayOneShot(AudioManager.Instance.IceAttack);
+        if (AudioManager.Instance) AudioManager.Instance.audioSource.PlayOneShot(AudioManager.Instance.IceAttack);
     }
 
     protected override void OnTriggerEnter(Collider other)
@@ -26,7 +26,11 @@ public class IceBullet : Bullet
     protected override void StartAttack(NPCManagerScript hitNPC)
     {
         if (!hitNPC) return;
-        hitNPC._stats.SlowDownMoveSpeed(slowedDownSpeed, slowDownDuration);
+        if (hitNPC._stats)
+        {
+            hitNPC._stats.damageNumberColor = associatedColor;
+            hitNPC._stats.SlowDownMoveSpeed(slowedDownSpeed, slowDownDuration);
+        }
 
         ParticleSystem Explosion = Instantiate(ExplosionPrefab, transform.position, Quaternion.identity);
         Explosion.transform.DOScale(Explosion.transform.localScale, Explosion.main.duration).OnComplete(() =>

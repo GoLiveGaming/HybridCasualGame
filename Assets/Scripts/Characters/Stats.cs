@@ -8,6 +8,7 @@ public class Stats : MonoBehaviour
 {
     [SerializeField] private float m_MaxHealth = 100;
     [SerializeField] private float m_currentHealth = 100;
+    public Color damageNumberColor = Color.white;
 
     [Space(2), Header("STATS UI")]
     [SerializeField] private GameObject statsCanvas;
@@ -23,6 +24,7 @@ public class Stats : MonoBehaviour
 
     [Header("READONLY")]
     [ReadOnly] public bool ownerIsPlayer = false;
+    
 
 
     bool isDead = false;
@@ -44,9 +46,9 @@ public class Stats : MonoBehaviour
                     if (GetComponent<PlayerMainTower>())
                     {
                         m_UIManager.GameOverVoid("You lost the level", false);
-                        if(AudioManager.Instance)AudioManager.Instance.audioSource.PlayOneShot(AudioManager.Instance.LevelLost);
+                        if (AudioManager.Instance) AudioManager.Instance.audioSource.PlayOneShot(AudioManager.Instance.LevelLost);
                     }
-                    if(m_currentTower.TryGetComponent(out PlayerTower tower))
+                    if (m_currentTower.TryGetComponent(out PlayerTower tower))
                         tower.OnTowerDestroyed();
                 }
                 else
@@ -56,7 +58,7 @@ public class Stats : MonoBehaviour
                     if (m_LevelManager.deadEnemiesCount <= 0)
                     {
                         m_UIManager.GameOverVoid("You won the level", true);
-                        if(AudioManager.Instance)AudioManager.Instance.audioSource.PlayOneShot(AudioManager.Instance.Victory);
+                        if (AudioManager.Instance) AudioManager.Instance.audioSource.PlayOneShot(AudioManager.Instance.Victory);
                     }
                 }
                 Destroy(gameObject);
@@ -92,7 +94,7 @@ public class Stats : MonoBehaviour
     public void AddDamage(float damageAmount)
     {
         Health -= damageAmount;
-        m_UIManager.ShowFloatingDamage(damageAmount, transform.position);
+        m_UIManager.ShowFloatingDamage(damageAmount, transform.position, damageNumberColor);
     }
 
 
@@ -100,7 +102,7 @@ public class Stats : MonoBehaviour
     public void AddDamageOverTime(float duration, float damageAmount)
     {
         StartCoroutine(DamageOvertime(duration, damageAmount));
-        m_UIManager.ShowFloatingDamage(damageAmount, transform.position);
+        m_UIManager.ShowFloatingDamage(damageAmount, transform.position, damageNumberColor);
     }
 
     private IEnumerator DamageOvertime(float damageDuration, float damagePerSecond)

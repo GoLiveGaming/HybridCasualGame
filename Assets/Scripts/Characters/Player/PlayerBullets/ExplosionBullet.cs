@@ -38,6 +38,7 @@ public class ExplosionBullet : Bullet
                 rb.TryGetComponent(out NPCManagerScript npc);
                 if (npc)
                 {
+                    npc._stats.damageNumberColor = associatedColor;
                     npc._stats.AddDamage(damage);
                 }
             }

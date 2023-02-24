@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class HellfireBullet : Bullet
@@ -9,14 +7,14 @@ public class HellfireBullet : Bullet
 
     private void Awake()
     {
-        if(AudioManager.Instance)AudioManager.Instance.audioSource.PlayOneShot(AudioManager.Instance.FireBallProjectile);
+        if (AudioManager.Instance) AudioManager.Instance.audioSource.PlayOneShot(AudioManager.Instance.FireBallProjectile);
     }
     protected override void OnTriggerEnter(Collider other)
     {
         if (IsInLayerMask(other.gameObject.layer, collisionLayerMask))
         {
             other.TryGetComponent(out NPCManagerScript npcManager);
-            if(AudioManager.Instance)AudioManager.Instance.audioSource.PlayOneShot(AudioManager.Instance.FireBallHit);
+            if (AudioManager.Instance) AudioManager.Instance.audioSource.PlayOneShot(AudioManager.Instance.FireBallHit);
             StartAttack(npcManager);
         }
     }
@@ -24,7 +22,11 @@ public class HellfireBullet : Bullet
     protected override void StartAttack(NPCManagerScript hitNPC)
     {
         if (!hitNPC) return;
-        if (hitNPC._stats) hitNPC._stats.AddDamageOverTime(damageDuration, damage);
+        if (hitNPC._stats)
+        {
+            hitNPC._stats.damageNumberColor = associatedColor;
+            hitNPC._stats.AddDamageOverTime(damageDuration, damage);
+        }
 
         //END ATTACK
         Destroy(gameObject);

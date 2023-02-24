@@ -32,7 +32,12 @@ public class FloodBullet : Bullet
                 if (hitCollider)
                 {
                     hitCollider.TryGetComponent(out NPCManagerScript npc);
-                    npc._stats.SlowDownMoveSpeed(slowedDownSpeed, slowDownDuration);
+                    if (npc)
+                    {
+
+                        npc._stats.damageNumberColor = associatedColor;
+                        npc._stats.SlowDownMoveSpeed(slowedDownSpeed, slowDownDuration);
+                    }
                 }
             }
         }

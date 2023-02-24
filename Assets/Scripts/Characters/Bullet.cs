@@ -7,6 +7,7 @@ public class Bullet : MonoBehaviour
 
     public float damage = 2f;
     public LayerMask collisionLayerMask;
+    public Color associatedColor;
 
     private Vector3 direction;
     private float elapsedTime = 0f;

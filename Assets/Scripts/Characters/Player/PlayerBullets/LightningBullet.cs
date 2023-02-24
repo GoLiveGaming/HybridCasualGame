@@ -44,6 +44,7 @@ public class LightningBullet : Bullet
                 rb.TryGetComponent(out NPCManagerScript npc);
                 if (npc)
                 {
+                    npc._stats.damageNumberColor = associatedColor;
                     npc._stats.AddDamageOverTime(5, damage);
                 }
             }

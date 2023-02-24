@@ -21,7 +21,11 @@ public class WaterBullet : Bullet
         if (!hitNPC) return;
 
         hitNPC._stats.SlowDownMoveSpeed(slowedDownSpeed, slowDownDuration);
-        hitNPC._stats.AddDamage(damage);
+        if (hitNPC._stats)
+        {
+            hitNPC._stats.damageNumberColor = associatedColor;
+            hitNPC._stats.AddDamage(damage);
+        }
         ParticleSystem Explosion = Instantiate(ExplosionPrefab, transform.position, Quaternion.identity);
         Explosion.transform.DOScale(Vector3.one, Explosion.main.duration).OnComplete(() =>
         {

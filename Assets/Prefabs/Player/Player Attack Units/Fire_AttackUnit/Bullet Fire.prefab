@@ -279,6 +279,7 @@ MonoBehaviour:
   collisionLayerMask:
     serializedVersion: 2
     m_Bits: 128
+  associatedColor: {r: 0.9056604, g: 0.8755332, b: 0.004271993, a: 1}
   damageDuration: 3
   ExplosionPrefab: {fileID: 968909009344584005, guid: 1638c487653d4df43960a69cea7ee998,
     type: 3}
