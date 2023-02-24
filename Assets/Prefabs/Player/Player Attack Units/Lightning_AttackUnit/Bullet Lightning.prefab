@@ -213,6 +213,7 @@ MonoBehaviour:
     m_Bits: 128
   explosionRadius: 20
   explosionForce: 10
+  aoeVisualObj: {fileID: 100008, guid: 969b8b40a14812b41a32bc213c50005c, type: 3}
   aoeLifetime: 0.2
   ExplosionPrefab: {fileID: 9027514048236820043, guid: 5250bfc2f84ca3b46be6d72b20d7d2b9,
     type: 3}

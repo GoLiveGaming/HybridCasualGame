@@ -48,44 +48,35 @@ MonoBehaviour:
   - unitType: 0
     unitPrefab: {fileID: 7579487409418218424, guid: 877a79ab1586ac34fb1bca1ca8b739f5,
       type: 3}
-    unitIcon: {fileID: 21300000, guid: 4ec003fd9132f28498ae81808f175b8e, type: 3}
   - unitType: 1
     unitPrefab: {fileID: 781124210954116597, guid: 9543c29d4fee9084f90119392a67d238,
       type: 3}
-    unitIcon: {fileID: 21300000, guid: d6c3bf8185904024c9dc7ac09f24d9fb, type: 3}
   - unitType: 2
     unitPrefab: {fileID: 1986586701075442758, guid: db34c3ebab9745d47997fbbddcddfffa,
       type: 3}
-    unitIcon: {fileID: 21300000, guid: 31f1a37c3f2386a4f99ced505478e1cb, type: 3}
   - unitType: 3
     unitPrefab: {fileID: 6373990908122441788, guid: 120a93b724b613c4d9dab76cd1bd9097,
       type: 3}
-    unitIcon: {fileID: 21300000, guid: 2572f7c2d906e4e4c86949c51591f98e, type: 3}
   - unitType: 4
     unitPrefab: {fileID: 5900153598678678189, guid: 6ea3fb5564a9d4745a4d7eacecf5c903,
       type: 3}
-    unitIcon: {fileID: 21300000, guid: 1bfef751ee5dddb4a8f35f4c611152dd, type: 3}
   - unitType: 5
     unitPrefab: {fileID: 6666375904809360311, guid: 950ff478283111e40ba252f62f57e68e,
       type: 3}
-    unitIcon: {fileID: 21300000, guid: e6bbbb27645e2144197e74193501065b, type: 3}
   - unitType: 6
     unitPrefab: {fileID: 8688840971930629863, guid: 674ae240f19387348b3977b98e0fed62,
       type: 3}
-    unitIcon: {fileID: 21300000, guid: f61ff0003eed1804f8d7d21176292ed1, type: 3}
   - unitType: 7
     unitPrefab: {fileID: 8420134239235843006, guid: eac079114216ff54bb342149d368330c,
       type: 3}
-    unitIcon: {fileID: 21300000, guid: e9275164ffbfb904392d745231110823, type: 3}
   - unitType: 8
     unitPrefab: {fileID: 5713686120818814882, guid: d0962ab2f5c37a54eb1ed32494651546,
       type: 3}
-    unitIcon: {fileID: 21300000, guid: b8ce8a05133299b4ba16939ebe9c9513, type: 3}
   towerParticles:
   - {fileID: 4271093393614929224, guid: af7053c970d2cb44e8c1904918ddd843, type: 3}
   - {fileID: 19800000, guid: b5d5bac6bdebee7429499e3341bdc6fa, type: 3}
   - {fileID: 2433282508523890284, guid: d037d5dc95c91c64281843a93533370b, type: 3}
-  - {fileID: 4271093393614929224, guid: af7053c970d2cb44e8c1904918ddd843, type: 3}
+  - {fileID: 198681264470032530, guid: 36c9adf15067b754f95517443aa3abda, type: 3}
   enemyParticles:
   - {fileID: 19800000, guid: a7027a47f33ce3d49887fe2019a51abc, type: 3}
   - {fileID: 5985634496115995770, guid: 1670c3ffa9290c249862358be822a81d, type: 3}

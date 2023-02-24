@@ -9,6 +9,9 @@ public class LightningBullet : Bullet
     [SerializeField] private float explosionRadius = 5f;
     [SerializeField] private float explosionForce = 10f;
 
+    [SerializeField] private GameObject aoeVisualObj;
+    [SerializeField] private float aoeLifetime = 0.15f;
+
     [SerializeField] private ParticleSystem ExplosionPrefab;
     protected override void OnTriggerEnter(Collider other)
     {
@@ -22,6 +25,13 @@ public class LightningBullet : Bullet
     protected override void StartAttack(NPCManagerScript hitNPC)
     {
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, 5f);
+
+        GameObject spawnedAOE = null;
+
+        if (aoeVisualObj) spawnedAOE = Instantiate(aoeVisualObj, this.transform.position, Quaternion.identity);
+
+        if (spawnedAOE) spawnedAOE.transform.DOScale(Vector3.one * explosionRadius, aoeLifetime);
+        if (spawnedAOE) Destroy(spawnedAOE, aoeLifetime);
         foreach (var hitCollider in hitColliders)
         {
             hitCollider.TryGetComponent(out Rigidbody rb);

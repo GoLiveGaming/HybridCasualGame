@@ -48,9 +48,7 @@ public class StormBullet : Bullet
             }
         }
 
-
         //END ATTACK
         Destroy(gameObject);
     }
-
 }
