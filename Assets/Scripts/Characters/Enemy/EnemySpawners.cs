@@ -42,6 +42,7 @@ public class EnemySpawners : MonoBehaviour
         }
     }
 
+
     private void Awake()
     {
         Instance = this;

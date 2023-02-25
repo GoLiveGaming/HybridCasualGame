@@ -1,3 +1,4 @@
+using GameAnalyticsSDK;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -26,6 +27,8 @@ public class LevelManager : MonoBehaviour
     {
         UIManager.Instance.loadingPanel.gameObject.SetActive(true);
         levelNum = PlayerPrefs.GetInt("CurrentLevel");
+        string eventName = "Level_0" + (levelNum + 1);
+        GameAnalytics.NewProgressionEvent(GAProgressionStatus.Start, eventName);
         maxEnemyCount = levelData[levelNum].totalEnemies;
         deadEnemiesCount = levelData[levelNum].totalEnemies;
         UIManager.Instance.enemiesCountTxt.text = levelData[levelNum].totalEnemies.ToString();
