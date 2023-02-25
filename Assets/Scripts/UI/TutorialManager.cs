@@ -8,6 +8,7 @@ using UnityEngine.UI;
 public class TutorialManager : UIManager
 {
     public bool firstStep, secondStep, thirdStep;
+    public bool isGamePaused = false;
 
     public RectTransform TutorialPanelOne;
 
@@ -51,7 +52,7 @@ public class TutorialManager : UIManager
         tutorialBouncyTxtBig.text = "Let's bring in a Wizard to help defend your Castle!";
         for (int i = 0; i < EnemySpawners.Instance.enemiesParent.childCount; i++)
         {
-         EnemySpawners.Instance.enemiesParent.GetChild(i).GetComponent<NPCManagerScript>().SetMoveSpeed(0);
+            EnemySpawners.Instance.enemiesParent.GetChild(i).GetComponent<NPCManagerScript>().SetMoveSpeed(0);
         }
         Utils.isGamePaused = true;
         GlowDeployButtons(true);
@@ -62,12 +63,12 @@ public class TutorialManager : UIManager
         tutorialBouncyTxtBig.gameObject.SetActive(false);
         for (int i = 0; i < EnemySpawners.Instance.enemiesParent.childCount; i++)
         {
-         EnemySpawners.Instance.enemiesParent.GetChild(i).GetComponent<NPCManagerScript>().ResetMoveSpeed();
+            EnemySpawners.Instance.enemiesParent.GetChild(i).GetComponent<NPCManagerScript>().ResetMoveSpeed();
         }
         Utils.isGamePaused = false;
         for (int i = 0; i < deployAreas.Length; i++)
         {
-            deployAreas[i].gameObject.SetActive(true);
+            deployAreas[i].SetActive(true);
         }
         TutorialBouncyText("Placing a Wizard Tower Costs Mana", 1);
         manaObjects[0].gameObject.SetActive(true);
@@ -104,7 +105,7 @@ public class TutorialManager : UIManager
         ChangeDeployedAreas(1);
         for (int i = 0; i < EnemySpawners.Instance.enemiesParent.childCount; i++)
         {
-                EnemySpawners.Instance.enemiesParent.GetChild(i).GetComponent<NPCManagerScript>().SetMoveSpeed(0);
+            EnemySpawners.Instance.enemiesParent.GetChild(i).GetComponent<NPCManagerScript>().SetMoveSpeed(0);
         }
         Utils.isGamePaused = true;
         for (int k = 0; k < deployAreas.Length; k++)
@@ -113,7 +114,7 @@ public class TutorialManager : UIManager
             {
                 for (int i = 0; i < deployAreas[k].GetComponent<PlayerUnitDeploymentArea>().deployedTower.transform.childCount; i++)
                 {
-                  //  deployAreas[k].GetComponent<PlayerUnitDeploymentArea>().deployedTower.transform.GetComponent<Animator>().enabled = true;
+                    //  deployAreas[k].GetComponent<PlayerUnitDeploymentArea>().deployedTower.transform.GetComponent<Animator>().enabled = true;
                     deployAreas[k].GetComponent<PlayerUnitDeploymentArea>().deployedTower.transform.GetChild(i).TryGetComponent(out Renderer renderer);
                     if (renderer) renderer.material.EnableKeyword("_EMISSION");
 
@@ -134,7 +135,7 @@ public class TutorialManager : UIManager
         tutorialBouncyTxtBig.gameObject.SetActive(false);
         for (int i = 0; i < EnemySpawners.Instance.enemiesParent.childCount; i++)
         {
-                EnemySpawners.Instance.enemiesParent.GetChild(i).GetComponent<NPCManagerScript>().ResetMoveSpeed();
+            EnemySpawners.Instance.enemiesParent.GetChild(i).GetComponent<NPCManagerScript>().ResetMoveSpeed();
         }
         Utils.isGamePaused = false;
         for (int k = 0; k < deployAreas.Length; k++)
@@ -146,7 +147,7 @@ public class TutorialManager : UIManager
                 {
                     for (int i = 0; i < deployAreas[k].GetComponent<PlayerUnitDeploymentArea>().deployedTower.transform.childCount; i++)
                     {
-                      //  animator.enabled = false;
+                        //  animator.enabled = false;
                         deployAreas[k].GetComponent<PlayerUnitDeploymentArea>().deployedTower.transform.GetChild(i).TryGetComponent(out Renderer renderer);
                         if (renderer) renderer.material.DisableKeyword("_EMISSION");
 
@@ -170,15 +171,15 @@ public class TutorialManager : UIManager
     {
         for (int i = 0; i < deployButtons.Length; i++)
         {
-               deployButtons[i].transform.GetChild(0).gameObject.SetActive(glow);
+            deployButtons[i].transform.GetChild(0).gameObject.SetActive(glow);
         }
     }
     public void EnableDeployButtons(bool glow)
     {
         for (int i = 0; i < deployButtons.Length; i++)
         {
-               deployButtons[i].ableToDrag = glow;
-               deployButtons[i].GetComponent<Button>().interactable = glow;
+            deployButtons[i].ableToDrag = glow;
+            deployButtons[i].GetComponent<Button>().interactable = glow;
         }
     }
 
@@ -190,14 +191,14 @@ public class TutorialManager : UIManager
             {
                 deployAreas[i].transform.GetComponent<BoxCollider>().enabled = false;
             }
-            else if(changeState == 1)
+            else if (changeState == 1)
             {
                 if (deployAreas[i].transform.GetComponent<BoxCollider>().enabled == true)
                     deployAreas[i].transform.GetComponent<BoxCollider>().enabled = false;
                 else
                     deployAreas[i].transform.GetComponent<BoxCollider>().enabled = true;
             }
-            else if(changeState == 2)
+            else if (changeState == 2)
             {
                 deployAreas[i].transform.GetComponent<BoxCollider>().enabled = true;
             }
@@ -217,9 +218,9 @@ public class TutorialManager : UIManager
         tutorialBouncyTxt.transform.localScale = Vector3.one;
         tutorialBouncyTxt.transform.DOScale(new Vector3(1.3f, 1.3f, 1.3f), duration).OnComplete(() =>
         {
-           // tutorialBouncyTxt.text = "";
-           // tutorialBouncyTxt.fontSize = 100f;
-           // tutorialBouncyTxt.transform.localScale = Vector3.one;
+            // tutorialBouncyTxt.text = "";
+            // tutorialBouncyTxt.fontSize = 100f;
+            // tutorialBouncyTxt.transform.localScale = Vector3.one;
         });
     }
 

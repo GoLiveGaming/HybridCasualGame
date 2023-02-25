@@ -15,28 +15,60 @@ public class PlayerDataManager : SingletonPersistent<PlayerDataManager>
     {
         if (!PlayerPrefs.HasKey("Initialized") || PlayerPrefs.GetInt("Initialized") == 0)
         {
-            PlayerPrefs.SetInt("Initialized", 1);
-            _playerDataContainer.UnlockedAttackTypes.Add(AttackType.FireAttack);
-            _playerDataContainer.UnlockedAttackTypes.Add(AttackType.WindAttack);
-            _playerDataContainer.UnlockedAttackTypes.Add(AttackType.WaterAttack);
-            _playerDataContainer.UnlockedAttackTypes.Add(AttackType.LightningAttack);
 
-            PlayerPrefs.SetInt("UnlockedAttackList_Count", _playerDataContainer.UnlockedAttackTypes.Count);
-
-            for (var i = 0; i < _playerDataContainer.UnlockedAttackTypes.Count; i++)
+            foreach (AttackType value in System.Enum.GetValues(typeof(AttackType)))
             {
-                PlayerPrefs.SetString("UnlockedAttackList_" + i, _playerDataContainer.UnlockedAttackTypes[i].ToString());
+                _playerDataContainer.AllAttackTypes.Add(value);
+                PlayerPrefs.SetInt("AttackType_" + value.ToString(), 0);
             }
 
+            PlayerPrefs.SetInt("AttackTypesList_Count", _playerDataContainer.AllAttackTypes.Count);
+
+            PlayerPrefs.SetInt("Initialized", 1);
         }
+
+        _playerDataContainer.AllAttackTypes = GetAllAttackTypesListFromPlayerPrefs();
         _playerDataContainer.UnlockedAttackTypes = GetUnlockedAttackTypesListFromPlayerPrefs();
         PlayerPrefs.Save();
 
     }
 
+    private List<AttackType> GetAllAttackTypesListFromPlayerPrefs()
+    {
+        List<AttackType> returnAttackTypes = new();
+
+        foreach (AttackType value in System.Enum.GetValues(typeof(AttackType)))
+        {
+            returnAttackTypes.Add(value);
+        }
+
+        return returnAttackTypes;
+    }
+
     private List<AttackType> GetUnlockedAttackTypesListFromPlayerPrefs()
     {
         List<AttackType> returnAttackTypes = new();
+
+        foreach (AttackType value in System.Enum.GetValues(typeof(AttackType)))
+        {
+            if (PlayerPrefs.GetInt("AttackType_" + value.ToString()) == 1)
+            {
+                returnAttackTypes.Add(value);
+            }
+        }
+
+        return returnAttackTypes;
+    }
+
+    #region Global Access Functions
+
+    public bool IsAttackTypeUnlocked(AttackType type)
+    {
+        return _playerDataContainer.AllAttackTypes.Contains(type);
+    }
+
+    public void UnlockAttackType(string attackTypeName)
+    {
         int UnlockedCount = PlayerPrefs.GetInt("UnlockedAttackList_Count");
 
         for (int keyIndex = 0; keyIndex < UnlockedCount; keyIndex++)
@@ -45,19 +77,8 @@ public class PlayerDataManager : SingletonPersistent<PlayerDataManager>
 
             if (System.Enum.TryParse(keyName, out AttackType type))
             {
-                returnAttackTypes.Add(type);
             }
         }
-        return returnAttackTypes;
-    }
-
-
-
-    #region Global Access Functions
-
-    public bool IsAttackTypeUnlocked(AttackType type)
-    {
-        return _playerDataContainer.UnlockedAttackTypes.Contains(type);
     }
 
 

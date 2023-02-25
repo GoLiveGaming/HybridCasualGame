@@ -106,7 +106,6 @@ public class PlayerUnitDeploymentArea : MonoBehaviour
                 _audioManager.audioSource.PlayOneShot(AudioManager.Instance.BuildingConstruction);
             else
                 _audioManager.audioSource.PlayOneShot(AudioManager.Instance.TowerUpgrade);
-
         }
         deployedTower = spawnedTower;
     }
