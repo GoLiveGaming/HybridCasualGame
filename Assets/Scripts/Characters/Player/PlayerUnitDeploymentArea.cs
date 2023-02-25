@@ -5,8 +5,11 @@ public class PlayerUnitDeploymentArea : MonoBehaviour
 {
     [ReadOnly] public PlayerTower deployedTower;
     [ReadOnly] public bool isAreaAvailable = true;
-    private MainPlayerControl mainPlayerControl;
-    private UIManager uiManager;
+    private MainPlayerControl _mainPlayerControl;
+    private UIManager _uiManager;
+    private PlayerDataManager _dataManager;
+    private AudioManager _audioManager;
+
     private BoxCollider boxCollider;
 
     private void OnDrawGizmos()
@@ -19,8 +22,12 @@ public class PlayerUnitDeploymentArea : MonoBehaviour
     }
     private void Start()
     {
-        mainPlayerControl = MainPlayerControl.Instance;
-        uiManager = UIManager.Instance;
+        _mainPlayerControl = MainPlayerControl.Instance;
+        _uiManager = UIManager.Instance;
+        _audioManager = AudioManager.Instance;
+        _dataManager = PlayerDataManager.Instance;
+
+
         deployedTower = GetComponentInChildren<PlayerTower>();
         isAreaAvailable = true;
     }
@@ -29,7 +36,7 @@ public class PlayerUnitDeploymentArea : MonoBehaviour
     {
         if (!isAreaAvailable) { Debug.Log("Area Not Available"); return; }
 
-        PlayerUnit unitSelectedToDeploy = mainPlayerControl.GetPlayerUnit(unitType);
+        PlayerUnit unitSelectedToDeploy = _mainPlayerControl.GetPlayerUnit(unitType);
         StartDeployemnt(unitSelectedToDeploy);
 
     }
@@ -40,12 +47,10 @@ public class PlayerUnitDeploymentArea : MonoBehaviour
         if (existingUnit == null)
         {
             DeployUnit(towerSelectedToDeploy);
-            if (AudioManager.Instance) AudioManager.Instance.audioSource.PlayOneShot(AudioManager.Instance.BuildingConstruction);
         }
         else
         {
             DeployUnit(GetUnitAfterMergeCheck(towerSelectedToDeploy));
-            if (AudioManager.Instance) AudioManager.Instance.audioSource.PlayOneShot(AudioManager.Instance.TowerUpgrade);
             SpawnParticles(1, -90);
         }
 
@@ -69,12 +74,14 @@ public class PlayerUnitDeploymentArea : MonoBehaviour
             {
                 if (towerSelectedToDeploy.unitPrefab.TowerAttackType == existingUnitCombination.combinesWith)
                 {
-                    PlayerUnit combinedTower = mainPlayerControl.GetPlayerUnit(existingUnitCombination.toYield);
+                    PlayerUnit combinedTower = _mainPlayerControl.GetPlayerUnit(existingUnitCombination.toYield);
+
+                    if (!_dataManager.IsAttackTypeUnlocked(combinedTower.unitType)) break;
+
                     return combinedTower;
                 }
             }
         }
-
         Debug.Log("No possible merge combinations found for: " + towerSelectedToDeploy);
         return towerSelectedToDeploy;
 
@@ -83,16 +90,24 @@ public class PlayerUnitDeploymentArea : MonoBehaviour
 
     public void DeployUnit(PlayerUnit towerSelectedToDeploy)
     {
-        if (towerSelectedToDeploy.unitPrefab.resourceCost > mainPlayerControl.currentResourcesCount)
+        if (towerSelectedToDeploy.unitPrefab.resourceCost > _mainPlayerControl.currentResourcesCount)
         {
-            uiManager.ShowWarningText = towerSelectedToDeploy.unitPrefab.TowerAttackType.ToString() + "Unit Needs: " + towerSelectedToDeploy.unitPrefab.resourceCost.ToString() + "Gems";
+            _uiManager.ShowWarningText = towerSelectedToDeploy.unitPrefab.TowerAttackType.ToString() + "Unit Needs: " + towerSelectedToDeploy.unitPrefab.resourceCost.ToString() + "Gems";
             return;
         }
         DeleteChildTowers();
 
         PlayerTower spawnedTower = Instantiate(towerSelectedToDeploy.unitPrefab, transform.position, Quaternion.identity);
         spawnedTower.transform.SetParent(this.transform, true);
-        mainPlayerControl.RemoveResource(spawnedTower.resourceCost);
+        _mainPlayerControl.RemoveResource(spawnedTower.resourceCost);
+        if (_audioManager)
+        {
+            if (deployedTower != null)
+                _audioManager.audioSource.PlayOneShot(AudioManager.Instance.BuildingConstruction);
+            else
+                _audioManager.audioSource.PlayOneShot(AudioManager.Instance.TowerUpgrade);
+
+        }
         deployedTower = spawnedTower;
     }
 

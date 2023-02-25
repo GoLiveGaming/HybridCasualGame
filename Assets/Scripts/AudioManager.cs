@@ -1,10 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class AudioManager : MonoBehaviour
+public class AudioManager : SingletonPersistent<AudioManager>
 {
-    public static AudioManager Instance;
     internal AudioSource audioSource;
 
     public AudioClip LevelStart;
@@ -22,14 +19,10 @@ public class AudioManager : MonoBehaviour
     public AudioClip FireBallProjectile;
     public AudioClip FireBallHit;
 
-    private void Awake()
+    protected override void Awake()
     {
-        if (Instance == null)
-            DontDestroyOnLoad(this.gameObject);
-        else
-            Destroy(gameObject);
-        Instance = this;
-        audioSource = this.GetComponent<AudioSource>();
+        base.Awake();
+        audioSource = GetComponent<AudioSource>();
     }
-    
+
 }

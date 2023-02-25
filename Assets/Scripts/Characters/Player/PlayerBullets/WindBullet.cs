@@ -29,7 +29,6 @@ public class WindBullet : Bullet
                 //Add Explosion Force
                 rb.AddExplosionForce(impactForce, transform.position + new Vector3(0, 0, -1), impactAreaRadius, 0f, ForceMode.Impulse);
 
-
                 //Modify Stats
                 rb.TryGetComponent(out NPCManagerScript npc);
                 if (npc)
