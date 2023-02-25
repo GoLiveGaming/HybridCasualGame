@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 public class TutorialManager : UIManager
 {
-    public bool firstStep, secondStep, thirdStep;
+    internal bool firstStep, secondStep, thirdStep;
 
     public RectTransform TutorialPanelOne;
 
@@ -137,6 +137,7 @@ public class TutorialManager : UIManager
                 EnemySpawners.Instance.enemiesParent.GetChild(i).GetComponent<NPCManagerScript>().ResetMoveSpeed();
         }
         Utils.isGamePaused = false;
+        ChangeDeployedAreas(2);
         for (int k = 0; k < deployAreas.Length; k++)
         {
             if (deployAreas[k].GetComponent<PlayerUnitDeploymentArea>().deployedTower)

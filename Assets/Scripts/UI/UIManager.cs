@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
+using GameAnalyticsSDK;
 
 public class UIManager : MonoBehaviour
 {
@@ -146,8 +147,17 @@ public class UIManager : MonoBehaviour
         floatingTextPanel.gameObject.SetActive(false);
         gameOverPanel.SetActive(true);
         overTxt.text = textTemp;
-
-        if (isWon && (PlayerPrefs.GetInt("CurrentLevel") < 3))
+        int levelNum = PlayerPrefs.GetInt("CurrentLevel");
+        string eventName = "Level_0" + (levelNum + 1);
+        if (isWon)
+        {
+            GameAnalytics.NewProgressionEvent(GAProgressionStatus.Complete, eventName);
+        }
+        else
+        {
+            GameAnalytics.NewProgressionEvent(GAProgressionStatus.Fail, eventName);
+        }
+        if (isWon && (PlayerPrefs.GetInt("CurrentLevel") < 5))
         {
             int tempInt = PlayerPrefs.GetInt("CurrentLevel");
             tempInt++;
