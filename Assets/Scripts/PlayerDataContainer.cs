@@ -2,5 +2,10 @@ using System.Collections.Generic;
 
 public class PlayerDataContainer
 {
-    public List<AttackType> UnlockedAttackTypes = new();
+    public List<PlayerAttacksData> AllAttackTypesData = new();  
+}
+public class PlayerAttacksData
+{
+    public AttackType AttackType;
+    public int isUnlocked = 0;
 }
