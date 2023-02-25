@@ -31,7 +31,7 @@ public class NPCManagerScript : MonoBehaviour
     [SerializeField] internal LayerMask playerTowerLayer;
     [SerializeField] private float timeSinceLastStateRefresh = 0f;
 
-    [HideInInspector] public NavMeshAgent _agent;
+     public NavMeshAgent _agent;
     [HideInInspector] public Stats _stats;
     [HideInInspector] public Animator m_Animator;
 
@@ -59,6 +59,8 @@ public class NPCManagerScript : MonoBehaviour
     public readonly NPCAttackState AttackState = new();
 
     [ReadOnly] public GameObject targetTower = null;
+
+    bool isInitialized;
     public enum NPCStates
     {
         Pursue,
@@ -80,8 +82,11 @@ public class NPCManagerScript : MonoBehaviour
             UpdateAnims(_agent.desiredVelocity);
         }
     }
-    void Initialize()
+    internal void Initialize()
     {
+        if (isInitialized)
+            return;
+        isInitialized = true;
         _playerControl = MainPlayerControl.Instance;
         m_Animator = GetComponent<Animator>();
         m_Rigidbody = GetComponent<Rigidbody>();

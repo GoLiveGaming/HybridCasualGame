@@ -45,6 +45,36 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levelData:
+  - totalEnemies: 20
+    Waves:
+    - waveNum: 1
+      totalEniemies: 5
+      enemyData:
+      - SpawnLocation: 0
+        enemyType: 0
+        enemyCount: 5
+        TimeInterval: 20
+    - waveNum: 2
+      totalEniemies: 5
+      enemyData:
+      - SpawnLocation: 0
+        enemyType: 2
+        enemyCount: 5
+        TimeInterval: 20
+    - waveNum: 3
+      totalEniemies: 5
+      enemyData:
+      - SpawnLocation: 0
+        enemyType: 0
+        enemyCount: 5
+        TimeInterval: 10
+    - waveNum: 4
+      totalEniemies: 5
+      enemyData:
+      - SpawnLocation: 0
+        enemyType: 2
+        enemyCount: 5
+        TimeInterval: 10
   - totalEnemies: 37
     Waves:
     - waveNum: 1

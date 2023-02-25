@@ -77,7 +77,7 @@ public class StartSceneManager : MonoBehaviour
         btn.transform.DOScale(new Vector3(0.85f, 0.85f, 0.85f), 0.3f).OnComplete(() =>
         {
             int tempInt = PlayerPrefs.GetInt("CurrentLevel");
-            if (tempInt < 3)
+            //if (tempInt < 4)
                 tempInt++;
             SceneManager.LoadSceneAsync(tempInt);
             btn.transform.localScale = Vector3.one;

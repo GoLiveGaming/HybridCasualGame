@@ -56,6 +56,7 @@ public class PlayerTower : PlayerUnitBase
 
     private void Update()
     {
+        if(!Utils.isGamePaused)
         UpdateUnit();
     }
 

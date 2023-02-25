@@ -69,7 +69,7 @@ public class UIManager : MonoBehaviour
     {
         ShowResponseMessage(tempTxt, waveTxt);
     }
-    private void Start()
+    public virtual void Start()
     {
         SpawndamageTexts();
     }
@@ -147,7 +147,7 @@ public class UIManager : MonoBehaviour
         gameOverPanel.SetActive(true);
         overTxt.text = textTemp;
 
-        if (isWon && (PlayerPrefs.GetInt("CurrentLevel") < 2))
+        if (isWon && (PlayerPrefs.GetInt("CurrentLevel") < 3))
         {
             int tempInt = PlayerPrefs.GetInt("CurrentLevel");
             tempInt++;

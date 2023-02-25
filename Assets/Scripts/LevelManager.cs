@@ -81,6 +81,7 @@ public class LevelManager : MonoBehaviour
             else
             {
                 StartCoroutine(SpawnEnemiesInIntervels(levelData[levelNum].Waves[WaveIndexMain].enemyData[0].TimeInterval));
+                yield break;
             }
        // }
     }

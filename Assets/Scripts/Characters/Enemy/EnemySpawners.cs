@@ -15,7 +15,7 @@ public class EnemySpawners : MonoBehaviour
     [SerializeField] private NPCManagerScript[] ObjectsToSpawn;
     [SerializeField] private bool canSpawnEnemies;
 
-    [SerializeField] private Transform enemiesParent;
+    [SerializeField] internal Transform enemiesParent;
 
     [SerializeField, Range(0.1f, 100f)] private float spawnInterval = 2f;
     [SerializeField, Range(0.1f, 100f)] private float spawnIntervalOffset = 2f;
@@ -55,6 +55,7 @@ public class EnemySpawners : MonoBehaviour
     {
         int objectindex = ObjectToSpawnIndex(type);
         NPCManagerScript tempObj = Instantiate(ObjectsToSpawn[objectindex], spawnLocations[objectSpawnPosIndex].position, Quaternion.identity);
+        tempObj.Initialize();
         tempObj.transform.SetParent(enemiesParent);
         tempObj.gameObject.SetActive(false);
         spawnList.Add(tempObj);
@@ -116,9 +117,9 @@ public class EnemySpawners : MonoBehaviour
 
     public int ObjectToSpawnIndex(EnemyTypes type)
     {
-        for(int i = 0; i< ObjectsToSpawn.Length; i++)
+        for (int i = 0; i < ObjectsToSpawn.Length; i++)
         {
-            if(ObjectsToSpawn[i].enemyType == type)
+            if (ObjectsToSpawn[i].enemyType == type)
             {
                 return i;
             }
