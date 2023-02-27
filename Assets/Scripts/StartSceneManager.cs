@@ -75,9 +75,9 @@ public class StartSceneManager : MonoBehaviour
             int tempInt = PlayerPrefs.GetInt("CurrentLevel");
             //if (tempInt < 4)
                 tempInt++;
-            SceneManager.LoadSceneAsync(tempInt);
+            //SceneManager.LoadSceneAsync(tempInt);
             Debug.Log(tempInt);
-            //levelLoader.LoadNextLevel(tempInt);
+            levelLoader.LoadNextLevel(tempInt);
             btn.transform.localScale = Vector3.one;
         });
         

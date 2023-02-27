@@ -23,7 +23,7 @@ public class PlayerDataManager : SingletonPersistent<PlayerDataManager>
             PlayerPrefs.SetInt("AttackType_" + AttackType.WaterAttack.ToString(), 1);
             PlayerPrefs.SetInt("AttackType_" + AttackType.LightningAttack.ToString(), 1);
 
-            PlayerPrefs.SetInt("CoinsAmount", 10);
+            PlayerPrefs.SetInt("CoinsAmount", 0);
             PlayerPrefs.SetInt("AttackTypesList_Count", _playerData.AllAttackTypesData.Count);
 
 
