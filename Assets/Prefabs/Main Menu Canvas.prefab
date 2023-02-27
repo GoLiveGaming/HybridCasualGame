@@ -1591,7 +1591,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Upgrades
+  m_text: UNLOCKS
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 1ca0eec2a965f294f9978980eb1c8bdc, type: 2}
   m_sharedMaterial: {fileID: -1163052468010577150, guid: 1ca0eec2a965f294f9978980eb1c8bdc,
@@ -1886,7 +1886,7 @@ GameObject:
   - component: {fileID: 2419499861811773390}
   - component: {fileID: 100663939}
   m_Layer: 5
-  m_Name: UpgradePanel
+  m_Name: UnlocksPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4942,7 +4942,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &4299554164660359560
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5023,7 +5023,7 @@ GameObject:
   - component: {fileID: 4299554164800800703}
   - component: {fileID: 4299554164800800702}
   m_Layer: 5
-  m_Name: Button
+  m_Name: Begin Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7233,7 +7233,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Upgrade
+  m_text: UNLOCKS
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 1ca0eec2a965f294f9978980eb1c8bdc, type: 2}
   m_sharedMaterial: {fileID: -1163052468010577150, guid: 1ca0eec2a965f294f9978980eb1c8bdc,
@@ -7952,7 +7952,7 @@ GameObject:
   - component: {fileID: 4299554166432466759}
   - component: {fileID: 4299554166432466758}
   m_Layer: 5
-  m_Name: Upgrade
+  m_Name: Unlock Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
