@@ -11,19 +11,20 @@ public class UpgradeButton : MonoBehaviour
     public string attackName;
 
     PlayerDataManager playerDataManager;
-    /*private void Start()
+    StartSceneManager startSceneManager;
+    private void Start()
     {
-        button = GetComponent<Button>();
-        playerDataManager = PlayerDataManager.Instance;
         initialize();
-    }*/
+    }
 
 
     public void initialize()
     {
-        button = GetComponent<Button>();
-        playerDataManager = PlayerDataManager.Instance;
+        if (!button) button = GetComponent<Button>();
+        if (!playerDataManager) playerDataManager = PlayerDataManager.Instance;
+        if (!startSceneManager) startSceneManager = FindObjectOfType<StartSceneManager>();
 
+        if (startSceneManager) startSceneManager.UpdateCoinsAmountText();
         isUnlocked = playerDataManager.IsAttackTypeUnlocked(playerDataManager.GetAttackTypeFromString(attackName));
         if (isUnlocked)
         {
@@ -42,6 +43,7 @@ public class UpgradeButton : MonoBehaviour
         if (isUnlocked)
         {
             button.interactable = false;
+            if (startSceneManager) startSceneManager.UpdateCoinsAmountText();
             return;
         }
 

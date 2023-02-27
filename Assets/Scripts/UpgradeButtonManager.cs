@@ -6,6 +6,7 @@ using UnityEngine;
 public class UpgradeButtonManager : MonoBehaviour
 {
     public UpgradeButton[] buttons;
+    public StartSceneManager startSceneManager;
 
     private void OnEnable()
     {
@@ -13,5 +14,6 @@ public class UpgradeButtonManager : MonoBehaviour
         {
             child.initialize();
         }
+
     }
 }

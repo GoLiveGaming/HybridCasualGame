@@ -9,7 +9,6 @@ using GameAnalyticsSDK;
 
 public class UIManager : Singleton<UIManager>
 {
-   // public static UIManager Instance;
 
     [Header("GAMEMODE INFO UI")]
     [Header("Rect Componenets")]
@@ -59,7 +58,7 @@ public class UIManager : Singleton<UIManager>
     protected override void Awake()
     {
         base.Awake();
-       // Instance = this;
+        // Instance = this;
         pauseBtn.onClick.AddListener(PauseButton);
     }
 
@@ -77,7 +76,7 @@ public class UIManager : Singleton<UIManager>
     }
     void SpawndamageTexts()
     {
-        for(int i = 0; i < 40; i++)
+        for (int i = 0; i < 40; i++)
         {
             TMP_Text damageText = Instantiate(m_damageTextPrefab, rootcanvas.transform.position, Quaternion.identity, floatingTextPanel.transform);
             damageTextQueue.Enqueue(damageText);
@@ -117,7 +116,7 @@ public class UIManager : Singleton<UIManager>
             floatingTextPanel.SetActive(true);
             btn.transform.localScale = Vector3.one;
         });
-        
+
     }
     public void RestartButton(Button btn)
     {
@@ -127,7 +126,7 @@ public class UIManager : Singleton<UIManager>
             SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex);
             btn.transform.localScale = Vector3.one;
         });
-        
+
     }
     public void QuitButton(Button btn)
     {
@@ -137,7 +136,7 @@ public class UIManager : Singleton<UIManager>
             SceneManager.LoadSceneAsync(0);
             btn.transform.localScale = Vector3.one;
         });
-        
+
     }
     public void TempVoid()
     {
@@ -163,6 +162,7 @@ public class UIManager : Singleton<UIManager>
             int tempInt = PlayerPrefs.GetInt("CurrentLevel");
             tempInt++;
             PlayerPrefs.SetInt("CurrentLevel", tempInt);
+            PlayerDataManager.Instance.CoinsAmount += 1;
         }
         Time.timeScale = 0;
     }

@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using static UnityEngine.Rendering.DebugUI;
 
 public class PlayerDataManager : SingletonPersistent<PlayerDataManager>
 {
@@ -22,16 +23,19 @@ public class PlayerDataManager : SingletonPersistent<PlayerDataManager>
             PlayerPrefs.SetInt("AttackType_" + AttackType.WaterAttack.ToString(), 1);
             PlayerPrefs.SetInt("AttackType_" + AttackType.LightningAttack.ToString(), 1);
 
+            PlayerPrefs.SetInt("CoinsAmount", 10);
             PlayerPrefs.SetInt("AttackTypesList_Count", _playerData.AllAttackTypesData.Count);
+
+
 
             PlayerPrefs.SetInt("Initialized", 1);
         }
-        UpdateAttackTypesListsFromPlayerPrefs();
+        UpdateDataFromPlayerPrefs();
         PlayerPrefs.Save();
     }
 
 
-    private void UpdateAttackTypesListsFromPlayerPrefs()
+    private void UpdateDataFromPlayerPrefs()
     {
         _playerData.AllAttackTypesData.Clear();
 
@@ -47,16 +51,29 @@ public class PlayerDataManager : SingletonPersistent<PlayerDataManager>
             _playerData.AllAttackTypesData.Add(attackTypeData);
         }
 
+        _playerData.coinsAmount = PlayerPrefs.GetInt("CoinsAmount");
+
     }
 
     #region Global Access Functions
 
+    public int CoinsAmount
+    {
+        get { return _playerData.coinsAmount; }
+        set
+        {
+            _playerData.coinsAmount = value;
+
+            PlayerPrefs.SetInt("CoinsAmount", _playerData.coinsAmount);
+        }
+    }
     public void ClearAllPlayerPrefs()
     {
         PlayerPrefs.DeleteAll();
-       
-    }   
-    
+    }
+
+
+
     public bool IsAttackTypeUnlocked(AttackType type)
     {
         foreach (PlayerAttacksData data in _playerData.AllAttackTypesData)
@@ -85,12 +102,15 @@ public class PlayerDataManager : SingletonPersistent<PlayerDataManager>
     }
     public bool UnlockAttackType(string attackTypeName)
     {
+        if (CoinsAmount <= 0) return false;
+
         if (PlayerPrefs.HasKey("AttackType_" + attackTypeName))
         {
             PlayerPrefs.SetInt("AttackType_" + attackTypeName, 1);
         }
         else return false;
-        UpdateAttackTypesListsFromPlayerPrefs();
+        CoinsAmount -= 1;
+        UpdateDataFromPlayerPrefs();
         PlayerPrefs.Save();
         return true;
     }

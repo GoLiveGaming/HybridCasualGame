@@ -2,7 +2,8 @@ using System.Collections.Generic;
 
 public class PlayerDataContainer
 {
-    public List<PlayerAttacksData> AllAttackTypesData = new();  
+    public List<PlayerAttacksData> AllAttackTypesData = new();
+    public int coinsAmount = 0;
 }
 public class PlayerAttacksData
 {

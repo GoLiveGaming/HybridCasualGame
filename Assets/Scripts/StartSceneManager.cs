@@ -11,6 +11,7 @@ public class StartSceneManager : MonoBehaviour
     [SerializeField]private RectTransform levelPanel;
     [SerializeField]private RectTransform quitPanel;
     [SerializeField]private TMP_Text levelText;
+    [SerializeField] private TMP_Text coinsAmountText;
     [SerializeField] private LevelLoader levelLoader;
 
 
@@ -26,6 +27,11 @@ public class StartSceneManager : MonoBehaviour
     private void Start()
     {
 
+    }
+    public void UpdateCoinsAmountText()
+    {
+        if (!coinsAmountText) return;
+        coinsAmountText.text = PlayerDataManager.Instance.CoinsAmount.ToString();
     }
 
     public void OnStartVoid(Button btn)
@@ -61,6 +67,7 @@ public class StartSceneManager : MonoBehaviour
 
     }
 
+
     public void OnEnterVoid(Button btn)
     {
         btn.transform.DOScale(new Vector3(0.85f, 0.85f, 0.85f), 0.3f).OnComplete(() =>
@@ -78,3 +85,6 @@ public class StartSceneManager : MonoBehaviour
 
 
 }
+
+ 
+   
