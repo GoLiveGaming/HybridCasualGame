@@ -7,7 +7,7 @@ using TMPro;
 using UnityEngine.SceneManagement;
 using GameAnalyticsSDK;
 
-public class UIManager : MonoBehaviour
+public class UIManager : Singleton<UIManager>
 {
     public static UIManager Instance;
 
@@ -56,9 +56,9 @@ public class UIManager : MonoBehaviour
 
         }
     }
-    private void Awake()
+    protected override void Awake()
     {
-        Instance = this;
+        base.Awake();
         pauseBtn.onClick.AddListener(PauseButton);
     }
 

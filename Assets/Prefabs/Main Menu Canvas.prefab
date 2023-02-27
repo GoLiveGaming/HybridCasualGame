@@ -77,7 +77,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -542, y: 1000.00006}
+  m_AnchoredPosition: {x: -542, y: 1000}
   m_SizeDelta: {x: 1084, y: 2000}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &2419499861385151159
@@ -618,13 +618,14 @@ GameObject:
   - component: {fileID: 2419499861811773385}
   - component: {fileID: 2419499861811773391}
   - component: {fileID: 2419499861811773390}
+  - component: {fileID: 100663939}
   m_Layer: 5
   m_Name: UpgradePanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2419499861811773385
 RectTransform:
   m_ObjectHideFlags: 0
@@ -686,6 +687,18 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &100663939
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2419499861811773384}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0568e86fe5fd8bf488a532dacced5ee5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2419499861971855012
 GameObject:
   m_ObjectHideFlags: 0
@@ -1247,7 +1260,7 @@ RectTransform:
   m_Father: {fileID: 2419499862909631229}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 0.000000059604645}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 20}
@@ -1437,7 +1450,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 512c97c3eafdfde40856ccd9c993edeb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isInteractable: 0
+  isUnlocked: 0
   button: {fileID: 0}
   attackName: ExplosionAttack
 --- !u!1 &2419499862572557766
@@ -1587,7 +1600,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 512c97c3eafdfde40856ccd9c993edeb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isInteractable: 0
+  isUnlocked: 0
   button: {fileID: 0}
   attackName: FloodAttack
 --- !u!1 &2419499862584762444
@@ -2123,7 +2136,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 512c97c3eafdfde40856ccd9c993edeb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isInteractable: 0
+  isUnlocked: 0
   button: {fileID: 0}
   attackName: IceAttack
 --- !u!1 &2419499862867445431
@@ -2538,7 +2551,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 512c97c3eafdfde40856ccd9c993edeb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isInteractable: 0
+  isUnlocked: 0
   button: {fileID: 0}
   attackName: StormAttack
 --- !u!1 &2419499863151811035
@@ -2797,7 +2810,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 512c97c3eafdfde40856ccd9c993edeb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isInteractable: 0
+  isUnlocked: 0
   button: {fileID: 0}
   attackName: HellfireAttack
 --- !u!1 &4299554164346290174
@@ -2835,9 +2848,9 @@ RectTransform:
   m_Father: {fileID: 4299554165173744231}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 50, y: -966.25}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 1253, y: 344.9}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4299554164346290170
@@ -3653,7 +3666,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &4299554164660359560
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3948,7 +3961,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &4299554165023843894
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4131,6 +4144,7 @@ MonoBehaviour:
   levelPanel: {fileID: 4299554164660359560}
   quitPanel: {fileID: 4299554166220569606}
   levelText: {fileID: 4299554165387326567}
+  levelLoader: {fileID: 0}
 --- !u!1 &4299554165065663684
 GameObject:
   m_ObjectHideFlags: 0
@@ -4302,9 +4316,9 @@ RectTransform:
   m_Father: {fileID: 4299554165173744231}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 50, y: -569.35}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 1253, y: 344.9}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4299554165109056094
@@ -5138,9 +5152,9 @@ RectTransform:
   m_Father: {fileID: 4299554165173744231}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 50, y: -172.45}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 1253, y: 344.9}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4299554165600168599
@@ -5227,7 +5241,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 4299554165059455563}
         m_TargetAssemblyTypeName: StartSceneManager, Assembly-CSharp
-        m_MethodName: ResetVoid
+        m_MethodName: ClearAllPlayerPrefs
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5788,7 +5802,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: ad04de14b401f3243a1073873304ee59, type: 3}
+  m_Sprite: {fileID: 21300000, guid: ee9a4ab58f414a8418e047af6d3fd9a8, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

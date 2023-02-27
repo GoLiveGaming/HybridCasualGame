@@ -11,21 +11,30 @@ public class UpgradeButton : MonoBehaviour
     public string attackName;
 
     PlayerDataManager playerDataManager;
-    private void Start()
+    /*private void Start()
     {
         button = GetComponent<Button>();
         playerDataManager = PlayerDataManager.Instance;
         initialize();
-    }
+    }*/
 
-    void initialize()
+
+    public void initialize()
     {
+        button = GetComponent<Button>();
+        playerDataManager = PlayerDataManager.Instance;
+
         isUnlocked = playerDataManager.IsAttackTypeUnlocked(playerDataManager.GetAttackTypeFromString(attackName));
         if (isUnlocked)
         {
             button.interactable = false;
         }
+        else
+        {
+            button.interactable = true;
+        }
     }
+
     public void TriggerFunctionality()
     {
         isUnlocked = playerDataManager.UnlockAttackType(attackName);

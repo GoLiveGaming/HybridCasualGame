@@ -11,6 +11,7 @@ public class StartSceneManager : MonoBehaviour
     [SerializeField]private RectTransform levelPanel;
     [SerializeField]private RectTransform quitPanel;
     [SerializeField]private TMP_Text levelText;
+    [SerializeField] private LevelLoader levelLoader;
 
 
     private void Awake()
@@ -24,7 +25,9 @@ public class StartSceneManager : MonoBehaviour
 
     private void Start()
     {
+
     }
+
     public void OnStartVoid(Button btn)
     {
         btn.transform.DOScale(new Vector3(0.85f, 0.85f, 0.85f), 0.3f).OnComplete(() =>
@@ -65,10 +68,11 @@ public class StartSceneManager : MonoBehaviour
     {
         Application.Quit();
     }
-    public void ResetVoid()
+    public void ClearAllPlayerPrefs()
     {
-        PlayerPrefs.SetInt("CurrentLevel", 0);
-        quitPanel.gameObject.SetActive(false);
+        PlayerDataManager.Instance.ClearAllPlayerPrefs();
+        QuitGame();
+        //quitPanel.gameObject.SetActive(false);
 
     }
 
@@ -80,6 +84,8 @@ public class StartSceneManager : MonoBehaviour
             //if (tempInt < 4)
                 tempInt++;
             SceneManager.LoadSceneAsync(tempInt);
+            Debug.Log(tempInt);
+            //levelLoader.LoadNextLevel(tempInt);
             btn.transform.localScale = Vector3.one;
         });
         

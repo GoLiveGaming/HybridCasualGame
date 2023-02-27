@@ -51,6 +51,12 @@ public class PlayerDataManager : SingletonPersistent<PlayerDataManager>
 
     #region Global Access Functions
 
+    public void ClearAllPlayerPrefs()
+    {
+        PlayerPrefs.DeleteAll();
+       
+    }   
+    
     public bool IsAttackTypeUnlocked(AttackType type)
     {
         foreach (PlayerAttacksData data in _playerData.AllAttackTypesData)
