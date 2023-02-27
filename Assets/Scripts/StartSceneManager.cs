@@ -33,23 +33,8 @@ public class StartSceneManager : MonoBehaviour
         btn.transform.DOScale(new Vector3(0.85f, 0.85f, 0.85f), 0.3f).OnComplete(() =>
         {
             levelPanel.gameObject.SetActive(true);
-            if (PlayerPrefs.GetInt("CurrentLevel") == 0)
-            {
-                levelText.text = "Level 1";
-            }
-            else if (PlayerPrefs.GetInt("CurrentLevel") == 1)
-            {
-                levelText.text = "Level 2";
-            }
-            else if (PlayerPrefs.GetInt("CurrentLevel") == 2)
-            {
-                levelText.text = "Level 3";
-            }
-            else if (PlayerPrefs.GetInt("CurrentLevel") == 3)
-            {
-                levelText.text = "Level 4";
-            }
-
+            int tempInt = PlayerPrefs.GetInt("CurrentLevel");
+            levelText.text = "Level " + (tempInt+1);
             btn.transform.localScale = Vector3.one;
         }); 
     }
