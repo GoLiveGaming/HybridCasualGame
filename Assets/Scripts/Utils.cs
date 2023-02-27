@@ -23,7 +23,8 @@ public enum AttackType
     ExplosionAttack,
     HellfireAttack,
     StormAttack,
-    FloodAttack
+    FloodAttack,
+    NONE
 
 }
 public enum TowerState

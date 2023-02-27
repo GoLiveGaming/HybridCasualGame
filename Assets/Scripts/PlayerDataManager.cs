@@ -1,5 +1,4 @@
 using System;
-using UnityEditor;
 using UnityEngine;
 
 public class PlayerDataManager : SingletonPersistent<PlayerDataManager>
@@ -8,8 +7,10 @@ public class PlayerDataManager : SingletonPersistent<PlayerDataManager>
     private readonly PlayerDataContainer _playerData = new();
     public PlayerDataContainer PlayerData { get { return _playerData; } }
 
-    private void Start()
+    protected override void Awake()
     {
+        base.Awake();
+
         if (!PlayerPrefs.HasKey("Initialized") || PlayerPrefs.GetInt("Initialized") == 0)
         {
             foreach (AttackType value in Enum.GetValues(typeof(AttackType)))
@@ -32,6 +33,7 @@ public class PlayerDataManager : SingletonPersistent<PlayerDataManager>
 
     private void UpdateAttackTypesListsFromPlayerPrefs()
     {
+        _playerData.AllAttackTypesData.Clear();
 
         foreach (AttackType value in Enum.GetValues(typeof(AttackType)))
         {
@@ -71,7 +73,7 @@ public class PlayerDataManager : SingletonPersistent<PlayerDataManager>
         catch (ArgumentException)
         {
             Debug.LogError("Invalid enum name: " + name);
-            attackType = AttackType.FireAttack;
+            attackType = AttackType.NONE;
         }
         return attackType;
     }

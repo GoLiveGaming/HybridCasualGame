@@ -5,7 +5,7 @@ using UnityEngine.UI;
 [RequireComponent(typeof(Button))]
 public class UpgradeButton : MonoBehaviour
 {
-    [ReadOnly] public bool isInteractable = false;
+    [ReadOnly] public bool isUnlocked = false;
     [ReadOnly] public Button button;
 
     public string attackName;
@@ -20,17 +20,17 @@ public class UpgradeButton : MonoBehaviour
 
     void initialize()
     {
-        isInteractable = playerDataManager.IsAttackTypeUnlocked(playerDataManager.GetAttackTypeFromString(attackName));
-        if (isInteractable)
+        isUnlocked = playerDataManager.IsAttackTypeUnlocked(playerDataManager.GetAttackTypeFromString(attackName));
+        if (isUnlocked)
         {
             button.interactable = false;
         }
     }
     public void TriggerFunctionality()
     {
-        isInteractable = playerDataManager.UnlockAttackType(attackName);
+        isUnlocked = playerDataManager.UnlockAttackType(attackName);
 
-        if (isInteractable)
+        if (isUnlocked)
         {
             button.interactable = false;
             return;
