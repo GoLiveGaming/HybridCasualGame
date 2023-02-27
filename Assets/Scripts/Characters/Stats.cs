@@ -24,7 +24,7 @@ public class Stats : MonoBehaviour
 
     [Header("READONLY")]
     [ReadOnly] public bool ownerIsPlayer = false;
-    
+
 
 
     bool isDead = false;
@@ -45,7 +45,7 @@ public class Stats : MonoBehaviour
                 {
                     if (GetComponent<PlayerMainTower>())
                     {
-                        m_UIManager.GameOverVoid("You lost the level", false);
+                        m_UIManager.GameOverVoid(false);
                         if (AudioManager.Instance) AudioManager.Instance.audioSource.PlayOneShot(AudioManager.Instance.LevelLost);
                     }
                     if (m_currentTower.TryGetComponent(out PlayerTower tower))
@@ -57,7 +57,7 @@ public class Stats : MonoBehaviour
                     m_UIManager.enemiesCountTxt.text = LevelManager.Instance.deadEnemiesCount.ToString();
                     if (m_LevelManager.deadEnemiesCount <= 0)
                     {
-                        m_UIManager.GameOverVoid("You won the level", true);
+                        m_UIManager.GameOverVoid(true);
                         if (AudioManager.Instance) AudioManager.Instance.audioSource.PlayOneShot(AudioManager.Instance.Victory);
                     }
                 }

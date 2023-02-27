@@ -15,7 +15,8 @@ public class UIManager : Singleton<UIManager>
     public Canvas rootcanvas;
     public GameObject unitSelectionCanvas;
     public GameObject pausePanel;
-    public GameObject gameOverPanel;
+    public GameObject gameWinPanel;
+    public GameObject gameLostPanel;
     public GameObject loadingPanel;
     public GameObject floatingTextPanel;
 
@@ -140,16 +141,28 @@ public class UIManager : Singleton<UIManager>
     }
     public void TempVoid()
     {
-        GameOverVoid("", true);
+        GameOverVoid(true);
     }
-    public void GameOverVoid(string textTemp, bool isWon)
+    public void GameOverVoid(bool hasWon)
     {
         floatingTextPanel.gameObject.SetActive(false);
-        gameOverPanel.SetActive(true);
-        overTxt.text = textTemp;
+
         int levelNum = PlayerPrefs.GetInt("CurrentLevel");
         string eventName = "Level_0" + (levelNum + 1);
-        if (isWon)
+
+        if (hasWon && (PlayerPrefs.GetInt("CurrentLevel") < 5))
+        {
+            gameWinPanel.SetActive(true);
+            int tempInt = PlayerPrefs.GetInt("CurrentLevel");
+            tempInt++;
+            PlayerPrefs.SetInt("CurrentLevel", tempInt);
+            PlayerDataManager.Instance.CoinsAmount += 1;
+        }
+        else
+        {
+            gameLostPanel.SetActive(true);
+        }
+        if (hasWon)
         {
             GameAnalytics.NewProgressionEvent(GAProgressionStatus.Complete, eventName);
         }
@@ -157,13 +170,7 @@ public class UIManager : Singleton<UIManager>
         {
             GameAnalytics.NewProgressionEvent(GAProgressionStatus.Fail, eventName);
         }
-        if (isWon && (PlayerPrefs.GetInt("CurrentLevel") < 5))
-        {
-            int tempInt = PlayerPrefs.GetInt("CurrentLevel");
-            tempInt++;
-            PlayerPrefs.SetInt("CurrentLevel", tempInt);
-            PlayerDataManager.Instance.CoinsAmount += 1;
-        }
+
         Time.timeScale = 0;
     }
 
