@@ -9,7 +9,7 @@ using GameAnalyticsSDK;
 
 public class UIManager : Singleton<UIManager>
 {
-    public static UIManager Instance;
+   // public static UIManager Instance;
 
     [Header("GAMEMODE INFO UI")]
     [Header("Rect Componenets")]
@@ -59,6 +59,7 @@ public class UIManager : Singleton<UIManager>
     protected override void Awake()
     {
         base.Awake();
+       // Instance = this;
         pauseBtn.onClick.AddListener(PauseButton);
     }
 
