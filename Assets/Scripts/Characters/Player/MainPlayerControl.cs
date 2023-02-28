@@ -71,12 +71,13 @@ public class MainPlayerControl : MonoBehaviour
             yield return new WaitForSeconds(1f);
             currentResourcesCount += resourceRechargeRate;
             uiManager.unitSelectionCooldownTimerImage.fillAmount = currentResourcesCount / maxResources;
+            uiManager.resourcesCount.text = currentResourcesCount.ToString();
             if (currentResourcesCount == maxResources && AudioManager.Instance)
                 AudioManager.Instance.audioSource.PlayOneShot(AudioManager.Instance.ManaFull);
         }
         currentResourcesCount = Mathf.Clamp(currentResourcesCount, 0, maxResources);
         uiManager.unitSelectionCooldownTimerImage.fillAmount = currentResourcesCount / maxResources;
-
+        uiManager.resourcesCount.text = currentResourcesCount.ToString();
         isRecharging = false;
     }
 

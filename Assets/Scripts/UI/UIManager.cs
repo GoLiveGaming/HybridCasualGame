@@ -35,6 +35,7 @@ public class UIManager : Singleton<UIManager>
     public TMP_Text overTxt;
     public TMP_Text enemiesCountTxt;
     public TMP_Text m_warningText;
+    public TMP_Text resourcesCount;
 
     [Header("GLOBAL REFRENCE UI")]
     public TMP_Text m_damageTextPrefab;
