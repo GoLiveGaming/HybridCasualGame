@@ -8,10 +8,10 @@ public class UpgradeButton : MonoBehaviour
     [ReadOnly] public bool isUnlocked = false;
     [ReadOnly] public Button button;
 
-    public string attackName;
+    public AttackType attackType;
 
     PlayerDataManager playerDataManager;
-    StartSceneManager startSceneManager;
+    MainMenuUIManager mainMenuUIManager;
     private void Start()
     {
         initialize();
@@ -22,10 +22,10 @@ public class UpgradeButton : MonoBehaviour
     {
         if (!button) button = GetComponent<Button>();
         if (!playerDataManager) playerDataManager = PlayerDataManager.Instance;
-        if (!startSceneManager) startSceneManager = FindObjectOfType<StartSceneManager>();
+        if (!mainMenuUIManager) mainMenuUIManager = FindObjectOfType<MainMenuUIManager>();
 
-        if (startSceneManager) startSceneManager.UpdateCoinsAmountText();
-        isUnlocked = playerDataManager.IsAttackTypeUnlocked(playerDataManager.GetAttackTypeFromString(attackName));
+        if (mainMenuUIManager) mainMenuUIManager.UpdateCoinsAmountText();
+        isUnlocked = playerDataManager.IsAttackTypeUnlocked(attackType);
         if (isUnlocked)
         {
             button.interactable = false;
@@ -38,21 +38,22 @@ public class UpgradeButton : MonoBehaviour
 
     public void TriggerFunctionality()
     {
-        isUnlocked = playerDataManager.UnlockAttackType(attackName);
+        isUnlocked = playerDataManager.UnlockAttackType(attackType);
 
         if (isUnlocked)
         {
             button.interactable = false;
-            if (startSceneManager) startSceneManager.UpdateCoinsAmountText();
+            if (mainMenuUIManager) mainMenuUIManager.UpdateCoinsAmountText();
+            ShakeButton(5);
             return;
         }
 
-        ShakeButton();
+        ShakeButton(15);
     }
 
-    private void ShakeButton()
+    private void ShakeButton(float intensity)
     {
-        (transform as RectTransform).DOShakeAnchorPos(0.5f, 15f);
+        (transform as RectTransform).DOShakeAnchorPos(0.5f, intensity);
     }
 
 }

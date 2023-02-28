@@ -1,6 +1,5 @@
 using System;
 using UnityEngine;
-using static UnityEngine.Rendering.DebugUI;
 
 public class PlayerDataManager : SingletonPersistent<PlayerDataManager>
 {
@@ -54,26 +53,49 @@ public class PlayerDataManager : SingletonPersistent<PlayerDataManager>
         _playerData.coinsAmount = PlayerPrefs.GetInt("CoinsAmount");
 
     }
+    private void SaveDataToPlayerPrefs()
+    {
+        //Update Attack Types in Playerprefs
+        foreach (PlayerAttacksData data in _playerData.AllAttackTypesData)
+        {
+            if (data.isUnlocked == 1)
+            {
+                PlayerPrefs.SetInt("AttackType_" + data.AttackType.ToString(), 1);
+            }
+        }
+
+        //Update Coins Amount in PlayerPrefs
+        PlayerPrefs.SetInt("CoinsAmount", _playerData.coinsAmount);
+
+
+        PlayerPrefs.Save();
+    }
 
     #region Global Access Functions
 
     public int CoinsAmount
     {
         get { return _playerData.coinsAmount; }
-        set
-        {
-            _playerData.coinsAmount = value;
-
-            PlayerPrefs.SetInt("CoinsAmount", _playerData.coinsAmount);
-        }
+        set { _playerData.coinsAmount = value; }
     }
-    public void ClearAllPlayerPrefs()
+    public bool UnlockAttackType(AttackType attackType)
     {
-        PlayerPrefs.DeleteAll();
+        if (CoinsAmount <= 0) return false;
+        if (IsAttackTypeUnlocked(attackType)) return false;
+
+        foreach (var data in _playerData.AllAttackTypesData)
+        {
+            if (data.AttackType == attackType)
+            {
+                data.isUnlocked = 1;
+                CoinsAmount -= 1;
+                SaveDataToPlayerPrefs();
+
+                return true;
+            }
+        }
+        return false;
     }
-
-
-
     public bool IsAttackTypeUnlocked(AttackType type)
     {
         foreach (PlayerAttacksData data in _playerData.AllAttackTypesData)
@@ -86,33 +108,9 @@ public class PlayerDataManager : SingletonPersistent<PlayerDataManager>
 
         return false;
     }
-    public AttackType GetAttackTypeFromString(string attackTypeName)
+    public void ClearAllPlayerPrefs()
     {
-        AttackType attackType;
-        try
-        {
-            attackType = (AttackType)Enum.Parse(typeof(AttackType), attackTypeName);
-        }
-        catch (ArgumentException)
-        {
-            Debug.LogError("Invalid enum name: " + name);
-            attackType = AttackType.NONE;
-        }
-        return attackType;
-    }
-    public bool UnlockAttackType(string attackTypeName)
-    {
-        if (CoinsAmount <= 0) return false;
-
-        if (PlayerPrefs.HasKey("AttackType_" + attackTypeName))
-        {
-            PlayerPrefs.SetInt("AttackType_" + attackTypeName, 1);
-        }
-        else return false;
-        CoinsAmount -= 1;
-        UpdateDataFromPlayerPrefs();
-        PlayerPrefs.Save();
-        return true;
+        PlayerPrefs.DeleteAll();
     }
 
     #endregion

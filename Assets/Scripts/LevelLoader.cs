@@ -1,6 +1,5 @@
-using System;
-using UnityEngine;
 using System.Collections;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class LevelLoader : MonoBehaviour
@@ -8,14 +7,13 @@ public class LevelLoader : MonoBehaviour
     public Animator Anim;
     public float TransitionTime = 1;
 
-    // Update is called once per frame
     public void LoadNextLevel(string LevelName)
     {
         StartCoroutine(LoadLevel(LevelName));
     }
-    public void LoadNextLevel(int Level)
+    public void LoadNextLevel(int LevelIndex)
     {
-        StartCoroutine(LoadLevel(Level));
+        StartCoroutine(LoadLevel(LevelIndex));
     }
 
     IEnumerator LoadLevel(string LevelName)
@@ -31,12 +29,12 @@ public class LevelLoader : MonoBehaviour
         //SceneManager.LoadScene(LevelName);
     }
     
-    IEnumerator LoadLevel(int Level)
+    IEnumerator LoadLevel(int LevelIndex)
     {
         Time.timeScale = 1.0f;
         Anim.SetTrigger("Start");
         yield return new WaitForSeconds(TransitionTime);
-        AsyncOperation Async = SceneManager.LoadSceneAsync(Level);
+        AsyncOperation Async = SceneManager.LoadSceneAsync(LevelIndex);
         while(!Async.isDone)
         {
             yield return null;
