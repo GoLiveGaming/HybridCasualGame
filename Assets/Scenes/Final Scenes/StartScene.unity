@@ -238,11 +238,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a62d5917df415541b56c6a9cb287df0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  levelPanel: {fileID: 1499553924}
-  quitPanel: {fileID: 144242006}
+  levelSelectPanel: {fileID: 0}
+  unlocksPanel: {fileID: 0}
+  quitGamePanel: {fileID: 0}
   levelText: {fileID: 1800391359}
   coinsAmountText: {fileID: 0}
   levelLoader: {fileID: 0}
+  activePanel: {fileID: 0}
 --- !u!114 &43204581
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -752,18 +754,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 187203540}
   m_CullTransparentMesh: 1
---- !u!114 &354885889 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8608691379982132904, guid: e6f8629c97a608f4fa73dd7ec9c7bf34,
-    type: 3}
-  m_PrefabInstance: {fileID: 1211268898}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9e9af0ba77c805247b576640e7760f74, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &355608058
 GameObject:
   m_ObjectHideFlags: 0
@@ -1036,7 +1026,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isUnlocked: 0
   button: {fileID: 0}
-  attackName: IceAttack
+  attackType: 0
 --- !u!114 &397006626
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3712,7 +3702,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isUnlocked: 0
   button: {fileID: 0}
-  attackName: FloodAttack
+  attackType: 0
 --- !u!114 &1332776815
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5529,7 +5519,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isUnlocked: 0
   button: {fileID: 0}
-  attackName: HellfireAttack
+  attackType: 0
 --- !u!114 &1840498930
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6102,7 +6092,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isUnlocked: 0
   button: {fileID: 0}
-  attackName: StormAttack
+  attackType: 0
 --- !u!114 &2003178673
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6470,7 +6460,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isUnlocked: 0
   button: {fileID: 0}
-  attackName: ExplosionAttack
+  attackType: 0
 --- !u!114 &2067123023
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6572,9 +6562,29 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 4299554164660359567, guid: 690e503aa570b324f8004e1b829524bb,
+    - target: {fileID: 4299554164800800701, guid: 690e503aa570b324f8004e1b829524bb,
         type: 3}
-      propertyPath: m_IsActive
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4299554164800800701, guid: 690e503aa570b324f8004e1b829524bb,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4299554164800800701, guid: 690e503aa570b324f8004e1b829524bb,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4299554164800800701, guid: 690e503aa570b324f8004e1b829524bb,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4299554164800800701, guid: 690e503aa570b324f8004e1b829524bb,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4299554165059455562, guid: 690e503aa570b324f8004e1b829524bb,
@@ -6682,15 +6692,60 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4299554165059455563, guid: 690e503aa570b324f8004e1b829524bb,
-        type: 3}
-      propertyPath: levelLoader
-      value: 
-      objectReference: {fileID: 354885889}
     - target: {fileID: 4299554165059455566, guid: 690e503aa570b324f8004e1b829524bb,
         type: 3}
       propertyPath: m_Name
       value: Main Menu Canvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 4299554166432466757, guid: 690e503aa570b324f8004e1b829524bb,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4299554166432466757, guid: 690e503aa570b324f8004e1b829524bb,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4299554166432466757, guid: 690e503aa570b324f8004e1b829524bb,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4299554166432466757, guid: 690e503aa570b324f8004e1b829524bb,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4299554166432466757, guid: 690e503aa570b324f8004e1b829524bb,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4504130944461107920, guid: 690e503aa570b324f8004e1b829524bb,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4504130944461107920, guid: 690e503aa570b324f8004e1b829524bb,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4504130944461107920, guid: 690e503aa570b324f8004e1b829524bb,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4504130944461107920, guid: 690e503aa570b324f8004e1b829524bb,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4504130944461107920, guid: 690e503aa570b324f8004e1b829524bb,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 690e503aa570b324f8004e1b829524bb, type: 3}

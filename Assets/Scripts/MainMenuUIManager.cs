@@ -70,7 +70,7 @@ public class MainMenuUIManager : MonoBehaviour
         }
         else
         {
-            unlocksPanel.SetActive(!levelSelectPanel.activeSelf);
+            unlocksPanel.SetActive(!unlocksPanel.activeSelf);
         }
     }
     public void ToggleQuitPanel()
@@ -83,7 +83,7 @@ public class MainMenuUIManager : MonoBehaviour
         }
         else
         {
-            quitGamePanel.SetActive(!levelSelectPanel.activeSelf);
+            quitGamePanel.SetActive(!quitGamePanel.activeSelf);
         }
     }
 

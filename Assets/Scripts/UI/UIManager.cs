@@ -32,7 +32,6 @@ public class UIManager : Singleton<UIManager>
 
     [Header("Text Componenets")]
     public TMP_Text waveTxt;
-    public TMP_Text overTxt;
     public TMP_Text enemiesCountTxt;
     public TMP_Text m_warningText;
     public TMP_Text resourcesCount;
@@ -60,13 +59,7 @@ public class UIManager : Singleton<UIManager>
     protected override void Awake()
     {
         base.Awake();
-        // Instance = this;
-        pauseBtn.onClick.AddListener(PauseButton);
-    }
-
-    private void OnDisable()
-    {
-        pauseBtn.onClick.RemoveListener(PauseButton);
+        Time.timeScale = 1.0f;
     }
     internal void ShowText(string tempTxt)
     {
@@ -99,46 +92,52 @@ public class UIManager : Singleton<UIManager>
         seq.AppendCallback(() => { waveTxtTemp.transform.gameObject.SetActive(false); });
     }
 
-    public void PauseButton()
+    public void EnablePausePanel()
     {
-        floatingTextPanel.gameObject.SetActive(false);
-        pausePanel.gameObject.SetActive(true);
-        pausePanel.transform.GetChild(1).transform.localScale = new Vector3(0.9f, 0.9f, 0.9f);
-        pausePanel.transform.GetChild(1).DOScale(new Vector3(1.25f, 1.25f, 1.25f), 0.15f).OnComplete(() =>
+        if (!pausePanel) { Debug.LogWarning("UnlocksPanel is not assigned at: " + this); return; }
+
+        if (pausePanel.TryGetComponent(out EnhancedPanels panel))
         {
-            pausePanel.transform.GetChild(1).DOScale(new Vector3(1f, 1f, 1f), 0.15f).OnComplete(() => { Time.timeScale = 0; });
-        });
-    }
-    public void ResumeButton(Button btn)
-    {
-        Time.timeScale = 1;
-        btn.transform.DOScale(new Vector3(0.85f, 0.85f, 0.85f), 0.3f).OnComplete(() =>
+            panel.TogglePanel();
+            panel.OnPanelActivation.AddListener(() => Time.timeScale = 0);
+        }
+        else
         {
-            pausePanel.SetActive(false);
-            floatingTextPanel.SetActive(true);
-            btn.transform.localScale = Vector3.one;
-        });
+            pausePanel.SetActive(!pausePanel.activeSelf);
+            Time.timeScale = 0.0f;
+        }
+
 
     }
-    public void RestartButton(Button btn)
+    public void DisablePausePanel()
     {
-        Time.timeScale = 1;
-        btn.transform.DOScale(new Vector3(0.85f, 0.85f, 0.85f), 0.3f).OnComplete(() =>
+        if (!pausePanel) { Debug.LogWarning("UnlocksPanel is not assigned at: " + this); return; }
+
+        if (pausePanel.TryGetComponent(out EnhancedPanels panel))
         {
-            SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex);
-            btn.transform.localScale = Vector3.one;
-        });
+            panel.TogglePanel();
+
+            panel.OnPanelActivation.AddListener(() => Time.timeScale = 1);
+        }
+        else
+        {
+            pausePanel.SetActive(!pausePanel.activeSelf);
+            Time.timeScale = 1.0f;
+        }
 
     }
-    public void QuitButton(Button btn)
+
+
+
+    public void RestartButton()
+    {
+        SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex);
+    }
+    public void QuitButton()
     {
         Time.timeScale = 1;
-        btn.transform.DOScale(new Vector3(0.85f, 0.85f, 0.85f), 0.3f).OnComplete(() =>
-        {
-            SceneManager.LoadSceneAsync(0);
-            btn.transform.localScale = Vector3.one;
-        });
 
+        SceneManager.LoadSceneAsync(0);
     }
     public void TempVoid()
     {
