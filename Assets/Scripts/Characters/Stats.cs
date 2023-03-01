@@ -45,7 +45,7 @@ public class Stats : MonoBehaviour
                 {
                     if (GetComponent<PlayerMainTower>())
                     {
-                        m_UIManager.GameOverVoid(false);
+                        m_UIManager.MatchFinished(false);
                         if (AudioManager.Instance) AudioManager.Instance.audioSource.PlayOneShot(AudioManager.Instance.LevelLost);
                     }
                     if (m_currentTower.TryGetComponent(out PlayerTower tower))
@@ -57,7 +57,7 @@ public class Stats : MonoBehaviour
                     m_UIManager.enemiesCountTxt.text = LevelManager.Instance.deadEnemiesCount.ToString();
                     if (m_LevelManager.deadEnemiesCount <= 0)
                     {
-                        m_UIManager.GameOverVoid(true);
+                        m_UIManager.MatchFinished(true);
                         if (AudioManager.Instance) AudioManager.Instance.audioSource.PlayOneShot(AudioManager.Instance.Victory);
                     }
                 }

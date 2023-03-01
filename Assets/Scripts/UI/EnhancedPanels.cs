@@ -25,7 +25,7 @@ public class EnhancedPanels : MonoBehaviour
         else
             EnablePanel();
     }
-    private void EnablePanel()
+    public void EnablePanel()
     {
         (transform as RectTransform).anchoredPosition = moveInOffset;
         transform.gameObject.SetActive(true);
@@ -34,7 +34,7 @@ public class EnhancedPanels : MonoBehaviour
         OnActivation();
     }
 
-    private void DisablePanel()
+    public void DisablePanel()
     {
         (transform as RectTransform).anchoredPosition = Vector3.zero;
 

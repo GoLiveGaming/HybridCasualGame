@@ -1,18 +1,18 @@
 using DG.Tweening;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
-using TMPro;
-using UnityEngine.SceneManagement;
 using GameAnalyticsSDK;
+using System.Collections.Generic;
+using TMPro;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class UIManager : Singleton<UIManager>
 {
 
     [Header("GAMEMODE INFO UI")]
     [Header("Rect Componenets")]
-    public Canvas rootcanvas;
+    public GameObject rootcanvas;
+    public GameObject gameplayItemsCanvas;
     public GameObject unitSelectionCanvas;
     public GameObject pausePanel;
     public GameObject gameWinPanel;
@@ -27,7 +27,7 @@ public class UIManager : Singleton<UIManager>
     public Button quitBtn;
 
     [Header("Image Componenets")]
-    public Image unitSelectionCooldownTimerImage;
+    public Image resourceMeter;
     public Image loadingfiller;
 
     [Header("Text Componenets")]
@@ -35,6 +35,9 @@ public class UIManager : Singleton<UIManager>
     public TMP_Text enemiesCountTxt;
     public TMP_Text m_warningText;
     public TMP_Text resourcesCount;
+
+    [Header("Animator Components")]
+    public Animator resourceMeterAnimator;
 
     [Header("GLOBAL REFRENCE UI")]
     public TMP_Text m_damageTextPrefab;
@@ -48,7 +51,7 @@ public class UIManager : Singleton<UIManager>
             if (!m_warningText) return;
             m_warningText.text = value;
             m_warningText.gameObject.SetActive(true);
-            (m_warningText.transform as RectTransform).DOShakeAnchorPos(3, 25).OnComplete(() =>
+            (m_warningText.transform as RectTransform).DOShakeAnchorPos(3, 15).OnComplete(() =>
             {
                 m_warningText.text = "";
                 m_warningText.gameObject.SetActive(false);
@@ -60,13 +63,11 @@ public class UIManager : Singleton<UIManager>
     {
         base.Awake();
         Time.timeScale = 1.0f;
-    }
-    internal void ShowText(string tempTxt)
-    {
-        ShowResponseMessage(tempTxt, waveTxt);
+        rootcanvas = this.gameObject;
     }
     public virtual void Start()
     {
+        if (resourceMeter) resourceMeterAnimator = resourceMeter.GetComponent<Animator>();
         SpawndamageTexts();
     }
     void SpawndamageTexts()
@@ -78,10 +79,6 @@ public class UIManager : Singleton<UIManager>
             damageText.gameObject.SetActive(false);
         }
     }
-    public void CloseTheLevel()
-    {
-        SceneManager.LoadSceneAsync(0);
-    }
 
     internal void ShowResponseMessage(string message, TMP_Text waveTxtTemp)
     {
@@ -92,58 +89,8 @@ public class UIManager : Singleton<UIManager>
         seq.AppendCallback(() => { waveTxtTemp.transform.gameObject.SetActive(false); });
     }
 
-    public void EnablePausePanel()
-    {
-        if (!pausePanel) { Debug.LogWarning("UnlocksPanel is not assigned at: " + this); return; }
 
-        if (pausePanel.TryGetComponent(out EnhancedPanels panel))
-        {
-            panel.TogglePanel();
-            panel.OnPanelActivation.AddListener(() => Time.timeScale = 0);
-        }
-        else
-        {
-            pausePanel.SetActive(!pausePanel.activeSelf);
-            Time.timeScale = 0.0f;
-        }
-
-
-    }
-    public void DisablePausePanel()
-    {
-        if (!pausePanel) { Debug.LogWarning("UnlocksPanel is not assigned at: " + this); return; }
-
-        if (pausePanel.TryGetComponent(out EnhancedPanels panel))
-        {
-            panel.TogglePanel();
-
-            panel.OnPanelActivation.AddListener(() => Time.timeScale = 1);
-        }
-        else
-        {
-            pausePanel.SetActive(!pausePanel.activeSelf);
-            Time.timeScale = 1.0f;
-        }
-
-    }
-
-
-
-    public void RestartButton()
-    {
-        SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex);
-    }
-    public void QuitButton()
-    {
-        Time.timeScale = 1;
-
-        SceneManager.LoadSceneAsync(0);
-    }
-    public void TempVoid()
-    {
-        GameOverVoid(true);
-    }
-    public void GameOverVoid(bool hasWon)
+    public void MatchFinished(bool hasWon)
     {
         floatingTextPanel.gameObject.SetActive(false);
 
@@ -153,27 +100,31 @@ public class UIManager : Singleton<UIManager>
         if (hasWon && (PlayerPrefs.GetInt("CurrentLevel") < 5))
         {
             gameWinPanel.SetActive(true);
-            int tempInt = PlayerPrefs.GetInt("CurrentLevel");
-            tempInt++;
-            PlayerPrefs.SetInt("CurrentLevel", tempInt);
+
+            PlayerPrefs.SetInt("CurrentLevel", PlayerPrefs.GetInt("CurrentLevel") + 1);
             PlayerDataManager.Instance.CoinsAmount += 1;
-        }
-        else
-        {
-            gameLostPanel.SetActive(true);
-        }
-        if (hasWon)
-        {
+
             GameAnalytics.NewProgressionEvent(GAProgressionStatus.Complete, eventName);
         }
         else
         {
+            gameLostPanel.SetActive(true);
+
             GameAnalytics.NewProgressionEvent(GAProgressionStatus.Fail, eventName);
         }
 
-        Time.timeScale = 0;
+
+        if (gameplayItemsCanvas && gameplayItemsCanvas.TryGetComponent(out CanvasGroup group))
+        {
+            group.DOFade(0, 2).OnComplete(() => Time.timeScale = 0);
+        }
+        else
+        {
+            Time.timeScale = 0;
+        }
     }
 
+    #region UI VISUAL EFFECTS
     public void ShowFloatingDamage(float damageAmount, Vector3 atPosition, Color textColor)
     {
 
@@ -191,6 +142,7 @@ public class UIManager : Singleton<UIManager>
             tempTxt.gameObject.SetActive(false);
             damageTextQueue.Enqueue(tempTxt);
         });
+        (tempTxt.transform as RectTransform).DOLocalMoveX(Random.Range(-200, 200), 1);
 
     }
     public string FormatStringNextLineOnUpperCase(string value)
@@ -222,4 +174,51 @@ public class UIManager : Singleton<UIManager>
                 waveTxt.text = "";
         });
     }
+    #endregion
+
+    #region BUTTON_EVENTS
+
+    public void EnablePausePanel()
+    {
+        if (!pausePanel) { Debug.LogWarning("UnlocksPanel is not assigned at: " + this); return; }
+
+        if (pausePanel.TryGetComponent(out EnhancedPanels panel))
+        {
+            panel.EnablePanel();
+            panel.OnPanelActivation.AddListener(() => Time.timeScale = 0);
+        }
+        else
+        {
+            pausePanel.SetActive(true);
+              Time.timeScale = 0.0f;
+        }
+    }
+    public void DisablePausePanel()
+    {
+        if (!pausePanel) { Debug.LogWarning("UnlocksPanel is not assigned at: " + this); return; }
+
+        if (pausePanel.TryGetComponent(out EnhancedPanels panel))
+        {
+            panel.DisablePanel();
+
+            panel.OnPanelActivation.AddListener(() => Time.timeScale = 1);
+        }
+        else
+        {
+            pausePanel.SetActive(false);
+            Time.timeScale = 1.0f;
+        }
+
+    }
+    public void RestartButton()
+    {
+        SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex);
+    }
+    public void QuitButton()
+    {
+        Time.timeScale = 1;
+
+        SceneManager.LoadSceneAsync(0);
+    }
+    #endregion
 }

@@ -68,16 +68,17 @@ public class MainPlayerControl : MonoBehaviour
 
         while (currentResourcesCount < maxResources)
         {
-            yield return new WaitForSeconds(1f);
-            currentResourcesCount += resourceRechargeRate;
-            uiManager.unitSelectionCooldownTimerImage.fillAmount = currentResourcesCount / maxResources;
-            uiManager.resourcesCount.text = currentResourcesCount.ToString();
-            if (currentResourcesCount == maxResources && AudioManager.Instance)
-                AudioManager.Instance.audioSource.PlayOneShot(AudioManager.Instance.ManaFull);
+            yield return null;
+            currentResourcesCount += resourceRechargeRate * Time.deltaTime;
+            uiManager.resourceMeter.fillAmount = currentResourcesCount / maxResources;
+            uiManager.resourcesCount.text = Mathf.RoundToInt(currentResourcesCount).ToString();
+
         }
         currentResourcesCount = Mathf.Clamp(currentResourcesCount, 0, maxResources);
-        uiManager.unitSelectionCooldownTimerImage.fillAmount = currentResourcesCount / maxResources;
-        uiManager.resourcesCount.text = currentResourcesCount.ToString();
+        uiManager.resourceMeter.fillAmount = currentResourcesCount / maxResources;
+        uiManager.resourcesCount.text = Mathf.RoundToInt(currentResourcesCount).ToString();
+        if (currentResourcesCount == maxResources && AudioManager.Instance)
+            AudioManager.Instance.audioSource.PlayOneShot(AudioManager.Instance.ManaFull);
         isRecharging = false;
     }
 
@@ -85,7 +86,7 @@ public class MainPlayerControl : MonoBehaviour
     {
         currentResourcesCount -= amount;
         currentResourcesCount = Mathf.Clamp(currentResourcesCount, 0, maxResources);
-        uiManager.unitSelectionCooldownTimerImage.fillAmount = currentResourcesCount / maxResources;
+        uiManager.resourceMeter.fillAmount = currentResourcesCount / maxResources;
     }
 
     #endregion
