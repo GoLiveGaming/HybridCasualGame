@@ -61,6 +61,7 @@ public class MainPlayerControl : MonoBehaviour
     }
     IEnumerator RechargeResource()
     {
+        uiManager.resourceMeterAnimator.SetBool("Full", false);
         isRecharging = true;
         if (currentResourcesCount == 0 && AudioManager.Instance)
             AudioManager.Instance.audioSource.PlayOneShot(AudioManager.Instance.ManaOut);
@@ -79,6 +80,7 @@ public class MainPlayerControl : MonoBehaviour
         uiManager.resourcesCount.text = Mathf.RoundToInt(currentResourcesCount).ToString();
         if (currentResourcesCount == maxResources && AudioManager.Instance)
             AudioManager.Instance.audioSource.PlayOneShot(AudioManager.Instance.ManaFull);
+        uiManager.resourceMeterAnimator.SetBool("Full", true);
         isRecharging = false;
     }
 
