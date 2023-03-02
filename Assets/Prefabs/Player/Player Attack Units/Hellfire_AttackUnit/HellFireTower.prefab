@@ -334,6 +334,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_MaxHealth: 100
   m_currentHealth: 100
+  damageNumberColor: {r: 1, g: 1, b: 1, a: 1}
   statsCanvas: {fileID: 1708058122725594888}
   m_healthBar: {fileID: 7443559977495430425}
   m_currentTowerTypeText: {fileID: 6140939411672391532}
@@ -354,7 +355,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TowerAttackType: 6
   mainPlayerControl: {fileID: 0}
-  TowerIcon: {fileID: 21300000, guid: f61ff0003eed1804f8d7d21176292ed1, type: 3}
+  TowerIcon: {fileID: 21300000, guid: 106f087e53a8424479cfa6e2ff9bc202, type: 3}
   resourceCost: 7
   constructionTime: 3
   incompleteTowerObject: {fileID: 7111411654092834216}
@@ -577,7 +578,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: f61ff0003eed1804f8d7d21176292ed1,
+      objectReference: {fileID: 21300000, guid: 106f087e53a8424479cfa6e2ff9bc202,
         type: 3}
     - target: {fileID: 2380552611379657378, guid: 9c1565f0361a59e44858a06a6b305ea7,
         type: 3}
