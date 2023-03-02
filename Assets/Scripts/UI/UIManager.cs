@@ -73,7 +73,7 @@ public class UIManager : Singleton<UIManager>
     }
     public virtual void Start()
     {
-      //  if (resourceMeter && resourceMeterAnimator) resourceMeterAnimator = resourceMeter.GetComponent<Animator>();
+        //  if (resourceMeter && resourceMeterAnimator) resourceMeterAnimator = resourceMeter.GetComponent<Animator>();
         SpawndamageTexts();
     }
     void SpawndamageTexts()
@@ -148,7 +148,7 @@ public class UIManager : Singleton<UIManager>
             tempTxt.gameObject.SetActive(false);
             damageTextQueue.Enqueue(tempTxt);
         });
-        (tempTxt.transform as RectTransform).DOLocalMoveX(Random.Range(-200, 200), 1);
+        (tempTxt.transform as RectTransform).DOMoveX(spawnPos.x + Random.Range(-100, 100), 1);
 
     }
     public string FormatStringNextLineOnUpperCase(string value)
@@ -175,9 +175,9 @@ public class UIManager : Singleton<UIManager>
         for (int i = 0; i < firstWave.enemyData.Length; i++)
         {
             if (firstWave.enemyData[i].enemyType == EnemyTypes.Melee) { melee += firstWave.enemyData[i].enemyCount; meleeCount.text = melee.ToString(); }
-            else if (firstWave.enemyData[i].enemyType == EnemyTypes.Heavies){ heavies += firstWave.enemyData[i].enemyCount; heaviesCount.text = heavies.ToString();}
-            else if (firstWave.enemyData[i].enemyType == EnemyTypes.Ranged){ ranged += firstWave.enemyData[i].enemyCount; rangedCount.text = ranged.ToString();}
-            else if (firstWave.enemyData[i].enemyType == EnemyTypes.RangedBig){ elite += firstWave.enemyData[i].enemyCount; eliteCount.text = elite.ToString(); }
+            else if (firstWave.enemyData[i].enemyType == EnemyTypes.Heavies) { heavies += firstWave.enemyData[i].enemyCount; heaviesCount.text = heavies.ToString(); }
+            else if (firstWave.enemyData[i].enemyType == EnemyTypes.Ranged) { ranged += firstWave.enemyData[i].enemyCount; rangedCount.text = ranged.ToString(); }
+            else if (firstWave.enemyData[i].enemyType == EnemyTypes.RangedBig) { elite += firstWave.enemyData[i].enemyCount; eliteCount.text = elite.ToString(); }
         }
         waveTxt.text = "Wave " + firstWave.waveNum + " Incoming";
         if (waveAnimator) waveAnimator.gameObject.SetActive(true);
@@ -199,7 +199,7 @@ public class UIManager : Singleton<UIManager>
                     else if (secondWave.enemyData[i].enemyType == EnemyTypes.RangedBig) { elite += secondWave.enemyData[i].enemyCount; eliteCount.text = elite.ToString(); }
                 }
                 totalEnemiesCount.text = secondWave.totalEniemies.ToString();
-               // waveTxt.text = "Wave " + secondWave.waveNum + "\n" + secondWave.totalEniemies + " Enemies Incoming";
+                // waveTxt.text = "Wave " + secondWave.waveNum + "\n" + secondWave.totalEniemies + " Enemies Incoming";
             }
             else
             {
@@ -223,7 +223,7 @@ public class UIManager : Singleton<UIManager>
         else
         {
             pausePanel.SetActive(true);
-              Time.timeScale = 0.0f;
+            Time.timeScale = 0.0f;
         }
     }
     public void DisablePausePanel()
