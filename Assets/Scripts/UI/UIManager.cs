@@ -35,9 +35,15 @@ public class UIManager : Singleton<UIManager>
     public TMP_Text enemiesCountTxt;
     public TMP_Text m_warningText;
     public TMP_Text resourcesCount;
+    public TMP_Text meleeCount;
+    public TMP_Text heaviesCount;
+    public TMP_Text rangedCount;
+    public TMP_Text eliteCount;
+    public TMP_Text totalEnemiesCount;
 
     [Header("Animator Components")]
     public Animator resourceMeterAnimator;
+    public Animator waveAnimator;
 
     [Header("GLOBAL REFRENCE UI")]
     public TMP_Text m_damageTextPrefab;
@@ -67,7 +73,7 @@ public class UIManager : Singleton<UIManager>
     }
     public virtual void Start()
     {
-        if (resourceMeter) resourceMeterAnimator = resourceMeter.GetComponent<Animator>();
+      //  if (resourceMeter && resourceMeterAnimator) resourceMeterAnimator = resourceMeter.GetComponent<Animator>();
         SpawndamageTexts();
     }
     void SpawndamageTexts()
@@ -162,16 +168,43 @@ public class UIManager : Singleton<UIManager>
         return formattedString;
     }
 
-    internal void WaveBouncyText(int firstLevel, int firstEnemies, int secondLevel, int secondEnemies)
+    internal void WaveBouncyText(WaveData firstWave, WaveData secondWave)
     {
-        waveTxt.text = "Wave " + firstLevel + "\n" + firstEnemies + " Enemies";
-        waveTxt.transform.DOScale(new Vector3(1.5f, 1.5f, 1.5f), 2f).OnComplete(() =>
+        int melee = 0, heavies = 0, ranged = 0, elite = 0;
+        totalEnemiesCount.text = firstWave.totalEniemies.ToString();
+        for (int i = 0; i < firstWave.enemyData.Length; i++)
         {
-            waveTxt.transform.localScale = Vector3.one;
-            if (secondEnemies > 0)
-                waveTxt.text = "Wave " + secondLevel + "\n" + secondEnemies + " Enemies Incoming";
+            if (firstWave.enemyData[i].enemyType == EnemyTypes.Melee) { melee += firstWave.enemyData[i].enemyCount; meleeCount.text = melee.ToString(); }
+            else if (firstWave.enemyData[i].enemyType == EnemyTypes.Heavies){ heavies += firstWave.enemyData[i].enemyCount; heaviesCount.text = heavies.ToString();}
+            else if (firstWave.enemyData[i].enemyType == EnemyTypes.Ranged){ ranged += firstWave.enemyData[i].enemyCount; rangedCount.text = ranged.ToString();}
+            else if (firstWave.enemyData[i].enemyType == EnemyTypes.RangedBig){ elite += firstWave.enemyData[i].enemyCount; eliteCount.text = elite.ToString(); }
+        }
+        waveTxt.text = "Wave " + firstWave.waveNum + " Incoming";
+        if (waveAnimator) waveAnimator.gameObject.SetActive(true);
+        if (waveAnimator) waveAnimator.SetBool("EnableWave", true);
+        waveTxt.transform.DOScale(new Vector3(1f, 1f, 1f), 2f).OnComplete(() =>
+        {
+            if (waveAnimator) waveAnimator.SetBool("EnableWave", false);
+            if (waveAnimator) waveAnimator.gameObject.SetActive(false);
+
+            if (secondWave != null)
+            {
+                melee = 0; heavies = 0; ranged = 0; elite = 0;
+                meleeCount.text = 0.ToString(); heaviesCount.text = 0.ToString(); rangedCount.text = 0.ToString(); eliteCount.text = 0.ToString();
+                for (int i = 0; i < secondWave.enemyData.Length; i++)
+                {
+                    if (secondWave.enemyData[i].enemyType == EnemyTypes.Melee) { melee += secondWave.enemyData[i].enemyCount; meleeCount.text = melee.ToString(); }
+                    else if (secondWave.enemyData[i].enemyType == EnemyTypes.Heavies) { heavies += secondWave.enemyData[i].enemyCount; heaviesCount.text = heavies.ToString(); }
+                    else if (secondWave.enemyData[i].enemyType == EnemyTypes.Ranged) { ranged += secondWave.enemyData[i].enemyCount; rangedCount.text = ranged.ToString(); }
+                    else if (secondWave.enemyData[i].enemyType == EnemyTypes.RangedBig) { elite += secondWave.enemyData[i].enemyCount; eliteCount.text = elite.ToString(); }
+                }
+                totalEnemiesCount.text = secondWave.totalEniemies.ToString();
+               // waveTxt.text = "Wave " + secondWave.waveNum + "\n" + secondWave.totalEniemies + " Enemies Incoming";
+            }
             else
-                waveTxt.text = "";
+            {
+                totalEnemiesCount.text = 0.ToString(); meleeCount.text = 0.ToString(); heaviesCount.text = 0.ToString(); rangedCount.text = 0.ToString(); eliteCount.text = 0.ToString();
+            }
         });
     }
     #endregion

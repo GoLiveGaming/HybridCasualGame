@@ -71,9 +71,9 @@ public class LevelManager : MonoBehaviour
         //while (!isGameOver)
         //{
             if(levelData[levelNum].Waves.Length > levelData[levelNum].Waves[WaveIndexMain].waveNum)
-            UIManager.Instance.WaveBouncyText(levelData[levelNum].Waves[WaveIndexMain].waveNum, levelData[levelNum].Waves[WaveIndexMain].totalEniemies, levelData[levelNum].Waves[WaveIndexMain+1].waveNum, levelData[levelNum].Waves[WaveIndexMain+1].totalEniemies);
+            UIManager.Instance.WaveBouncyText(levelData[levelNum].Waves[WaveIndexMain], levelData[levelNum].Waves[WaveIndexMain+1]);
             else
-            UIManager.Instance.WaveBouncyText(levelData[levelNum].Waves[WaveIndexMain].waveNum, levelData[levelNum].Waves[WaveIndexMain].totalEniemies, 0,0);
+            UIManager.Instance.WaveBouncyText(levelData[levelNum].Waves[WaveIndexMain], null);
             SpawnEnemies(WaveIndexMain);
             WaveIndexMain++;
             yield return new WaitForSeconds(time);

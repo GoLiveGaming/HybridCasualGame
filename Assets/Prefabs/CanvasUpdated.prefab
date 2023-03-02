@@ -2438,7 +2438,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -2490,7 +2490,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
   m_AnchoredPosition: {x: 0, y: -50}
-  m_SizeDelta: {x: 200, y: 50}
+  m_SizeDelta: {x: 286.43, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3673217898276644468
 CanvasRenderer:
@@ -2520,7 +2520,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 10
+  m_text: 0
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 1ca0eec2a965f294f9978980eb1c8bdc, type: 2}
   m_sharedMaterial: {fileID: -1163052468010577150, guid: 1ca0eec2a965f294f9978980eb1c8bdc,
@@ -2726,7 +2726,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -2890,7 +2890,7 @@ GameObject:
   - component: {fileID: 3673217898529714182}
   - component: {fileID: 3673217898529714201}
   m_Layer: 5
-  m_Name: Image
+  m_Name: Melee
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3098,7 +3098,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 5
+  m_text: 0
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 1ca0eec2a965f294f9978980eb1c8bdc, type: 2}
   m_sharedMaterial: {fileID: -1163052468010577150, guid: 1ca0eec2a965f294f9978980eb1c8bdc,
@@ -3179,6 +3179,7 @@ GameObject:
   - component: {fileID: 3673217898961460377}
   - component: {fileID: 3673217898961460359}
   - component: {fileID: 3673217898961460358}
+  - component: {fileID: 1041626568}
   m_Layer: 5
   m_Name: WavePanel
   m_TagString: Untagged
@@ -3228,8 +3229,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.39215687}
-  m_RaycastTarget: 1
+  m_Color: {r: 1, g: 1, b: 1, a: 0.4392157}
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -3245,6 +3246,26 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!95 &1041626568
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3673217898961460376}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 24971a8e3d3e589469a73019c5b8d639, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
 --- !u!1 &3673217899191785145
 GameObject:
   m_ObjectHideFlags: 0
@@ -3257,7 +3278,7 @@ GameObject:
   - component: {fileID: 3673217899191785124}
   - component: {fileID: 3673217899191785127}
   m_Layer: 5
-  m_Name: Image (1)
+  m_Name: Heavies
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3335,7 +3356,7 @@ GameObject:
   - component: {fileID: 3673217899398535514}
   - component: {fileID: 3673217899398535517}
   m_Layer: 5
-  m_Name: Image (3)
+  m_Name: Elite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3413,7 +3434,7 @@ GameObject:
   - component: {fileID: 3673217899494654855}
   - component: {fileID: 3673217899494654854}
   m_Layer: 5
-  m_Name: Image (2)
+  m_Name: Ranged
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3621,7 +3642,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 7
+  m_text: 0
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 1ca0eec2a965f294f9978980eb1c8bdc, type: 2}
   m_sharedMaterial: {fileID: -1163052468010577150, guid: 1ca0eec2a965f294f9978980eb1c8bdc,
@@ -3757,7 +3778,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 25
+  m_text: 0
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 1ca0eec2a965f294f9978980eb1c8bdc, type: 2}
   m_sharedMaterial: {fileID: -1163052468010577150, guid: 1ca0eec2a965f294f9978980eb1c8bdc,
@@ -4030,7 +4051,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 2
+  m_text: 0
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 1ca0eec2a965f294f9978980eb1c8bdc, type: 2}
   m_sharedMaterial: {fileID: -1163052468010577150, guid: 1ca0eec2a965f294f9978980eb1c8bdc,
@@ -5747,7 +5768,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &6570039171130080297
 RectTransform:
   m_ObjectHideFlags: 0
@@ -9157,11 +9178,17 @@ MonoBehaviour:
   quitBtn: {fileID: 6570039171605730644}
   resourceMeter: {fileID: 848859178041184436}
   loadingfiller: {fileID: 6570039171562405468}
-  waveTxt: {fileID: 6570039171130080296}
+  waveTxt: {fileID: 3673217898408402658}
   enemiesCountTxt: {fileID: 6570039172739926710}
   m_warningText: {fileID: 6570039172876384521}
   resourcesCount: {fileID: 4362028824459712254}
-  resourceMeterAnimator: {fileID: 0}
+  meleeCount: {fileID: 3673217899702446662}
+  heaviesCount: {fileID: 3673217899627986031}
+  rangedCount: {fileID: 3673217898714341179}
+  eliteCount: {fileID: 3673217900127922578}
+  totalEnemiesCount: {fileID: 3673217898276644471}
+  resourceMeterAnimator: {fileID: 848859178041184438}
+  waveAnimator: {fileID: 1041626568}
   m_damageTextPrefab: {fileID: 8290664738074129026, guid: 8fd15c6d58840744c87e9c74032070af,
     type: 3}
 --- !u!1 &6693950683625992134
@@ -10153,7 +10180,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &7820896889807340338
 RectTransform:
   m_ObjectHideFlags: 0
