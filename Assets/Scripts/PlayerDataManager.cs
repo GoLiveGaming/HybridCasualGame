@@ -25,8 +25,6 @@ public class PlayerDataManager : SingletonPersistent<PlayerDataManager>
             PlayerPrefs.SetInt("CoinsAmount", 0);
             PlayerPrefs.SetInt("AttackTypesList_Count", _playerData.AllAttackTypesData.Count);
 
-
-
             PlayerPrefs.SetInt("Initialized", 1);
         }
         UpdateDataFromPlayerPrefs();
