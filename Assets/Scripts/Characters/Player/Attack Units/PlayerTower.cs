@@ -9,6 +9,7 @@ public class PlayerTower : PlayerUnitBase
     [Range(0, 10)] public int constructionTime = 3;
     [SerializeField] private GameObject incompleteTowerObject;
     [SerializeField] private GameObject completedTowerObject;
+    [SerializeField] private GameObject destroyedTowerObject;
 
     [Space(2), Header("Merging Properties")]
     public bool supportsCombining = false;
@@ -56,8 +57,8 @@ public class PlayerTower : PlayerUnitBase
 
     private void Update()
     {
-        if(!Utils.isGamePaused)
-        UpdateUnit();
+        if (!Utils.isGamePaused)
+            UpdateUnit();
     }
 
     void Initialize()
@@ -68,6 +69,8 @@ public class PlayerTower : PlayerUnitBase
         currentTowerState = TowerState.Idle;
         deployedAtArea = GetComponentInParent<PlayerUnitDeploymentArea>();
         initialized = true;
+
+        _stats.m_healthBar.sprite = TowerIcon;
 
         StartCoroutine(StartDeploymentSequence());
     }
@@ -217,6 +220,12 @@ public class PlayerTower : PlayerUnitBase
     public void OnTowerDestroyed()
     {
         if (deployedAtArea) deployedAtArea.isAreaAvailable = false;
+        if (destroyedTowerObject)
+        {
+            GameObject debris = Instantiate(incompleteTowerObject, this.transform.position, Quaternion.identity);
+            debris.transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y * 0.25f, transform.localScale.z);
+            debris.gameObject.SetActive(true);
+        }
     }
 
     private void OnDestroy()
@@ -225,6 +234,7 @@ public class PlayerTower : PlayerUnitBase
         {
             SpawnParticles(2, -90);
         }
+
     }
 
     void SpawnParticles(int particleIndex, int rotation)

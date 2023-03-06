@@ -412,6 +412,8 @@ MonoBehaviour:
   constructionTime: 3
   incompleteTowerObject: {fileID: 2414984547825351374}
   completedTowerObject: {fileID: 3192434380162914112}
+  destroyedTowerObject: {fileID: 993734517209104075, guid: 2bdbc750873380d43a7151c0ba3d5f46,
+    type: 3}
   supportsCombining: 1
   possibleCombinations:
   - combinesWith: 0

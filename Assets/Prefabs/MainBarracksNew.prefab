@@ -214,6 +214,7 @@ MonoBehaviour:
   damageNumberColor: {r: 1, g: 1, b: 1, a: 1}
   statsCanvas: {fileID: 2160611799004808332}
   m_healthBar: {fileID: 2160611798254373785}
+  autoRotateHealthbar: 0
   m_currentTowerTypeText: {fileID: 0}
   m_currentTower: {fileID: 0}
   m_NPCManager: {fileID: 0}

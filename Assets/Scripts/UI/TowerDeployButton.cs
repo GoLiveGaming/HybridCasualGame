@@ -14,21 +14,57 @@ public class TowerDeployButton : DraggableButton
     [Space(2), Header("Readonly")]
     [SerializeField, ReadOnly] private PlayerUnitDeploymentArea activeDeploymentArea;
     private MainPlayerControl mainPlayerControl;
+    private UIManager uiManager;
     private GameObject spawnedRangeVisualObj;
     private bool initialized = false;
-
     public bool ableToDrag = true;
+
+    private bool resourcesAvailable
+    {
+        get
+        {
+            return mainPlayerControl.GetPlayerUnit(attackType).unitPrefab.resourceCost < mainPlayerControl.currentResourcesCount;
+        }
+    }
 
     private void Start()
     {
         mainPlayerControl = MainPlayerControl.Instance;
+        uiManager = UIManager.Instance;
         initialized = false;
-        InitilizeButton();
+        InitializeButton();
+    }
+
+    public override void OnBeginDrag(PointerEventData eventData)
+    {
+        if (!ableToDrag)
+            return;
+        if (!resourcesAvailable) return;
+        base.OnBeginDrag(eventData);
+
+        #region Tutorial Stuff
+        UIManager.Instance.TryGetComponent(out TutorialManager tutorialManager);
+        if (tutorialManager && !tutorialManager.firstStep)
+        {
+            tutorialManager.TutorialPanelOne.gameObject.SetActive(false);
+            tutorialManager.GlowDeployButtons(false);
+            tutorialManager.ChangeDeployedAreas(2);
+            tutorialManager.deployAreas[0].transform.GetComponent<Renderer>().material.color = new Color32(0, 106, 2, 255);
+        }
+        else if (tutorialManager && tutorialManager.firstStep)
+        {
+            tutorialManager.TutorialPanelOne.gameObject.SetActive(false);
+            tutorialManager.tutorialBouncyTxtBig.text = "Drop a Tower onto an existing Tower to make it stronger!";
+        }
+
+
+        #endregion
     }
     public override void OnDrag(PointerEventData eventData)
     {
         if (!ableToDrag)
             return;
+        if (!resourcesAvailable) return;
         base.OnDrag(eventData);
 
         Ray ray = Camera.main.ScreenPointToRay(transform.position);
@@ -53,34 +89,25 @@ public class TowerDeployButton : DraggableButton
         ResetButton();
 
     }
-    public override void OnBeginDrag(PointerEventData eventData)
+    public override void OnPointerDown(PointerEventData eventData)
     {
         if (!ableToDrag)
             return;
-        base.OnBeginDrag(eventData);
-        #region Tutorial Stuff
-        UIManager.Instance.TryGetComponent(out TutorialManager tutorialManager);
-        if (tutorialManager && !tutorialManager.firstStep)
+        if (!resourcesAvailable)
         {
-            tutorialManager.TutorialPanelOne.gameObject.SetActive(false);
-            tutorialManager.GlowDeployButtons(false);
-            tutorialManager.ChangeDeployedAreas(2);
-            tutorialManager.deployAreas[0].transform.GetComponent<Renderer>().material.color = new Color32(0, 106, 2, 255);
-        }
-        else if(tutorialManager && tutorialManager.firstStep)
-        {
-            tutorialManager.TutorialPanelOne.gameObject.SetActive(false);
-            tutorialManager.tutorialBouncyTxtBig.text = "Drop a Tower onto an existing Tower to make it stronger!";
+            uiManager.ShowWarningText = mainPlayerControl.GetPlayerUnit(attackType).unitPrefab.TowerAttackType.ToString() + "Unit Needs: " + mainPlayerControl.GetPlayerUnit(attackType).unitPrefab.resourceCost.ToString() + " Gems";
+            return;
         }
 
-
-        #endregion
+        base.OnPointerDown(eventData);
     }
-
     public override void OnPointerUp(PointerEventData eventData)
     {
         if (!ableToDrag)
             return;
+
+        if (!resourcesAvailable) return;
+
         base.OnPointerUp(eventData);
 
         if (activeDeploymentArea)
@@ -88,7 +115,7 @@ public class TowerDeployButton : DraggableButton
 
         #region Tutorial Stuff
         UIManager.Instance.TryGetComponent(out TutorialManager tutorialManager);
-        if(tutorialManager && !tutorialManager.secondStep)
+        if (tutorialManager && !tutorialManager.secondStep)
         {
             tutorialManager.ChangeDeployedAreas(0);
         }
@@ -109,15 +136,15 @@ public class TowerDeployButton : DraggableButton
                 tutorialManager.firstStep = true;
             }
         }
-        else if(tutorialManager && tutorialManager.firstStep && !tutorialManager.secondStep)
+        else if (tutorialManager && tutorialManager.firstStep && !tutorialManager.secondStep)
         {
             if (!activeDeploymentArea)
             {
                 tutorialManager.tutorialBouncyTxtBig.text = "Combine Spells to make stronger Towers!";
-              //  tutorialManager.TutorialPanelOne.gameObject.SetActive(true);
+                //  tutorialManager.TutorialPanelOne.gameObject.SetActive(true);
             }
         }
-        else if(tutorialManager && tutorialManager.firstStep && tutorialManager.secondStep && !tutorialManager.thirdStep)
+        else if (tutorialManager && tutorialManager.firstStep && tutorialManager.secondStep && !tutorialManager.thirdStep)
         {
             if (!activeDeploymentArea)
             {
@@ -132,17 +159,10 @@ public class TowerDeployButton : DraggableButton
         }
         #endregion
 
-
         ResetButton();
     }
 
-    public override void OnPointerDown(PointerEventData eventData)
-    {
-        if (!ableToDrag)
-            return;
 
-        base.OnPointerDown(eventData);
-    }
     void ReInitializeButton(PlayerUnitDeploymentArea possibleDeploymentArea)
     {
         if (initialized) return;
@@ -152,7 +172,7 @@ public class TowerDeployButton : DraggableButton
 
         activeDeploymentArea = possibleDeploymentArea;
 
-        InitilizeButton(possibleDeploymentArea);
+        InitializeButton(possibleDeploymentArea);
 
     }
     void ResetButton()
@@ -170,10 +190,10 @@ public class TowerDeployButton : DraggableButton
 
         activeDeploymentArea = null;
 
-        InitilizeButton(null);
+        InitializeButton(null);
     }
 
-    void InitilizeButton(PlayerUnitDeploymentArea possibleDeploymentArea = null)
+    void InitializeButton(PlayerUnitDeploymentArea possibleDeploymentArea = null)
     {
         if (possibleDeploymentArea)
         {

@@ -13,6 +13,7 @@ public class Stats : MonoBehaviour
     [Space(2), Header("STATS UI")]
     [SerializeField] private GameObject statsCanvas;
     public Image m_healthBar;
+    [SerializeField] private bool autoRotateHealthbar = true;
 
 
     [Space(2), Header("PLAYER EXCLUSIVE OPTIONS")]
@@ -78,10 +79,8 @@ public class Stats : MonoBehaviour
         if (ownerIsPlayer && m_currentTower) SetCurrentUnitTypeText(m_currentTower.TowerAttackType);
 
         m_currentHealth = Mathf.Clamp(Health, 0, m_MaxHealth);
-    }
-    private void FixedUpdate()
-    {
-        if (statsCanvas) statsCanvas.transform.rotation = Quaternion.Euler(90, 0, 0);
+
+        if (m_healthBar && autoRotateHealthbar) m_healthBar.transform.rotation = Camera.main.transform.rotation;
     }
     public void SetCurrentUnitTypeText(AttackType type)
     {

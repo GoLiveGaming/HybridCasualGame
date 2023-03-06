@@ -1,7 +1,7 @@
 using DG.Tweening;
 using TMPro;
 using UnityEngine;
-
+using UnityEngine.Audio;
 public class MainMenuUIManager : MonoBehaviour
 {
     [Header("PANELS REFRENCES"), Space(2)]
@@ -12,6 +12,9 @@ public class MainMenuUIManager : MonoBehaviour
     [Header("TEXT FIELDS REFRENCES"), Space(2)]
     [SerializeField] private TMP_Text levelText;
     [SerializeField] private TMP_Text coinsAmountText;
+
+    [Header("AUDIO MIXERS REFRENCES"), Space(2)]
+    [SerializeField] private AudioMixer fxMixer;
 
     [Header("CLASS DEPENDENCIES REFRENCES"), Space(2)]
     [SerializeField] private LevelLoader levelLoader;
@@ -87,9 +90,6 @@ public class MainMenuUIManager : MonoBehaviour
             quitGamePanel.SetActive(!quitGamePanel.activeSelf);
         }
     }
-
-
-
     public void LoadNextLevel()
     {
         int tempInt = PlayerPrefs.GetInt("CurrentLevel");
@@ -97,6 +97,17 @@ public class MainMenuUIManager : MonoBehaviour
         tempInt++;
         Debug.Log("Scene To Load Index: " + tempInt);
         levelLoader.LoadNextLevel(tempInt);
+    }
+
+    public void MuteFX()
+    {
+        fxMixer.GetFloat("FXVolume", out float CurrentLevel);
+        
+        if (CurrentLevel >= 0)
+            fxMixer.SetFloat("FXVolume", -80f);
+        else
+            fxMixer.SetFloat("FXVolume", 0f);
+
     }
 
 

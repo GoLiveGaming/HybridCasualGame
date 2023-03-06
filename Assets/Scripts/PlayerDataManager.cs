@@ -4,8 +4,8 @@ using UnityEngine;
 public class PlayerDataManager : SingletonPersistent<PlayerDataManager>
 {
 
-    private readonly PlayerDataContainer _playerData = new();
-    public PlayerDataContainer PlayerData { get { return _playerData; } }
+    private readonly PlayerDataContainer _playerDataInstance = new();
+    public PlayerDataContainer PlayerData { get { return _playerDataInstance; } }
 
     protected override void Awake()
     {
@@ -23,7 +23,7 @@ public class PlayerDataManager : SingletonPersistent<PlayerDataManager>
             PlayerPrefs.SetInt("AttackType_" + AttackType.LightningAttack.ToString(), 1);
 
             PlayerPrefs.SetInt("CoinsAmount", 0);
-            PlayerPrefs.SetInt("AttackTypesList_Count", _playerData.AllAttackTypesData.Count);
+            PlayerPrefs.SetInt("AttackTypesList_Count", _playerDataInstance.AllAttackTypesData.Count);
 
             PlayerPrefs.SetInt("Initialized", 1);
         }
@@ -34,7 +34,7 @@ public class PlayerDataManager : SingletonPersistent<PlayerDataManager>
 
     private void UpdateDataFromPlayerPrefs()
     {
-        _playerData.AllAttackTypesData.Clear();
+        _playerDataInstance.AllAttackTypesData.Clear();
 
         foreach (AttackType value in Enum.GetValues(typeof(AttackType)))
         {
@@ -45,16 +45,16 @@ public class PlayerDataManager : SingletonPersistent<PlayerDataManager>
             if (PlayerPrefs.GetInt("AttackType_" + value.ToString()) == 1)
                 attackTypeData.isUnlocked = 1;
 
-            _playerData.AllAttackTypesData.Add(attackTypeData);
+            _playerDataInstance.AllAttackTypesData.Add(attackTypeData);
         }
 
-        _playerData.coinsAmount = PlayerPrefs.GetInt("CoinsAmount");
+        _playerDataInstance.coinsAmount = PlayerPrefs.GetInt("CoinsAmount");
 
     }
     private void SaveDataToPlayerPrefs()
     {
         //Update Attack Types in Playerprefs
-        foreach (PlayerAttacksData data in _playerData.AllAttackTypesData)
+        foreach (PlayerAttacksData data in _playerDataInstance.AllAttackTypesData)
         {
             if (data.isUnlocked == 1)
             {
@@ -63,7 +63,7 @@ public class PlayerDataManager : SingletonPersistent<PlayerDataManager>
         }
 
         //Update Coins Amount in PlayerPrefs
-        PlayerPrefs.SetInt("CoinsAmount", _playerData.coinsAmount);
+        PlayerPrefs.SetInt("CoinsAmount", _playerDataInstance.coinsAmount);
 
 
         PlayerPrefs.Save();
@@ -73,15 +73,15 @@ public class PlayerDataManager : SingletonPersistent<PlayerDataManager>
 
     public int CoinsAmount
     {
-        get { return _playerData.coinsAmount; }
-        set { _playerData.coinsAmount = value; }
+        get { return _playerDataInstance.coinsAmount; }
+        set { _playerDataInstance.coinsAmount = value; }
     }
     public bool UnlockAttackType(AttackType attackType)
     {
         if (CoinsAmount <= 0) return false;
         if (IsAttackTypeUnlocked(attackType)) return false;
 
-        foreach (var data in _playerData.AllAttackTypesData)
+        foreach (var data in _playerDataInstance.AllAttackTypesData)
         {
             if (data.AttackType == attackType)
             {
@@ -96,7 +96,7 @@ public class PlayerDataManager : SingletonPersistent<PlayerDataManager>
     }
     public bool IsAttackTypeUnlocked(AttackType type)
     {
-        foreach (PlayerAttacksData data in _playerData.AllAttackTypesData)
+        foreach (PlayerAttacksData data in _playerDataInstance.AllAttackTypesData)
         {
             if (data.AttackType == type)
             {

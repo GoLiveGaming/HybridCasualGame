@@ -77,14 +77,12 @@ public class PlayerUnitDeploymentArea : MonoBehaviour
                     PlayerUnit combinedTower = _mainPlayerControl.GetPlayerUnit(existingUnitCombination.toYield);
 
                     if (!_dataManager.IsAttackTypeUnlocked(combinedTower.unitType)) break;
-
                     return combinedTower;
                 }
             }
         }
         Debug.Log("No possible merge combinations found for: " + towerSelectedToDeploy);
         return towerSelectedToDeploy;
-
 
     }
 
@@ -108,6 +106,8 @@ public class PlayerUnitDeploymentArea : MonoBehaviour
                 _audioManager.audioSource.PlayOneShot(AudioManager.Instance.TowerUpgrade);
 
         }
+        if (deployedTower != null)
+            isAreaAvailable = false;
         deployedTower = spawnedTower;
     }
 
@@ -138,7 +138,7 @@ public class PlayerUnitDeploymentArea : MonoBehaviour
             }
             else
             {
-                renderer.material.color = new Color(1, 1, 1, 0);
+                renderer.material.color = Color.clear;
             }
         }
     }

@@ -846,7 +846,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 175, y: 175}
+  m_SizeDelta: {x: 150, y: 175}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4836385443702344221
 CanvasRenderer:
@@ -6626,7 +6626,7 @@ GameObject:
   - component: {fileID: 7428851463019340034}
   - component: {fileID: 5253667510066589710}
   - component: {fileID: 472450542}
-  - component: {fileID: 8607239536709747571}
+  - component: {fileID: 1666493830991178471}
   m_Layer: 5
   m_Name: Button
   m_TagString: Untagged
@@ -6737,7 +6737,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &8607239536709747571
+--- !u!114 &1666493830991178471
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -6746,7 +6746,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2774937778701860920}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 83ca79a8ac0225d47b7936db4623501c, type: 3}
+  m_Script: {fileID: 11500000, guid: 8daf56dea31043c429fe70dfd907a383, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   onSelectSclaeMultiplier: 1.25
@@ -9311,14 +9311,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3899805834489262750}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -949.03, y: -2025.78, z: -76.63}
-  m_LocalScale: {x: 4.043867, y: 4.043867, z: 4.043867}
+  m_LocalPosition: {x: 4.51, y: 2.18, z: -3.44}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 5113633236301347333}
-  - {fileID: 3278509933281706703}
-  m_Father: {fileID: 4068004084919682402}
-  m_RootOrder: 6
+  m_Children: []
+  m_Father: {fileID: 3278509933281706703}
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!198 &9015835803677494618
 ParticleSystem:
@@ -14077,7 +14075,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 175, y: 175}
+  m_SizeDelta: {x: 150, y: 175}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5517340090680864273
 CanvasRenderer:
@@ -14318,12 +14316,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4702857233782061337}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -7.26, y: -2.9509838, z: 2.44}
+  m_LocalPosition: {x: -2.028, y: 2.793, z: -2.479}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 8691608323019278019}
-  m_RootOrder: 0
+  m_Father: {fileID: 3278509933281706703}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!198 &1152668159160243458
 ParticleSystem:
@@ -24493,7 +24491,7 @@ GameObject:
   - component: {fileID: 915888521722314681}
   - component: {fileID: 315667807264601007}
   - component: {fileID: 1866247342}
-  - component: {fileID: 7927793451062069745}
+  - component: {fileID: 6004549790085407800}
   m_Layer: 5
   m_Name: Button
   m_TagString: Untagged
@@ -24604,7 +24602,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &7927793451062069745
+--- !u!114 &6004549790085407800
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -24613,7 +24611,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7343670340987858768}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 83ca79a8ac0225d47b7936db4623501c, type: 3}
+  m_Script: {fileID: 11500000, guid: 8daf56dea31043c429fe70dfd907a383, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   onSelectSclaeMultiplier: 1.25
@@ -25081,7 +25079,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 175, y: 175}
+  m_SizeDelta: {x: 150, y: 175}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4711790283033780617
 CanvasRenderer:
@@ -30216,7 +30214,7 @@ RectTransform:
   - {fileID: 1855221556771400888}
   - {fileID: 543518778269386384}
   - {fileID: 6777450499092824713}
-  - {fileID: 8691608323019278019}
+  - {fileID: 3278509933281706703}
   m_Father: {fileID: 6570039173055379616}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -30600,7 +30598,7 @@ GameObject:
   - component: {fileID: 4929001949573966225}
   - component: {fileID: 915914169144985987}
   m_Layer: 0
-  m_Name: Firework 3
+  m_Name: Firework_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -30613,15 +30611,17 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9134833249241354292}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.66, y: -6.39245, z: 0.993116}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -719.66, y: -1552.23, z: -55.18}
+  m_LocalScale: {x: 4.043867, y: 4.043867, z: 4.043867}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3170146388852487669}
   - {fileID: 606473282799319481}
-  m_Father: {fileID: 8691608323019278019}
-  m_RootOrder: 1
+  - {fileID: 5113633236301347333}
+  - {fileID: 8691608323019278019}
+  m_Father: {fileID: 4068004084919682402}
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!198 &2944001753065070624
 ParticleSystem:
