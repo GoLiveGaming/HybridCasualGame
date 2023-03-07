@@ -4,17 +4,17 @@ using UnityEngine.SceneManagement;
 
 public class LevelLoader : Singleton<LevelLoader>
 {
-    [SerializeField] private Object[] allPlayableLevels;
+    [SerializeField] private string[] allPlayableLevelsName;
     [SerializeField] private Animator Anim;
     [SerializeField] private float TransitionTime = 1;
 
-    public Object[] AllPlayableLevels
+    public string[] AllPlayableLevelsName
     {
         get
         {
-            if (allPlayableLevels == null)
+            if (allPlayableLevelsName == null)
                 Debug.LogError("Improper scene assignment on: " + this);
-            return allPlayableLevels;
+            return allPlayableLevelsName;
         }
     }
 
@@ -64,9 +64,9 @@ public class LevelLoader : Singleton<LevelLoader>
         Time.timeScale = 1.0f;
         Anim.SetTrigger("Start");
 
-        Debug.Log("Scene To Load: " + AllPlayableLevels[LevelIndex].name);
+        Debug.Log("Scene To Load: " + AllPlayableLevelsName[LevelIndex]);
         yield return new WaitForSeconds(TransitionTime);
-        AsyncOperation Async = SceneManager.LoadSceneAsync(AllPlayableLevels[LevelIndex].name);
+        AsyncOperation Async = SceneManager.LoadSceneAsync(AllPlayableLevelsName[LevelIndex]);
         while (!Async.isDone)
         {
             yield return null;

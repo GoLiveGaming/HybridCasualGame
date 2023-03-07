@@ -34,7 +34,7 @@ public class LevelManager : MonoBehaviour
 
         uiManager.loadingPanel.gameObject.SetActive(true);
         levelNum = playerDataManager.SelectedLevelIndex;
-        Debug.Log("Loading Level: " + levelNum + " enemies data.");
+        Debug.Log("Loading Level: " + levelNum + " enemies data. Correct enemies data will only be loaded when game is started from HomeScreen.");
 
         string eventName = "Level_0" + (levelNum);
         GameAnalytics.NewProgressionEvent(GAProgressionStatus.Start, eventName);
