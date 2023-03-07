@@ -219,13 +219,7 @@ public class PlayerTower : PlayerUnitBase
 
     public void OnTowerDestroyed()
     {
-        if (deployedAtArea) deployedAtArea.isAreaAvailable = false;
-        if (destroyedTowerObject)
-        {
-            GameObject debris = Instantiate(incompleteTowerObject, this.transform.position, Quaternion.identity);
-            debris.transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y * 0.25f, transform.localScale.z);
-            debris.gameObject.SetActive(true);
-        }
+       //if (deployedAtArea) deployedAtArea.isAreaAvailable = false;
     }
 
     private void OnDestroy()

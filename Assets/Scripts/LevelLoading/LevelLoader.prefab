@@ -405,5 +405,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e9af0ba77c805247b576640e7760f74, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  allPlayableLevels:
+  - {fileID: 102900000, guid: 283765029d0f029469ec39059eaceb2b, type: 3}
+  - {fileID: 102900000, guid: d6f4fa2a6db0bd44a9f06cc9388b51cd, type: 3}
+  - {fileID: 102900000, guid: cf2fb8e7cadb1e344ac0d21fd2aa2ec2, type: 3}
+  - {fileID: 102900000, guid: 49321d95212529b4d85f9a0d8cee903b, type: 3}
+  - {fileID: 102900000, guid: cf28609b12bf9da44a7de0b3cf187a39, type: 3}
+  - {fileID: 102900000, guid: 29a1447d67aec8d46ba69821355ec37a, type: 3}
   Anim: {fileID: 2087097256337401220}
   TransitionTime: 4

@@ -1,4 +1,3 @@
-using DG.Tweening;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Audio;
@@ -10,17 +9,17 @@ public class MainMenuUIManager : MonoBehaviour
     [SerializeField] private GameObject quitGamePanel;
 
     [Header("TEXT FIELDS REFRENCES"), Space(2)]
-    [SerializeField] private TMP_Text levelText;
+    [SerializeField] private TMP_Text selectedLevelText;
     [SerializeField] private TMP_Text coinsAmountText;
 
     [Header("AUDIO MIXERS REFRENCES"), Space(2)]
     [SerializeField] private AudioMixer fxMixer;
 
     [Header("CLASS DEPENDENCIES REFRENCES"), Space(2)]
-    [SerializeField] private LevelLoader levelLoader;
+    [SerializeField, ReadOnly] private LevelLoader levelLoader;
+    [SerializeField, ReadOnly] private PlayerDataManager playerDataManager;
 
-    [Header("READONLY"), Space(2)]
-    [SerializeField, ReadOnly] private RectTransform activePanel;
+
 
 
     private void Awake()
@@ -31,16 +30,29 @@ public class MainMenuUIManager : MonoBehaviour
 
     private void Start()
     {
-        if (!levelLoader) levelLoader = FindObjectOfType<LevelLoader>();
+        levelLoader = LevelLoader.Instance;
+        playerDataManager = PlayerDataManager.Instance;
+
+        UpdateAllTextFields();
+    }
+
+    #region  Text Fields Update
+    public void UpdateAllTextFields()
+    {
+        if (coinsAmountText) coinsAmountText.text = playerDataManager.CoinsAmount.ToString();
+        if (selectedLevelText) selectedLevelText.text = playerDataManager.SelectedLevelIndex.ToString();
     }
     public void UpdateCoinsAmountText()
     {
-        if (!coinsAmountText) return;
-        coinsAmountText.text = PlayerDataManager.Instance.CoinsAmount.ToString();
+        if (coinsAmountText) coinsAmountText.text = playerDataManager.CoinsAmount.ToString();
+    }
+    public void UpdateSelectedLevelText()
+    {
+        if (selectedLevelText) selectedLevelText.text = playerDataManager.SelectedLevelIndex.ToString();
     }
 
 
-
+    #endregion
 
     #region BUTTON_EVENTS
 
@@ -59,8 +71,7 @@ public class MainMenuUIManager : MonoBehaviour
             levelSelectPanel.SetActive(!levelSelectPanel.activeSelf);
         }
 
-        int tempInt = PlayerPrefs.GetInt("CurrentLevel");
-        levelText.text = "Level " + (tempInt + 1);
+        UpdateSelectedLevelText();
     }
 
     public void ToggleUnlocksPanel()
@@ -90,33 +101,36 @@ public class MainMenuUIManager : MonoBehaviour
             quitGamePanel.SetActive(!quitGamePanel.activeSelf);
         }
     }
-    public void LoadNextLevel()
+    public void LoadPlayableLevel()
     {
-        int tempInt = PlayerPrefs.GetInt("CurrentLevel");
-        //if (tempInt < 4)
-        tempInt++;
-        Debug.Log("Scene To Load Index: " + tempInt);
-        levelLoader.LoadNextLevel(tempInt);
+        levelLoader.LoadGameLevel(playerDataManager.SelectedLevelIndex);
     }
 
+    public void SwitchSelectedLevels()
+    {
+        int lvl = playerDataManager.SelectedLevelIndex + 1;
+        if (lvl > playerDataManager.UnlockedLevelsCount)
+        {
+            lvl = 0;
+        }
+        playerDataManager.SelectedLevelIndex = lvl;
+
+        UpdateSelectedLevelText();
+    }
     public void MuteFX()
     {
         fxMixer.GetFloat("FXVolume", out float CurrentLevel);
-        
+
         if (CurrentLevel >= 0)
             fxMixer.SetFloat("FXVolume", -80f);
         else
             fxMixer.SetFloat("FXVolume", 0f);
-
     }
-
 
     public void ClearAllPlayerPrefs()
     {
         PlayerDataManager.Instance.ClearAllPlayerPrefs();
         QuitGame();
-        //quitPanel.gameObject.SetActive(false);
-
     }
 
 

@@ -34,7 +34,7 @@ public class PlayerUnitDeploymentArea : MonoBehaviour
 
     public void DeployAttackUnit(AttackType unitType)
     {
-        if (!isAreaAvailable) { Debug.Log("Area Not Available"); return; }
+        //if (!isAreaAvailable) { Debug.Log("Area Not Available"); return; }
 
         PlayerUnit unitSelectedToDeploy = _mainPlayerControl.GetPlayerUnit(unitType);
         StartDeployemnt(unitSelectedToDeploy);
@@ -106,8 +106,6 @@ public class PlayerUnitDeploymentArea : MonoBehaviour
                 _audioManager.audioSource.PlayOneShot(AudioManager.Instance.TowerUpgrade);
 
         }
-        if (deployedTower != null)
-            isAreaAvailable = false;
         deployedTower = spawnedTower;
     }
 

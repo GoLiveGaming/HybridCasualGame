@@ -48,6 +48,8 @@ public class UIManager : Singleton<UIManager>
     [Header("GLOBAL REFRENCE UI")]
     public TMP_Text m_damageTextPrefab;
     readonly Queue<TMP_Text> damageTextQueue = new();
+    private LevelLoader levelLoader;
+    private PlayerDataManager playerDataManager;
 
     public string ShowWarningText
     {
@@ -73,7 +75,8 @@ public class UIManager : Singleton<UIManager>
     }
     public virtual void Start()
     {
-        //  if (resourceMeter && resourceMeterAnimator) resourceMeterAnimator = resourceMeter.GetComponent<Animator>();
+        levelLoader = LevelLoader.Instance;
+        playerDataManager = PlayerDataManager.Instance;
         SpawndamageTexts();
     }
     void SpawndamageTexts()
@@ -96,19 +99,28 @@ public class UIManager : Singleton<UIManager>
     }
 
 
+    [ContextMenu("Win Level)")]
+    public void WinMatch()
+    {
+        MatchFinished(true);
+    }
+    [ContextMenu("Loose Level)")]
+    public void LooseMatch()
+    {
+        MatchFinished(false);
+    }
     public void MatchFinished(bool hasWon)
     {
         floatingTextPanel.gameObject.SetActive(false);
 
-        int levelNum = PlayerPrefs.GetInt("CurrentLevel");
-        string eventName = "Level_0" + (levelNum + 1);
+        string eventName = "Level_0" + (playerDataManager.SelectedLevelIndex);
 
-        if (hasWon && (PlayerPrefs.GetInt("CurrentLevel") < 5))
+        if (hasWon)
         {
             gameWinPanel.SetActive(true);
 
-            PlayerPrefs.SetInt("CurrentLevel", PlayerPrefs.GetInt("CurrentLevel") + 1);
-            PlayerDataManager.Instance.CoinsAmount += 1;
+            playerDataManager.UnlockedLevelsCount += 1;
+            playerDataManager.CoinsAmount += 1;
 
             GameAnalytics.NewProgressionEvent(GAProgressionStatus.Complete, eventName);
         }
@@ -250,8 +262,7 @@ public class UIManager : Singleton<UIManager>
     public void QuitButton()
     {
         Time.timeScale = 1;
-
-        SceneManager.LoadSceneAsync(0);
+        levelLoader.LoadScene(0);
     }
     #endregion
 }
