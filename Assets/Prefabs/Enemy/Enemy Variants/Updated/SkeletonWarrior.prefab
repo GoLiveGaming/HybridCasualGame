@@ -2565,6 +2565,7 @@ MonoBehaviour:
   damageNumberColor: {r: 1, g: 1, b: 1, a: 1}
   statsCanvas: {fileID: 7809115939391045503}
   m_healthBar: {fileID: 1222174869722062124}
+  autoRotateHealthbar: 1
   m_currentTowerTypeText: {fileID: 0}
   m_currentTower: {fileID: 0}
   m_NPCManager: {fileID: 0}
@@ -2583,7 +2584,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   activeState: 0
   moveSpeed: 6
-  animatorSpeed: 1
+  animatorSpeed: 0.8
   attackDamage: 2
   detectionRange: 2
   firePointTransform: {fileID: 8894511907623652888}
