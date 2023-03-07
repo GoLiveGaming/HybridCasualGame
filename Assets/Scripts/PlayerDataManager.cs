@@ -104,7 +104,7 @@ public class PlayerDataManager : SingletonPersistent<PlayerDataManager>
         {
             int lvl = value;
 
-            Mathf.Clamp(lvl, 0, _playerData.totalLevels);
+            lvl = Mathf.Clamp(lvl, 0, _playerData.totalLevels);
             _playerData.unlockedLevelsCount = lvl;
             _playerData.selectedLevelIndex = lvl;
 

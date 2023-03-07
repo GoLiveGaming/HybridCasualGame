@@ -1,4 +1,3 @@
-using DG.Tweening;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
@@ -22,14 +21,12 @@ public class EnhancedButtonTimeIndependent : MonoBehaviour, IPointerDownHandler,
     }
     public virtual void OnPointerDown(PointerEventData eventData)
     {
-        (transform as RectTransform).DOScale(Vector3.one * onSelectSclaeMultiplier, 0.15f);
         OnPointerDownAction();
 
     }
 
     public virtual void OnPointerUp(PointerEventData eventData)
     {
-        (transform as RectTransform).DOScale(Vector3.one, 0.15f);
         OnPointerUpAction();
     }
 

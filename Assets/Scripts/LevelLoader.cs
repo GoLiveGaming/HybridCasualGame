@@ -31,9 +31,6 @@ public class LevelLoader : Singleton<LevelLoader>
         StartCoroutine(LoadLevel(LevelIndex));
     }
 
-
-
-
     IEnumerator LoadSceneByName(string LevelName)
     {
         Time.timeScale = 1.0f;

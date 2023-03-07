@@ -23992,6 +23992,8 @@ MonoBehaviour:
   waveAnimator: {fileID: 1041626568}
   m_damageTextPrefab: {fileID: 8290664738074129026, guid: 8fd15c6d58840744c87e9c74032070af,
     type: 3}
+  m_floatingTextPrefab: {fileID: 8290664738074129026, guid: d441837228f03724dbaed3957e01d9bc,
+    type: 3}
 --- !u!1 &6693950683625992134
 GameObject:
   m_ObjectHideFlags: 0

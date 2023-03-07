@@ -1,4 +1,3 @@
-using DG.Tweening;
 using System.Collections;
 using TMPro;
 using UnityEngine;
@@ -25,8 +24,6 @@ public class Stats : MonoBehaviour
 
     [Header("READONLY")]
     [ReadOnly] public bool ownerIsPlayer = false;
-
-
 
     bool isDead = false;
     private UIManager m_UIManager;
@@ -77,6 +74,7 @@ public class Stats : MonoBehaviour
         else m_NPCManager = GetComponent<NPCManagerScript>();
 
         if (ownerIsPlayer && m_currentTower) SetCurrentUnitTypeText(m_currentTower.TowerAttackType);
+        if (ownerIsPlayer && m_currentTower) SetCurrentUnitTypeText(m_currentTower.TowerAttackType);
 
         m_currentHealth = Mathf.Clamp(Health, 0, m_MaxHealth);
 
@@ -113,7 +111,12 @@ public class Stats : MonoBehaviour
             yield return null;
         }
     }
-
+    #region PLAYER EXCLUSIVES
+    public void ShowFloatingText(string value)
+    {
+        m_UIManager.ShowFloatingText(value, transform.position, Color.white);
+    }
+    #endregion
 
     #region NPC EXCLUSIVES
     public void SlowDownMoveSpeed(float speed, float duration)

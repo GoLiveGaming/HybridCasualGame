@@ -65,14 +65,13 @@ public class PlayerTower : PlayerUnitBase
     {
         isActive = false;
         _stats = GetComponent<Stats>();
+        deployedAtArea = GetComponentInParent<PlayerUnitDeploymentArea>();
         timeSinceUnitRefresh = unitRefreshAfter;
         currentTowerState = TowerState.Idle;
-        deployedAtArea = GetComponentInParent<PlayerUnitDeploymentArea>();
-        initialized = true;
-
         _stats.m_healthBar.sprite = TowerIcon;
-
+        _stats.ShowFloatingText("-" + resourceCost.ToString());
         StartCoroutine(StartDeploymentSequence());
+        initialized = true;
     }
     IEnumerator StartDeploymentSequence()
     {
@@ -219,7 +218,7 @@ public class PlayerTower : PlayerUnitBase
 
     public void OnTowerDestroyed()
     {
-       //if (deployedAtArea) deployedAtArea.isAreaAvailable = false;
+        //if (deployedAtArea) deployedAtArea.isAreaAvailable = false;
     }
 
     private void OnDestroy()

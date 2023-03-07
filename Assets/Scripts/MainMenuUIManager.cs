@@ -19,9 +19,6 @@ public class MainMenuUIManager : MonoBehaviour
     [SerializeField, ReadOnly] private LevelLoader levelLoader;
     [SerializeField, ReadOnly] private PlayerDataManager playerDataManager;
 
-
-
-
     private void Awake()
     {
         Time.timeScale = 1;

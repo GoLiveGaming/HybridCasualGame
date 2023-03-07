@@ -47,6 +47,7 @@ public class UIManager : Singleton<UIManager>
 
     [Header("GLOBAL REFRENCE UI")]
     public TMP_Text m_damageTextPrefab;
+    public TMP_Text m_floatingTextPrefab;
     readonly Queue<TMP_Text> damageTextQueue = new();
     private LevelLoader levelLoader;
     private PlayerDataManager playerDataManager;
@@ -134,7 +135,7 @@ public class UIManager : Singleton<UIManager>
 
         if (gameplayItemsCanvas && gameplayItemsCanvas.TryGetComponent(out CanvasGroup group))
         {
-            group.DOFade(0, 2).OnComplete(() => Time.timeScale = 0);
+            group.DOFade(0, 0.25f).OnComplete(() => Time.timeScale = 0);
         }
         else
         {
@@ -145,7 +146,7 @@ public class UIManager : Singleton<UIManager>
     #region UI VISUAL EFFECTS
     public void ShowFloatingDamage(float damageAmount, Vector3 atPosition, Color textColor)
     {
-
+        if (!m_damageTextPrefab) return;
         Vector3 spawnPos = Camera.main.WorldToScreenPoint(atPosition);
 
         if (damageTextQueue.Count < 1) return;
@@ -161,6 +162,24 @@ public class UIManager : Singleton<UIManager>
             damageTextQueue.Enqueue(tempTxt);
         });
         (tempTxt.transform as RectTransform).DOMoveX(spawnPos.x + Random.Range(-100, 100), 1);
+
+    }
+    public void ShowFloatingText(string text, Vector3 atPosition, Color textColor)
+    {
+        if (!m_floatingTextPrefab) return;
+        Vector3 spawnPos = Camera.main.WorldToScreenPoint(atPosition);
+
+
+        TMP_Text tempTxt = Instantiate(m_floatingTextPrefab, spawnPos, Quaternion.identity, rootcanvas.transform);
+
+        tempTxt.transform.position = spawnPos;
+        tempTxt.color = textColor;
+        tempTxt.text = text;
+        tempTxt.gameObject.SetActive(true);
+        (tempTxt.transform as RectTransform).DOJump((spawnPos + new Vector3(0, 100, 0)), 10, 1, 2).OnComplete(() =>
+        {
+            tempTxt.gameObject.SetActive(false);
+        });
 
     }
     public string FormatStringNextLineOnUpperCase(string value)
@@ -261,8 +280,12 @@ public class UIManager : Singleton<UIManager>
     }
     public void QuitButton()
     {
-        Time.timeScale = 1;
         levelLoader.LoadScene(0);
+    }
+
+    public void ResetTimeScale()
+    {
+        Time.timeScale = 1;
     }
     #endregion
 }

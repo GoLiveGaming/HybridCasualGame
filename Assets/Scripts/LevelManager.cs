@@ -18,6 +18,10 @@ public class LevelManager : MonoBehaviour
     [ReadOnly] public int maxEnemyCount;
     [ReadOnly] public int spawnedEnemyCount = 0;
 
+    private UIManager uiManager;
+
+    private PlayerDataManager playerDataManager;
+
     private void Awake()
     {
         Instance = this;
@@ -25,13 +29,20 @@ public class LevelManager : MonoBehaviour
 
     private void Start()
     {
-        UIManager.Instance.loadingPanel.gameObject.SetActive(true);
-        levelNum = PlayerPrefs.GetInt("CurrentLevel");
-        string eventName = "Level_0" + (levelNum + 1);
+        uiManager = UIManager.Instance;
+        playerDataManager = PlayerDataManager.Instance;
+
+        uiManager.loadingPanel.gameObject.SetActive(true);
+        levelNum = playerDataManager.SelectedLevelIndex;
+        Debug.Log("Loading Level: " + levelNum + " enemies data.");
+
+        string eventName = "Level_0" + (levelNum);
         GameAnalytics.NewProgressionEvent(GAProgressionStatus.Start, eventName);
+
         maxEnemyCount = levelData[levelNum].totalEnemies;
         deadEnemiesCount = levelData[levelNum].totalEnemies;
-        UIManager.Instance.enemiesCountTxt.text = levelData[levelNum].totalEnemies.ToString();
+        uiManager.enemiesCountTxt.text = levelData[levelNum].totalEnemies.ToString();
+
         StartCoroutine(LoadingScene());
         InstantiateAllEnemiesAtStart();
     }
@@ -45,15 +56,15 @@ public class LevelManager : MonoBehaviour
         }
         yield return new WaitWhile(() => maxEnemyCount > spawnedEnemyCount);
         UIManager.Instance.loadingPanel.gameObject.SetActive(false);
-        if(AudioManager.Instance)AudioManager.Instance.audioSource.PlayOneShot(AudioManager.Instance.LevelStart);
+        if (AudioManager.Instance) AudioManager.Instance.audioSource.PlayOneShot(AudioManager.Instance.LevelStart);
         StartCoroutine(SpawnEnemiesInIntervels(levelData[levelNum].Waves[WaveIndexMain].enemyData[0].TimeInterval));
     }
 
-    
+
 
     void InstantiateAllEnemiesAtStart()
     {
-        for(int i =0; i < levelData[levelNum].Waves.Length; i++)
+        for (int i = 0; i < levelData[levelNum].Waves.Length; i++)
         {
             for (int j = 0; j < levelData[levelNum].Waves[i].enemyData.Length; j++)
             {
@@ -70,23 +81,23 @@ public class LevelManager : MonoBehaviour
     {
         //while (!isGameOver)
         //{
-            if(levelData[levelNum].Waves.Length > levelData[levelNum].Waves[WaveIndexMain].waveNum)
-            UIManager.Instance.WaveBouncyText(levelData[levelNum].Waves[WaveIndexMain], levelData[levelNum].Waves[WaveIndexMain+1]);
-            else
+        if (levelData[levelNum].Waves.Length > levelData[levelNum].Waves[WaveIndexMain].waveNum)
+            UIManager.Instance.WaveBouncyText(levelData[levelNum].Waves[WaveIndexMain], levelData[levelNum].Waves[WaveIndexMain + 1]);
+        else
             UIManager.Instance.WaveBouncyText(levelData[levelNum].Waves[WaveIndexMain], null);
-            SpawnEnemies(WaveIndexMain);
-            WaveIndexMain++;
-            yield return new WaitForSeconds(time);
-            if (levelData[levelNum].Waves.Length <= WaveIndexMain)
-            {
-                isGameOver = true;
-            }
-            else
-            {
-                StartCoroutine(SpawnEnemiesInIntervels(levelData[levelNum].Waves[WaveIndexMain].enemyData[0].TimeInterval));
-                yield break;
-            }
-       // }
+        SpawnEnemies(WaveIndexMain);
+        WaveIndexMain++;
+        yield return new WaitForSeconds(time);
+        if (levelData[levelNum].Waves.Length <= WaveIndexMain)
+        {
+            isGameOver = true;
+        }
+        else
+        {
+            StartCoroutine(SpawnEnemiesInIntervels(levelData[levelNum].Waves[WaveIndexMain].enemyData[0].TimeInterval));
+            yield break;
+        }
+        // }
     }
     int aa = 0;
     void SpawnEnemies(int waveIndex)
@@ -134,6 +145,6 @@ public enum EnemyTypes
 {
     Melee,
     Heavies,
-    Ranged, 
+    Ranged,
     RangedBig
 }
