@@ -11,6 +11,8 @@ public class MainMenuUIManager : MonoBehaviour
     [Header("TEXT FIELDS REFRENCES"), Space(2)]
     [SerializeField] private TMP_Text selectedLevelText;
     [SerializeField] private TMP_Text coinsAmountText;
+    [SerializeField] private TMP_Text coinsAmountTextLevelsPanel;
+    [SerializeField] private TMP_Text coinsAmountTextStartPanel;
 
     [Header("AUDIO MIXERS REFRENCES"), Space(2)]
     [SerializeField] private AudioMixer fxMixer;
@@ -36,12 +38,22 @@ public class MainMenuUIManager : MonoBehaviour
     #region  Text Fields Update
     public void UpdateAllTextFields()
     {
-        if (coinsAmountText) coinsAmountText.text = playerDataManager.CoinsAmount.ToString();
+        if (coinsAmountText) 
+        { 
+            coinsAmountText.text = playerDataManager.CoinsAmount.ToString(); 
+            coinsAmountTextLevelsPanel.text = playerDataManager.CoinsAmount.ToString(); 
+            coinsAmountTextStartPanel.text = playerDataManager.CoinsAmount.ToString(); 
+        } 
         if (selectedLevelText) selectedLevelText.text = playerDataManager.SelectedLevelIndex.ToString();
     }
     public void UpdateCoinsAmountText()
     {
-        if (coinsAmountText) coinsAmountText.text = playerDataManager.CoinsAmount.ToString();
+        if (coinsAmountText) 
+        {
+            coinsAmountText.text = playerDataManager.CoinsAmount.ToString();
+            coinsAmountTextLevelsPanel.text = playerDataManager.CoinsAmount.ToString();
+            coinsAmountTextStartPanel.text = playerDataManager.CoinsAmount.ToString();
+        } 
     }
     public void UpdateSelectedLevelText()
     {
