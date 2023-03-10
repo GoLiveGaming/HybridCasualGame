@@ -38,22 +38,22 @@ public class MainMenuUIManager : MonoBehaviour
     #region  Text Fields Update
     public void UpdateAllTextFields()
     {
-        if (coinsAmountText) 
-        { 
-            coinsAmountText.text = playerDataManager.CoinsAmount.ToString(); 
-            coinsAmountTextLevelsPanel.text = playerDataManager.CoinsAmount.ToString(); 
-            coinsAmountTextStartPanel.text = playerDataManager.CoinsAmount.ToString(); 
-        } 
-        if (selectedLevelText) selectedLevelText.text = playerDataManager.SelectedLevelIndex.ToString();
-    }
-    public void UpdateCoinsAmountText()
-    {
-        if (coinsAmountText) 
+        if (coinsAmountText)
         {
             coinsAmountText.text = playerDataManager.CoinsAmount.ToString();
             coinsAmountTextLevelsPanel.text = playerDataManager.CoinsAmount.ToString();
             coinsAmountTextStartPanel.text = playerDataManager.CoinsAmount.ToString();
-        } 
+        }
+        if (selectedLevelText) selectedLevelText.text = playerDataManager.SelectedLevelIndex.ToString();
+    }
+    public void UpdateCoinsAmountText()
+    {
+        if (coinsAmountText)
+        {
+            coinsAmountText.text = playerDataManager.CoinsAmount.ToString();
+            coinsAmountTextLevelsPanel.text = playerDataManager.CoinsAmount.ToString();
+            coinsAmountTextStartPanel.text = playerDataManager.CoinsAmount.ToString();
+        }
     }
     public void UpdateSelectedLevelText()
     {
@@ -81,6 +81,7 @@ public class MainMenuUIManager : MonoBehaviour
         }
 
         UpdateSelectedLevelText();
+        UpdateCoinsAmountText();
     }
 
     public void ToggleUnlocksPanel()
@@ -96,6 +97,8 @@ public class MainMenuUIManager : MonoBehaviour
         {
             unlocksPanel.SetActive(!unlocksPanel.activeSelf);
         }
+        
+        UpdateCoinsAmountText();
     }
     public void ToggleQuitPanel()
     {
@@ -115,12 +118,23 @@ public class MainMenuUIManager : MonoBehaviour
         levelLoader.LoadGameLevel(playerDataManager.SelectedLevelIndex);
     }
 
-    public void SwitchSelectedLevels()
+    public void SelectNextLevel()
     {
         int lvl = playerDataManager.SelectedLevelIndex + 1;
         if (lvl > playerDataManager.UnlockedLevelsCount)
         {
             lvl = 0;
+        }
+        playerDataManager.SelectedLevelIndex = lvl;
+
+        UpdateSelectedLevelText();
+    }
+    public void SelectPreviousLevel()
+    {
+        int lvl = playerDataManager.SelectedLevelIndex - 1;
+        if (lvl < 0)
+        {
+            lvl = playerDataManager.UnlockedLevelsCount;
         }
         playerDataManager.SelectedLevelIndex = lvl;
 

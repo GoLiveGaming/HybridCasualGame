@@ -7,7 +7,8 @@ using UnityEngine.UI;
 [RequireComponent(typeof(Button))]
 public class EnhancedButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
-    [SerializeField] internal float onSelectSclaeMultiplier = 1.25f;
+    [SerializeField] internal float onSelectScaleMultiplier = 1.25f;
+    [SerializeField] internal float onSelectResponseTime = 0.15f;
     [SerializeField, ReadOnly] private Button m_Button;
 
     [Space(5), Header("ADD BUTTON EVENTS HERE INSTEAD OF BUTTON COMPONENT"), Space(5)]
@@ -22,7 +23,7 @@ public class EnhancedButton : MonoBehaviour, IPointerDownHandler, IPointerUpHand
     }
     public virtual void OnPointerDown(PointerEventData eventData)
     {
-        (transform as RectTransform).DOScale(Vector3.one * onSelectSclaeMultiplier, 0.15f).OnComplete(() =>
+        (transform as RectTransform).DOScale(Vector3.one * onSelectScaleMultiplier, onSelectResponseTime).OnComplete(() =>
         {
             OnPointerDownAction();
         });
@@ -31,7 +32,7 @@ public class EnhancedButton : MonoBehaviour, IPointerDownHandler, IPointerUpHand
 
     public virtual void OnPointerUp(PointerEventData eventData)
     {
-        (transform as RectTransform).DOScale(Vector3.one, 0.15f).OnComplete(() =>
+        (transform as RectTransform).DOScale(Vector3.one, onSelectResponseTime).OnComplete(() =>
         {
             OnPointerUpAction();
         });

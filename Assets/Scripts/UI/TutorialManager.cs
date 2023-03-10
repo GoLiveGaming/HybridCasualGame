@@ -15,7 +15,7 @@ public class TutorialManager : UIManager
 
     public GameObject[] deployAreas;
 
-    public TowerDeployButton[] deployButtons;
+    public TowerDeployeButtonTutorial[] deployButtons;
 
     public GameObject[] manaObjects;
 
@@ -35,7 +35,7 @@ public class TutorialManager : UIManager
     {
         pauseBtn.gameObject.SetActive(false);
         GlowDeployButtons(false);
-        EnableDeployButtons(false);
+        ToggleDeployButtons(false);
         yield return new WaitForSeconds(4f);
         TutorialBouncyText("Skeletons are coming for your Kingdom!", 1);
         cameraAnimator.gameObject.SetActive(true);
@@ -53,12 +53,17 @@ public class TutorialManager : UIManager
             EnemySpawners.Instance.enemiesParent.GetChild(i).GetComponent<NPCManagerScript>().SetMoveSpeed(0);
         }
         Utils.isGamePaused = true;
-        GlowDeployButtons(true);
-        EnableDeployButtons(true);
+        //GlowDeployButtons(true);
+        //ToggleDeployButtons(true);
+        EnableDeployButtonsFirstStep();
     }
     public IEnumerator TutorialSecondStep()
     {
+        GlowDeployButtons(false);
+        ToggleDeployButtons(false);
+
         tutorialBouncyTxtBig.gameObject.SetActive(false);
+        
         for (int i = 0; i < EnemySpawners.Instance.enemiesParent.childCount; i++)
         {
             EnemySpawners.Instance.enemiesParent.GetChild(i).GetComponent<NPCManagerScript>().ResetMoveSpeed();
@@ -125,12 +130,17 @@ public class TutorialManager : UIManager
             }
         }
         TutorialPanelOne.gameObject.SetActive(true);
-        GlowDeployButtons(true);
+        //GlowDeployButtons(true);
+        EnableDeployButtonsSecondStep();
     }
 
     public IEnumerator TutorialThirdStep()
     {
+        GlowDeployButtons(false);
+        ToggleDeployButtons(false);
+
         tutorialBouncyTxtBig.gameObject.SetActive(false);
+
         for (int i = 0; i < EnemySpawners.Instance.enemiesParent.childCount; i++)
         {
             EnemySpawners.Instance.enemiesParent.GetChild(i).GetComponent<NPCManagerScript>().ResetMoveSpeed();
@@ -166,19 +176,55 @@ public class TutorialManager : UIManager
         yield return new WaitForSeconds(4f);
         tutorialBouncyTxt.text = "";
     }
-    public void GlowDeployButtons(bool glow)
+    public void GlowDeployButtons(bool value)
     {
         for (int i = 0; i < deployButtons.Length; i++)
         {
-            deployButtons[i].transform.GetChild(0).gameObject.SetActive(glow);
+            deployButtons[i].transform.GetChild(0).gameObject.SetActive(value);
         }
     }
-    public void EnableDeployButtons(bool glow)
+    public void ToggleDeployButtons(bool value)
     {
         for (int i = 0; i < deployButtons.Length; i++)
         {
-            deployButtons[i].ableToDrag = glow;
-            deployButtons[i].GetComponent<Button>().interactable = glow;
+            deployButtons[i].ableToDrag = value;
+            deployButtons[i].GetComponent<Button>().interactable = value;
+        }
+    }
+
+    public void EnableDeployButtonsFirstStep()
+    {
+        foreach (TowerDeployeButtonTutorial button in deployButtons)
+        {
+            if (button.attackType == AttackType.FireAttack)
+            {
+                button.ableToDrag = true;
+                button.GetComponent<Button>().interactable = true;
+                button.transform.GetChild(0).gameObject.SetActive(true);
+            }
+            else
+            {
+                button.ableToDrag = false;
+                button.GetComponent<Button>().interactable = false;
+            }
+        }
+    }
+
+    public void EnableDeployButtonsSecondStep()
+    {
+        foreach (TowerDeployeButtonTutorial button in deployButtons)
+        {
+            if (button.attackType == AttackType.WindAttack)
+            {
+                button.ableToDrag = true;
+                button.GetComponent<Button>().interactable = true;
+                button.transform.GetChild(0).gameObject.SetActive(true);
+            }
+            else
+            {
+                button.ableToDrag = false;
+                button.GetComponent<Button>().interactable = false;
+            }
         }
     }
 

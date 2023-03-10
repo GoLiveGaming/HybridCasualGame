@@ -389,6 +389,7 @@ MonoBehaviour:
   damageNumberColor: {r: 1, g: 1, b: 1, a: 1}
   statsCanvas: {fileID: 6787607075513333782}
   m_healthBar: {fileID: 3371655846790425095}
+  autoRotateHealthbar: 1
   m_currentTowerTypeText: {fileID: 2071284913164529778}
   m_currentTower: {fileID: 0}
   m_NPCManager: {fileID: 0}
@@ -407,7 +408,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TowerAttackType: 0
   mainPlayerControl: {fileID: 0}
-  TowerIcon: {fileID: 21300000, guid: 184fb3f1d604f114ca3ed59150377e01, type: 3}
+  TowerIcon: {fileID: 21300000, guid: 430ee4abe4984724aa385db752f43c17, type: 3}
   resourceCost: 5
   constructionTime: 3
   incompleteTowerObject: {fileID: 2414984547825351374}

@@ -7,9 +7,8 @@ public class UpgradeButton : MonoBehaviour
 {
     [ReadOnly] public bool isUnlocked = false;
     [ReadOnly] public Button button;
-
     public AttackType attackType;
-
+    [SerializeField] private GameObject confirmationPanel;
     PlayerDataManager playerDataManager;
     MainMenuUIManager mainMenuUIManager;
     private void Start()
@@ -36,6 +35,10 @@ public class UpgradeButton : MonoBehaviour
         }
     }
 
+    public void ToggleConfirmationPanel(bool toggle)
+    {
+        if (confirmationPanel) confirmationPanel.SetActive(toggle);
+    }
     public void TriggerFunctionality()
     {
         isUnlocked = playerDataManager.UnlockAttackType(attackType);

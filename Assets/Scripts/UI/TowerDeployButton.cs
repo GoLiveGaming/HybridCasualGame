@@ -40,25 +40,8 @@ public class TowerDeployButton : DraggableButton
         if (!ableToDrag)
             return;
         if (!resourcesAvailable) return;
+        
         base.OnBeginDrag(eventData);
-
-        #region Tutorial Stuff
-        UIManager.Instance.TryGetComponent(out TutorialManager tutorialManager);
-        if (tutorialManager && !tutorialManager.firstStep)
-        {
-            tutorialManager.TutorialPanelOne.gameObject.SetActive(false);
-            tutorialManager.GlowDeployButtons(false);
-            tutorialManager.ChangeDeployedAreas(2);
-            tutorialManager.deployAreas[0].transform.GetComponent<Renderer>().material.color = new Color32(0, 106, 2, 255);
-        }
-        else if (tutorialManager && tutorialManager.firstStep)
-        {
-            tutorialManager.TutorialPanelOne.gameObject.SetActive(false);
-            tutorialManager.tutorialBouncyTxtBig.text = "Drop a Tower onto an existing Tower to make it stronger!";
-        }
-
-
-        #endregion
     }
     public override void OnDrag(PointerEventData eventData)
     {
@@ -112,52 +95,6 @@ public class TowerDeployButton : DraggableButton
 
         if (activeDeploymentArea)
             activeDeploymentArea.DeployAttackUnit(attackType);
-
-        #region Tutorial Stuff
-        UIManager.Instance.TryGetComponent(out TutorialManager tutorialManager);
-        if (tutorialManager && !tutorialManager.secondStep)
-        {
-            tutorialManager.ChangeDeployedAreas(0);
-        }
-        if (tutorialManager && !tutorialManager.firstStep)
-        {
-            if (!activeDeploymentArea)
-            {
-                tutorialManager.TutorialPanelOne.gameObject.SetActive(true);
-                tutorialManager.deployAreas[0].gameObject.SetActive(false);
-                tutorialManager.GlowDeployButtons(true);
-            }
-            else
-            {
-                tutorialManager.TutorialPanelOne.gameObject.SetActive(false);
-                StartCoroutine(tutorialManager.TutorialSecondStep());
-                tutorialManager.GlowDeployButtons(false);
-                tutorialManager.deployAreas[0].transform.GetComponent<Renderer>().material.color = new Color32(0, 106, 2, 0);
-                tutorialManager.firstStep = true;
-            }
-        }
-        else if (tutorialManager && tutorialManager.firstStep && !tutorialManager.secondStep)
-        {
-            if (!activeDeploymentArea)
-            {
-                tutorialManager.tutorialBouncyTxtBig.text = "Combine Spells to make stronger Towers!";
-                //  tutorialManager.TutorialPanelOne.gameObject.SetActive(true);
-            }
-        }
-        else if (tutorialManager && tutorialManager.firstStep && tutorialManager.secondStep && !tutorialManager.thirdStep)
-        {
-            if (!activeDeploymentArea)
-            {
-                tutorialManager.tutorialBouncyTxtBig.text = "Combine Spells to make stronger Towers!";
-                tutorialManager.TutorialPanelOne.gameObject.SetActive(true);
-            }
-            else
-            {
-                StartCoroutine(tutorialManager.TutorialThirdStep());
-                tutorialManager.thirdStep = true;
-            }
-        }
-        #endregion
 
         ResetButton();
     }
