@@ -12,7 +12,7 @@ public class LevelManager : MonoBehaviour
     public LevelData[] levelData;
 
     internal bool isGameOver;
-    int WaveIndexMain = 0;
+    [HideInInspector]public int WaveIndexMain = 0;
     [ReadOnly] public int levelNum = 0;
     [ReadOnly] public int deadEnemiesCount = 0;
     [ReadOnly] public int maxEnemyCount;
@@ -86,16 +86,16 @@ public class LevelManager : MonoBehaviour
         else
             UIManager.Instance.WaveBouncyText(levelData[levelNum].Waves[WaveIndexMain], null);
         SpawnEnemies(WaveIndexMain);
-        WaveIndexMain++;
-        yield return new WaitForSeconds(time);
-        if (levelData[levelNum].Waves.Length <= WaveIndexMain)
+        if (levelData[levelNum].Waves.Length > WaveIndexMain + 1)
         {
-            isGameOver = true;
+            WaveIndexMain++;
+            yield return new WaitForSeconds(time);
+            StartCoroutine(SpawnEnemiesInIntervels(levelData[levelNum].Waves[WaveIndexMain].enemyData[0].TimeInterval));
+            yield break;
         }
         else
         {
-            StartCoroutine(SpawnEnemiesInIntervels(levelData[levelNum].Waves[WaveIndexMain].enemyData[0].TimeInterval));
-            yield break;
+            isGameOver = true;
         }
         // }
     }

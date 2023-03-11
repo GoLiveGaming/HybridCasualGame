@@ -115,6 +115,7 @@ public class MainMenuUIManager : MonoBehaviour
     }
     public void LoadPlayableLevel()
     {
+       // playerDataManager.SelectedLevelIndex = 1;
         levelLoader.LoadGameLevel(playerDataManager.SelectedLevelIndex);
     }
 

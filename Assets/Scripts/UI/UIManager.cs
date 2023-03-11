@@ -40,6 +40,10 @@ public class UIManager : Singleton<UIManager>
     public TMP_Text rangedCount;
     public TMP_Text eliteCount;
     public TMP_Text totalEnemiesCount;
+    public TMP_Text lastwaveInLosePanel;
+    public TMP_Text lastwaveInWinPanel;
+    public TMP_Text enemiesSlainInLosePanel;
+    public TMP_Text enemiesSlainInWinPanel;
 
     [Header("Animator Components")]
     public Animator resourceMeterAnimator;
@@ -119,7 +123,8 @@ public class UIManager : Singleton<UIManager>
         if (hasWon)
         {
             gameWinPanel.SetActive(true);
-
+            lastwaveInWinPanel.text = LevelManager.Instance.levelData[LevelManager.Instance.levelNum].Waves[LevelManager.Instance.WaveIndexMain].waveNum.ToString();
+            enemiesSlainInWinPanel.text = (LevelManager.Instance.maxEnemyCount - LevelManager.Instance.deadEnemiesCount).ToString();
             playerDataManager.UnlockedLevelsCount += 1;
             playerDataManager.CoinsAmount += 1;
 
@@ -128,6 +133,8 @@ public class UIManager : Singleton<UIManager>
         else
         {
             gameLostPanel.SetActive(true);
+            lastwaveInLosePanel.text = LevelManager.Instance.levelData[LevelManager.Instance.levelNum].Waves[LevelManager.Instance.WaveIndexMain].waveNum.ToString();
+            enemiesSlainInLosePanel.text = (LevelManager.Instance.maxEnemyCount - LevelManager.Instance.deadEnemiesCount).ToString();
 
             GameAnalytics.NewProgressionEvent(GAProgressionStatus.Fail, eventName);
         }
