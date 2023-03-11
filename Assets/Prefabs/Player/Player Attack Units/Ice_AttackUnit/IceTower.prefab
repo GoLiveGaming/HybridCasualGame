@@ -461,11 +461,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5900153598678678187}
     m_Modifications:
-    - target: {fileID: 1018155704253493930, guid: 9c1565f0361a59e44858a06a6b305ea7,
-        type: 3}
-      propertyPath: m_Layer
-      value: 6
-      objectReference: {fileID: 0}
     - target: {fileID: 1622175445631997838, guid: 9c1565f0361a59e44858a06a6b305ea7,
         type: 3}
       propertyPath: m_Pivot.x
@@ -571,31 +566,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2294619782257198284, guid: 9c1565f0361a59e44858a06a6b305ea7,
-        type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 36b72c9fefab6974cae72aa16c39ab7f,
-        type: 3}
-    - target: {fileID: 2380552611379657378, guid: 9c1565f0361a59e44858a06a6b305ea7,
-        type: 3}
-      propertyPath: m_Layer
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 6969687894186308724, guid: 9c1565f0361a59e44858a06a6b305ea7,
-        type: 3}
-      propertyPath: m_Layer
-      value: 6
-      objectReference: {fileID: 0}
     - target: {fileID: 8007623357219460829, guid: 9c1565f0361a59e44858a06a6b305ea7,
         type: 3}
       propertyPath: m_Name
       value: Stats Canvas Player Tower
-      objectReference: {fileID: 0}
-    - target: {fileID: 8007623357219460829, guid: 9c1565f0361a59e44858a06a6b305ea7,
-        type: 3}
-      propertyPath: m_Layer
-      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9c1565f0361a59e44858a06a6b305ea7, type: 3}

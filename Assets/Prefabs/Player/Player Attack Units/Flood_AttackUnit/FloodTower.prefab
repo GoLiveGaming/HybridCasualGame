@@ -582,6 +582,11 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 5868567604736521921, guid: 9c1565f0361a59e44858a06a6b305ea7,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 6969687894186308724, guid: 9c1565f0361a59e44858a06a6b305ea7,
         type: 3}
       propertyPath: m_Layer

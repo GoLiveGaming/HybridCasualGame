@@ -44,15 +44,8 @@ public class PlayerUnitDeploymentArea : MonoBehaviour
     {
         PlayerTower existingUnit = deployedTower;
 
-        if (existingUnit == null)
-        {
-            DeployUnit(towerSelectedToDeploy);
-        }
-        else
-        {
-            DeployUnit(GetUnitAfterMergeCheck(towerSelectedToDeploy));
-            SpawnParticles(1, -90);
-        }
+        DeployUnit(GetUnitAfterMergeCheck(towerSelectedToDeploy));
+
 
     }
 
@@ -82,12 +75,16 @@ public class PlayerUnitDeploymentArea : MonoBehaviour
             }
         }
         Debug.Log("No possible merge combinations found for: " + towerSelectedToDeploy);
-        return towerSelectedToDeploy;
-
+        return null;
     }
 
     public void DeployUnit(PlayerUnit towerSelectedToDeploy)
     {
+        if (towerSelectedToDeploy == null)
+        {
+            _uiManager.ShowWarningText = "Selected Unit Cannot be placed here.";
+            return;
+        }
         if (towerSelectedToDeploy.unitPrefab.resourceCost > _mainPlayerControl.currentResourcesCount)
         {
             _uiManager.ShowWarningText = towerSelectedToDeploy.unitPrefab.TowerAttackType.ToString() + "Unit Needs: " + towerSelectedToDeploy.unitPrefab.resourceCost.ToString() + "Gems";
@@ -107,6 +104,8 @@ public class PlayerUnitDeploymentArea : MonoBehaviour
 
         }
         deployedTower = spawnedTower;
+
+        SpawnParticles(1, -90);
     }
 
     private void DeleteChildTowers()

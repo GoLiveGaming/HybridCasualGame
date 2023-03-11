@@ -100,7 +100,7 @@ public class NPCManagerScript : MonoBehaviour
 
         m_Rigidbody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
         //Adding random parity in state refresh delay to reduce stress on cpu when large quantity of npc's are spawning
-        stateRefreshDelay = Mathf.Clamp(Random.Range(stateRefreshDelay - 2f, stateRefreshDelay + 2f), 0f, 5f);
+        stateRefreshDelay = Mathf.Clamp(Random.Range(stateRefreshDelay - 1f, stateRefreshDelay + 1f), 0f, 5f);
 
         _currentState = PursueState;
         _currentState.EnterState(this);

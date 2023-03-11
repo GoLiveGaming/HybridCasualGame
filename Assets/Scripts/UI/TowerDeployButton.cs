@@ -40,7 +40,7 @@ public class TowerDeployButton : DraggableButton
         if (!ableToDrag)
             return;
         if (!resourcesAvailable) return;
-        
+
         base.OnBeginDrag(eventData);
     }
     public override void OnDrag(PointerEventData eventData)
@@ -135,6 +135,8 @@ public class TowerDeployButton : DraggableButton
         if (possibleDeploymentArea)
         {
             PlayerUnit possibleTower = possibleDeploymentArea.GetUnitAfterMergeCheck(mainPlayerControl.GetPlayerUnit(attackType));
+            if (possibleTower == null) return;
+
             buttonIcon.sprite = possibleTower.unitPrefab.TowerIcon;
             costText.text = possibleTower.unitPrefab.resourceCost.ToString();
         }
@@ -151,12 +153,14 @@ public class TowerDeployButton : DraggableButton
         if (!spawnedRangeVisualObj) spawnedRangeVisualObj = Instantiate(rangeVisualObjPrefab);
         if (spawnedRangeVisualObj)
         {
+            PlayerUnit possibleTower = possibleDeploymentArea.GetUnitAfterMergeCheck(mainPlayerControl.GetPlayerUnit(attackType));
+            if (possibleTower == null) return;
+            
             spawnedRangeVisualObj.transform.position = possibleDeploymentArea.transform.position + new Vector3(0, 0.1f, 0);
             //Multiplied Local Scale by 2 becuase we are dealing with radius in shoooting range,
             //But setting scale here, scale is on either side of pivot while radius extends on one side
             spawnedRangeVisualObj.transform.localScale =
-                2 * possibleDeploymentArea.GetUnitAfterMergeCheck(mainPlayerControl.
-                GetPlayerUnit(attackType)).unitPrefab.shootingRange * Vector3.one;
+                2 * possibleTower.unitPrefab.shootingRange * Vector3.one;
         }
 
 

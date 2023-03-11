@@ -47,7 +47,7 @@ public class TowerDeployeButtonTutorial : DraggableButton
         if (tutorialManager && !tutorialManager.firstStep)
         {
             tutorialManager.TutorialPanelOne.gameObject.SetActive(false);
-            tutorialManager.GlowDeployButtons(false);
+            tutorialManager.ShowDeployButtonsCost(false);
             tutorialManager.ChangeDeployedAreas(2);
             tutorialManager.deployAreas[0].transform.GetComponent<Renderer>().material.color = new Color32(0, 106, 2, 255);
         }
@@ -113,6 +113,8 @@ public class TowerDeployeButtonTutorial : DraggableButton
         if (activeDeploymentArea)
             activeDeploymentArea.DeployAttackUnit(attackType);
 
+
+
         #region Tutorial Stuff
         UIManager.Instance.TryGetComponent(out TutorialManager tutorialManager);
         if (tutorialManager && !tutorialManager.secondStep)
@@ -125,7 +127,7 @@ public class TowerDeployeButtonTutorial : DraggableButton
             {
                 tutorialManager.TutorialPanelOne.gameObject.SetActive(true);
                 tutorialManager.deployAreas[0].gameObject.SetActive(false);
-                tutorialManager.GlowDeployButtons(true);
+                tutorialManager.ShowDeployButtonsCost(true);
             }
             else
             {
@@ -197,6 +199,8 @@ public class TowerDeployeButtonTutorial : DraggableButton
         if (possibleDeploymentArea)
         {
             PlayerUnit possibleTower = possibleDeploymentArea.GetUnitAfterMergeCheck(mainPlayerControl.GetPlayerUnit(attackType));
+            if (possibleTower == null) return;
+
             buttonIcon.sprite = possibleTower.unitPrefab.TowerIcon;
             costText.text = possibleTower.unitPrefab.resourceCost.ToString();
         }
@@ -213,12 +217,14 @@ public class TowerDeployeButtonTutorial : DraggableButton
         if (!spawnedRangeVisualObj) spawnedRangeVisualObj = Instantiate(rangeVisualObjPrefab);
         if (spawnedRangeVisualObj)
         {
+            PlayerUnit possibleTower = possibleDeploymentArea.GetUnitAfterMergeCheck(mainPlayerControl.GetPlayerUnit(attackType));
+            if (possibleTower == null) return;
+
             spawnedRangeVisualObj.transform.position = possibleDeploymentArea.transform.position + new Vector3(0, 0.1f, 0);
             //Multiplied Local Scale by 2 becuase we are dealing with radius in shoooting range,
             //But setting scale here, scale is on either side of pivot while radius extends on one side
             spawnedRangeVisualObj.transform.localScale =
-                2 * possibleDeploymentArea.GetUnitAfterMergeCheck(mainPlayerControl.
-                GetPlayerUnit(attackType)).unitPrefab.shootingRange * Vector3.one;
+                2 * possibleTower.unitPrefab.shootingRange * Vector3.one;
         }
 
 

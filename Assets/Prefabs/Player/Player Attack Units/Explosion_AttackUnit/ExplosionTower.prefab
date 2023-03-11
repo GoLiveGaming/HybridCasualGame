@@ -466,11 +466,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6666375904809360309}
     m_Modifications:
-    - target: {fileID: 1018155704253493930, guid: 9c1565f0361a59e44858a06a6b305ea7,
-        type: 3}
-      propertyPath: m_Layer
-      value: 6
-      objectReference: {fileID: 0}
     - target: {fileID: 1622175445631997838, guid: 9c1565f0361a59e44858a06a6b305ea7,
         type: 3}
       propertyPath: m_Pivot.x
@@ -576,56 +571,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2294619782257198284, guid: 9c1565f0361a59e44858a06a6b305ea7,
-        type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 069466195aec2f2439929f7456c0efa8,
-        type: 3}
-    - target: {fileID: 2294619782257198284, guid: 9c1565f0361a59e44858a06a6b305ea7,
-        type: 3}
-      propertyPath: m_Color.b
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2294619782257198284, guid: 9c1565f0361a59e44858a06a6b305ea7,
-        type: 3}
-      propertyPath: m_Color.g
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2294619782257198284, guid: 9c1565f0361a59e44858a06a6b305ea7,
-        type: 3}
-      propertyPath: m_Color.r
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2380552611379657378, guid: 9c1565f0361a59e44858a06a6b305ea7,
-        type: 3}
-      propertyPath: m_Layer
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 5868567604736521921, guid: 9c1565f0361a59e44858a06a6b305ea7,
-        type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 5868567604736521921, guid: 9c1565f0361a59e44858a06a6b305ea7,
-        type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 6969687894186308724, guid: 9c1565f0361a59e44858a06a6b305ea7,
-        type: 3}
-      propertyPath: m_Layer
-      value: 6
-      objectReference: {fileID: 0}
     - target: {fileID: 8007623357219460829, guid: 9c1565f0361a59e44858a06a6b305ea7,
         type: 3}
       propertyPath: m_Name
       value: Stats Canvas Player Tower
-      objectReference: {fileID: 0}
-    - target: {fileID: 8007623357219460829, guid: 9c1565f0361a59e44858a06a6b305ea7,
-        type: 3}
-      propertyPath: m_Layer
-      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9c1565f0361a59e44858a06a6b305ea7, type: 3}

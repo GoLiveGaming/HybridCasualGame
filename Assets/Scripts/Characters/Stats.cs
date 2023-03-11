@@ -12,8 +12,7 @@ public class Stats : MonoBehaviour
     [Space(2), Header("STATS UI")]
     [SerializeField] private GameObject statsCanvas;
     public Image m_healthBar;
-    [SerializeField] private bool autoRotateHealthbar = true;
-
+    
 
     [Space(2), Header("PLAYER EXCLUSIVE OPTIONS")]
     [SerializeField] private TextMeshProUGUI m_currentTowerTypeText;
@@ -78,7 +77,7 @@ public class Stats : MonoBehaviour
 
         m_currentHealth = Mathf.Clamp(Health, 0, m_MaxHealth);
 
-        if (m_healthBar && autoRotateHealthbar) m_healthBar.transform.rotation = Camera.main.transform.rotation;
+        if (statsCanvas) statsCanvas.transform.rotation = Camera.main.transform.rotation;
     }
     public void SetCurrentUnitTypeText(AttackType type)
     {

@@ -34,7 +34,7 @@ public class TutorialManager : UIManager
     IEnumerator StartTutorial()
     {
         pauseBtn.gameObject.SetActive(false);
-        GlowDeployButtons(false);
+        ShowDeployButtonsCost(false);
         ToggleDeployButtons(false);
         yield return new WaitForSeconds(4f);
         TutorialBouncyText("Skeletons are coming for your Kingdom!", 1);
@@ -59,8 +59,8 @@ public class TutorialManager : UIManager
     }
     public IEnumerator TutorialSecondStep()
     {
-        GlowDeployButtons(false);
-        ToggleDeployButtons(false);
+        ShowDeployButtonsCost(true);
+        ToggleDeployButtons(true);
 
         tutorialBouncyTxtBig.gameObject.SetActive(false);
         
@@ -136,8 +136,8 @@ public class TutorialManager : UIManager
 
     public IEnumerator TutorialThirdStep()
     {
-        GlowDeployButtons(false);
-        ToggleDeployButtons(false);
+        ShowDeployButtonsCost(true);
+        ToggleDeployButtons(true);
 
         tutorialBouncyTxtBig.gameObject.SetActive(false);
 
@@ -169,14 +169,14 @@ public class TutorialManager : UIManager
                 }
             }
         }
-        GlowDeployButtons(false);
+        ShowDeployButtonsCost(false);
         yield return new WaitForSeconds(5f);
         TutorialBouncyText("Different Elements can mix to create new effects!", 1);
         pauseBtn.gameObject.SetActive(true);
         yield return new WaitForSeconds(4f);
         tutorialBouncyTxt.text = "";
     }
-    public void GlowDeployButtons(bool value)
+    public void ShowDeployButtonsCost(bool value)
     {
         for (int i = 0; i < deployButtons.Length; i++)
         {

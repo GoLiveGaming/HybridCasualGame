@@ -1509,9 +1509,9 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6654190893145590472}
   serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0.2
-  m_AngularDrag: 0.05
+  m_Mass: 3
+  m_Drag: 0.5
+  m_AngularDrag: 0.1
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
@@ -1570,7 +1570,6 @@ MonoBehaviour:
   damageNumberColor: {r: 1, g: 1, b: 1, a: 1}
   statsCanvas: {fileID: 5104218174570816593}
   m_healthBar: {fileID: 4214339429552997890}
-  autoRotateHealthbar: 1
   m_currentTowerTypeText: {fileID: 0}
   m_currentTower: {fileID: 0}
   m_NPCManager: {fileID: 0}
@@ -1593,7 +1592,7 @@ MonoBehaviour:
   attackDamage: 2
   detectionRange: 10
   firePointTransform: {fileID: 1166312278386833069}
-  stateRefreshDelay: 0.5
+  stateRefreshDelay: 0.25
   playerTowerLayer:
     serializedVersion: 2
     m_Bits: 64
