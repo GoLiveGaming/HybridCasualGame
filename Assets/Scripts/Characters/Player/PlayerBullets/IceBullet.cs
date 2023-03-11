@@ -29,6 +29,7 @@ public class IceBullet : Bullet
         if (hitNPC._stats)
         {
             hitNPC._stats.damageNumberColor = associatedColor;
+            hitNPC._stats.AddDamage(damage);
             hitNPC._stats.SlowDownMoveSpeed(slowedDownSpeed, slowDownDuration);
         }
 

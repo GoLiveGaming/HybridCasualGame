@@ -7829,7 +7829,7 @@ MonoBehaviour:
   buttonReleasedEvent:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1793876091783007517}
         m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
         m_MethodName: QuitButton
         m_Mode: 1
@@ -9679,7 +9679,7 @@ MonoBehaviour:
   buttonReleasedEvent:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1793876091783007517}
         m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
         m_MethodName: QuitButton
         m_Mode: 1
@@ -24900,7 +24900,7 @@ GameObject:
   - component: {fileID: 1418438135}
   - component: {fileID: 1418438134}
   m_Layer: 5
-  m_Name: WIn Panel (1)
+  m_Name: WIn Panel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -31014,7 +31014,7 @@ GameObject:
   - component: {fileID: 1729935502}
   - component: {fileID: 1729935501}
   m_Layer: 5
-  m_Name: Panel
+  m_Name: Dark BG Panel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -31617,7 +31617,7 @@ GameObject:
   - component: {fileID: 1772577637}
   - component: {fileID: 1772577636}
   m_Layer: 5
-  m_Name: Lose Panel (1)
+  m_Name: Lose Panel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -31637,7 +31637,7 @@ RectTransform:
   m_Children:
   - {fileID: 97845584}
   m_Father: {fileID: 1793876091783007507}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -34188,7 +34188,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1977398744}
   m_Layer: 5
-  m_Name: GameObject
+  m_Name: Gameplay Panel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -43193,8 +43193,8 @@ RectTransform:
   m_Children:
   - {fileID: 1977398744}
   - {fileID: 1418438133}
-  - {fileID: 1793876093041435305}
   - {fileID: 1772577635}
+  - {fileID: 1793876093041435305}
   m_Father: {fileID: 0}
   m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0.413, y: 0, z: 0}
@@ -45273,7 +45273,7 @@ RectTransform:
   - {fileID: 1793876092205552093}
   - {fileID: 1793876091737128142}
   m_Father: {fileID: 1793876091783007507}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -46204,7 +46204,7 @@ MonoBehaviour:
   damageNumberColor: {r: 1, g: 1, b: 1, a: 1}
   statsCanvas: {fileID: 1549371554}
   m_healthBar: {fileID: 505324621}
-  autoRotateHealthbar: 0
+  autoRotateHealthbar: 1
   m_currentTowerTypeText: {fileID: 0}
   m_currentTower: {fileID: 0}
   m_NPCManager: {fileID: 0}
