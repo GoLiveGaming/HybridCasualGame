@@ -2,6 +2,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using NaughtyAttributes;
 
 public class TowerDeployButton : DraggableButton
 {

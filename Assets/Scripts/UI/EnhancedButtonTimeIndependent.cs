@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using NaughtyAttributes;
 
 [RequireComponent(typeof(Button))]
 public class EnhancedButtonTimeIndependent : MonoBehaviour, IPointerDownHandler, IPointerUpHandler

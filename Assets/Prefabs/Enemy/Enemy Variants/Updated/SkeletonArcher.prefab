@@ -1570,9 +1570,11 @@ MonoBehaviour:
   damageNumberColor: {r: 1, g: 1, b: 1, a: 1}
   statsCanvas: {fileID: 5104218174570816593}
   m_healthBar: {fileID: 4214339429552997890}
+  isPlayer: 0
   m_currentTowerTypeText: {fileID: 0}
   m_currentTower: {fileID: 0}
-  m_NPCManager: {fileID: 0}
+  isNPC: 1
+  m_NPCManager: {fileID: 723438294760183354}
   ownerIsPlayer: 0
 --- !u!114 &723438294760183354
 MonoBehaviour:

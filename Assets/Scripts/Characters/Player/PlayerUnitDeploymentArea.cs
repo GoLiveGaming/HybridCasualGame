@@ -1,4 +1,5 @@
 using UnityEngine;
+using NaughtyAttributes;
 
 [RequireComponent(typeof(BoxCollider))]
 public class PlayerUnitDeploymentArea : MonoBehaviour

@@ -1,5 +1,6 @@
 using UnityEngine.AI;
 using UnityEngine;
+using NaughtyAttributes;
 
 [RequireComponent(typeof(Animator))]
 [RequireComponent(typeof(Rigidbody))]

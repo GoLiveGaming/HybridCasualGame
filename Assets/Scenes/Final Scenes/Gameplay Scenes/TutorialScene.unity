@@ -9993,7 +9993,6 @@ Transform:
   - {fileID: 2047701248}
   - {fileID: 159228069}
   - {fileID: 843496761}
-  - {fileID: 1552298945}
   m_Father: {fileID: 1882908599}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -25806,104 +25805,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b7a993b8fd721a648b18112419b5359b, type: 3}
---- !u!1 &1552298944
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1552298945}
-  - component: {fileID: 1552298948}
-  - component: {fileID: 1552298947}
-  - component: {fileID: 1552298946}
-  m_Layer: 0
-  m_Name: Ground (1)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 2147483647
-  m_IsActive: 1
---- !u!4 &1552298945
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1552298944}
-  m_LocalRotation: {x: -0.50000006, y: 0.5, z: -0.49999994, w: 0.5}
-  m_LocalPosition: {x: -0.499984, y: -0.000000059604645, z: 134}
-  m_LocalScale: {x: 30, y: 0.59999996, z: 30}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 572187327}
-  m_RootOrder: 5
-  m_LocalEulerAnglesHint: {x: 0, y: 90, z: -90}
---- !u!64 &1552298946
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1552298944}
-  m_Material: {fileID: 13400000, guid: 1ea1156fc4a22604d991a26fc57fe023, type: 2}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 4300000, guid: e68c93740cd88054bbf08a667de322e5, type: 3}
---- !u!23 &1552298947
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1552298944}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: d5a0972cb8151c340b98d271f9a6c980, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
---- !u!33 &1552298948
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1552298944}
-  m_Mesh: {fileID: 4300000, guid: e68c93740cd88054bbf08a667de322e5, type: 3}
 --- !u!1 &1575713688
 GameObject:
   m_ObjectHideFlags: 0
@@ -39931,8 +39832,10 @@ MonoBehaviour:
   damageNumberColor: {r: 1, g: 1, b: 1, a: 1}
   statsCanvas: {fileID: 6161161906291220309}
   m_healthBar: {fileID: 2966003119259335942}
+  isPlayer: 1
   m_currentTowerTypeText: {fileID: 0}
   m_currentTower: {fileID: 0}
+  isNPC: 0
   m_NPCManager: {fileID: 0}
   ownerIsPlayer: 0
 --- !u!1 &204136389503461017
@@ -42000,8 +41903,10 @@ MonoBehaviour:
   damageNumberColor: {r: 1, g: 1, b: 1, a: 1}
   statsCanvas: {fileID: 8910896873426999912}
   m_healthBar: {fileID: 815493421294209145}
+  isPlayer: 1
   m_currentTowerTypeText: {fileID: 4117732023113290252}
   m_currentTower: {fileID: 0}
+  isNPC: 0
   m_NPCManager: {fileID: 0}
   ownerIsPlayer: 0
 --- !u!95 &1479738668473550005
@@ -46202,8 +46107,10 @@ MonoBehaviour:
   damageNumberColor: {r: 1, g: 1, b: 1, a: 1}
   statsCanvas: {fileID: 1404072716}
   m_healthBar: {fileID: 180366467}
+  isPlayer: 1
   m_currentTowerTypeText: {fileID: 0}
   m_currentTower: {fileID: 0}
+  isNPC: 0
   m_NPCManager: {fileID: 0}
   ownerIsPlayer: 0
 --- !u!4 &2160611799294950985
@@ -47258,8 +47165,10 @@ MonoBehaviour:
   damageNumberColor: {r: 1, g: 1, b: 1, a: 1}
   statsCanvas: {fileID: 5328069167825395926}
   m_healthBar: {fileID: 4110081261015937735}
+  isPlayer: 1
   m_currentTowerTypeText: {fileID: 828056114013399218}
   m_currentTower: {fileID: 0}
+  isNPC: 0
   m_NPCManager: {fileID: 0}
   ownerIsPlayer: 0
 --- !u!1 &2797247369906807908
@@ -47534,8 +47443,10 @@ MonoBehaviour:
   damageNumberColor: {r: 1, g: 1, b: 1, a: 1}
   statsCanvas: {fileID: 5153079424999355235}
   m_healthBar: {fileID: 3997931910144483698}
+  isPlayer: 1
   m_currentTowerTypeText: {fileID: 364695244796574471}
   m_currentTower: {fileID: 0}
+  isNPC: 0
   m_NPCManager: {fileID: 0}
   ownerIsPlayer: 0
 --- !u!1 &2934962429249075409
@@ -48705,8 +48616,10 @@ MonoBehaviour:
   damageNumberColor: {r: 1, g: 1, b: 1, a: 1}
   statsCanvas: {fileID: 6639821389788966204}
   m_healthBar: {fileID: 3232891648199425837}
+  isPlayer: 1
   m_currentTowerTypeText: {fileID: 2209473375531902296}
   m_currentTower: {fileID: 0}
+  isNPC: 0
   m_NPCManager: {fileID: 0}
   ownerIsPlayer: 0
 --- !u!1 &3702490299201256643
@@ -50106,8 +50019,10 @@ MonoBehaviour:
   damageNumberColor: {r: 1, g: 1, b: 1, a: 1}
   statsCanvas: {fileID: 8444853249489967403}
   m_healthBar: {fileID: 417373261426232122}
+  isPlayer: 1
   m_currentTowerTypeText: {fileID: 4016902189976736079}
   m_currentTower: {fileID: 0}
+  isNPC: 0
   m_NPCManager: {fileID: 0}
   ownerIsPlayer: 0
 --- !u!1 &4769301293722913419
@@ -51144,8 +51059,10 @@ MonoBehaviour:
   damageNumberColor: {r: 1, g: 1, b: 1, a: 1}
   statsCanvas: {fileID: 2808361333089239400}
   m_healthBar: {fileID: 6197417409558844281}
+  isPlayer: 1
   m_currentTowerTypeText: {fileID: 7238850078319855884}
   m_currentTower: {fileID: 0}
+  isNPC: 0
   m_NPCManager: {fileID: 0}
   ownerIsPlayer: 0
 --- !u!1 &5321432613798744133
@@ -52023,8 +51940,10 @@ MonoBehaviour:
   damageNumberColor: {r: 1, g: 1, b: 1, a: 1}
   statsCanvas: {fileID: 4393374125205692010}
   m_healthBar: {fileID: 5476533216807390331}
+  isPlayer: 1
   m_currentTowerTypeText: {fileID: 9112088775565858318}
   m_currentTower: {fileID: 0}
+  isNPC: 0
   m_NPCManager: {fileID: 0}
   ownerIsPlayer: 0
 --- !u!4 &6067403361362125100
@@ -52115,8 +52034,10 @@ MonoBehaviour:
   damageNumberColor: {r: 1, g: 1, b: 1, a: 1}
   statsCanvas: {fileID: 4257078356906410186}
   m_healthBar: {fileID: 5470965047087895259}
+  isPlayer: 1
   m_currentTowerTypeText: {fileID: 8762012826807257262}
   m_currentTower: {fileID: 0}
+  isNPC: 0
   m_NPCManager: {fileID: 0}
   ownerIsPlayer: 0
 --- !u!114 &6067726599484994627
@@ -54731,8 +54652,10 @@ MonoBehaviour:
   damageNumberColor: {r: 1, g: 1, b: 1, a: 1}
   statsCanvas: {fileID: 313465012752354321}
   m_healthBar: {fileID: 8404083351563509248}
+  isPlayer: 1
   m_currentTowerTypeText: {fileID: 5104096594688754805}
   m_currentTower: {fileID: 0}
+  isNPC: 0
   m_NPCManager: {fileID: 0}
   ownerIsPlayer: 0
 --- !u!1 &7744341708013994270
@@ -54964,8 +54887,10 @@ MonoBehaviour:
   damageNumberColor: {r: 1, g: 1, b: 1, a: 1}
   statsCanvas: {fileID: 1734438752284045513}
   m_healthBar: {fileID: 7257677071688716954}
+  isPlayer: 1
   m_currentTowerTypeText: {fileID: 0}
   m_currentTower: {fileID: 0}
+  isNPC: 0
   m_NPCManager: {fileID: 0}
   ownerIsPlayer: 0
 --- !u!114 &7988521900451479586

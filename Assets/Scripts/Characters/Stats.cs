@@ -2,6 +2,7 @@ using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using NaughtyAttributes;
 
 public class Stats : MonoBehaviour
 {
@@ -12,14 +13,18 @@ public class Stats : MonoBehaviour
     [Space(2), Header("STATS UI")]
     [SerializeField] private GameObject statsCanvas;
     public Image m_healthBar;
-    
+
+    [Space(5)]
+    public bool isPlayer = true;
 
     [Space(2), Header("PLAYER EXCLUSIVE OPTIONS")]
-    [SerializeField] private TextMeshProUGUI m_currentTowerTypeText;
-    [SerializeField] private PlayerUnitBase m_currentTower;
+    [SerializeField, ShowIf("isPlayer")] private TextMeshProUGUI m_currentTowerTypeText;
+    [SerializeField, ShowIf("isPlayer")] private PlayerUnitBase m_currentTower;
 
+    [Space(5)]
+    public bool isNPC = false;
     [Space(2), Header("NPC EXCLUSIVE OPTIONS")]
-    [SerializeField] private NPCManagerScript m_NPCManager;
+    [SerializeField, ShowIf("isNPC")] private NPCManagerScript m_NPCManager;
 
     [Header("READONLY")]
     [ReadOnly] public bool ownerIsPlayer = false;
@@ -94,7 +99,11 @@ public class Stats : MonoBehaviour
     }
 
 
-
+    [ContextMenu("DAMAGE OVER TIME")]
+    public void AddDamageTest()
+    {
+        AddDamageOverTime(5, 1);
+    }
     public void AddDamageOverTime(float duration, float damageAmount)
     {
         StartCoroutine(DamageOvertime(duration, damageAmount));
@@ -103,12 +112,24 @@ public class Stats : MonoBehaviour
 
     private IEnumerator DamageOvertime(float damageDuration, float damagePerSecond)
     {
+        Material[] meshMaterials = GetComponentInChildren<SkinnedMeshRenderer>().materials;
+
+        foreach (Material mat in meshMaterials)
+        {
+            mat.EnableKeyword("_EMISSION");
+            mat.SetColor("_EmissionColor", damageNumberColor);
+        }
         while (damageDuration > 0)
         {
             Health -= damagePerSecond * Time.deltaTime;
             damageDuration -= Time.deltaTime;
             yield return null;
         }
+        foreach (Material mat in meshMaterials)
+        {
+            mat.DisableKeyword("_EMISSION");
+        }
+
     }
     #region PLAYER EXCLUSIVES
     public void ShowFloatingText(string value)

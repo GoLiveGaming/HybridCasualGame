@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using NaughtyAttributes;
 public class PlayerTower : PlayerUnitBase
 {
     [Space(2), Header("PLAYER TOWER PROPERTIES"), Space(2)]

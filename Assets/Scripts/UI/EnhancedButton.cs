@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using NaughtyAttributes;
 
 [RequireComponent(typeof(Button))]
 public class EnhancedButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
@@ -17,7 +18,7 @@ public class EnhancedButton : MonoBehaviour, IPointerDownHandler, IPointerUpHand
     [SerializeField] protected UnityEvent buttonReleasedEvent = new();
 
 
-    void Start()
+    protected virtual void Start()
     {
         m_Button = GetComponent<Button>();
     }

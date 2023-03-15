@@ -1,6 +1,9 @@
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Audio;
+using UnityEngine.UI;
+using NaughtyAttributes;
 public class MainMenuUIManager : MonoBehaviour
 {
     [Header("PANELS REFRENCES"), Space(2)]
@@ -19,6 +22,11 @@ public class MainMenuUIManager : MonoBehaviour
     [SerializeField, ReadOnly] private LevelLoader levelLoader;
     [SerializeField, ReadOnly] private PlayerDataManager playerDataManager;
 
+
+    public ScrollRect levelSelectScrollRect;
+    public LevelSelectItemView[] levelSelectionItems;
+    private LevelSelectItemView activeLevelSelectItem;
+    private float scrollPosition;
     private void Awake()
     {
         Time.timeScale = 1;
@@ -30,7 +38,15 @@ public class MainMenuUIManager : MonoBehaviour
         levelLoader = LevelLoader.Instance;
         playerDataManager = PlayerDataManager.Instance;
 
+        levelSelectScrollRect.onValueChanged.AddListener(SetActiveLevel);
+        InitializeLevelSelection();
+        SetActiveLevel(Vector2.zero);
+
         UpdateAllTextFields();
+    }
+    private void OnDestroy()
+    {
+        levelSelectScrollRect.onValueChanged.RemoveListener(SetActiveLevel);
     }
 
     #region  Text Fields Update
@@ -54,6 +70,43 @@ public class MainMenuUIManager : MonoBehaviour
         if (selectedLevelText) selectedLevelText.text = playerDataManager.SelectedLevelIndex.ToString();
     }
 
+    private void InitializeLevelSelection()
+    {
+        for (int i = 0; i < levelSelectionItems.Length; i++)
+        {
+            if (i <= playerDataManager.UnlockedLevelsCount)
+                levelSelectionItems[i].Initialize(true);
+            else
+                levelSelectionItems[i].Initialize(false);
+        }
+    }
+    private void SetActiveLevel(Vector2 value)
+    {
+        // Calculate the current scroll position based on the horizontal scrollbar's value
+        scrollPosition = Mathf.Clamp01(value.x);
+
+        // Calculate the index of the nearest item based on the current scroll position
+        int nearestIndex = Mathf.RoundToInt(scrollPosition * (levelSelectionItems.Length - 1));
+
+        // Select the nearest item
+        SelectLevelSelectItem(nearestIndex);
+    }
+
+
+
+    private void SelectLevelSelectItem(int index)
+    {
+        if (activeLevelSelectItem != null && activeLevelSelectItem != levelSelectionItems[index])
+        {
+            activeLevelSelectItem.Deselect();
+        }
+
+        activeLevelSelectItem = levelSelectionItems[index];
+        activeLevelSelectItem.Select();
+        UpdateSelectedLevelText();
+        if (levelSelectionItems[index].isUnlocked)
+            playerDataManager.SelectedLevelIndex = index;
+    }
 
     #endregion
 
@@ -73,7 +126,7 @@ public class MainMenuUIManager : MonoBehaviour
         {
             levelSelectPanel.SetActive(!levelSelectPanel.activeSelf);
         }
-
+        InitializeLevelSelection();
         UpdateSelectedLevelText();
         UpdateCoinsAmountText();
     }
@@ -91,7 +144,7 @@ public class MainMenuUIManager : MonoBehaviour
         {
             unlocksPanel.SetActive(!unlocksPanel.activeSelf);
         }
-        
+
         UpdateCoinsAmountText();
     }
     public void ToggleQuitPanel()
@@ -109,7 +162,7 @@ public class MainMenuUIManager : MonoBehaviour
     }
     public void LoadPlayableLevel()
     {
-       // playerDataManager.SelectedLevelIndex = 1;
+        // playerDataManager.SelectedLevelIndex = 1;
         levelLoader.LoadGameLevel(playerDataManager.SelectedLevelIndex);
     }
 
@@ -121,8 +174,6 @@ public class MainMenuUIManager : MonoBehaviour
             lvl = 0;
         }
         playerDataManager.SelectedLevelIndex = lvl;
-
-        UpdateSelectedLevelText();
     }
     public void SelectPreviousLevel()
     {
@@ -132,8 +183,6 @@ public class MainMenuUIManager : MonoBehaviour
             lvl = playerDataManager.UnlockedLevelsCount;
         }
         playerDataManager.SelectedLevelIndex = lvl;
-
-        UpdateSelectedLevelText();
     }
     public void MuteFX()
     {

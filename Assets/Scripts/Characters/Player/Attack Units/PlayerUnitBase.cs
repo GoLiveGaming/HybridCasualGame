@@ -1,4 +1,5 @@
 using UnityEngine;
+using NaughtyAttributes;
 
 [RequireComponent(typeof(Stats))]
 public class PlayerUnitBase : MonoBehaviour
