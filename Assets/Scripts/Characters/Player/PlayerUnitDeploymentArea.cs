@@ -5,13 +5,14 @@ using NaughtyAttributes;
 public class PlayerUnitDeploymentArea : MonoBehaviour
 {
     [ReadOnly] public PlayerTower deployedTower;
-    [ReadOnly] public bool isAreaAvailable = true;
     private MainPlayerControl _mainPlayerControl;
     private UIManager _uiManager;
     private PlayerDataManager _dataManager;
     private AudioManager _audioManager;
 
     private BoxCollider boxCollider;
+
+    public bool HasDeployedUnit { get { return deployedTower; } }
 
     private void OnDrawGizmos()
     {
@@ -28,54 +29,43 @@ public class PlayerUnitDeploymentArea : MonoBehaviour
         _audioManager = AudioManager.Instance;
         _dataManager = PlayerDataManager.Instance;
 
-
-        deployedTower = GetComponentInChildren<PlayerTower>();
-        isAreaAvailable = true;
     }
 
     public void DeployAttackUnit(AttackType unitType)
     {
-        //if (!isAreaAvailable) { Debug.Log("Area Not Available"); return; }
+        if (HasDeployedUnit) { Debug.Log("Area Not Available"); return; }
 
         PlayerUnit unitSelectedToDeploy = _mainPlayerControl.GetPlayerUnit(unitType);
-        StartDeployemnt(unitSelectedToDeploy);
-
+        DeployUnit(unitSelectedToDeploy);
     }
-    public void StartDeployemnt(PlayerUnit towerSelectedToDeploy)
+
+    public void UpgradeExistingAttackUnit(AttackType unitType)
     {
-        PlayerTower existingUnit = deployedTower;
-
-        DeployUnit(GetUnitAfterMergeCheck(towerSelectedToDeploy));
+        PlayerUnit unitSelectedToDeploy = _mainPlayerControl.GetPlayerUnit(unitType);
+        DeployUnit(GetUnitAfterMergeCheck(unitSelectedToDeploy));
 
 
     }
 
-    void SpawnParticles(int particleIndex, int rotation)
-    {
-        ParticleSystem particleTemp = Instantiate(MainPlayerControl.Instance.towerParticles[particleIndex], transform.position, Quaternion.Euler(rotation, 0f, 0f));
-        Destroy(particleTemp.gameObject, particleTemp.main.duration);
-    }
     public PlayerUnit GetUnitAfterMergeCheck(PlayerUnit towerSelectedToDeploy)
     {
         PlayerTower existingUnit = deployedTower;
-        if (existingUnit == null)
-        {
-            return towerSelectedToDeploy;
-        }
+
         if (existingUnit && existingUnit.supportsCombining)
         {
             foreach (MergingCombinations existingUnitCombination in existingUnit.possibleCombinations)
             {
-                if (towerSelectedToDeploy.unitPrefab.TowerAttackType == existingUnitCombination.combinesWith)
+                if (towerSelectedToDeploy.unitPrefab.TowerAttackType == existingUnitCombination.toYield)
                 {
                     PlayerUnit combinedTower = _mainPlayerControl.GetPlayerUnit(existingUnitCombination.toYield);
 
                     if (!_dataManager.IsAttackTypeUnlocked(combinedTower.unitType)) break;
+                    Debug.Log("Upgrading to: " + combinedTower);
                     return combinedTower;
                 }
             }
         }
-        Debug.Log("No possible merge combinations found for: " + towerSelectedToDeploy);
+        Debug.Log("No possible merge combinations found for: " + towerSelectedToDeploy.unitType);
         return null;
     }
 
@@ -105,10 +95,16 @@ public class PlayerUnitDeploymentArea : MonoBehaviour
 
         }
         deployedTower = spawnedTower;
+        _uiManager.unitUpgradesPanel.SetActive(false);
 
         SpawnParticles(1, -90);
     }
 
+    void SpawnParticles(int particleIndex, int rotation)
+    {
+        ParticleSystem particleTemp = Instantiate(MainPlayerControl.Instance.towerParticles[particleIndex], transform.position, Quaternion.Euler(rotation, 0f, 0f));
+        Destroy(particleTemp.gameObject, particleTemp.main.duration);
+    }
     private void DeleteChildTowers()
     {
         foreach (Transform child in transform)
@@ -125,7 +121,7 @@ public class PlayerUnitDeploymentArea : MonoBehaviour
         {
             if (value == true)
             {
-                if (isAreaAvailable)
+                if (!HasDeployedUnit)
                 {
                     renderer.material.color = Color.green;
                 }

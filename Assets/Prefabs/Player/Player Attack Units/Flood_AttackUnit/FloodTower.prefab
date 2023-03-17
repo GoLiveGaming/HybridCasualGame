@@ -220,12 +220,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_MaxHealth: 100
   m_currentHealth: 100
-  damageNumberColor: {r: 1, g: 1, b: 1, a: 1}
+  damageNumberColor: {r: 0, g: 0.5568628, b: 0.972549, a: 1}
   statsCanvas: {fileID: 2336203022333958955}
   m_healthBar: {fileID: 5806045684717144378}
-  autoRotateHealthbar: 1
+  isPlayer: 1
   m_currentTowerTypeText: {fileID: 7126698258415653711}
   m_currentTower: {fileID: 0}
+  isNPC: 0
   m_NPCManager: {fileID: 0}
   ownerIsPlayer: 0
 --- !u!114 &5713686120818814882
