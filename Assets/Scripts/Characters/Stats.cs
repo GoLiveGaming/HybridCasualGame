@@ -77,10 +77,19 @@ public class Stats : MonoBehaviour
         if (m_currentTower = GetComponent<PlayerUnitBase>()) ownerIsPlayer = true;
         else m_NPCManager = GetComponent<NPCManagerScript>();
 
+        if (ownerIsPlayer && m_currentTower) SetCurrentUnitTypeText(m_currentTower.TowerAttackType);
+        if (ownerIsPlayer && m_currentTower) SetCurrentUnitTypeText(m_currentTower.TowerAttackType);
+
         m_currentHealth = Mathf.Clamp(Health, 0, m_MaxHealth);
 
         if (statsCanvas) statsCanvas.transform.rotation = Camera.main.transform.rotation;
     }
+    public void SetCurrentUnitTypeText(AttackType type)
+    {
+        if (m_currentTowerTypeText) m_currentTowerTypeText.text = m_UIManager.FormatStringNextLineOnUpperCase(type.ToString());
+    }
+
+
 
 
     public void AddDamage(float damageAmount)

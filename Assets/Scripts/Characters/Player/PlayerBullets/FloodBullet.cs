@@ -3,9 +3,10 @@ using UnityEngine;
 public class FloodBullet : Bullet
 {
     [Space(2), Header("BULLET EXTENDED PROPERTIES")]
-    [SerializeField] private BulletAOE bulletAOE;
-    public float slowedDownSpeed = 0.25f;
-    public float slowDownDuration = 3;
+    [SerializeField] private float slowedDownSpeed = 0.25f;
+    [SerializeField] private float slowDownDuration = 3;
+    [SerializeField] private GameObject aoeVisualObj;
+    [SerializeField] private float aoeRadius = 5f;
 
     protected override void OnTriggerEnter(Collider other)
     {
@@ -18,8 +19,28 @@ public class FloodBullet : Bullet
 
     protected override void StartAttack(NPCManagerScript hitNPC)
     {
-        bulletAOE.StartAOEEffect(this);
-        bulletAOE.transform.SetParent(null);
+        if (!hitNPC) return;
+
+        Collider[] hitColliders = new Collider[10];
+
+        int numTargets = Physics.OverlapSphereNonAlloc(transform.position, aoeRadius, hitColliders, collisionLayerMask);
+
+        if (numTargets > 0)
+        {
+            foreach (var hitCollider in hitColliders)
+            {
+                if (hitCollider)
+                {
+                    hitCollider.TryGetComponent(out NPCManagerScript npc);
+                    if (npc)
+                    {
+
+                        npc._stats.damageNumberColor = associatedColor;
+                        npc._stats.SlowDownMoveSpeed(slowedDownSpeed, slowDownDuration);
+                    }
+                }
+            }
+        }
         //END ATTACK
         Destroy(gameObject);
     }

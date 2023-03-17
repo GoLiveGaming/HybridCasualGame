@@ -81,17 +81,11 @@ MonoBehaviour:
   enemyParticles:
   - {fileID: 19800000, guid: a7027a47f33ce3d49887fe2019a51abc, type: 3}
   - {fileID: 5985634496115995770, guid: 1670c3ffa9290c249862358be822a81d, type: 3}
-  deployAreaLayer:
-    serializedVersion: 2
-    m_Bits: 512
-  upgradeButtonPrefab: {fileID: 2531753623963424029, guid: 0352d460eea17544faa430900e660b08,
-    type: 3}
   maxResources: 10
   resourceRechargeRate: 0.5
   currentResourcesCount: 10
   activePlayerTowersList: []
   mainPlayerTower: []
-  _dataManager: {fileID: 0}
   isRecharging: 0
 --- !u!114 &8963271489003074658
 MonoBehaviour:

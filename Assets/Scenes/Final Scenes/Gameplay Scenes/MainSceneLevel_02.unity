@@ -158,7 +158,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 62012219}
-  m_RootOrder: 11
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!65 &6196583
 BoxCollider:
@@ -186,6 +186,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   deployedTower: {fileID: 0}
+  isAreaAvailable: 0
 --- !u!23 &6196585
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -348,7 +349,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 62012219}
-  m_RootOrder: 12
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!65 &34591292
 BoxCollider:
@@ -376,6 +377,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   deployedTower: {fileID: 0}
+  isAreaAvailable: 0
 --- !u!23 &34591294
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -463,6 +465,7 @@ Transform:
   - {fileID: 1358151166}
   - {fileID: 1776424312}
   - {fileID: 1758920555}
+  - {fileID: 553091345}
   - {fileID: 509864646}
   - {fileID: 622060340}
   - {fileID: 6196582}
@@ -1158,7 +1161,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: MainPlayerControl
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 4151113066601636443, guid: 7f9eab9328e5e0547b605942aebcae67, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 7f9eab9328e5e0547b605942aebcae67, type: 3}
 --- !u!1 &210913482
 GameObject:
@@ -2064,7 +2068,7 @@ GameObject:
   - component: {fileID: 435248514}
   - component: {fileID: 435248513}
   - component: {fileID: 435248512}
-  m_Layer: 11
+  m_Layer: 0
   m_Name: Ground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2497,7 +2501,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 62012219}
-  m_RootOrder: 9
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!65 &509864647
 BoxCollider:
@@ -2525,6 +2529,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   deployedTower: {fileID: 0}
+  isAreaAvailable: 0
 --- !u!23 &509864649
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -2636,6 +2641,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   deployedTower: {fileID: 0}
+  isAreaAvailable: 0
 --- !u!23 &514610502
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -2881,6 +2887,118 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 551112581}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &553091344
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 553091345}
+  - component: {fileID: 553091349}
+  - component: {fileID: 553091348}
+  - component: {fileID: 553091347}
+  - component: {fileID: 553091346}
+  m_Layer: 9
+  m_Name: Deploy Area  (20)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 4
+  m_IsActive: 1
+--- !u!4 &553091345
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 553091344}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
+  m_LocalPosition: {x: 0, y: 0.0001, z: -50}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 62012219}
+  m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+--- !u!65 &553091346
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 553091344}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 10, y: 0.5, z: 10}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &553091347
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 553091344}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d819f42b7fd5d5e45b336fa3e7b58dc3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  deployedTower: {fileID: 0}
+  isAreaAvailable: 0
+--- !u!23 &553091348
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 553091344}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 4d07c24d57b445a4f80bf8525e19cf0a, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!33 &553091349
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 553091344}
+  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1001 &571428003
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3155,7 +3273,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 62012219}
-  m_RootOrder: 10
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!65 &622060341
 BoxCollider:
@@ -3183,6 +3301,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   deployedTower: {fileID: 0}
+  isAreaAvailable: 0
 --- !u!23 &622060343
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -3297,7 +3416,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 62012219}
-  m_RootOrder: 18
+  m_RootOrder: 19
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!65 &662018995
 BoxCollider:
@@ -3325,6 +3444,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   deployedTower: {fileID: 0}
+  isAreaAvailable: 0
 --- !u!23 &662018997
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -3598,6 +3718,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   deployedTower: {fileID: 0}
+  isAreaAvailable: 0
 --- !u!23 &692024931
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -4154,6 +4275,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   deployedTower: {fileID: 0}
+  isAreaAvailable: 0
 --- !u!23 &841964827
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -4502,6 +4624,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   deployedTower: {fileID: 0}
+  isAreaAvailable: 0
 --- !u!23 &994505194
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -4613,6 +4736,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   deployedTower: {fileID: 0}
+  isAreaAvailable: 0
 --- !u!23 &1020977793
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -5103,7 +5227,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 62012219}
-  m_RootOrder: 20
+  m_RootOrder: 21
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!65 &1100682813
 BoxCollider:
@@ -5131,6 +5255,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   deployedTower: {fileID: 0}
+  isAreaAvailable: 0
 --- !u!23 &1100682815
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -5372,7 +5497,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 62012219}
-  m_RootOrder: 14
+  m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!65 &1163958512
 BoxCollider:
@@ -5400,6 +5525,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   deployedTower: {fileID: 0}
+  isAreaAvailable: 0
 --- !u!23 &1163958514
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -5595,7 +5721,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 62012219}
-  m_RootOrder: 17
+  m_RootOrder: 18
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!65 &1187974355
 BoxCollider:
@@ -5623,6 +5749,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   deployedTower: {fileID: 0}
+  isAreaAvailable: 0
 --- !u!23 &1187974357
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -5763,6 +5890,86 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3673217898529714200, guid: 1487f4298afc2eb4fa226fe4175c874c,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3673217898529714200, guid: 1487f4298afc2eb4fa226fe4175c874c,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3673217898529714200, guid: 1487f4298afc2eb4fa226fe4175c874c,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3673217898529714200, guid: 1487f4298afc2eb4fa226fe4175c874c,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3673217899191785126, guid: 1487f4298afc2eb4fa226fe4175c874c,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3673217899191785126, guid: 1487f4298afc2eb4fa226fe4175c874c,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3673217899191785126, guid: 1487f4298afc2eb4fa226fe4175c874c,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3673217899191785126, guid: 1487f4298afc2eb4fa226fe4175c874c,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3673217899398535516, guid: 1487f4298afc2eb4fa226fe4175c874c,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3673217899398535516, guid: 1487f4298afc2eb4fa226fe4175c874c,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3673217899398535516, guid: 1487f4298afc2eb4fa226fe4175c874c,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3673217899398535516, guid: 1487f4298afc2eb4fa226fe4175c874c,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3673217899494654873, guid: 1487f4298afc2eb4fa226fe4175c874c,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3673217899494654873, guid: 1487f4298afc2eb4fa226fe4175c874c,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3673217899494654873, guid: 1487f4298afc2eb4fa226fe4175c874c,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3673217899494654873, guid: 1487f4298afc2eb4fa226fe4175c874c,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6570039173055379616, guid: 1487f4298afc2eb4fa226fe4175c874c,
         type: 3}
       propertyPath: m_Pivot.x
@@ -6346,7 +6553,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 62012219}
-  m_RootOrder: 16
+  m_RootOrder: 17
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!65 &1302107350
 BoxCollider:
@@ -6374,6 +6581,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   deployedTower: {fileID: 0}
+  isAreaAvailable: 0
 --- !u!23 &1302107352
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -6595,6 +6803,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   deployedTower: {fileID: 0}
+  isAreaAvailable: 0
 --- !u!23 &1358151169
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -7188,6 +7397,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   deployedTower: {fileID: 0}
+  isAreaAvailable: 0
 --- !u!23 &1485734952
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -7583,7 +7793,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 62012219}
-  m_RootOrder: 13
+  m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!65 &1617871070
 BoxCollider:
@@ -7611,6 +7821,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   deployedTower: {fileID: 0}
+  isAreaAvailable: 0
 --- !u!23 &1617871072
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -8237,6 +8448,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   deployedTower: {fileID: 0}
+  isAreaAvailable: 0
 --- !u!23 &1758920558
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -8589,6 +8801,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   deployedTower: {fileID: 0}
+  isAreaAvailable: 0
 --- !u!23 &1776424315
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -8782,7 +8995,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 62012219}
-  m_RootOrder: 19
+  m_RootOrder: 20
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!65 &1839584770
 BoxCollider:
@@ -8810,6 +9023,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   deployedTower: {fileID: 0}
+  isAreaAvailable: 0
 --- !u!23 &1839584772
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -9282,7 +9496,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 62012219}
-  m_RootOrder: 15
+  m_RootOrder: 16
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!65 &1941660116
 BoxCollider:
@@ -9310,6 +9524,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   deployedTower: {fileID: 0}
+  isAreaAvailable: 0
 --- !u!23 &1941660118
 MeshRenderer:
   m_ObjectHideFlags: 0

@@ -10,9 +10,6 @@ public class Utils : MonoBehaviour
     {
         Instance = this;
     }
-
-
-  
 }
 
 
@@ -51,4 +48,3 @@ public class MergingCombinations
     public AttackType combinesWith;
     public AttackType toYield;
 }
-

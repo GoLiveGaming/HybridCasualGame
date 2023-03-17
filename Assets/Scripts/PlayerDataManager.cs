@@ -27,8 +27,8 @@ public class PlayerDataManager : SingletonPersistent<PlayerDataManager>
 
 
             PlayerPrefs.SetInt("coinsAmount", 0);
-            PlayerPrefs.SetInt("unlockedLevelsCount", 1);
-            PlayerPrefs.SetInt("selectedLevelIndex", 1);
+            PlayerPrefs.SetInt("unlockedLevelsCount", 0);
+            PlayerPrefs.SetInt("selectedLevelIndex", 0);
             PlayerPrefs.SetInt("totalLevels", 5);
 
 

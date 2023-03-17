@@ -6,7 +6,6 @@ public class Bullet : MonoBehaviour
     public float lifetime = 2f;
 
     public float damage = 2f;
-    public float damageDuration = 5f;
     public LayerMask collisionLayerMask;
     public Color associatedColor;
 
