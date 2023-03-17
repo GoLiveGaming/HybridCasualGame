@@ -3,7 +3,6 @@ using UnityEngine;
 public class FireBullet : Bullet
 {
     [Space(2), Header("BULLET EXTENDED PROPERTIES")]
-    [SerializeField] private float damageDuration = 5f;
 
     [SerializeField] private ParticleSystem ExplosionPrefab;
 

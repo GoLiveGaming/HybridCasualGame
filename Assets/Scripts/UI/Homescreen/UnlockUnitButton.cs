@@ -4,7 +4,7 @@ using UnityEngine.UI;
 using NaughtyAttributes;
 
 [RequireComponent(typeof(Button))]
-public class UpgradeButton : MonoBehaviour
+public class UnlockUnitButton : MonoBehaviour
 {
     [ReadOnly] public bool isUnlocked = false;
     [ReadOnly] public Button button;

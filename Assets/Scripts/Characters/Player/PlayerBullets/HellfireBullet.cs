@@ -3,7 +3,8 @@ using UnityEngine;
 public class HellfireBullet : Bullet
 {
     [Space(2), Header("BULLET EXTENDED PROPERTIES")]
-    [SerializeField] private float damageDuration = 5f;
+
+    [SerializeField] private BulletAOE bulletAOE;
 
     private void Awake()
     {
@@ -21,12 +22,8 @@ public class HellfireBullet : Bullet
 
     protected override void StartAttack(NPCManagerScript hitNPC)
     {
-        if (!hitNPC) return;
-        if (hitNPC._stats)
-        {
-            hitNPC._stats.damageNumberColor = associatedColor;
-            hitNPC._stats.AddDamageOverTime(damageDuration, damage);
-        }
+        bulletAOE.StartAOEEffect(this);
+        bulletAOE.transform.SetParent(null);
 
         //END ATTACK
         Destroy(gameObject);

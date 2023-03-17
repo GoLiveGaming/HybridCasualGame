@@ -71,15 +71,15 @@ public class TutorialManager : UIManager
         Utils.isGamePaused = false;
         for (int i = 0; i < deployAreas.Length; i++)
         {
-            deployAreas[i].gameObject.SetActive(true);
+            deployAreas[i].SetActive(true);
         }
         TutorialBouncyText("Placing a Wizard Tower Costs Mana", 1);
-        manaObjects[0].gameObject.SetActive(true);
-        manaObjects[1].gameObject.SetActive(true);
+        manaObjects[0].SetActive(true);
+        manaObjects[1].SetActive(true);
         yield return new WaitForSeconds(10f);
         tutorialBouncyTxt.text = "";
-        manaObjects[0].gameObject.SetActive(false);
-        manaObjects[1].gameObject.SetActive(false);
+        manaObjects[0].SetActive(false);
+        manaObjects[1].SetActive(false);
         yield return new WaitForSeconds(3f);
         TutorialBouncyText("Your Wizard Tower will repel the skeleton horde!", 1);
         yield return new WaitForSeconds(6f);

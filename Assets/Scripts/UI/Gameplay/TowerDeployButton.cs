@@ -20,7 +20,7 @@ public class TowerDeployButton : DraggableButton
     private bool initialized = false;
     public bool ableToDrag = true;
 
-    private bool resourcesAvailable
+    private bool ResourcesAvailable
     {
         get
         {
@@ -40,7 +40,7 @@ public class TowerDeployButton : DraggableButton
     {
         if (!ableToDrag)
             return;
-        if (!resourcesAvailable) return;
+        if (!ResourcesAvailable) return;
 
         base.OnBeginDrag(eventData);
     }
@@ -48,7 +48,7 @@ public class TowerDeployButton : DraggableButton
     {
         if (!ableToDrag)
             return;
-        if (!resourcesAvailable) return;
+        if (!ResourcesAvailable) return;
         base.OnDrag(eventData);
 
         Ray ray = Camera.main.ScreenPointToRay(transform.position);
@@ -62,22 +62,24 @@ public class TowerDeployButton : DraggableButton
                 if (possibleDeploymentArea != activeDeploymentArea)
                 {
                     ResetButton();
-                    ReInitializeButton(possibleDeploymentArea);
+                    InitializeButton(possibleDeploymentArea);
                     possibleDeploymentArea.ToggleHighlightArea(true);
+
                 }
                 HandleRangeVisuaizer(possibleDeploymentArea);
                 return;
             }
-
         }
-        ResetButton();
-
+        else
+        {
+            ResetButton();
+        }
     }
     public override void OnPointerDown(PointerEventData eventData)
     {
         if (!ableToDrag)
             return;
-        if (!resourcesAvailable)
+        if (!ResourcesAvailable)
         {
             uiManager.ShowWarningText = mainPlayerControl.GetPlayerUnit(attackType).unitPrefab.TowerAttackType.ToString() + "Unit Needs: " + mainPlayerControl.GetPlayerUnit(attackType).unitPrefab.resourceCost.ToString() + " Gems";
             return;
@@ -90,7 +92,7 @@ public class TowerDeployButton : DraggableButton
         if (!ableToDrag)
             return;
 
-        if (!resourcesAvailable) return;
+        if (!ResourcesAvailable) return;
 
         base.OnPointerUp(eventData);
 
@@ -100,19 +102,6 @@ public class TowerDeployButton : DraggableButton
         ResetButton();
     }
 
-
-    void ReInitializeButton(PlayerUnitDeploymentArea possibleDeploymentArea)
-    {
-        if (initialized) return;
-        initialized = true;
-
-        if (!possibleDeploymentArea) return;
-
-        activeDeploymentArea = possibleDeploymentArea;
-
-        InitializeButton(possibleDeploymentArea);
-
-    }
     void ResetButton()
     {
         if (!initialized) return;
@@ -133,9 +122,15 @@ public class TowerDeployButton : DraggableButton
 
     void InitializeButton(PlayerUnitDeploymentArea possibleDeploymentArea = null)
     {
-        if (possibleDeploymentArea)
+
+        if (possibleDeploymentArea != null)
         {
-            PlayerUnit possibleTower = possibleDeploymentArea.GetUnitAfterMergeCheck(mainPlayerControl.GetPlayerUnit(attackType));
+            if (initialized) return;
+            initialized = true;
+
+            activeDeploymentArea = possibleDeploymentArea;
+
+            PlayerUnit possibleTower = mainPlayerControl.GetPlayerUnit(attackType);
             if (possibleTower == null) return;
 
             buttonIcon.sprite = possibleTower.unitPrefab.TowerIcon;
@@ -154,9 +149,14 @@ public class TowerDeployButton : DraggableButton
         if (!spawnedRangeVisualObj) spawnedRangeVisualObj = Instantiate(rangeVisualObjPrefab);
         if (spawnedRangeVisualObj)
         {
-            PlayerUnit possibleTower = possibleDeploymentArea.GetUnitAfterMergeCheck(mainPlayerControl.GetPlayerUnit(attackType));
-            if (possibleTower == null) return;
-            
+            if (possibleDeploymentArea.HasDeployedUnit)
+            {
+                Destroy(spawnedRangeVisualObj);
+                return;
+            }
+
+            PlayerUnit possibleTower = mainPlayerControl.GetPlayerUnit(attackType);
+
             spawnedRangeVisualObj.transform.position = possibleDeploymentArea.transform.position + new Vector3(0, 0.1f, 0);
             //Multiplied Local Scale by 2 becuase we are dealing with radius in shoooting range,
             //But setting scale here, scale is on either side of pivot while radius extends on one side

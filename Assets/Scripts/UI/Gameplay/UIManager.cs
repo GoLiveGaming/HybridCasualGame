@@ -19,6 +19,8 @@ public class UIManager : Singleton<UIManager>
     public GameObject gameLostPanel;
     public GameObject loadingPanel;
     public GameObject floatingTextPanel;
+    public GameObject unitUpgradesPanel;
+    public GameObject unitUpgradesButtonParent;
 
     [Header("Button Componenets")]
     public Button pauseBtn;
@@ -116,7 +118,7 @@ public class UIManager : Singleton<UIManager>
     }
     public void MatchFinished(bool hasWon)
     {
-        floatingTextPanel.gameObject.SetActive(false);
+        floatingTextPanel.SetActive(false);
 
         string eventName = "Level_0" + (playerDataManager.SelectedLevelIndex);
 
