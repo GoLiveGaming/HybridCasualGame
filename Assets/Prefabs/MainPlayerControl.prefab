@@ -84,7 +84,7 @@ MonoBehaviour:
   deployAreaLayer:
     serializedVersion: 2
     m_Bits: 512
-  upgradeButtonPrefab: {fileID: 2531753623963424029, guid: 0352d460eea17544faa430900e660b08,
+  upgradeButtonPrefab: {fileID: 4682743607638969579, guid: 0352d460eea17544faa430900e660b08,
     type: 3}
   maxResources: 10
   resourceRechargeRate: 0.5

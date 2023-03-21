@@ -9,6 +9,7 @@ public class TutorialManager : UIManager
     internal bool firstStep, secondStep, thirdStep;
 
     public RectTransform TutorialPanelOne;
+    public Button pauseBtn;
 
     public TMP_Text tutorialBouncyTxt;
     public TMP_Text tutorialBouncyTxtBig;
@@ -28,7 +29,6 @@ public class TutorialManager : UIManager
     {
         base.Start();
         TutorialPanelOne.gameObject.SetActive(false);
-        waveTxt.gameObject.SetActive(false);
         StartCoroutine(StartTutorial());
     }
     IEnumerator StartTutorial()
@@ -48,9 +48,9 @@ public class TutorialManager : UIManager
         tutorialBouncyTxtBig.gameObject.SetActive(true);
         TutorialPanelOne.gameObject.SetActive(true);
         tutorialBouncyTxtBig.text = "Let's bring in a Wizard to help defend your Castle!";
-        for (int i = 0; i < EnemySpawners.Instance.enemiesParent.childCount; i++)
+        for (int i = 0; i < LevelManager.Instance.enemiesParent.childCount; i++)
         {
-            EnemySpawners.Instance.enemiesParent.GetChild(i).GetComponent<NPCManagerScript>().SetMoveSpeed(0);
+            LevelManager.Instance.enemiesParent.GetChild(i).GetComponent<NPCManagerScript>().SetMoveSpeed(0);
         }
         Utils.isGamePaused = true;
         //GlowDeployButtons(true);
@@ -64,9 +64,9 @@ public class TutorialManager : UIManager
 
         tutorialBouncyTxtBig.gameObject.SetActive(false);
         
-        for (int i = 0; i < EnemySpawners.Instance.enemiesParent.childCount; i++)
+        for (int i = 0; i < LevelManager.Instance.enemiesParent.childCount; i++)
         {
-            EnemySpawners.Instance.enemiesParent.GetChild(i).GetComponent<NPCManagerScript>().ResetMoveSpeed();
+            LevelManager.Instance.enemiesParent.GetChild(i).GetComponent<NPCManagerScript>().ResetMoveSpeed();
         }
         Utils.isGamePaused = false;
         for (int i = 0; i < deployAreas.Length; i++)
@@ -106,9 +106,9 @@ public class TutorialManager : UIManager
         tutorialBouncyTxtBig.text = "Combine Spells to make stronger Towers!";
         secondStep = true;
         ChangeDeployedAreas(1);
-        for (int i = 0; i < EnemySpawners.Instance.enemiesParent.childCount; i++)
+        for (int i = 0; i < LevelManager.Instance.enemiesParent.childCount; i++)
         {
-            EnemySpawners.Instance.enemiesParent.GetChild(i).GetComponent<NPCManagerScript>().SetMoveSpeed(0);
+            LevelManager.Instance.enemiesParent.GetChild(i).GetComponent<NPCManagerScript>().SetMoveSpeed(0);
         }
         Utils.isGamePaused = true;
         for (int k = 0; k < deployAreas.Length; k++)
@@ -141,9 +141,9 @@ public class TutorialManager : UIManager
 
         tutorialBouncyTxtBig.gameObject.SetActive(false);
 
-        for (int i = 0; i < EnemySpawners.Instance.enemiesParent.childCount; i++)
+        for (int i = 0; i < LevelManager.Instance.enemiesParent.childCount; i++)
         {
-            EnemySpawners.Instance.enemiesParent.GetChild(i).GetComponent<NPCManagerScript>().ResetMoveSpeed();
+            LevelManager.Instance.enemiesParent.GetChild(i).GetComponent<NPCManagerScript>().ResetMoveSpeed();
         }
         Utils.isGamePaused = false;
         ChangeDeployedAreas(2);

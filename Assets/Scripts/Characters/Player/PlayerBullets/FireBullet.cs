@@ -4,6 +4,8 @@ public class FireBullet : Bullet
 {
     [Space(2), Header("BULLET EXTENDED PROPERTIES")]
 
+    public float damageDuration = 5f;
+
     [SerializeField] private ParticleSystem ExplosionPrefab;
 
     private void Awake()

@@ -103,7 +103,7 @@ public class MainPlayerControl : MonoBehaviour
     {
         Vector3 screenPosition = Camera.main.WorldToScreenPoint(area.transform.position);
 
-        foreach (Transform tf in uiManager.unitUpgradesButtonParent.transform)
+        foreach (Transform tf in uiManager.unitUpgradesPanel.transform)
         {
             Destroy(tf.gameObject);
         }
@@ -111,12 +111,13 @@ public class MainPlayerControl : MonoBehaviour
         {
             if (!_dataManager.IsAttackTypeUnlocked(existingUnitCombination.toYield)) continue;
 
-            UnitUpgradesButton upgradesButton = Instantiate(upgradeButtonPrefab, uiManager.unitUpgradesButtonParent.transform);
+            UnitUpgradesButton upgradesButton = Instantiate(upgradeButtonPrefab, uiManager.unitUpgradesPanel.transform);
 
             upgradesButton.InitializeButton(GetPlayerUnit(existingUnitCombination.toYield), area);
         }
+
         RectTransform rectTransform = uiManager.unitUpgradesPanel.GetComponent<RectTransform>();
-        rectTransform.position = screenPosition;
+        rectTransform.position = screenPosition + new Vector3(0, 400, 0);
         uiManager.unitUpgradesPanel.SetActive(true);
     }
 

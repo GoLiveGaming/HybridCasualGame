@@ -3,7 +3,8 @@ using UnityEngine;
 public class FloodBullet : Bullet
 {
     [Space(2), Header("BULLET EXTENDED PROPERTIES")]
-    [SerializeField] private BulletAOE bulletAOE;
+
+    [SerializeField] private FloodBulletAOE bulletAOE;
     public float slowedDownSpeed = 0.25f;
     public float slowDownDuration = 3;
 
@@ -11,16 +12,25 @@ public class FloodBullet : Bullet
     {
         if (IsInLayerMask(other.gameObject.layer, collisionLayerMask))
         {
-            other.TryGetComponent(out NPCManagerScript npcManager);
-            StartAttack(npcManager);
+            if (AudioManager.Instance) AudioManager.Instance.audioSource.PlayOneShot(AudioManager.Instance.FireBallHit);
+            if (other.TryGetComponent(out NPCManagerScript npcManager))
+                StartAttack(npcManager);
+            if (other.TryGetComponent(out BulletAOE aoe))
+            {
+                aoe.StartExpandingAOE();
+                DestroySelf();
+            }
         }
     }
 
     protected override void StartAttack(NPCManagerScript hitNPC)
     {
-        bulletAOE.StartAOEEffect(this);
-        bulletAOE.transform.SetParent(null);
         //END ATTACK
-        Destroy(gameObject);
+        bulletAOE.StartAOEEffect();
+        bulletAOE.transform.SetParent(null);
+
+        bulletAOE.Initialize(slowedDownSpeed, slowDownDuration, associatedColor);
+
+        DestroySelf();
     }
 }

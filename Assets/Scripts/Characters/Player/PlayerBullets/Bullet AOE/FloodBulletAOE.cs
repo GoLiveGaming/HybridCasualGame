@@ -4,16 +4,21 @@ using UnityEngine;
 
 public class FloodBulletAOE : BulletAOE
 {
+    private float slowedDownSpeed;
+    private float slowDownDuration;
+    private Color associatedColor;
+    public void Initialize(float slowedSpeed, float slowDuration, Color _associatedColor)
+    {
+        slowedDownSpeed = slowedSpeed;
+        slowDownDuration = slowDuration;
+        associatedColor = _associatedColor;
+    }
     protected override void OnTriggerEnter(Collider other)
     {
-        if (m_OwnerBullet.gameObject.TryGetComponent(out FloodBullet floodBullet))
+        if (other.TryGetComponent(out NPCManagerScript hitNPC))
         {
-
-            if (other.TryGetComponent(out NPCManagerScript hitNPC))
-            {
-                hitNPC._stats.damageNumberColor = floodBullet.associatedColor;
-                hitNPC._stats.SlowDownMoveSpeed(floodBullet.slowedDownSpeed, floodBullet.slowDownDuration);
-            }
+            hitNPC._stats.damageNumberColor = associatedColor;
+            hitNPC._stats.SlowDownMoveSpeed(slowedDownSpeed, slowDownDuration);
         }
 
     }

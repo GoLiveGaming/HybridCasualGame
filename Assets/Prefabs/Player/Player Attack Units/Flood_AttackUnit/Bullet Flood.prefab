@@ -208,7 +208,6 @@ MonoBehaviour:
   speed: 25
   lifetime: 10
   damage: 1
-  damageDuration: 5
   collisionLayerMask:
     serializedVersion: 2
     m_Bits: 128
@@ -342,9 +341,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_AOELifetime: 3
   m_AOEStartSize: 0
-  m_AOEEndSize: 1
+  m_AOESizeIncrement: 1
   m_AOETransitionTime: 1.5
   groundLayer:
     serializedVersion: 2
-    m_Bits: 2048
+    m_Bits: 2049
   m_ParticleEffect: {fileID: 0}

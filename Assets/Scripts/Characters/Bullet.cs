@@ -6,7 +6,6 @@ public class Bullet : MonoBehaviour
     public float lifetime = 2f;
 
     public float damage = 2f;
-    public float damageDuration = 5f;
     public LayerMask collisionLayerMask;
     public Color associatedColor;
 
@@ -47,4 +46,6 @@ public class Bullet : MonoBehaviour
     protected virtual void StartAttack(NPCManagerScript hitNPC) { }
 
     protected virtual void StartAttackTower(PlayerTower hitMain) { }
+
+    protected virtual void DestroySelf() { Destroy(gameObject); }
 }

@@ -6,17 +6,16 @@ public class BulletAOE : MonoBehaviour
 {
     [SerializeField] protected float m_AOELifetime = 2f;
     [SerializeField] protected float m_AOEStartSize = 0;
-    [SerializeField] protected float m_AOEEndSize = 1;
+    [SerializeField] protected float m_AOESizeIncrement = 1;
     [SerializeField] protected float m_AOETransitionTime = 2;
     [SerializeField] protected LayerMask groundLayer;
 
     [SerializeField] protected ParticleSystem m_ParticleEffect;
 
-    protected Bullet m_OwnerBullet;
 
-    public virtual void StartAOEEffect(Bullet OwnerBullet)
+
+    public virtual void StartAOEEffect()
     {
-        m_OwnerBullet = OwnerBullet;
 
         GetComponent<SphereCollider>().isTrigger = true;
 
@@ -31,39 +30,67 @@ public class BulletAOE : MonoBehaviour
 
         if (m_ParticleEffect != null) m_ParticleEffect.Play();
 
-        StartCoroutine(ExpandAOEOverTime());
+        StartExpandingAOE();
 
     }
 
-    protected virtual IEnumerator ExpandAOEOverTime()
-    {
-        float time = 0;
+    private float m_AccumulatedDesiredSize = 0;
+    private float m_ElapsedTime = 0;
+    private bool m_IsScaling = false;
 
-        while (time < m_AOETransitionTime)
+    public void StartExpandingAOE()
+    {
+        // Add the desired size to the accumulated desired size
+        m_AccumulatedDesiredSize += m_AOESizeIncrement;
+
+        if (!m_IsScaling)
         {
-            float scale = Mathf.Lerp(m_AOEStartSize, m_AOEEndSize, time / m_AOETransitionTime);
+            // If the object is not currently scaling, start the coroutine
+            m_IsScaling = true;
+            StartCoroutine(ScaleOverTime());
+        }
+    }
+
+    protected virtual IEnumerator ScaleOverTime()
+    {
+        // Set the start scale and final scale based on the accumulated desired size
+        float startScale = transform.localScale.x;
+        float finalScale = startScale + m_AccumulatedDesiredSize;
+
+        // Set the elapsed time to zero
+        m_ElapsedTime = 0;
+
+        while (m_ElapsedTime < m_AOETransitionTime)
+        {
+            // Calculate the scale for this frame
+            float scale = Mathf.Lerp(startScale, finalScale, m_ElapsedTime / m_AOETransitionTime);
+
+            // Set the scale of the object
             transform.localScale = new Vector3(scale, scale, scale);
 
-            time += Time.deltaTime;
+            // Increment the elapsed time
+            m_ElapsedTime += Time.deltaTime;
+
+            // Wait for the next frame
             yield return null;
         }
 
-        // Make sure the scale is set to the final value
-        transform.localScale = new Vector3(m_AOEEndSize, m_AOEEndSize, m_AOEEndSize);
+        // Set the final scale of the object
+        transform.localScale = new Vector3(finalScale, finalScale, finalScale);
 
-        float timeLeftforAOE = Mathf.Clamp(m_AOELifetime, 0, m_AOELifetime - m_AOETransitionTime);
+        // Reset the accumulated desired size and elapsed time
+        m_AccumulatedDesiredSize = 0;
+        m_ElapsedTime = 0;
 
-        yield return new WaitForSeconds(timeLeftforAOE);
+        // Set the scaling flag to false
+        m_IsScaling = false;
 
+        // Destroy the object after the specified lifetime
+        yield return new WaitForSeconds(m_AOELifetime - m_AOETransitionTime);
         Destroy(gameObject);
     }
 
     protected virtual void OnTriggerEnter(Collider other)
     {
-        if (other.TryGetComponent(out NPCManagerScript hitNPC))
-        {
-            hitNPC._stats.damageNumberColor = m_OwnerBullet.associatedColor;
-            hitNPC._stats.AddDamage(m_OwnerBullet.damage);
-        }
     }
 }

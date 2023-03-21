@@ -55,9 +55,8 @@ public class Stats : MonoBehaviour
                 }
                 else
                 {
-                    m_LevelManager.deadEnemiesCount--;
-                    m_UIManager.enemiesCountTxt.text = LevelManager.Instance.deadEnemiesCount.ToString();
-                    if (m_LevelManager.deadEnemiesCount <= 0)
+                    m_LevelManager.deadEnemiesCount++;
+                    if (m_LevelManager.AliveEnemiesLeft <= 0)
                     {
                         m_UIManager.MatchFinished(true);
                         if (AudioManager.Instance) AudioManager.Instance.audioSource.PlayOneShot(AudioManager.Instance.Victory);

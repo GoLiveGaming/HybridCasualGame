@@ -37,6 +37,14 @@ public enum TowerState
     Destroyed
 }
 
+public enum EnemyTypes
+{
+    Melee,
+    Heavies,
+    Ranged,
+    RangedBig
+}
+
 
 [Serializable]
 public class PlayerUnit
@@ -51,4 +59,5 @@ public class MergingCombinations
     public AttackType combinesWith;
     public AttackType toYield;
 }
+
 

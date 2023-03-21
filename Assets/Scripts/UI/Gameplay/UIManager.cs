@@ -14,34 +14,24 @@ public class UIManager : Singleton<UIManager>
     public GameObject rootcanvas;
     public GameObject gameplayItemsCanvas;
     public GameObject unitSelectionCanvas;
+    public GameObject incomingWavePanel;
     public GameObject pausePanel;
     public GameObject gameWinPanel;
     public GameObject gameLostPanel;
     public GameObject loadingPanel;
     public GameObject floatingTextPanel;
     public GameObject unitUpgradesPanel;
-    public GameObject unitUpgradesButtonParent;
-
-    [Header("Button Componenets")]
-    public Button pauseBtn;
-    public Button resumeBtn;
-    public Button restartBtn;
-    public Button quitBtn;
 
     [Header("Image Componenets")]
     public Image resourceMeter;
     public Image loadingfiller;
 
     [Header("Text Componenets")]
-    public TMP_Text waveTxt;
-    public TMP_Text enemiesCountTxt;
-    public TMP_Text m_warningText;
     public TMP_Text resourcesCount;
-    public TMP_Text meleeCount;
-    public TMP_Text heaviesCount;
-    public TMP_Text rangedCount;
-    public TMP_Text eliteCount;
-    public TMP_Text totalEnemiesCount;
+    public TMP_Text m_warningText;
+    public TMP_Text nextWaveTimer;
+
+    [Header("WIN/LOOSE PANEL")]
     public TMP_Text lastwaveInLosePanel;
     public TMP_Text lastwaveInWinPanel;
     public TMP_Text enemiesSlainInLosePanel;
@@ -49,12 +39,18 @@ public class UIManager : Singleton<UIManager>
 
     [Header("Animator Components")]
     public Animator resourceMeterAnimator;
-    public Animator waveAnimator;
 
     [Header("GLOBAL REFRENCE UI")]
     public TMP_Text m_damageTextPrefab;
     public TMP_Text m_floatingTextPrefab;
-    readonly Queue<TMP_Text> damageTextQueue = new();
+
+    [Header("ENEMY DATA PARAMETERS")]
+    public EnemySpawnMarker[] enemySpawnMarkers;
+
+
+
+
+    private readonly Queue<TMP_Text> damageTextQueue = new();
     private LevelLoader levelLoader;
     private PlayerDataManager playerDataManager;
 
@@ -84,6 +80,7 @@ public class UIManager : Singleton<UIManager>
     {
         levelLoader = LevelLoader.Instance;
         playerDataManager = PlayerDataManager.Instance;
+
         SpawndamageTexts();
     }
     void SpawndamageTexts()
@@ -125,8 +122,8 @@ public class UIManager : Singleton<UIManager>
         if (hasWon)
         {
             gameWinPanel.SetActive(true);
-            lastwaveInWinPanel.text = LevelManager.Instance.levelData[LevelManager.Instance.levelNum].Waves[LevelManager.Instance.WaveIndexMain].waveNum.ToString();
-            enemiesSlainInWinPanel.text = (LevelManager.Instance.maxEnemyCount - LevelManager.Instance.deadEnemiesCount).ToString();
+            lastwaveInWinPanel.text = LevelManager.Instance.currentWaveIndex.ToString();
+            enemiesSlainInWinPanel.text = (LevelManager.Instance.deadEnemiesCount).ToString();
             playerDataManager.UnlockedLevelsCount += 1;
             playerDataManager.CoinsAmount += 1;
 
@@ -135,8 +132,8 @@ public class UIManager : Singleton<UIManager>
         else
         {
             gameLostPanel.SetActive(true);
-            lastwaveInLosePanel.text = LevelManager.Instance.levelData[LevelManager.Instance.levelNum].Waves[LevelManager.Instance.WaveIndexMain].waveNum.ToString();
-            enemiesSlainInLosePanel.text = (LevelManager.Instance.maxEnemyCount - LevelManager.Instance.deadEnemiesCount).ToString();
+            lastwaveInLosePanel.text = LevelManager.Instance.currentWaveIndex.ToString();
+            enemiesSlainInLosePanel.text = (LevelManager.Instance.deadEnemiesCount).ToString();
 
             GameAnalytics.NewProgressionEvent(GAProgressionStatus.Fail, eventName);
         }
@@ -208,45 +205,40 @@ public class UIManager : Singleton<UIManager>
         return formattedString;
     }
 
-    internal void WaveBouncyText(WaveData firstWave, WaveData secondWave)
+    internal void ShowNewWaveInfo(WaveData waveData)
     {
-        int melee = 0, heavies = 0, ranged = 0, elite = 0;
-        totalEnemiesCount.text = firstWave.totalEniemies.ToString();
-        for (int i = 0; i < firstWave.enemyData.Length; i++)
-        {
-            if (firstWave.enemyData[i].enemyType == EnemyTypes.Melee) { melee += firstWave.enemyData[i].enemyCount; meleeCount.text = melee.ToString(); }
-            else if (firstWave.enemyData[i].enemyType == EnemyTypes.Heavies) { heavies += firstWave.enemyData[i].enemyCount; heaviesCount.text = heavies.ToString(); }
-            else if (firstWave.enemyData[i].enemyType == EnemyTypes.Ranged) { ranged += firstWave.enemyData[i].enemyCount; rangedCount.text = ranged.ToString(); }
-            else if (firstWave.enemyData[i].enemyType == EnemyTypes.RangedBig) { elite += firstWave.enemyData[i].enemyCount; eliteCount.text = elite.ToString(); }
-        }
-        waveTxt.text = "Wave " + firstWave.waveNum + " Incoming";
-        if (waveAnimator) waveAnimator.gameObject.SetActive(true);
-        if (waveAnimator) waveAnimator.SetBool("EnableWave", true);
-        waveTxt.transform.DOScale(new Vector3(1f, 1f, 1f), 2f).OnComplete(() =>
-        {
-            if (waveAnimator) waveAnimator.SetBool("EnableWave", false);
-            if (waveAnimator) waveAnimator.gameObject.SetActive(false);
 
-            if (secondWave != null)
+        if (incomingWavePanel.TryGetComponent(out CanvasGroup wavePanelCanvasGroup))
+        {
+            incomingWavePanel.SetActive(true);
+            Sequence mySequence = DOTween.Sequence().SetRecyclable(true);
+            mySequence.Append(wavePanelCanvasGroup.DOFade(0, 0.5f));
+            mySequence.Append(wavePanelCanvasGroup.DOFade(1, 0.5f));
+            mySequence.SetLoops(3);
+
+            mySequence.OnComplete(() =>
             {
-                melee = 0; heavies = 0; ranged = 0; elite = 0;
-                meleeCount.text = 0.ToString(); heaviesCount.text = 0.ToString(); rangedCount.text = 0.ToString(); eliteCount.text = 0.ToString();
-                for (int i = 0; i < secondWave.enemyData.Length; i++)
+                incomingWavePanel.SetActive(false);
+            });
+
+        }
+
+        foreach (EnemyData enemyData in waveData.enemyData)
+        {
+            foreach (EnemySpawnMarker marker in enemySpawnMarkers)
+            {
+                if (marker != null && marker.enemyType == enemyData.enemyType)
                 {
-                    if (secondWave.enemyData[i].enemyType == EnemyTypes.Melee) { melee += secondWave.enemyData[i].enemyCount; meleeCount.text = melee.ToString(); }
-                    else if (secondWave.enemyData[i].enemyType == EnemyTypes.Heavies) { heavies += secondWave.enemyData[i].enemyCount; heaviesCount.text = heavies.ToString(); }
-                    else if (secondWave.enemyData[i].enemyType == EnemyTypes.Ranged) { ranged += secondWave.enemyData[i].enemyCount; rangedCount.text = ranged.ToString(); }
-                    else if (secondWave.enemyData[i].enemyType == EnemyTypes.RangedBig) { elite += secondWave.enemyData[i].enemyCount; eliteCount.text = elite.ToString(); }
+                    EnemySpawnMarker m = Instantiate(marker, rootcanvas.transform);
+                    m.ShowMarker(LevelManager.Instance.GetSpawnTransform(enemyData.spawnLocation), enemyData.enemyCount);
                 }
-                totalEnemiesCount.text = secondWave.totalEniemies.ToString();
-                // waveTxt.text = "Wave " + secondWave.waveNum + "\n" + secondWave.totalEniemies + " Enemies Incoming";
             }
-            else
-            {
-                totalEnemiesCount.text = 0.ToString(); meleeCount.text = 0.ToString(); heaviesCount.text = 0.ToString(); rangedCount.text = 0.ToString(); eliteCount.text = 0.ToString();
-            }
-        });
+        }
+
     }
+
+
+
     #endregion
 
     #region BUTTON_EVENTS

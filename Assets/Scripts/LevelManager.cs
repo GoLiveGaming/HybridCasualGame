@@ -4,24 +4,55 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class LevelManager : MonoBehaviour
 {
     public static LevelManager Instance;
 
-    // [Header("Level Data"), Space(2)]
-    public LevelData[] levelData;
+    [Header("ENEMY SPAWNING"), Space(2)]
+    [SerializeField] private NPCManagerScript[] ObjectsToSpawn;
+    [SerializeField] private Transform[] spawnLocations;
 
-    internal bool isGameOver;
-    [HideInInspector]public int WaveIndexMain = 0;
+    [Header("Enemy Spawning Rules"), Space(2)]
+    public LevelData[] levelData;
+    public Transform enemiesParent;
+    [SerializeField, Range(0.1f, 10f)] private float spawnProximityRadius = 5;
+
     [ReadOnly] public int levelNum = 0;
-    [ReadOnly] public int deadEnemiesCount = 0;
-    [ReadOnly] public int maxEnemyCount;
+    [ReadOnly] public int currentWaveIndex = 0;
+    [ReadOnly] public int totalEnemiesInLevel = 0;
     [ReadOnly] public int spawnedEnemyCount = 0;
+    [ReadOnly] public int deadEnemiesCount = 0;
+
+
+
+    readonly List<NPCManagerScript> spawnList = new();
+
+    public int AliveEnemiesLeft
+    {
+        get { return totalEnemiesInLevel - deadEnemiesCount; }
+    }
 
     private UIManager uiManager;
-
     private PlayerDataManager playerDataManager;
+
+
+    void OnDrawGizmos()
+    {
+
+        if (spawnLocations.Length > 0)
+        {
+            foreach (Transform tf in spawnLocations)
+            {
+                if (tf != null)
+                {
+                    Gizmos.color = Color.yellow;
+                    Gizmos.DrawWireSphere(tf.position, spawnProximityRadius);
+                }
+            }
+        }
+    }
 
     private void Awake()
     {
@@ -33,119 +64,147 @@ public class LevelManager : MonoBehaviour
         uiManager = UIManager.Instance;
         playerDataManager = PlayerDataManager.Instance;
 
-        uiManager.loadingPanel.gameObject.SetActive(true);
+        InitializeEnemyData();
+
+        if (AudioManager.Instance) AudioManager.Instance.audioSource.PlayOneShot(AudioManager.Instance.LevelStart);
+
+        StartLoadingSequence();
+    }
+
+    void StartLoadingSequence()
+    {
+        StartCoroutine(SpawnEnemiesInInterval());
+    }
+
+    #region ENEMY SPAWNING
+
+    void InitializeEnemyData()
+    {
+        levelNum = 0;
+        currentWaveIndex = 0;
+        totalEnemiesInLevel = 0;
+        spawnedEnemyCount = 0;
+        deadEnemiesCount = 0;
+
         levelNum = playerDataManager.SelectedLevelIndex;
-        Debug.Log("Loading Level: " + levelNum + " enemies data. Correct enemies data will only be loaded when game is started from HomeScreen.");
+
+        Debug.Log("Loading Level: " + levelNum +
+            " enemies data. Correct enemies data will only be loaded when game is started from HomeScreen.");
 
         string eventName = "Level_0" + (levelNum);
         GameAnalytics.NewProgressionEvent(GAProgressionStatus.Start, eventName);
 
-        maxEnemyCount = levelData[levelNum].totalEnemies;
-        deadEnemiesCount = levelData[levelNum].totalEnemies;
-        uiManager.enemiesCountTxt.text = levelData[levelNum].totalEnemies.ToString();
-
-        StartCoroutine(LoadingScene());
-        InstantiateAllEnemiesAtStart();
-    }
-
-    IEnumerator LoadingScene()
-    {
-        while (maxEnemyCount > spawnedEnemyCount)
+        foreach (WaveData data in levelData[levelNum].waves)
         {
-            UIManager.Instance.loadingfiller.fillAmount = spawnedEnemyCount / maxEnemyCount;
+            foreach (EnemyData i in data.enemyData)
+            {
+                totalEnemiesInLevel += i.enemyCount;
+            }
+        }
+
+    }
+    IEnumerator SpawnEnemiesInInterval()
+    {
+
+        while (currentWaveIndex < levelData[levelNum].waves.Length)
+        {
+            int time = levelData[levelNum].waves[currentWaveIndex].currentWaveWaitTime;
+            while (time >= 0)
+            {
+                uiManager.nextWaveTimer.text = time.ToString();
+                yield return new WaitForSeconds(1);
+                time--;
+            }
+            SpawnEnemyWave();
+            uiManager.ShowNewWaveInfo(levelData[levelNum].waves[currentWaveIndex]);
+
+            currentWaveIndex++;
+            
+            if(currentWaveIndex >= levelData[levelNum].waves.Length)
+            {
+                uiManager.nextWaveTimer.transform.parent.gameObject.SetActive(false);
+            }
+
             yield return null;
         }
-        yield return new WaitWhile(() => maxEnemyCount > spawnedEnemyCount);
-        UIManager.Instance.loadingPanel.gameObject.SetActive(false);
-        if (AudioManager.Instance) AudioManager.Instance.audioSource.PlayOneShot(AudioManager.Instance.LevelStart);
-        StartCoroutine(SpawnEnemiesInIntervels(levelData[levelNum].Waves[WaveIndexMain].enemyData[0].TimeInterval));
     }
-
-
-
-    void InstantiateAllEnemiesAtStart()
+    void SpawnEnemyWave()
     {
-        for (int i = 0; i < levelData[levelNum].Waves.Length; i++)
+        foreach (EnemyData enemyData in levelData[levelNum].waves[currentWaveIndex].enemyData)
         {
-            for (int j = 0; j < levelData[levelNum].Waves[i].enemyData.Length; j++)
+            for (int i = 0; i < enemyData.enemyCount; i++)
             {
-                for (int k = 0; k < levelData[levelNum].Waves[i].enemyData[j].enemyCount; k++)
-                {
-                    EnemySpawners.Instance.SpawnEverythingAtStart(levelData[levelNum].Waves[i].enemyData[j].enemyType, levelData[levelNum].Waves[i].enemyData[j].SpawnLocation);
-                    spawnedEnemyCount++;
-                }
+                SpawnEnemy(enemyData.enemyType, enemyData.spawnLocation);
+                spawnedEnemyCount++;
+
             }
         }
     }
 
-    IEnumerator SpawnEnemiesInIntervels(int time)
+    public Transform GetSpawnTransform(int locationIndex)
     {
-        //while (!isGameOver)
-        //{
-        if (levelData[levelNum].Waves.Length > levelData[levelNum].Waves[WaveIndexMain].waveNum)
-            UIManager.Instance.WaveBouncyText(levelData[levelNum].Waves[WaveIndexMain], levelData[levelNum].Waves[WaveIndexMain + 1]);
-        else
-            UIManager.Instance.WaveBouncyText(levelData[levelNum].Waves[WaveIndexMain], null);
-        SpawnEnemies(WaveIndexMain);
-        if (levelData[levelNum].Waves.Length > WaveIndexMain + 1)
-        {
-            WaveIndexMain++;
-            yield return new WaitForSeconds(time);
-            StartCoroutine(SpawnEnemiesInIntervels(levelData[levelNum].Waves[WaveIndexMain].enemyData[0].TimeInterval));
-            yield break;
-        }
-        else
-        {
-            isGameOver = true;
-        }
-        // }
+        return spawnLocations[locationIndex];
     }
-    int aa = 0;
-    void SpawnEnemies(int waveIndex)
+    private void SpawnEnemy(EnemyTypes type, int objectSpawnPosIndex)
     {
-        for (int i = 0; i < levelData[levelNum].Waves[waveIndex].enemyData.Length; i++)
+        int objectindex = ObjectToSpawnIndex(type);
+        NPCManagerScript tempObj = Instantiate(ObjectsToSpawn[objectindex],
+            RandomNavSphere(spawnLocations[objectSpawnPosIndex].position, spawnProximityRadius, -1),
+            Quaternion.identity);
+
+        tempObj.Initialize();
+        tempObj.transform.SetParent(enemiesParent);
+        spawnList.Add(tempObj);
+    }
+
+    private Vector3 RandomNavSphere(Vector3 origin, float dist, int layermask)
+    {
+        Vector3 randDirection = UnityEngine.Random.insideUnitSphere * dist;
+
+        randDirection += origin;
+
+
+        NavMesh.SamplePosition(randDirection, out NavMeshHit navHit, dist, layermask);
+
+        return navHit.position;
+    }
+
+    private int ObjectToSpawnIndex(EnemyTypes type)
+    {
+        for (int i = 0; i < ObjectsToSpawn.Length; i++)
         {
-            for (int j = 0; j < levelData[levelNum].Waves[waveIndex].enemyData[i].enemyCount; j++)
+            if (ObjectsToSpawn[i].enemyType == type)
             {
-                //if(aa < -1)
-                EnemySpawners.Instance.SpawnEnemiesInWaves(levelData[levelNum].Waves[waveIndex].enemyData[i].enemyType);
-                aa++;
+                return i;
             }
         }
+        return 0;
     }
 
-
+    #endregion
 }
+
 
 [Serializable]
 public class LevelData
 {
-    public int totalEnemies;
-    public WaveData[] Waves;
+    public WaveData[] waves;
 }
 
 [Serializable]
 public class WaveData
 {
-    public int waveNum;
-    public int totalEniemies;
+    public int currentWaveWaitTime;
     public EnemyData[] enemyData;
 }
 
 [Serializable]
 public class EnemyData
 {
-    public int SpawnLocation;
     public EnemyTypes enemyType;
     public int enemyCount;
-    public int TimeInterval;
+    public int spawnLocation;
 }
 
-[Serializable]
-public enum EnemyTypes
-{
-    Melee,
-    Heavies,
-    Ranged,
-    RangedBig
-}
+
+

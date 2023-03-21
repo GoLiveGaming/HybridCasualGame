@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5494187240300270288}
   - component: {fileID: 4380105690756769831}
   - component: {fileID: 1542867996167199264}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: HellFire AOE
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -110,13 +110,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78a311293c68f1142bc18a2b8d0095ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_AOELifetime: 3
+  m_AOELifetime: 10
   m_AOEStartSize: 0
-  m_AOEEndSize: 10
-  m_AOETransitionTime: 1.5
+  m_AOESizeIncrement: 5
+  m_AOETransitionTime: 2
   groundLayer:
     serializedVersion: 2
-    m_Bits: 2048
+    m_Bits: 2049
   m_ParticleEffect: {fileID: 0}
 --- !u!1 &9203068762116010779
 GameObject:
@@ -203,7 +203,7 @@ MonoBehaviour:
   damageDuration: 5
   collisionLayerMask:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 384
   associatedColor: {r: 0.8980392, g: 0.4117647, b: 0.6784314, a: 1}
   bulletAOE: {fileID: 1542867996167199264}
 --- !u!1001 &8172375413742288312
@@ -220,18 +220,6 @@ PrefabInstance:
     - target: {fileID: 4362355530620112, guid: fb10e8690879abd4a98d00b55b8c8d95, type: 3}
       propertyPath: m_RootOrder
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4362355530620112, guid: fb10e8690879abd4a98d00b55b8c8d95, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 4362355530620112, guid: fb10e8690879abd4a98d00b55b8c8d95, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 4362355530620112, guid: fb10e8690879abd4a98d00b55b8c8d95, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4362355530620112, guid: fb10e8690879abd4a98d00b55b8c8d95, type: 3}
       propertyPath: m_LocalPosition.x
@@ -273,49 +261,7 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4362355530620112, guid: fb10e8690879abd4a98d00b55b8c8d95, type: 3}
-      propertyPath: m_ConstrainProportionsScale
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 198528507335766104, guid: fb10e8690879abd4a98d00b55b8c8d95,
-        type: 3}
-      propertyPath: InitialModule.startColor.maxColor.b
-      value: 0.6767975
-      objectReference: {fileID: 0}
-    - target: {fileID: 198528507335766104, guid: fb10e8690879abd4a98d00b55b8c8d95,
-        type: 3}
-      propertyPath: InitialModule.startColor.maxColor.g
-      value: 0.41006586
-      objectReference: {fileID: 0}
-    - target: {fileID: 198528507335766104, guid: fb10e8690879abd4a98d00b55b8c8d95,
-        type: 3}
-      propertyPath: InitialModule.startColor.maxColor.r
-      value: 0.8962264
-      objectReference: {fileID: 0}
-    - target: {fileID: 199085450165201728, guid: fb10e8690879abd4a98d00b55b8c8d95,
-        type: 3}
-      propertyPath: m_Materials.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 199285294356792230, guid: fb10e8690879abd4a98d00b55b8c8d95,
-        type: 3}
-      propertyPath: m_Materials.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 199383916105221082, guid: fb10e8690879abd4a98d00b55b8c8d95,
-        type: 3}
-      propertyPath: m_Materials.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 199618226897204626, guid: fb10e8690879abd4a98d00b55b8c8d95,
-        type: 3}
-      propertyPath: m_Materials.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 114012790586252362, guid: fb10e8690879abd4a98d00b55b8c8d95, type: 3}
-    - {fileID: 136757934063241816, guid: fb10e8690879abd4a98d00b55b8c8d95, type: 3}
-    - {fileID: 54813845547034192, guid: fb10e8690879abd4a98d00b55b8c8d95, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fb10e8690879abd4a98d00b55b8c8d95, type: 3}
 --- !u!4 &8171046679805944168 stripped
 Transform:
