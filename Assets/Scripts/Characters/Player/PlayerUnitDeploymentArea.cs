@@ -37,14 +37,14 @@ public class PlayerUnitDeploymentArea : MonoBehaviour
 
         PlayerUnit unitSelectedToDeploy = _mainPlayerControl.GetPlayerUnit(unitType);
         DeployUnit(unitSelectedToDeploy);
+        _mainPlayerControl.TowersPlacedNum++;
     }
 
     public void UpgradeExistingAttackUnit(AttackType unitType)
     {
         PlayerUnit unitSelectedToDeploy = _mainPlayerControl.GetPlayerUnit(unitType);
         DeployUnit(GetUnitAfterMergeCheck(unitSelectedToDeploy));
-
-
+        _mainPlayerControl.TowersUpgradedNum++;
     }
 
     public PlayerUnit GetUnitAfterMergeCheck(PlayerUnit towerSelectedToDeploy)

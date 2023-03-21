@@ -6,7 +6,7 @@ using NaughtyAttributes;
 
 public class Stats : MonoBehaviour
 {
-    [SerializeField] private float m_MaxHealth = 100;
+    public float m_MaxHealth = 100;
     [SerializeField] private float m_currentHealth = 100;
     public Color damageNumberColor = Color.white;
 
@@ -32,6 +32,7 @@ public class Stats : MonoBehaviour
     bool isDead = false;
     private UIManager m_UIManager;
     private LevelManager m_LevelManager;
+    private MainPlayerControl m_MainPlayerControl;
     public float Health
     {
         get { return m_currentHealth; }
@@ -40,6 +41,7 @@ public class Stats : MonoBehaviour
             m_currentHealth = value;
             m_currentHealth = Mathf.Clamp(Health, 0, m_MaxHealth);
             if (m_healthBar) m_healthBar.fillAmount = m_currentHealth / m_MaxHealth;
+
             if (m_currentHealth <= 0 && !isDead)
             {
 
@@ -50,12 +52,15 @@ public class Stats : MonoBehaviour
                         m_UIManager.MatchFinished(false);
                         if (AudioManager.Instance) AudioManager.Instance.audioSource.PlayOneShot(AudioManager.Instance.LevelLost);
                     }
-                    if (m_currentTower.TryGetComponent(out PlayerTower tower))
-                        tower.OnTowerDestroyed();
+                    if (m_currentTower.GetComponent<PlayerTower>())
+                    {
+                        m_MainPlayerControl.TowersDestroyedNum++;
+                    }
                 }
                 else
                 {
                     m_LevelManager.deadEnemiesCount++;
+                    m_MainPlayerControl.AddEnemiesKilledData(m_NPCManager.enemyType);
                     if (m_LevelManager.AliveEnemiesLeft <= 0)
                     {
                         m_UIManager.MatchFinished(true);
@@ -72,6 +77,7 @@ public class Stats : MonoBehaviour
     {
         m_UIManager = UIManager.Instance;
         m_LevelManager = LevelManager.Instance;
+        m_MainPlayerControl = MainPlayerControl.Instance;
 
         if (m_currentTower = GetComponent<PlayerUnitBase>()) ownerIsPlayer = true;
         else m_NPCManager = GetComponent<NPCManagerScript>();

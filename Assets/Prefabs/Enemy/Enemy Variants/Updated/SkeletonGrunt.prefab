@@ -2451,7 +2451,7 @@ GameObject:
   - component: {fileID: 4284163136126511420}
   - component: {fileID: 5701197444138071026}
   m_Layer: 7
-  m_Name: SkeletonWarrior
+  m_Name: SkeletonGrunt
   m_TagString: TargetEnemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

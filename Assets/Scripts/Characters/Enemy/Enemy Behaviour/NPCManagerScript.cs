@@ -32,7 +32,7 @@ public class NPCManagerScript : MonoBehaviour
     [SerializeField] internal LayerMask playerTowerLayer;
     [SerializeField] private float timeSinceLastStateRefresh = 0f;
 
-     public NavMeshAgent _agent;
+    public NavMeshAgent _agent;
     [HideInInspector] public Stats _stats;
     [HideInInspector] public Animator m_Animator;
 
@@ -43,13 +43,12 @@ public class NPCManagerScript : MonoBehaviour
     float m_TurnAmount;
     float m_ForwardAmount;
     float defaultMoveSpeed;
-    float defaultAnimatorSpeed;
     bool m_canMove;
     Vector3 m_GroundNormal;
 
 
 
-    public GameObject gameObjectSelf { get { return this.gameObject; } }
+    public GameObject GameObjectSelf { get { return this.gameObject; } }
 
     public void SetMoveSpeed(float value) { moveSpeed = value; _agent.speed = moveSpeed; }
     public void ResetMoveSpeed() { moveSpeed = defaultMoveSpeed; _agent.speed = moveSpeed; }
@@ -127,7 +126,7 @@ public class NPCManagerScript : MonoBehaviour
 
     public void UpdateDestination()
     {
-        if (isPlayerAvailable())
+        if (IsPlayerAvailable())
             SetTargetTower();
     }
     public void SetTargetTower()
@@ -181,7 +180,7 @@ public class NPCManagerScript : MonoBehaviour
 
     internal bool CanRefreshState()
     {
-        if (isPlayerAvailable())
+        if (IsPlayerAvailable())
         {
             timeSinceLastStateRefresh += Time.deltaTime;
             if (stateRefreshDelay < timeSinceLastStateRefresh)
@@ -192,16 +191,15 @@ public class NPCManagerScript : MonoBehaviour
         }
         return false;
     }
-    internal bool isPlayerAvailable()
+    internal bool IsPlayerAvailable()
     {
-        return _playerControl.mainPlayerTower.Count > 0;
-
+        return _playerControl.mainPlayerTower;
     }
 
     //ANIMATION EVENTS
     public virtual void AttackPlayer()
     {
-        if (isPlayerAvailable())
+        if (IsPlayerAvailable())
         {
             Vector3 spawnPos = firePointTransform ? firePointTransform.position : transform.position;
 
@@ -221,6 +219,6 @@ public class NPCManagerScript : MonoBehaviour
             ParticleSystem deathParticle = Instantiate(_playerControl.enemyParticles[1], transform.position + new Vector3(0, 5), Quaternion.identity);
             Destroy(deathParticle.gameObject, deathParticle.main.duration);
         }
-        
+
     }
 }

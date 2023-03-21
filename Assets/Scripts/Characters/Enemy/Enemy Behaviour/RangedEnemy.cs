@@ -11,7 +11,7 @@ public class RangedEnemy : NPCManagerScript
     /// </summary>
     public override void AttackPlayer()
     {
-        if (isPlayerAvailable())
+        if (IsPlayerAvailable())
         {
             if (targetTower != null)
             {

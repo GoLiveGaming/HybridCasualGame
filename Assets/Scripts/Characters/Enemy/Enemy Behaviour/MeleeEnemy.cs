@@ -7,7 +7,7 @@ public class MeleeEnemy : NPCManagerScript
     /// </summary>
     public override void AttackPlayer()
     {
-        if (isPlayerAvailable())
+        if (IsPlayerAvailable())
         {
             // Does the ray intersect any objects excluding the player layer
             Vector3 spawnPos = firePointTransform != null ? firePointTransform.position : transform.position;

@@ -4,30 +4,38 @@ using System.Collections.Generic;
 using UnityEngine;
 using NaughtyAttributes;
 using UnityEngine.EventSystems;
-using DG.Tweening;
 
 public class MainPlayerControl : MonoBehaviour
 {
     public static MainPlayerControl Instance;
 
-    [Header("ATTACK UNITS"), Space(2)]
+    [Space(2), Header("ATTACK UNITS"), Space(2)]
     public PlayerUnit[] allPlayerUnits;
 
     public ParticleSystem[] towerParticles;
     public ParticleSystem[] enemyParticles;
 
-    [Header("UNIT UPGRADES"), Space(2)]
+    [Space(2), Header("UNIT UPGRADES"), Space(2)]
     [SerializeField] private LayerMask deployAreaLayer;
     [SerializeField] private UnitUpgradesButton upgradeButtonPrefab;
 
-    [Header("RESOURCE METER")]                                          //RENAME THIS  BLOCK LATER TO WHAT WE ARE USING FOR THE NAME OF RESOURCE
+    [Header("RESOURCE METER"), Space(2)]
     [Range(1, 20)] public float maxResources = 10;
-    [Range(0.1f, 5f)] public float resourceRechargeRate = 1.0f;         //Recharge Rate per second
+    [Range(0.1f, 5f)] public float resourceRechargeRate = 1.0f;
+
+    [Space(2), Header("SCORE DATA"), Space(2)]
+    public ScoringData scoringData;
+    [Header("Point Allotment")]
+    [SerializeField] private int towerPlacedScore = 10;
+    [SerializeField] private int towerUpgradedScore = 20;
+    [SerializeField] private int towerDestroyedScore = -5;
+    [SerializeField] private int mainTowerHealthLostScore = -5;
+    [SerializeField] private int enemyWaveSurvivedScore = 50;
 
     [Space(2), Header("READONLY")]
     [ReadOnly, Range(1, 20)] public float currentResourcesCount = 10;
     [ReadOnly] public List<PlayerUnitBase> activePlayerTowersList = new();
-    [ReadOnly] public List<PlayerMainTower> mainPlayerTower = new();
+    [ReadOnly] public PlayerMainTower mainPlayerTower;
     [ReadOnly] public PlayerDataManager _dataManager;
     [ReadOnly] public bool isRecharging = false;
     private UIManager uiManager;
@@ -62,7 +70,64 @@ public class MainPlayerControl : MonoBehaviour
         return null;
     }
 
-    #region UPGRADES MANAGER
+    #region SCORE TRACKING
+    public void AddEnemiesKilledData(EnemyTypes enemyType)
+    {
+        bool flag = false;
+        foreach (EnemiesKilledData data in scoringData.enemiesKilledData)
+        {
+            if (data.enemyType == enemyType)
+            {
+                data.numKilled++;
+                flag = true;
+                break;
+            }
+        }
+        if (!flag)
+        {
+            Debug.LogError(scoringData.enemiesKilledData + " has not been assigned any Data.");
+        }
+    }
+    public int CalculateTotalScore()
+    {
+        int totalScore = 0;
+
+        foreach (var data in scoringData.enemiesKilledData)
+        {
+            totalScore += data.killScorePoint * data.numKilled;
+        }
+
+        totalScore += TowersPlacedNum * towerPlacedScore;
+        totalScore += TowersUpgradedNum * towerUpgradedScore;
+        totalScore += TowersDestroyedNum * towerDestroyedScore;
+        totalScore += EnemyWavesCompletedNum * enemyWaveSurvivedScore;
+        totalScore += MainTowerHealthLostNum * mainTowerHealthLostScore;
+
+        return totalScore;
+    }
+
+    public int TotalEnemiesKilledNum
+    {
+        get
+        {
+            int num = 0;
+            foreach (EnemiesKilledData data in scoringData.enemiesKilledData)
+            {
+                num += data.numKilled;
+            }
+            return num;
+        }
+    }
+    public int TowersPlacedNum { get { return scoringData.TowersPlaced; } set { scoringData.TowersPlaced = value; } }
+    public int TowersUpgradedNum { get { return scoringData.TowersUpgraded; } set { scoringData.TowersUpgraded = value; } }
+    public int TowersDestroyedNum { get { return scoringData.TowersDestroyed; } set { scoringData.TowersDestroyed = value; } }
+    public int EnemyWavesCompletedNum { get { return scoringData.EnemyWavesSurvived; } set { scoringData.EnemyWavesSurvived = value; } }
+    public int MainTowerHealthLostNum { get { return scoringData.MainTowerHealthLostNum = (int)mainPlayerTower.GetComponent<Stats>().m_MaxHealth - (int)mainPlayerTower.GetComponent<Stats>().Health; } }
+
+
+    #endregion
+
+    #region UPGRADES MANAGEMENT
     private void HandleUnitUpgrades()
     {
         if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
@@ -164,4 +229,24 @@ public class MainPlayerControl : MonoBehaviour
     }
 
     #endregion
+}
+
+[Serializable]
+public class ScoringData
+{
+    public List<EnemiesKilledData> enemiesKilledData = new();
+
+    public int TowersPlaced = 0;
+    public int TowersUpgraded = 0;
+    public int TowersDestroyed = 0;
+    public int MainTowerHealthLostNum = 0;
+
+    public int EnemyWavesSurvived = 0;
+}
+[Serializable]
+public class EnemiesKilledData
+{
+    public EnemyTypes enemyType;
+    public int killScorePoint = 0;
+    [ReadOnly] public int numKilled = 0;
 }

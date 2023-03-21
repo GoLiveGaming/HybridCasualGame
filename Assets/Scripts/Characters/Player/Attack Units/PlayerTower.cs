@@ -180,7 +180,7 @@ public class PlayerTower : PlayerUnitBase
                 GameObject enemy;
                 if (targetNPC != null)
                 {
-                    enemy = targetNPC.gameObjectSelf;
+                    enemy = targetNPC.GameObjectSelf;
 
                     float distance = Vector3.Distance(transform.position, enemy.transform.position);
 
@@ -217,10 +217,6 @@ public class PlayerTower : PlayerUnitBase
     }
 
 
-    public void OnTowerDestroyed()
-    {
-        //if (deployedAtArea) deployedAtArea.isAreaAvailable = false;
-    }
 
     private void OnDestroy()
     {

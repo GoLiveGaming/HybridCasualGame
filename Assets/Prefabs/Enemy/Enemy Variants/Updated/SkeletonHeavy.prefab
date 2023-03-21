@@ -1161,7 +1161,7 @@ GameObject:
   - component: {fileID: 1510514103383195436}
   - component: {fileID: 248936595516059210}
   m_Layer: 7
-  m_Name: SkeletonNecromancer
+  m_Name: SkeletonHeavy
   m_TagString: TargetEnemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

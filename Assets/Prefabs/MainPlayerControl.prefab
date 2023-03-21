@@ -88,9 +88,33 @@ MonoBehaviour:
     type: 3}
   maxResources: 10
   resourceRechargeRate: 0.5
+  scoringData:
+    enemiesKilledData:
+    - enemyType: 0
+      killScorePoint: 1
+      numKilled: 0
+    - enemyType: 1
+      killScorePoint: 3
+      numKilled: 0
+    - enemyType: 2
+      killScorePoint: 1
+      numKilled: 0
+    - enemyType: 3
+      killScorePoint: 2
+      numKilled: 0
+    TowersPlaced: 0
+    TowersUpgraded: 0
+    TowersDestroyed: 0
+    MainTowerHealth: 0
+    EnemyWavesSurvived: 0
+  towerPlacedScore: 10
+  towerUpgradedScore: 20
+  towerDestroyedScore: -5
+  castleHealthLostScore: -5
+  enemyWaveSurvivedScore: 50
   currentResourcesCount: 10
   activePlayerTowersList: []
-  mainPlayerTower: []
+  mainPlayerTower: {fileID: 0}
   _dataManager: {fileID: 0}
   isRecharging: 0
 --- !u!114 &8963271489003074658

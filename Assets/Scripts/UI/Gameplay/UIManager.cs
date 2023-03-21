@@ -16,8 +16,6 @@ public class UIManager : Singleton<UIManager>
     public GameObject unitSelectionCanvas;
     public GameObject incomingWavePanel;
     public GameObject pausePanel;
-    public GameObject gameWinPanel;
-    public GameObject gameLostPanel;
     public GameObject loadingPanel;
     public GameObject floatingTextPanel;
     public GameObject unitUpgradesPanel;
@@ -31,11 +29,6 @@ public class UIManager : Singleton<UIManager>
     public TMP_Text m_warningText;
     public TMP_Text nextWaveTimer;
 
-    [Header("WIN/LOOSE PANEL")]
-    public TMP_Text lastwaveInLosePanel;
-    public TMP_Text lastwaveInWinPanel;
-    public TMP_Text enemiesSlainInLosePanel;
-    public TMP_Text enemiesSlainInWinPanel;
 
     [Header("Animator Components")]
     public Animator resourceMeterAnimator;
@@ -46,13 +39,13 @@ public class UIManager : Singleton<UIManager>
 
     [Header("ENEMY DATA PARAMETERS")]
     public EnemySpawnMarker[] enemySpawnMarkers;
+    public GameFinishView gameFinishView;
 
 
 
 
     private readonly Queue<TMP_Text> damageTextQueue = new();
     private LevelLoader levelLoader;
-    private PlayerDataManager playerDataManager;
 
     public string ShowWarningText
     {
@@ -79,7 +72,6 @@ public class UIManager : Singleton<UIManager>
     public virtual void Start()
     {
         levelLoader = LevelLoader.Instance;
-        playerDataManager = PlayerDataManager.Instance;
 
         SpawndamageTexts();
     }
@@ -115,38 +107,7 @@ public class UIManager : Singleton<UIManager>
     }
     public void MatchFinished(bool hasWon)
     {
-        floatingTextPanel.SetActive(false);
-
-        string eventName = "Level_0" + (playerDataManager.SelectedLevelIndex);
-
-        if (hasWon)
-        {
-            gameWinPanel.SetActive(true);
-            lastwaveInWinPanel.text = LevelManager.Instance.currentWaveIndex.ToString();
-            enemiesSlainInWinPanel.text = (LevelManager.Instance.deadEnemiesCount).ToString();
-            playerDataManager.UnlockedLevelsCount += 1;
-            playerDataManager.CoinsAmount += 1;
-
-            GameAnalytics.NewProgressionEvent(GAProgressionStatus.Complete, eventName);
-        }
-        else
-        {
-            gameLostPanel.SetActive(true);
-            lastwaveInLosePanel.text = LevelManager.Instance.currentWaveIndex.ToString();
-            enemiesSlainInLosePanel.text = (LevelManager.Instance.deadEnemiesCount).ToString();
-
-            GameAnalytics.NewProgressionEvent(GAProgressionStatus.Fail, eventName);
-        }
-
-
-        if (gameplayItemsCanvas && gameplayItemsCanvas.TryGetComponent(out CanvasGroup group))
-        {
-            group.DOFade(0, 0.25f).OnComplete(() => Time.timeScale = 0);
-        }
-        else
-        {
-            Time.timeScale = 0;
-        }
+        gameFinishView.StartGameFinishSequence(hasWon);
     }
 
     #region UI VISUAL EFFECTS

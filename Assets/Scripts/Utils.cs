@@ -39,10 +39,10 @@ public enum TowerState
 
 public enum EnemyTypes
 {
-    Melee,
-    Heavies,
-    Ranged,
-    RangedBig
+    Grunt,
+    Heavy,
+    Archer,
+    Elite
 }
 
 

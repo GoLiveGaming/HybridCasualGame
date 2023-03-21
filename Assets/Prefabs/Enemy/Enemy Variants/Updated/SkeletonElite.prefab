@@ -311,7 +311,7 @@ GameObject:
   - component: {fileID: 1087043777562260415}
   - component: {fileID: 4097628284369559533}
   m_Layer: 7
-  m_Name: SkeletonSpearManNew
+  m_Name: SkeletonElite
   m_TagString: TargetEnemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -36,6 +36,7 @@ public class LevelManager : MonoBehaviour
 
     private UIManager uiManager;
     private PlayerDataManager playerDataManager;
+    private MainPlayerControl _mainPlayerControl;
 
 
     void OnDrawGizmos()
@@ -63,6 +64,7 @@ public class LevelManager : MonoBehaviour
     {
         uiManager = UIManager.Instance;
         playerDataManager = PlayerDataManager.Instance;
+        _mainPlayerControl = MainPlayerControl.Instance;
 
         InitializeEnemyData();
 
@@ -118,9 +120,11 @@ public class LevelManager : MonoBehaviour
             SpawnEnemyWave();
             uiManager.ShowNewWaveInfo(levelData[levelNum].waves[currentWaveIndex]);
 
+            _mainPlayerControl.EnemyWavesCompletedNum++;
+
             currentWaveIndex++;
-            
-            if(currentWaveIndex >= levelData[levelNum].waves.Length)
+
+            if (currentWaveIndex >= levelData[levelNum].waves.Length)
             {
                 uiManager.nextWaveTimer.transform.parent.gameObject.SetActive(false);
             }
