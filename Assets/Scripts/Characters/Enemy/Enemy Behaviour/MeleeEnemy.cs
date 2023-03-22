@@ -18,7 +18,7 @@ public class MeleeEnemy : NPCManagerScript
                 hit.transform.TryGetComponent(out Stats stats);
                 if (stats) stats.AddDamage(attackDamage);
                 if(AudioManager.Instance) AudioManager.Instance.audioSource.PlayOneShot(AudioManager.Instance.EnemyHit);
-                ParticleSystem deathParticle = Instantiate(_playerControl.enemyParticles[0], transform.position + new Vector3(1.2f, 3f, -2.5f), Quaternion.identity);
+                ParticleSystem deathParticle = Instantiate(_playerControl.EnemyParticles[0], transform.position + new Vector3(1.2f, 3f, -2.5f), Quaternion.identity);
                 Destroy(deathParticle.gameObject, deathParticle.main.duration);
             }
         }

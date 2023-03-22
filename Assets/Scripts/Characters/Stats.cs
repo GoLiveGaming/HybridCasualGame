@@ -6,7 +6,6 @@ using NaughtyAttributes;
 
 public class Stats : MonoBehaviour
 {
-    public float m_MaxHealth = 100;
     [SerializeField] private float m_currentHealth = 100;
     public Color damageNumberColor = Color.white;
 
@@ -16,36 +15,38 @@ public class Stats : MonoBehaviour
 
     [Space(5)]
     public bool isPlayer = true;
+    public bool IsNPC { get { return !isPlayer; } }
 
     [Space(2), Header("PLAYER EXCLUSIVE OPTIONS")]
     [SerializeField, ShowIf("isPlayer")] private TextMeshProUGUI m_currentTowerTypeText;
     [SerializeField, ShowIf("isPlayer")] private PlayerUnitBase m_currentTower;
 
-    [Space(5)]
-    public bool isNPC = false;
-    [Space(2), Header("NPC EXCLUSIVE OPTIONS")]
-    [SerializeField, ShowIf("isNPC")] private NPCManagerScript m_NPCManager;
 
-    [Header("READONLY")]
-    [ReadOnly] public bool ownerIsPlayer = false;
+    [Space(5)]
+    [Space(2), Header("NPC EXCLUSIVE OPTIONS")]
+    [SerializeField, ShowIf("IsNPC")] private NPCManagerScript m_NPCManager;
+    [SerializeField] private float killedScore = 1;
 
     bool isDead = false;
     private UIManager m_UIManager;
     private LevelManager m_LevelManager;
     private MainPlayerControl m_MainPlayerControl;
+
+    public float KilledScore { get { return killedScore; } }
+    public float MaxHealth { get; private set; }
     public float Health
     {
         get { return m_currentHealth; }
         set
         {
             m_currentHealth = value;
-            m_currentHealth = Mathf.Clamp(Health, 0, m_MaxHealth);
-            if (m_healthBar) m_healthBar.fillAmount = m_currentHealth / m_MaxHealth;
+            m_currentHealth = Mathf.Clamp(Health, 0, MaxHealth);
+            if (m_healthBar) m_healthBar.fillAmount = m_currentHealth / MaxHealth;
 
             if (m_currentHealth <= 0 && !isDead)
             {
 
-                if (ownerIsPlayer)
+                if (isPlayer)
                 {
                     if (GetComponent<PlayerMainTower>())
                     {
@@ -79,10 +80,10 @@ public class Stats : MonoBehaviour
         m_LevelManager = LevelManager.Instance;
         m_MainPlayerControl = MainPlayerControl.Instance;
 
-        if (m_currentTower = GetComponent<PlayerUnitBase>()) ownerIsPlayer = true;
+        if (m_currentTower = GetComponent<PlayerUnitBase>()) isPlayer = true;
         else m_NPCManager = GetComponent<NPCManagerScript>();
 
-        m_currentHealth = Mathf.Clamp(Health, 0, m_MaxHealth);
+        MaxHealth = m_currentHealth;
 
         if (statsCanvas) statsCanvas.transform.rotation = Camera.main.transform.rotation;
     }
@@ -91,19 +92,16 @@ public class Stats : MonoBehaviour
     public void AddDamage(float damageAmount)
     {
         Health -= damageAmount;
-        m_UIManager.ShowFloatingDamage(damageAmount, transform.position, damageNumberColor);
+        if (!isPlayer)
+            m_UIManager.ShowFloatingScore(damageAmount, transform.position, damageNumberColor);
     }
 
 
-    [ContextMenu("DAMAGE OVER TIME")]
-    public void AddDamageTest()
-    {
-        AddDamageOverTime(5, 1);
-    }
     public void AddDamageOverTime(float duration, float damageAmount)
     {
         StartCoroutine(DamageOvertime(duration, damageAmount));
-        m_UIManager.ShowFloatingDamage(damageAmount, transform.position, damageNumberColor);
+        if (!isPlayer)
+            m_UIManager.ShowFloatingScore(damageAmount, transform.position, damageNumberColor);
     }
 
     private IEnumerator DamageOvertime(float damageDuration, float damagePerSecond)
@@ -127,17 +125,18 @@ public class Stats : MonoBehaviour
         }
 
     }
+
     #region PLAYER EXCLUSIVES
-    public void ShowFloatingText(string value)
+    public void ShowResourceRemovedUI(string value)
     {
-        m_UIManager.ShowFloatingText(value, transform.position, Color.white);
+        m_UIManager.ShowFloatingResourceRemovedUI(value, transform.position, Color.white);
     }
     #endregion
 
     #region NPC EXCLUSIVES
     public void SlowDownMoveSpeed(float speed, float duration)
     {
-        if (!ownerIsPlayer && m_NPCManager)
+        if (!isPlayer && m_NPCManager)
         {
             StartCoroutine(StartSlowMoveSpeed(speed, duration));
         }

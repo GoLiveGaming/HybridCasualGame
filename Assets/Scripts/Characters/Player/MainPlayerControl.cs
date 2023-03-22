@@ -9,15 +9,17 @@ public class MainPlayerControl : MonoBehaviour
 {
     public static MainPlayerControl Instance;
 
-    [Space(2), Header("ATTACK UNITS"), Space(2)]
+    [Space(2), Header("PLAYER ATTACK UNITS"), Space(2)]
     public PlayerUnit[] allPlayerUnits;
-
     public ParticleSystem[] towerParticles;
-    public ParticleSystem[] enemyParticles;
 
     [Space(2), Header("UNIT UPGRADES"), Space(2)]
     [SerializeField] private LayerMask deployAreaLayer;
     [SerializeField] private UnitUpgradesButton upgradeButtonPrefab;
+
+    [Space(2), Header("ENEMY DATA"), Space(2)]
+    [SerializeField] private EnemyData[] allEnemyData;
+    [SerializeField] private ParticleSystem[] enemyParticles;
 
     [Header("RESOURCE METER"), Space(2)]
     [Range(1, 20)] public float maxResources = 10;
@@ -25,12 +27,14 @@ public class MainPlayerControl : MonoBehaviour
 
     [Space(2), Header("SCORE DATA"), Space(2)]
     public ScoringData scoringData;
+    [SerializeField, ReadOnly] private int totalScore;
     [Header("Point Allotment")]
     [SerializeField] private int towerPlacedScore = 10;
     [SerializeField] private int towerUpgradedScore = 20;
     [SerializeField] private int towerDestroyedScore = -5;
-    [SerializeField] private int mainTowerHealthLostScore = -5;
     [SerializeField] private int enemyWaveSurvivedScore = 50;
+    [SerializeField] private int mainTowerHealthLostScore = -5;
+
 
     [Space(2), Header("READONLY")]
     [ReadOnly, Range(1, 20)] public float currentResourcesCount = 10;
@@ -41,6 +45,9 @@ public class MainPlayerControl : MonoBehaviour
     private UIManager uiManager;
     private Camera mainCamera;
 
+
+    public EnemyData[] AllEnemyData { get { return allEnemyData; } }
+    public ParticleSystem[] EnemyParticles { get { return enemyParticles; } }
     private void Awake()
     {
         Time.timeScale = 1;
@@ -85,16 +92,37 @@ public class MainPlayerControl : MonoBehaviour
         }
         if (!flag)
         {
-            Debug.LogError(scoringData.enemiesKilledData + " has not been assigned any Data.");
+            for (int i = 0; i < allEnemyData.Length; i++)
+            {
+                if (allEnemyData[i].enemyPrefab.enemyType == enemyType)
+                {
+                    NPCManagerScript npc = allEnemyData[i].enemyPrefab;
+                    EnemiesKilledData data = new()
+                    {
+                        enemyType = npc.enemyType,
+                        numKilled = 1
+                    };
+
+                    scoringData.enemiesKilledData.Add(data);
+                    break;
+                }
+            }
         }
     }
     public int CalculateTotalScore()
     {
-        int totalScore = 0;
+        totalScore = 0;
 
-        foreach (var data in scoringData.enemiesKilledData)
+        foreach (EnemiesKilledData data in scoringData.enemiesKilledData)
         {
-            totalScore += data.killScorePoint * data.numKilled;
+            foreach (EnemyData enemyData in allEnemyData)
+            {
+                if (data.enemyType == enemyData.enemyPrefab.enemyType)
+                {
+                    totalScore += (int)enemyData.killedScore * data.numKilled;
+                    break;
+                }
+            }
         }
 
         totalScore += TowersPlacedNum * towerPlacedScore;
@@ -122,7 +150,7 @@ public class MainPlayerControl : MonoBehaviour
     public int TowersUpgradedNum { get { return scoringData.TowersUpgraded; } set { scoringData.TowersUpgraded = value; } }
     public int TowersDestroyedNum { get { return scoringData.TowersDestroyed; } set { scoringData.TowersDestroyed = value; } }
     public int EnemyWavesCompletedNum { get { return scoringData.EnemyWavesSurvived; } set { scoringData.EnemyWavesSurvived = value; } }
-    public int MainTowerHealthLostNum { get { return scoringData.MainTowerHealthLostNum = (int)mainPlayerTower.GetComponent<Stats>().m_MaxHealth - (int)mainPlayerTower.GetComponent<Stats>().Health; } }
+    public int MainTowerHealthLostNum { get { return scoringData.MainTowerHealthLostNum = (int)mainPlayerTower.GetComponent<Stats>().MaxHealth - (int)mainPlayerTower.GetComponent<Stats>().Health; } }
 
 
     #endregion
@@ -239,14 +267,18 @@ public class ScoringData
     public int TowersPlaced = 0;
     public int TowersUpgraded = 0;
     public int TowersDestroyed = 0;
-    public int MainTowerHealthLostNum = 0;
-
     public int EnemyWavesSurvived = 0;
+    public int MainTowerHealthLostNum = 0;
 }
 [Serializable]
 public class EnemiesKilledData
 {
     public EnemyTypes enemyType;
-    public int killScorePoint = 0;
-    [ReadOnly] public int numKilled = 0;
+    public int numKilled = 0;
+}
+[Serializable]
+public class EnemyData
+{
+    public NPCManagerScript enemyPrefab;
+    public float killedScore = 1;
 }

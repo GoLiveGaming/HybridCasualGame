@@ -211,6 +211,7 @@ MonoBehaviour:
   collisionLayerMask:
     serializedVersion: 2
     m_Bits: 128
+  associatedColor: {r: 0.17720677, g: 0.3207547, b: 0, a: 1}
   aoeVisualObj: {fileID: 100000, guid: 5b124dba5ab3695458d1d34c69295a51, type: 3}
   aoeLifetime: 0.15
   explosionRadius: 5

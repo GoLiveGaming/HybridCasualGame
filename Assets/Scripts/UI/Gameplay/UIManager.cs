@@ -111,27 +111,29 @@ public class UIManager : Singleton<UIManager>
     }
 
     #region UI VISUAL EFFECTS
-    public void ShowFloatingDamage(float damageAmount, Vector3 atPosition, Color textColor)
+    public void ShowFloatingScore(float damageAmount, Vector3 atPosition, Color textColor)
     {
         if (!m_damageTextPrefab) return;
         Vector3 spawnPos = Camera.main.WorldToScreenPoint(atPosition);
 
         if (damageTextQueue.Count < 1) return;
-        //  TMP_Text damageText = Instantiate(m_damageTextPrefab, spawnPos, Quaternion.identity, rootcanvas.transform);
-        TMP_Text tempTxt = damageTextQueue.Dequeue();
+        TMP_Text tempTxt = damageTextQueue.Dequeue()
+            ;
         tempTxt.transform.position = spawnPos;
         tempTxt.color = textColor;
-        tempTxt.text = damageAmount.ToString();
+        tempTxt.text = "+" + damageAmount.ToString();
+
         tempTxt.gameObject.SetActive(true);
         (tempTxt.transform as RectTransform).DOJump(spawnPos + new Vector3(0, 200, 0), 10, 2, 1).OnComplete(() =>
         {
             tempTxt.gameObject.SetActive(false);
             damageTextQueue.Enqueue(tempTxt);
-        });
-        (tempTxt.transform as RectTransform).DOMoveX(spawnPos.x + Random.Range(-100, 100), 1);
+        }).SetRecyclable(true);
+        (tempTxt.transform as RectTransform).DOMoveX(spawnPos.x + Random.Range(-100, 100), 1).SetRecyclable(true);
 
     }
-    public void ShowFloatingText(string text, Vector3 atPosition, Color textColor)
+
+    public void ShowFloatingResourceRemovedUI(string text, Vector3 atPosition, Color textColor)
     {
         if (!m_floatingTextPrefab) return;
         Vector3 spawnPos = Camera.main.WorldToScreenPoint(atPosition);
@@ -142,31 +144,16 @@ public class UIManager : Singleton<UIManager>
         tempTxt.transform.position = spawnPos;
         tempTxt.color = textColor;
         tempTxt.text = text;
+
         tempTxt.gameObject.SetActive(true);
-        (tempTxt.transform as RectTransform).DOJump((spawnPos + new Vector3(0, 100, 0)), 10, 1, 2).OnComplete(() =>
+        (tempTxt.transform as RectTransform).DOJump(spawnPos + new Vector3(0, 100, 0), 10, 1, 1.5f).OnComplete(() =>
         {
             tempTxt.gameObject.SetActive(false);
         });
 
     }
-    public string FormatStringNextLineOnUpperCase(string value)
-    {
 
-        string formattedString = "";
-
-        for (int i = 0; i < value.Length; i++)
-        {
-            if (i > 0 && char.IsUpper(value[i]))
-            {
-                formattedString += "\n";
-            }
-            formattedString += value[i];
-        }
-
-        return formattedString;
-    }
-
-    internal void ShowNewWaveInfo(WaveData waveData)
+    public void ShowNewWaveInfo(WaveSpawnData waveData)
     {
 
         if (incomingWavePanel.TryGetComponent(out CanvasGroup wavePanelCanvasGroup))
@@ -184,7 +171,7 @@ public class UIManager : Singleton<UIManager>
 
         }
 
-        foreach (EnemyData enemyData in waveData.enemyData)
+        foreach (EnemySpawnData enemyData in waveData.enemySpawnData)
         {
             foreach (EnemySpawnMarker marker in enemySpawnMarkers)
             {
@@ -197,7 +184,6 @@ public class UIManager : Singleton<UIManager>
         }
 
     }
-
 
 
     #endregion

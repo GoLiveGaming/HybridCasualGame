@@ -200,11 +200,11 @@ MonoBehaviour:
   speed: 20
   lifetime: 5
   damage: 3
-  damageDuration: 5
   collisionLayerMask:
     serializedVersion: 2
     m_Bits: 384
-  associatedColor: {r: 0.8980392, g: 0.4117647, b: 0.6784314, a: 1}
+  associatedColor: {r: 1, g: 0, b: 0.27686834, a: 1}
+  damageDuration: 5
   bulletAOE: {fileID: 1542867996167199264}
 --- !u!1001 &8172375413742288312
 PrefabInstance:

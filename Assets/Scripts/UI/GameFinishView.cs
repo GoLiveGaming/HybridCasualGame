@@ -16,9 +16,6 @@ public class GameFinishView : MonoBehaviour
     [SerializeField] private TextMeshProUGUI enemyWavesCompletedNum;
 
 
-    [SerializeField, ReadOnly] private int totalScore = 0;
-
-
     private MainPlayerControl mainPlayerControl;
     private PlayerDataManager playerDataManager;
     private UIManager uiManager;

@@ -207,11 +207,11 @@ MonoBehaviour:
   targetPos: {x: 0, y: 0, z: 0}
   speed: 25
   lifetime: 10
-  damage: 1
+  damage: 3
   collisionLayerMask:
     serializedVersion: 2
     m_Bits: 128
-  associatedColor: {r: 0, g: 0.5568628, b: 0.972549, a: 1}
+  associatedColor: {r: 0, g: 0.35651258, b: 0.6226415, a: 1}
   bulletAOE: {fileID: 2311113357204027629}
   slowedDownSpeed: 0
   slowDownDuration: 5

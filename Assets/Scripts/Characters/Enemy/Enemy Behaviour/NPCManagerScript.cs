@@ -216,7 +216,7 @@ public class NPCManagerScript : MonoBehaviour
     {
         if (_playerControl)
         {
-            ParticleSystem deathParticle = Instantiate(_playerControl.enemyParticles[1], transform.position + new Vector3(0, 5), Quaternion.identity);
+            ParticleSystem deathParticle = Instantiate(_playerControl.EnemyParticles[1], transform.position + new Vector3(0, 5), Quaternion.identity);
             Destroy(deathParticle.gameObject, deathParticle.main.duration);
         }
 

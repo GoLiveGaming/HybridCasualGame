@@ -11,7 +11,6 @@ public class LevelManager : MonoBehaviour
     public static LevelManager Instance;
 
     [Header("ENEMY SPAWNING"), Space(2)]
-    [SerializeField] private NPCManagerScript[] ObjectsToSpawn;
     [SerializeField] private Transform[] spawnLocations;
 
     [Header("Enemy Spawning Rules"), Space(2)]
@@ -96,9 +95,9 @@ public class LevelManager : MonoBehaviour
         string eventName = "Level_0" + (levelNum);
         GameAnalytics.NewProgressionEvent(GAProgressionStatus.Start, eventName);
 
-        foreach (WaveData data in levelData[levelNum].waves)
+        foreach (WaveSpawnData data in levelData[levelNum].waveSpawnData)
         {
-            foreach (EnemyData i in data.enemyData)
+            foreach (EnemySpawnData i in data.enemySpawnData)
             {
                 totalEnemiesInLevel += i.enemyCount;
             }
@@ -108,9 +107,9 @@ public class LevelManager : MonoBehaviour
     IEnumerator SpawnEnemiesInInterval()
     {
 
-        while (currentWaveIndex < levelData[levelNum].waves.Length)
+        while (currentWaveIndex < levelData[levelNum].waveSpawnData.Length)
         {
-            int time = levelData[levelNum].waves[currentWaveIndex].currentWaveWaitTime;
+            int time = levelData[levelNum].waveSpawnData[currentWaveIndex].currentWaveWaitTime;
             while (time >= 0)
             {
                 uiManager.nextWaveTimer.text = time.ToString();
@@ -118,13 +117,12 @@ public class LevelManager : MonoBehaviour
                 time--;
             }
             SpawnEnemyWave();
-            uiManager.ShowNewWaveInfo(levelData[levelNum].waves[currentWaveIndex]);
-
+            uiManager.ShowNewWaveInfo(levelData[levelNum].waveSpawnData[currentWaveIndex]);
             _mainPlayerControl.EnemyWavesCompletedNum++;
 
             currentWaveIndex++;
 
-            if (currentWaveIndex >= levelData[levelNum].waves.Length)
+            if (currentWaveIndex >= levelData[levelNum].waveSpawnData.Length)
             {
                 uiManager.nextWaveTimer.transform.parent.gameObject.SetActive(false);
             }
@@ -134,7 +132,7 @@ public class LevelManager : MonoBehaviour
     }
     void SpawnEnemyWave()
     {
-        foreach (EnemyData enemyData in levelData[levelNum].waves[currentWaveIndex].enemyData)
+        foreach (EnemySpawnData enemyData in levelData[levelNum].waveSpawnData[currentWaveIndex].enemySpawnData)
         {
             for (int i = 0; i < enemyData.enemyCount; i++)
             {
@@ -151,8 +149,9 @@ public class LevelManager : MonoBehaviour
     }
     private void SpawnEnemy(EnemyTypes type, int objectSpawnPosIndex)
     {
+        EnemyData[] data = _mainPlayerControl.AllEnemyData;
         int objectindex = ObjectToSpawnIndex(type);
-        NPCManagerScript tempObj = Instantiate(ObjectsToSpawn[objectindex],
+        NPCManagerScript tempObj = Instantiate(data[objectindex].enemyPrefab,
             RandomNavSphere(spawnLocations[objectSpawnPosIndex].position, spawnProximityRadius, -1),
             Quaternion.identity);
 
@@ -175,9 +174,10 @@ public class LevelManager : MonoBehaviour
 
     private int ObjectToSpawnIndex(EnemyTypes type)
     {
-        for (int i = 0; i < ObjectsToSpawn.Length; i++)
+        EnemyData[] data = _mainPlayerControl.AllEnemyData;
+        for (int i = 0; i < data.Length; i++)
         {
-            if (ObjectsToSpawn[i].enemyType == type)
+            if (data[i].enemyPrefab.enemyType == type)
             {
                 return i;
             }
@@ -192,18 +192,18 @@ public class LevelManager : MonoBehaviour
 [Serializable]
 public class LevelData
 {
-    public WaveData[] waves;
+    public WaveSpawnData[] waveSpawnData;
 }
 
 [Serializable]
-public class WaveData
+public class WaveSpawnData
 {
     public int currentWaveWaitTime;
-    public EnemyData[] enemyData;
+    public EnemySpawnData[] enemySpawnData;
 }
 
 [Serializable]
-public class EnemyData
+public class EnemySpawnData
 {
     public EnemyTypes enemyType;
     public int enemyCount;

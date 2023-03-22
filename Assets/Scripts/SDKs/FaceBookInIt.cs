@@ -4,8 +4,9 @@ using NaughtyAttributes;
 
 public class FaceBookInIt : SingletonPersistent<FaceBookInIt>
 {
-    void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         if (!FB.IsInitialized)
         {
             // Initialize the Facebook SDK

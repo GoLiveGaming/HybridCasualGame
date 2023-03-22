@@ -70,7 +70,7 @@ public class PlayerTower : PlayerUnitBase
         timeSinceUnitRefresh = unitRefreshAfter;
         currentTowerState = TowerState.Idle;
         _stats.m_healthBar.sprite = TowerIcon;
-        _stats.ShowFloatingText("-" + resourceCost.ToString());
+        _stats.ShowResourceRemovedUI("-" + resourceCost.ToString());
         StartCoroutine(StartDeploymentSequence());
         initialized = true;
     }

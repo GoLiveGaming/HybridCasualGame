@@ -2496,6 +2496,7 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!54 &2136262676603197433
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2560,17 +2561,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9746430a183cc0e48ac989c7c4fc1d67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_MaxHealth: 5
-  m_currentHealth: 5
+  m_currentHealth: 15
   damageNumberColor: {r: 1, g: 1, b: 1, a: 1}
   statsCanvas: {fileID: 7809115939391045503}
   m_healthBar: {fileID: 1222174869722062124}
   isPlayer: 0
   m_currentTowerTypeText: {fileID: 0}
   m_currentTower: {fileID: 0}
-  isNPC: 1
   m_NPCManager: {fileID: 5701197444138071026}
-  ownerIsPlayer: 0
+  killedScore: 1
 --- !u!114 &5701197444138071026
 MonoBehaviour:
   m_ObjectHideFlags: 0

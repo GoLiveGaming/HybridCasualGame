@@ -25,7 +25,7 @@ public class RangedEnemyBullet : Bullet
         if (MainPlayerControl.Instance)
         {
             if(AudioManager.Instance) AudioManager.Instance.audioSource.PlayOneShot(AudioManager.Instance.EnemyHit);
-            ParticleSystem deathParticle = Instantiate(MainPlayerControl.Instance.enemyParticles[0], transform.position, Quaternion.identity);
+            ParticleSystem deathParticle = Instantiate(MainPlayerControl.Instance.EnemyParticles[0], transform.position, Quaternion.identity);
             Destroy(deathParticle.gameObject, deathParticle.main.duration);
         }
     }

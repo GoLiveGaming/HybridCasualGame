@@ -309,6 +309,7 @@ MonoBehaviour:
   collisionLayerMask:
     serializedVersion: 2
     m_Bits: 128
+  associatedColor: {r: 0, g: 0.9043913, b: 1, a: 0.99215686}
   slowedDownSpeed: 0
   slowDownDuration: 3
   ExplosionPrefab: {fileID: 5112403345868107899, guid: 796b753e80e23924db979f2e7f04ad2b,
