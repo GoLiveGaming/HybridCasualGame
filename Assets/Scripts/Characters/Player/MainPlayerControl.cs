@@ -192,7 +192,7 @@ public class MainPlayerControl : MonoBehaviour
         }
     }
 
-    private void StartUpgradesProcess(PlayerUnitDeploymentArea area)
+    protected virtual void StartUpgradesProcess(PlayerUnitDeploymentArea area)
     {
         Vector3 screenPosition = Camera.main.WorldToScreenPoint(area.transform.position);
 

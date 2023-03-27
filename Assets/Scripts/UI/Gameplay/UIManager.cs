@@ -8,44 +8,33 @@ using UnityEngine.UI;
 
 public class UIManager : Singleton<UIManager>
 {
+    [Header("GAME_MODE INFO UI")] [Header("Rect Components")]
+    public GameObject rootCanvas;
 
-    [Header("GAMEMODE INFO UI")]
-    [Header("Rect Componenets")]
-    public GameObject rootcanvas;
-    public GameObject gameplayItemsCanvas;
-    public GameObject unitSelectionCanvas;
     public GameObject incomingWavePanel;
     public GameObject pausePanel;
-    public GameObject loadingPanel;
     public GameObject floatingTextPanel;
     public GameObject unitUpgradesPanel;
+    public GameObject headerPanel;
 
-    [Header("Image Componenets")]
-    public Image resourceMeter;
-    public Image loadingfiller;
+    [Header("Image Components")] public Image resourceMeter;
 
-    [Header("Text Componenets")]
-    public TMP_Text resourcesCount;
+    [Header("Text Components")] public TMP_Text resourcesCount;
     public TMP_Text m_warningText;
     public TMP_Text nextWaveTimer;
 
 
-    [Header("Animator Components")]
-    public Animator resourceMeterAnimator;
+    [Header("Animator Components")] public Animator resourceMeterAnimator;
 
-    [Header("GLOBAL REFRENCE UI")]
-    public TMP_Text m_damageTextPrefab;
+    [Header("GLOBAL REFRENCE UI")] public TMP_Text m_damageTextPrefab;
     public TMP_Text m_floatingTextPrefab;
 
-    [Header("ENEMY DATA PARAMETERS")]
-    public EnemySpawnMarker[] enemySpawnMarkers;
+    [Header("ENEMY DATA PARAMETERS")] public EnemySpawnMarker[] enemySpawnMarkers;
     public GameFinishView gameFinishView;
 
 
-
-
-    private readonly Queue<TMP_Text> damageTextQueue = new();
-    private LevelLoader levelLoader;
+    private readonly Queue<TMP_Text> _damageTextQueue = new();
+    private LevelLoader _levelLoader;
 
     public string ShowWarningText
     {
@@ -60,27 +49,29 @@ public class UIManager : Singleton<UIManager>
                 m_warningText.text = "";
                 m_warningText.gameObject.SetActive(false);
             });
-
         }
     }
+
     protected override void Awake()
     {
         base.Awake();
         Time.timeScale = 1.0f;
-        rootcanvas = this.gameObject;
+        rootCanvas = this.gameObject;
     }
+
     public virtual void Start()
     {
-        levelLoader = LevelLoader.Instance;
+        _levelLoader = LevelLoader.Instance;
 
-        SpawndamageTexts();
+        SpawnDamageTexts();
     }
-    void SpawndamageTexts()
+
+    private void SpawnDamageTexts()
     {
-        for (int i = 0; i < 40; i++)
+        for (var i = 0; i < 40; i++)
         {
-            TMP_Text damageText = Instantiate(m_damageTextPrefab, rootcanvas.transform.position, Quaternion.identity, floatingTextPanel.transform);
-            damageTextQueue.Enqueue(damageText);
+            TMP_Text damageText = Instantiate(m_damageTextPrefab, rootCanvas.transform.position, Quaternion.identity, floatingTextPanel.transform);
+            _damageTextQueue.Enqueue(damageText);
             damageText.gameObject.SetActive(false);
         }
     }
@@ -100,91 +91,98 @@ public class UIManager : Singleton<UIManager>
     {
         MatchFinished(true);
     }
+
     [ContextMenu("Loose Level)")]
     public void LooseMatch()
     {
         MatchFinished(false);
     }
+
+    // ReSharper disable Unity.PerformanceAnalysis
     public void MatchFinished(bool hasWon)
     {
         gameFinishView.StartGameFinishSequence(hasWon);
     }
 
     #region UI VISUAL EFFECTS
+
     public void ShowFloatingScore(float damageAmount, Vector3 atPosition, Color textColor)
     {
         if (!m_damageTextPrefab) return;
         Vector3 spawnPos = Camera.main.WorldToScreenPoint(atPosition);
 
-        if (damageTextQueue.Count < 1) return;
-        TMP_Text tempTxt = damageTextQueue.Dequeue()
+        if (_damageTextQueue.Count < 1) return;
+        TMP_Text tempTxt = _damageTextQueue.Dequeue()
             ;
         tempTxt.transform.position = spawnPos;
         tempTxt.color = textColor;
-        tempTxt.text = "+" + damageAmount.ToString();
+        tempTxt.text = "+" + damageAmount;
 
         tempTxt.gameObject.SetActive(true);
         (tempTxt.transform as RectTransform).DOJump(spawnPos + new Vector3(0, 200, 0), 10, 2, 1).OnComplete(() =>
         {
             tempTxt.gameObject.SetActive(false);
-            damageTextQueue.Enqueue(tempTxt);
+            _damageTextQueue.Enqueue(tempTxt);
         }).SetRecyclable(true);
         (tempTxt.transform as RectTransform).DOMoveX(spawnPos.x + Random.Range(-100, 100), 1).SetRecyclable(true);
-
     }
 
     public void ShowFloatingResourceRemovedUI(string text, Vector3 atPosition, Color textColor)
     {
         if (!m_floatingTextPrefab) return;
-        Vector3 spawnPos = Camera.main.WorldToScreenPoint(atPosition);
+        var spawnPos = Camera.main.WorldToScreenPoint(atPosition);
 
 
-        TMP_Text tempTxt = Instantiate(m_floatingTextPrefab, spawnPos, Quaternion.identity, rootcanvas.transform);
+        var tempTxt = Instantiate(m_floatingTextPrefab, spawnPos, Quaternion.identity, rootCanvas.transform);
 
         tempTxt.transform.position = spawnPos;
         tempTxt.color = textColor;
         tempTxt.text = text;
 
         tempTxt.gameObject.SetActive(true);
-        (tempTxt.transform as RectTransform).DOJump(spawnPos + new Vector3(0, 100, 0), 10, 1, 1.5f).OnComplete(() =>
-        {
-            tempTxt.gameObject.SetActive(false);
-        });
-
+        (tempTxt.transform as RectTransform).DOJump(spawnPos + new Vector3(0, 100, 0), 10, 1, 1.5f).OnComplete(() => { tempTxt.gameObject.SetActive(false); });
     }
 
+    // ReSharper disable Unity.PerformanceAnalysis
     public void ShowNewWaveInfo(WaveSpawnData waveData)
     {
-
         if (incomingWavePanel.TryGetComponent(out CanvasGroup wavePanelCanvasGroup))
         {
+            headerPanel.TryGetComponent(out CanvasGroup headerCanvasGroup);
+            if (headerCanvasGroup)
+                headerCanvasGroup.DOFade(0, 0.5f);
+
+            wavePanelCanvasGroup.alpha = 0;
             incomingWavePanel.SetActive(true);
-            Sequence mySequence = DOTween.Sequence().SetRecyclable(true);
-            mySequence.Append(wavePanelCanvasGroup.DOFade(0, 0.5f));
+            var mySequence = DOTween.Sequence().SetRecyclable(true);
             mySequence.Append(wavePanelCanvasGroup.DOFade(1, 0.5f));
+            mySequence.Append(wavePanelCanvasGroup.DOFade(0, 0.5f));
             mySequence.SetLoops(3);
 
             mySequence.OnComplete(() =>
             {
+                wavePanelCanvasGroup.alpha = 0;
                 incomingWavePanel.SetActive(false);
-            });
 
+                if (headerCanvasGroup)
+                    headerCanvasGroup.DOFade(1, 0.5f);
+            });
         }
 
-        foreach (EnemySpawnData enemyData in waveData.enemySpawnData)
+        foreach (var enemyData in waveData.enemySpawnData)
         {
-            foreach (EnemySpawnMarker marker in enemySpawnMarkers)
+            foreach (var marker in enemySpawnMarkers)
             {
-                if (marker != null && marker.enemyType == enemyData.enemyType)
+                if (marker == null || marker.enemyType != enemyData.enemyType)
                 {
-                    EnemySpawnMarker m = Instantiate(marker, rootcanvas.transform);
-                    m.ShowMarker(LevelManager.Instance.GetSpawnTransform(enemyData.spawnLocation), enemyData.enemyCount);
+                    continue;
                 }
+
+                var m = Instantiate(marker, incomingWavePanel.transform);
+                m.ShowMarker(LevelManager.Instance.GetSpawnTransform(enemyData.spawnLocation), enemyData.enemyCount);
             }
         }
-
     }
-
 
     #endregion
 
@@ -192,7 +190,11 @@ public class UIManager : Singleton<UIManager>
 
     public void EnablePausePanel()
     {
-        if (!pausePanel) { Debug.LogWarning("UnlocksPanel is not assigned at: " + this); return; }
+        if (!pausePanel)
+        {
+            Debug.LogWarning("UnlocksPanel is not assigned at: " + this);
+            return;
+        }
 
         if (pausePanel.TryGetComponent(out EnhancedPanels panel))
         {
@@ -205,9 +207,14 @@ public class UIManager : Singleton<UIManager>
             Time.timeScale = 0.0f;
         }
     }
+
     public void DisablePausePanel()
     {
-        if (!pausePanel) { Debug.LogWarning("UnlocksPanel is not assigned at: " + this); return; }
+        if (!pausePanel)
+        {
+            Debug.LogWarning("UnlocksPanel is not assigned at: " + this);
+            return;
+        }
 
         if (pausePanel.TryGetComponent(out EnhancedPanels panel))
         {
@@ -220,20 +227,22 @@ public class UIManager : Singleton<UIManager>
             pausePanel.SetActive(false);
             Time.timeScale = 1.0f;
         }
-
     }
+
     public void RestartButton()
     {
         SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex);
     }
+
     public void QuitButton()
     {
-        levelLoader.LoadScene(0);
+        _levelLoader.LoadScene(0);
     }
 
     public void ResetTimeScale()
     {
         Time.timeScale = 1;
     }
+
     #endregion
 }

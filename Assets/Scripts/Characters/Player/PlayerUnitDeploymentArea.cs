@@ -40,7 +40,7 @@ public class PlayerUnitDeploymentArea : MonoBehaviour
         _mainPlayerControl.TowersPlacedNum++;
     }
 
-    public void UpgradeExistingAttackUnit(AttackType unitType)
+    public virtual void UpgradeExistingAttackUnit(AttackType unitType)
     {
         PlayerUnit unitSelectedToDeploy = _mainPlayerControl.GetPlayerUnit(unitType);
         DeployUnit(GetUnitAfterMergeCheck(unitSelectedToDeploy));

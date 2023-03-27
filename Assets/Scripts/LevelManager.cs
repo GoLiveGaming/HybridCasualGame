@@ -12,6 +12,7 @@ public class LevelManager : MonoBehaviour
 
     [Header("ENEMY SPAWNING"), Space(2)]
     [SerializeField] private Transform[] spawnLocations;
+    [SerializeField] private bool freezeEnemies;
 
     [Header("Enemy Spawning Rules"), Space(2)]
     public LevelData[] levelData;
@@ -31,6 +32,25 @@ public class LevelManager : MonoBehaviour
     public int AliveEnemiesLeft
     {
         get { return totalEnemiesInLevel - deadEnemiesCount; }
+    }
+    public bool FreezeEnemies
+    {
+        get { return freezeEnemies; }
+        set
+        {
+            freezeEnemies = value;
+
+            foreach (Transform obj in enemiesParent.transform)
+            {
+                if (obj.TryGetComponent(out NPCManagerScript npc))
+                {
+                    if (value)
+                        npc.SetMoveSpeed(0);
+                    else
+                        npc.ResetMoveSpeed();
+                }
+            }
+        }
     }
 
     private UIManager uiManager;
@@ -102,7 +122,6 @@ public class LevelManager : MonoBehaviour
                 totalEnemiesInLevel += i.enemyCount;
             }
         }
-
     }
     IEnumerator SpawnEnemiesInInterval()
     {
@@ -113,9 +132,12 @@ public class LevelManager : MonoBehaviour
             while (time >= 0)
             {
                 uiManager.nextWaveTimer.text = time.ToString();
+                yield return new WaitUntil(() => freezeEnemies == false);
                 yield return new WaitForSeconds(1);
                 time--;
             }
+            yield return new WaitUntil(() => freezeEnemies == false);
+
             SpawnEnemyWave();
             uiManager.ShowNewWaveInfo(levelData[levelNum].waveSpawnData[currentWaveIndex]);
             _mainPlayerControl.EnemyWavesCompletedNum++;

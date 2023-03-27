@@ -1,4 +1,5 @@
 using DG.Tweening;
+using NaughtyAttributes;
 using System.Collections;
 using TMPro;
 using UnityEngine;
@@ -6,15 +7,16 @@ using UnityEngine.UI;
 
 public class TutorialManager : UIManager
 {
-    internal bool firstStep, secondStep, thirdStep;
 
-    public RectTransform TutorialPanelOne;
+
+    [Space(10), Header("TUTORIAL PARAMETERS"), Space(5)]
+    public GameObject blackPanel;
     public Button pauseBtn;
 
-    public TMP_Text tutorialBouncyTxt;
-    public TMP_Text tutorialBouncyTxtBig;
+    public TextMeshProUGUI tutorialTextSmall;
+    public TextMeshProUGUI tutorialTextBig;
 
-    public GameObject[] deployAreas;
+    public PlayerUnitDeploymentArea[] deployAreas;
 
     public TowerDeployeButtonTutorial[] deployButtons;
 
@@ -25,174 +27,152 @@ public class TutorialManager : UIManager
     public Animator cameraAnimator;
     public Animator mainBarracks;
 
+    [ReadOnly] public TutorialStep completedTutorialSteps;
+
+    public enum TutorialStep { NONE, STEP_ONE, STEP_TWO, STEP_THREE, STEP_FOUR };
     public override void Start()
     {
         base.Start();
-        TutorialPanelOne.gameObject.SetActive(false);
-        StartCoroutine(StartTutorial());
+        blackPanel.SetActive(false);
+        StartCoroutine(TutorialFirstStep());
     }
-    IEnumerator StartTutorial()
+
+    private IEnumerator TutorialFirstStep()
     {
-        pauseBtn.gameObject.SetActive(false);
-        ShowDeployButtonsCost(false);
+
         ToggleDeployButtons(false);
-        yield return new WaitForSeconds(4f);
-        TutorialBouncyText("Skeletons are coming for your Kingdom!", 1);
+        ChangeDeployedAreaState(0);
+
+        pauseBtn.gameObject.SetActive(false);
+
+        yield return new WaitForSeconds(5f);
+        ShowTextSmall("Skeletons are coming for your Kingdom!");
         cameraAnimator.gameObject.SetActive(true);
         cameraAnimator.SetBool("PlayAnim1", true);
+
         yield return new WaitForSeconds(5f);
         cameraAnimator.gameObject.SetActive(false);
         cameraAnimator.SetBool("PlayAnim1", false);
-        tutorialBouncyTxt.text = "";
+        tutorialTextSmall.text = "";
+
         yield return new WaitForSeconds(1f);
-        tutorialBouncyTxtBig.gameObject.SetActive(true);
-        TutorialPanelOne.gameObject.SetActive(true);
-        tutorialBouncyTxtBig.text = "Let's bring in a Wizard to help defend your Castle!";
-        for (int i = 0; i < LevelManager.Instance.enemiesParent.childCount; i++)
-        {
-            LevelManager.Instance.enemiesParent.GetChild(i).GetComponent<NPCManagerScript>().SetMoveSpeed(0);
-        }
-        Utils.isGamePaused = true;
-        //GlowDeployButtons(true);
-        //ToggleDeployButtons(true);
-        EnableDeployButtonsFirstStep();
+        tutorialTextBig.gameObject.SetActive(true);
+        blackPanel.SetActive(true);
+
+        tutorialTextBig.text = "Let's bring in a Wizard to help defend your Castle!";
+        ShowTextSmall("Place your Wizard Tower where it can protect your Castle");
+
+        LevelManager.Instance.FreezeEnemies = true;
+
+        ChangeDeployedAreaState(2);
+        EndFirstStep();
+
+        completedTutorialSteps = TutorialStep.STEP_ONE;
     }
     public IEnumerator TutorialSecondStep()
     {
-        ShowDeployButtonsCost(true);
+
         ToggleDeployButtons(true);
 
-        tutorialBouncyTxtBig.gameObject.SetActive(false);
-        
-        for (int i = 0; i < LevelManager.Instance.enemiesParent.childCount; i++)
-        {
-            LevelManager.Instance.enemiesParent.GetChild(i).GetComponent<NPCManagerScript>().ResetMoveSpeed();
-        }
+        tutorialTextBig.gameObject.SetActive(false);
+
+        LevelManager.Instance.FreezeEnemies = false;
+
         Utils.isGamePaused = false;
         for (int i = 0; i < deployAreas.Length; i++)
         {
-            deployAreas[i].SetActive(true);
+            deployAreas[i].gameObject.SetActive(true);
         }
-        TutorialBouncyText("Placing a Wizard Tower Costs Mana", 1);
-        manaObjects[0].SetActive(true);
-        manaObjects[1].SetActive(true);
-        yield return new WaitForSeconds(10f);
-        tutorialBouncyTxt.text = "";
-        manaObjects[0].SetActive(false);
-        manaObjects[1].SetActive(false);
-        yield return new WaitForSeconds(3f);
-        TutorialBouncyText("Your Wizard Tower will repel the skeleton horde!", 1);
-        yield return new WaitForSeconds(6f);
-        tutorialBouncyTxt.text = "";
-        yield return new WaitForSeconds(3f);
-        TutorialBouncyText("Survive the skeleton armies! If your castle falls - you lose!", 1);
+
+
+        ShowTextSmall("Survive the skeleton armies! If your castle falls - you lose!", 1);
         cameraAnimator.gameObject.SetActive(true);
         cameraAnimator.SetBool("PlayAnim2", true);
         mainBarracks.enabled = true;
-        for (int i = 0; i < mainBarracksMaterials.Length; i++)
+        foreach (var t in mainBarracksMaterials)
         {
-            mainBarracksMaterials[0].material.EnableKeyword("_EMISSION");
+            t.material.EnableKeyword("_EMISSION");
         }
+
         yield return new WaitForSeconds(5f);
+
         cameraAnimator.gameObject.SetActive(false);
-        tutorialBouncyTxt.text = "";
-        for (int i = 0; i < mainBarracksMaterials.Length; i++)
+        tutorialTextSmall.text = "";
+        foreach (var t in mainBarracksMaterials)
         {
-            mainBarracksMaterials[0].material.DisableKeyword("_EMISSION");
+            t.material.DisableKeyword("_EMISSION");
         }
         mainBarracks.enabled = false;
-        yield return new WaitForSeconds(5f);
-        tutorialBouncyTxtBig.gameObject.SetActive(true);
-        tutorialBouncyTxtBig.text = "Combine Spells to make stronger Towers!";
-        secondStep = true;
-        ChangeDeployedAreas(1);
-        for (int i = 0; i < LevelManager.Instance.enemiesParent.childCount; i++)
-        {
-            LevelManager.Instance.enemiesParent.GetChild(i).GetComponent<NPCManagerScript>().SetMoveSpeed(0);
-        }
-        Utils.isGamePaused = true;
-        for (int k = 0; k < deployAreas.Length; k++)
-        {
-            if (deployAreas[k].GetComponent<PlayerUnitDeploymentArea>().deployedTower)
-            {
-                for (int i = 0; i < deployAreas[k].GetComponent<PlayerUnitDeploymentArea>().deployedTower.transform.childCount; i++)
-                {
-                    //  deployAreas[k].GetComponent<PlayerUnitDeploymentArea>().deployedTower.transform.GetComponent<Animator>().enabled = true;
-                    deployAreas[k].GetComponent<PlayerUnitDeploymentArea>().deployedTower.transform.GetChild(i).TryGetComponent(out Renderer renderer);
-                    if (renderer) renderer.material.EnableKeyword("_EMISSION");
 
-                    for (int j = 0; j < deployAreas[k].GetComponent<PlayerUnitDeploymentArea>().deployedTower.transform.GetChild(i).childCount; j++)
-                    {
-                        deployAreas[k].GetComponent<PlayerUnitDeploymentArea>().deployedTower.transform.GetChild(i).transform.GetChild(j).TryGetComponent(out Renderer rendererTemp);
-                        if (rendererTemp) rendererTemp.material.EnableKeyword("_EMISSION");
-                    }
-                }
+        yield return new WaitForSeconds(5f);
+
+        tutorialTextBig.gameObject.SetActive(true);
+        tutorialTextBig.text = "Combine Spells to make stronger Towers!";
+
+        foreach(var area in deployAreas)
+        {
+            if (!area.HasDeployedUnit)
+            {
+                continue;
+            }
+
+            // ReSharper disable once Unity.PerformanceCriticalCodeInvocation
+            var renderers = area.GetComponentsInChildren<Renderer>();
+            foreach(var rnd in renderers)
+            {
+                if (rnd) rnd.material.EnableKeyword("_EMISSION");
             }
         }
-        TutorialPanelOne.gameObject.SetActive(true);
-        //GlowDeployButtons(true);
-        EnableDeployButtonsSecondStep();
+
+        // ReSharper disable once Unity.PerformanceCriticalCodeInvocation
+        ChangeDeployedAreaState(2);
+
+        LevelManager.Instance.FreezeEnemies = true;
+
+        // ReSharper disable once Unity.PerformanceCriticalCodeInvocation
+        EndSecondStep();
+        completedTutorialSteps = TutorialStep.STEP_TWO;
     }
 
     public IEnumerator TutorialThirdStep()
     {
-        ShowDeployButtonsCost(true);
+        LevelManager.Instance.FreezeEnemies = true;
+
+        tutorialTextBig.gameObject.SetActive(true);
+        tutorialTextBig.text = "Mix the tower with another element to make new Magic!";
+
+        yield return new WaitForSeconds(4f);
+        tutorialTextBig.gameObject.SetActive(false);
+
+        completedTutorialSteps = TutorialStep.STEP_THREE;
+    }
+    public IEnumerator TutorialFourthStep()
+    {
+
+        // ReSharper disable once Unity.PerformanceCriticalCodeInvocation
         ToggleDeployButtons(true);
 
-        tutorialBouncyTxtBig.gameObject.SetActive(false);
+        LevelManager.Instance.FreezeEnemies = false;
+        // ReSharper disable once Unity.PerformanceCriticalCodeInvocation
+        ChangeDeployedAreaState(2);
 
-        for (int i = 0; i < LevelManager.Instance.enemiesParent.childCount; i++)
-        {
-            LevelManager.Instance.enemiesParent.GetChild(i).GetComponent<NPCManagerScript>().ResetMoveSpeed();
-        }
-        Utils.isGamePaused = false;
-        ChangeDeployedAreas(2);
-        for (int k = 0; k < deployAreas.Length; k++)
-        {
-            if (deployAreas[k].GetComponent<PlayerUnitDeploymentArea>().deployedTower)
-            {
-                deployAreas[k].GetComponent<PlayerUnitDeploymentArea>().deployedTower.transform.TryGetComponent(out Animator animator);
-                if (animator)
-                {
-                    for (int i = 0; i < deployAreas[k].GetComponent<PlayerUnitDeploymentArea>().deployedTower.transform.childCount; i++)
-                    {
-                        //  animator.enabled = false;
-                        deployAreas[k].GetComponent<PlayerUnitDeploymentArea>().deployedTower.transform.GetChild(i).TryGetComponent(out Renderer renderer);
-                        if (renderer) renderer.material.DisableKeyword("_EMISSION");
-
-                        for (int j = 0; j < deployAreas[0].GetComponent<PlayerUnitDeploymentArea>().deployedTower.transform.GetChild(i).childCount; j++)
-                        {
-                            deployAreas[k].GetComponent<PlayerUnitDeploymentArea>().deployedTower.transform.GetChild(i).transform.GetChild(j).TryGetComponent(out Renderer rendererTemp);
-                            if (rendererTemp) rendererTemp.material.DisableKeyword("_EMISSION");
-                        }
-                    }
-                }
-            }
-        }
-        ShowDeployButtonsCost(false);
-        yield return new WaitForSeconds(5f);
-        TutorialBouncyText("Different Elements can mix to create new effects!", 1);
         pauseBtn.gameObject.SetActive(true);
-        yield return new WaitForSeconds(4f);
-        tutorialBouncyTxt.text = "";
+        yield return null;
+        LevelManager.Instance.FreezeEnemies = false;
+        completedTutorialSteps = TutorialStep.STEP_FOUR;
     }
-    public void ShowDeployButtonsCost(bool value)
-    {
-        for (int i = 0; i < deployButtons.Length; i++)
-        {
-            deployButtons[i].transform.GetChild(0).gameObject.SetActive(value);
-        }
-    }
+
     public void ToggleDeployButtons(bool value)
     {
         for (int i = 0; i < deployButtons.Length; i++)
         {
             deployButtons[i].ableToDrag = value;
+            deployButtons[i].transform.GetChild(0).gameObject.SetActive(value);
             deployButtons[i].GetComponent<Button>().interactable = value;
         }
     }
 
-    public void EnableDeployButtonsFirstStep()
+    public void EndFirstStep()
     {
         foreach (TowerDeployeButtonTutorial button in deployButtons)
         {
@@ -210,25 +190,17 @@ public class TutorialManager : UIManager
         }
     }
 
-    public void EnableDeployButtonsSecondStep()
+    public void EndSecondStep()
     {
         foreach (TowerDeployeButtonTutorial button in deployButtons)
         {
-            if (button.attackType == AttackType.WindAttack)
-            {
-                button.ableToDrag = true;
-                button.GetComponent<Button>().interactable = true;
-                button.transform.GetChild(0).gameObject.SetActive(true);
-            }
-            else
-            {
-                button.ableToDrag = false;
-                button.GetComponent<Button>().interactable = false;
-            }
+            button.ableToDrag = false;
+            button.GetComponent<Button>().interactable = false;
+
         }
     }
 
-    public void ChangeDeployedAreas(int changeState)
+    public void ChangeDeployedAreaState(int changeState)
     {
         for (int i = 0; i < deployAreas.Length; i++)
         {
@@ -249,24 +221,16 @@ public class TutorialManager : UIManager
             }
         }
     }
-    public void TempThree()
+
+    private void ShowTextSmall(string tempTxt, float duration = 0.25f)
     {
-        Utils.isGamePaused = true;
-    }
-    internal void TutorialBouncyText(string tempTxt, int duration)
-    {
-        if (!tutorialBouncyTxt)
+        if (!tutorialTextSmall)
             return;
-        tutorialBouncyTxt.fontSize = 70f;
-        tutorialBouncyTxt.gameObject.SetActive(true);
-        tutorialBouncyTxt.text = tempTxt;
-        tutorialBouncyTxt.transform.localScale = Vector3.one;
-        tutorialBouncyTxt.transform.DOScale(Vector3.one * 1.1f, duration).OnComplete(() =>
-        {
-            // tutorialBouncyTxt.text = "";
-            // tutorialBouncyTxt.fontSize = 100f;
-            // tutorialBouncyTxt.transform.localScale = Vector3.one;
-        });
+        tutorialTextSmall.fontSize = 70f;
+        tutorialTextSmall.gameObject.SetActive(true);
+        tutorialTextSmall.text = tempTxt;
+        tutorialTextSmall.transform.localScale = Vector3.zero;
+        tutorialTextSmall.transform.DOScale(Vector3.one, duration);
     }
 
 }

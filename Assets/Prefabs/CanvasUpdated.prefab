@@ -2167,6 +2167,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3673217898158882131}
+  - component: {fileID: 2056803724547072813}
   m_Layer: 5
   m_Name: Header Panel
   m_TagString: Untagged
@@ -2196,6 +2197,18 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: -200}
   m_SizeDelta: {x: 1400, y: 300}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!225 &2056803724547072813
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3673217898158882130}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &3673217898203252232
 GameObject:
   m_ObjectHideFlags: 0
@@ -3863,7 +3876,6 @@ MonoBehaviour:
   totalScoreText: {fileID: 4856192542931286487}
   enemiesKilledText: {fileID: 5237239362494417418}
   enemyWavesCompletedNum: {fileID: 5765506567902995788}
-  totalScore: 0
 --- !u!1 &5769728185426935862
 GameObject:
   m_ObjectHideFlags: 0
@@ -7872,25 +7884,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b8ff3569b061064a9e6f762b29c11f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rootcanvas: {fileID: 6570039173055379620}
-  gameplayItemsCanvas: {fileID: 5938070727936685294}
-  unitSelectionCanvas: {fileID: 6570039172836794549}
+  rootCanvas: {fileID: 6570039173055379620}
   incomingWavePanel: {fileID: 3673217898961460376}
   pausePanel: {fileID: 6570039171860854014}
-  gameWinPanel: {fileID: 0}
-  gameLostPanel: {fileID: 0}
-  loadingPanel: {fileID: 6570039171125860123}
   floatingTextPanel: {fileID: 3331814605282552544}
   unitUpgradesPanel: {fileID: 7625500566330391955}
+  headerPanel: {fileID: 3673217898158882130}
   resourceMeter: {fileID: 848859178041184436}
-  loadingfiller: {fileID: 6570039171562405468}
   resourcesCount: {fileID: 4362028824459712254}
   m_warningText: {fileID: 6570039172876384521}
   nextWaveTimer: {fileID: 3673217898276644471}
-  lastwaveInLosePanel: {fileID: 0}
-  lastwaveInWinPanel: {fileID: 0}
-  enemiesSlainInLosePanel: {fileID: 0}
-  enemiesSlainInWinPanel: {fileID: 0}
   resourceMeterAnimator: {fileID: 848859178041184438}
   m_damageTextPrefab: {fileID: 8290664738074129026, guid: 8fd15c6d58840744c87e9c74032070af,
     type: 3}

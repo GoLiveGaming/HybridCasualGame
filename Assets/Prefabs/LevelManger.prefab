@@ -89,7 +89,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1346930784}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -91.4, y: 0, z: -30.7}
+  m_LocalPosition: {x: -43.1, y: 0, z: 45.4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -120,7 +120,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1479879459}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -33.1, y: 0, z: 24.2}
+  m_LocalPosition: {x: -20.13, y: 0, z: 50.33}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -151,7 +151,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1798902565}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 61.6, y: 0, z: -16.1}
+  m_LocalPosition: {x: 3.2, y: 0, z: 42.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -208,9 +208,10 @@ MonoBehaviour:
   - {fileID: 1346930785}
   - {fileID: 1479879460}
   - {fileID: 1798902566}
+  freezeEnemies: 0
   levelData:
   - waveSpawnData:
-    - currentWaveWaitTime: 5
+    - currentWaveWaitTime: 1
       enemySpawnData:
       - enemyType: 0
         enemyCount: 1

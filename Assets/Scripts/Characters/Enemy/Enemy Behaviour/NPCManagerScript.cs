@@ -13,6 +13,7 @@ public class NPCManagerScript : MonoBehaviour
 {
     [Header("Current State(ReadOnly)"), Space(2)]
     public NPCStates activeState;
+    [SerializeField] internal EnemyTypes enemyType;
 
     [Header("NPC PARAMETERS"), Space(2)]
     [Header("AutoCache Componenets")]
@@ -29,29 +30,33 @@ public class NPCManagerScript : MonoBehaviour
     [Header("AI BEHAVIOR PARAMETERS"), Space(2)]
 
     [SerializeField, Range(0.1f, 5f)] private float stateRefreshDelay = 1f;
+    [SerializeField, ReadOnly] private float timeSinceLastStateRefresh = 0f;
     [SerializeField] internal LayerMask playerTowerLayer;
-    [SerializeField] private float timeSinceLastStateRefresh = 0f;
 
     public NavMeshAgent _agent;
     [HideInInspector] public Stats _stats;
     [HideInInspector] public Animator m_Animator;
 
-    [SerializeField] internal EnemyTypes enemyType;
 
 
     Rigidbody m_Rigidbody;
     float m_TurnAmount;
     float m_ForwardAmount;
     float defaultMoveSpeed;
-    bool m_canMove;
+    bool m_canUpdate;
     Vector3 m_GroundNormal;
 
 
 
     public GameObject GameObjectSelf { get { return this.gameObject; } }
 
-    public void SetMoveSpeed(float value) { moveSpeed = value; _agent.speed = moveSpeed; }
-    public void ResetMoveSpeed() { moveSpeed = defaultMoveSpeed; _agent.speed = moveSpeed; }
+    public void SetMoveSpeed(float value)
+    {
+        if (value == 0) _agent.isStopped = true; _agent.ResetPath();
+        moveSpeed = value; 
+        _agent.speed = moveSpeed;
+    }
+    public void ResetMoveSpeed() { _agent.ResetPath(); moveSpeed = defaultMoveSpeed; _agent.speed = moveSpeed; }
 
     //States initialization
     internal NPCBaseState _currentState;
@@ -77,7 +82,7 @@ public class NPCManagerScript : MonoBehaviour
         {
             _currentState.UpdateState(this);
         }
-        if (m_canMove && _agent.remainingDistance > 0)
+        if (m_canUpdate && _agent.remainingDistance > 0)
         {
             UpdateAnims(_agent.desiredVelocity);
         }
@@ -93,7 +98,7 @@ public class NPCManagerScript : MonoBehaviour
         _stats = GetComponent<Stats>();
         _agent = GetComponent<NavMeshAgent>();
 
-        m_canMove = true;
+        m_canUpdate = true;
         defaultMoveSpeed = moveSpeed;
         _agent.speed = defaultMoveSpeed;
         m_Animator.speed = animatorSpeed;

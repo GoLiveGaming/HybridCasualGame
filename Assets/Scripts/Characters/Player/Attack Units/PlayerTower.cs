@@ -10,7 +10,6 @@ public class PlayerTower : PlayerUnitBase
     [Range(0, 10)] public int constructionTime = 3;
     [SerializeField] private GameObject incompleteTowerObject;
     [SerializeField] private GameObject completedTowerObject;
-    [SerializeField] private GameObject destroyedTowerObject;
 
     [Space(2), Header("Merging Properties")]
     public bool supportsCombining = false;

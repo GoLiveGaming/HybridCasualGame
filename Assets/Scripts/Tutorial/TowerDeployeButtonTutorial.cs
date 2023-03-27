@@ -20,7 +20,7 @@ public class TowerDeployeButtonTutorial : DraggableButton
     private bool initialized = false;
     public bool ableToDrag = true;
 
-    private bool resourcesAvailable
+    private bool ResourcesAvailable
     {
         get
         {
@@ -40,32 +40,28 @@ public class TowerDeployeButtonTutorial : DraggableButton
     {
         if (!ableToDrag)
             return;
-        if (!resourcesAvailable) return;
+        if (!ResourcesAvailable) return;
+
         base.OnBeginDrag(eventData);
 
         #region Tutorial Stuff
-        UIManager.Instance.TryGetComponent(out TutorialManager tutorialManager);
-        if (tutorialManager && !tutorialManager.firstStep)
+        if (UIManager.Instance.TryGetComponent(out TutorialManager tutorialManager))
         {
-            tutorialManager.TutorialPanelOne.gameObject.SetActive(false);
-            tutorialManager.ShowDeployButtonsCost(false);
-            tutorialManager.ChangeDeployedAreas(2);
-            tutorialManager.deployAreas[0].transform.GetComponent<Renderer>().material.color = new Color32(0, 106, 2, 255);
-        }
-        else if (tutorialManager && tutorialManager.firstStep)
-        {
-            tutorialManager.TutorialPanelOne.gameObject.SetActive(false);
-            tutorialManager.tutorialBouncyTxtBig.text = "Drop a Tower onto an existing Tower to make it stronger!";
-        }
+            if (tutorialManager.completedTutorialSteps == TutorialManager.TutorialStep.STEP_ONE)
+            {
+                tutorialManager.blackPanel.SetActive(false);
+                tutorialManager.deployAreas[0].transform.GetComponent<Renderer>().material.color = new Color32(0, 106, 2, 255);
+            }
 
 
-        #endregion
+            #endregion
+        }
     }
     public override void OnDrag(PointerEventData eventData)
     {
         if (!ableToDrag)
             return;
-        if (!resourcesAvailable) return;
+        if (!ResourcesAvailable) return;
         base.OnDrag(eventData);
 
         Ray ray = Camera.main.ScreenPointToRay(transform.position);
@@ -79,22 +75,25 @@ public class TowerDeployeButtonTutorial : DraggableButton
                 if (possibleDeploymentArea != activeDeploymentArea)
                 {
                     ResetButton();
-                    ReInitializeButton(possibleDeploymentArea);
+                    InitializeButton(possibleDeploymentArea);
                     possibleDeploymentArea.ToggleHighlightArea(true);
+
                 }
                 HandleRangeVisuaizer(possibleDeploymentArea);
                 return;
             }
-
         }
-        ResetButton();
+        else
+        {
+            ResetButton();
+        }
 
     }
     public override void OnPointerDown(PointerEventData eventData)
     {
         if (!ableToDrag)
             return;
-        if (!resourcesAvailable)
+        if (!ResourcesAvailable)
         {
             uiManager.ShowWarningText = mainPlayerControl.GetPlayerUnit(attackType).unitPrefab.TowerAttackType.ToString() + "Unit Needs: " + mainPlayerControl.GetPlayerUnit(attackType).unitPrefab.resourceCost.ToString() + " Gems";
             return;
@@ -107,7 +106,7 @@ public class TowerDeployeButtonTutorial : DraggableButton
         if (!ableToDrag)
             return;
 
-        if (!resourcesAvailable) return;
+        if (!ResourcesAvailable) return;
 
         base.OnPointerUp(eventData);
 
@@ -115,48 +114,24 @@ public class TowerDeployeButtonTutorial : DraggableButton
             activeDeploymentArea.DeployAttackUnit(attackType);
 
 
-
         #region Tutorial Stuff
-        UIManager.Instance.TryGetComponent(out TutorialManager tutorialManager);
-        if (tutorialManager && !tutorialManager.secondStep)
+
+        if (UIManager.Instance.TryGetComponent(out TutorialManager tutorialManager))
         {
-            tutorialManager.ChangeDeployedAreas(0);
-        }
-        if (tutorialManager && !tutorialManager.firstStep)
-        {
-            if (!activeDeploymentArea)
+            if (tutorialManager.completedTutorialSteps == TutorialManager.TutorialStep.STEP_ONE)
             {
-                tutorialManager.TutorialPanelOne.gameObject.SetActive(true);
-                tutorialManager.deployAreas[0].gameObject.SetActive(false);
-                tutorialManager.ShowDeployButtonsCost(true);
-            }
-            else
-            {
-                tutorialManager.TutorialPanelOne.gameObject.SetActive(false);
-                StartCoroutine(tutorialManager.TutorialSecondStep());
-                tutorialManager.deployAreas[0].transform.GetComponent<Renderer>().material.color = new Color32(0, 106, 2, 0);
-                tutorialManager.firstStep = true;
-            }
-        }
-        else if (tutorialManager && tutorialManager.firstStep && !tutorialManager.secondStep)
-        {
-            if (!activeDeploymentArea)
-            {
-                tutorialManager.tutorialBouncyTxtBig.text = "Combine Spells to make stronger Towers!";
-                //  tutorialManager.TutorialPanelOne.gameObject.SetActive(true);
-            }
-        }
-        else if (tutorialManager && tutorialManager.firstStep && tutorialManager.secondStep && !tutorialManager.thirdStep)
-        {
-            if (!activeDeploymentArea)
-            {
-                tutorialManager.tutorialBouncyTxtBig.text = "Combine Spells to make stronger Towers!";
-                tutorialManager.TutorialPanelOne.gameObject.SetActive(true);
-            }
-            else
-            {
-                StartCoroutine(tutorialManager.TutorialThirdStep());
-                tutorialManager.thirdStep = true;
+                if (!activeDeploymentArea)
+                {
+                    tutorialManager.blackPanel.SetActive(true);
+                    tutorialManager.deployAreas[0].gameObject.SetActive(false);
+                }
+                else
+                {
+                    tutorialManager.blackPanel.SetActive(false);
+                    StartCoroutine(tutorialManager.TutorialSecondStep());
+                    tutorialManager.deployAreas[0].transform.GetComponent<Renderer>().material.color = new Color32(0, 106, 2, 0);
+
+                }
             }
         }
         #endregion
@@ -164,19 +139,6 @@ public class TowerDeployeButtonTutorial : DraggableButton
         ResetButton();
     }
 
-
-    void ReInitializeButton(PlayerUnitDeploymentArea possibleDeploymentArea)
-    {
-        if (initialized) return;
-        initialized = true;
-
-        if (!possibleDeploymentArea) return;
-
-        activeDeploymentArea = possibleDeploymentArea;
-
-        InitializeButton(possibleDeploymentArea);
-
-    }
     void ResetButton()
     {
         if (!initialized) return;
@@ -197,9 +159,14 @@ public class TowerDeployeButtonTutorial : DraggableButton
 
     void InitializeButton(PlayerUnitDeploymentArea possibleDeploymentArea = null)
     {
-        if (possibleDeploymentArea)
+        if (possibleDeploymentArea != null)
         {
-            PlayerUnit possibleTower = possibleDeploymentArea.GetUnitAfterMergeCheck(mainPlayerControl.GetPlayerUnit(attackType));
+            if (initialized) return;
+            initialized = true;
+
+            activeDeploymentArea = possibleDeploymentArea;
+
+            PlayerUnit possibleTower = mainPlayerControl.GetPlayerUnit(attackType);
             if (possibleTower == null) return;
 
             buttonIcon.sprite = possibleTower.unitPrefab.TowerIcon;
@@ -218,8 +185,13 @@ public class TowerDeployeButtonTutorial : DraggableButton
         if (!spawnedRangeVisualObj) spawnedRangeVisualObj = Instantiate(rangeVisualObjPrefab);
         if (spawnedRangeVisualObj)
         {
-            PlayerUnit possibleTower = possibleDeploymentArea.GetUnitAfterMergeCheck(mainPlayerControl.GetPlayerUnit(attackType));
-            if (possibleTower == null) return;
+            if (possibleDeploymentArea.HasDeployedUnit)
+            {
+                Destroy(spawnedRangeVisualObj);
+                return;
+            }
+
+            PlayerUnit possibleTower = mainPlayerControl.GetPlayerUnit(attackType);
 
             spawnedRangeVisualObj.transform.position = possibleDeploymentArea.transform.position + new Vector3(0, 0.1f, 0);
             //Multiplied Local Scale by 2 becuase we are dealing with radius in shoooting range,
