@@ -1,9 +1,10 @@
+using System.Collections;
 using DG.Tweening;
-using GameAnalyticsSDK;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class UIManager : Singleton<UIManager>
@@ -11,25 +12,27 @@ public class UIManager : Singleton<UIManager>
     [Header("GAME_MODE INFO UI")] [Header("Rect Components")]
     public GameObject rootCanvas;
 
-    public GameObject incomingWavePanel;
     public GameObject pausePanel;
     public GameObject floatingTextPanel;
     public GameObject unitUpgradesPanel;
     public GameObject headerPanel;
 
+    [Header("Canvas Groups")] public CanvasGroup wavePanelGroup;
+    public CanvasGroup waveImageGroup;
+
     [Header("Image Components")] public Image resourceMeter;
 
     [Header("Text Components")] public TMP_Text resourcesCount;
-    public TMP_Text m_warningText;
+    public TMP_Text warningText;
     public TMP_Text nextWaveTimer;
-
+    public TMP_Text scoreText;
 
     [Header("Animator Components")] public Animator resourceMeterAnimator;
 
-    [Header("GLOBAL REFRENCE UI")] public TMP_Text m_damageTextPrefab;
-    public TMP_Text m_floatingTextPrefab;
+    [Header("GLOBAL REFERENCE UI")] public TMP_Text damageTextPrefab;
+    public TMP_Text floatingTextPrefab;
 
-    [Header("ENEMY DATA PARAMETERS")] public EnemySpawnMarker[] enemySpawnMarkers;
+    [Header("ENEMY DATA PARAMETERS")] public EnemySpawnMarker enemySpawnMarker;
     public GameFinishView gameFinishView;
 
 
@@ -38,19 +41,21 @@ public class UIManager : Singleton<UIManager>
 
     public string ShowWarningText
     {
-        get { return m_warningText.text; }
+        get { return warningText.text; }
         set
         {
-            if (!m_warningText) return;
-            m_warningText.text = value;
-            m_warningText.gameObject.SetActive(true);
-            (m_warningText.transform as RectTransform).DOShakeAnchorPos(3, 15).OnComplete(() =>
+            if (!warningText) return;
+            warningText.text = value;
+            warningText.gameObject.SetActive(true);
+            (warningText.transform as RectTransform).DOShakeAnchorPos(3, 15).OnComplete(() =>
             {
-                m_warningText.text = "";
-                m_warningText.gameObject.SetActive(false);
+                warningText.text = "";
+                warningText.gameObject.SetActive(false);
             });
         }
     }
+
+    private MainPlayerControl _mainPlayerControl;
 
     protected override void Awake()
     {
@@ -62,7 +67,8 @@ public class UIManager : Singleton<UIManager>
     public virtual void Start()
     {
         _levelLoader = LevelLoader.Instance;
-
+        _mainPlayerControl = MainPlayerControl.Instance;
+        StartCoroutine(UpdateScoreText());
         SpawnDamageTexts();
     }
 
@@ -70,19 +76,19 @@ public class UIManager : Singleton<UIManager>
     {
         for (var i = 0; i < 40; i++)
         {
-            TMP_Text damageText = Instantiate(m_damageTextPrefab, rootCanvas.transform.position, Quaternion.identity, floatingTextPanel.transform);
+            var damageText = Instantiate(damageTextPrefab, rootCanvas.transform.position, Quaternion.identity, floatingTextPanel.transform);
             _damageTextQueue.Enqueue(damageText);
             damageText.gameObject.SetActive(false);
         }
     }
 
-    internal void ShowResponseMessage(string message, TMP_Text waveTxtTemp)
+    private IEnumerator UpdateScoreText()
     {
-        waveTxtTemp.text = message;
-        Sequence seq = DOTween.Sequence();
-        waveTxtTemp.transform.gameObject.SetActive(true);
-        seq.AppendInterval(2f);
-        seq.AppendCallback(() => { waveTxtTemp.transform.gameObject.SetActive(false); });
+        while (true)
+        {
+            scoreText.text = _mainPlayerControl.CalculateTotalScore().ToString();
+            yield return new WaitForSeconds(2);
+        }
     }
 
 
@@ -108,12 +114,16 @@ public class UIManager : Singleton<UIManager>
 
     public void ShowFloatingScore(float damageAmount, Vector3 atPosition, Color textColor)
     {
-        if (!m_damageTextPrefab) return;
-        Vector3 spawnPos = Camera.main.WorldToScreenPoint(atPosition);
+        if (!damageTextPrefab) return;
+        if (Camera.main == null)
+        {
+            return;
+        }
+
+        var spawnPos = Camera.main.WorldToScreenPoint(atPosition);
 
         if (_damageTextQueue.Count < 1) return;
-        TMP_Text tempTxt = _damageTextQueue.Dequeue()
-            ;
+        var tempTxt = _damageTextQueue.Dequeue();
         tempTxt.transform.position = spawnPos;
         tempTxt.color = textColor;
         tempTxt.text = "+" + damageAmount;
@@ -127,13 +137,24 @@ public class UIManager : Singleton<UIManager>
         (tempTxt.transform as RectTransform).DOMoveX(spawnPos.x + Random.Range(-100, 100), 1).SetRecyclable(true);
     }
 
+    public void ShowNotEnoughResourcesEffect()
+    {
+        if (!resourcesCount) return;
+        (resourcesCount.transform as RectTransform).DOShakeAnchorPos(1, 10);
+    }
+
     public void ShowFloatingResourceRemovedUI(string text, Vector3 atPosition, Color textColor)
     {
-        if (!m_floatingTextPrefab) return;
+        if (!floatingTextPrefab) return;
+        if (Camera.main == null)
+        {
+            return;
+        }
+
         var spawnPos = Camera.main.WorldToScreenPoint(atPosition);
 
 
-        var tempTxt = Instantiate(m_floatingTextPrefab, spawnPos, Quaternion.identity, rootCanvas.transform);
+        var tempTxt = Instantiate(floatingTextPrefab, spawnPos, Quaternion.identity, rootCanvas.transform);
 
         tempTxt.transform.position = spawnPos;
         tempTxt.color = textColor;
@@ -146,42 +167,51 @@ public class UIManager : Singleton<UIManager>
     // ReSharper disable Unity.PerformanceAnalysis
     public void ShowNewWaveInfo(WaveSpawnData waveData)
     {
-        if (incomingWavePanel.TryGetComponent(out CanvasGroup wavePanelCanvasGroup))
+        if (!waveImageGroup)
         {
-            headerPanel.TryGetComponent(out CanvasGroup headerCanvasGroup);
-            if (headerCanvasGroup)
-                headerCanvasGroup.DOFade(0, 0.5f);
-
-            wavePanelCanvasGroup.alpha = 0;
-            incomingWavePanel.SetActive(true);
-            var mySequence = DOTween.Sequence().SetRecyclable(true);
-            mySequence.Append(wavePanelCanvasGroup.DOFade(1, 0.5f));
-            mySequence.Append(wavePanelCanvasGroup.DOFade(0, 0.5f));
-            mySequence.SetLoops(3);
-
-            mySequence.OnComplete(() =>
-            {
-                wavePanelCanvasGroup.alpha = 0;
-                incomingWavePanel.SetActive(false);
-
-                if (headerCanvasGroup)
-                    headerCanvasGroup.DOFade(1, 0.5f);
-            });
+            return;
         }
 
-        foreach (var enemyData in waveData.enemySpawnData)
-        {
-            foreach (var marker in enemySpawnMarkers)
-            {
-                if (marker == null || marker.enemyType != enemyData.enemyType)
-                {
-                    continue;
-                }
+        headerPanel.TryGetComponent(out CanvasGroup headerCanvasGroup);
+        if (headerCanvasGroup)
+            headerCanvasGroup.DOFade(0, 1);
 
-                var m = Instantiate(marker, incomingWavePanel.transform);
-                m.ShowMarker(LevelManager.Instance.GetSpawnTransform(enemyData.spawnLocation), enemyData.enemyCount);
+        ((RectTransform)wavePanelGroup.transform).DOAnchorPosX(-2000, 0).OnComplete(() =>
+        {
+            waveImageGroup.alpha = 0;
+            wavePanelGroup.alpha = 0;
+            wavePanelGroup.gameObject.SetActive(true);
+        });
+
+        wavePanelGroup.DOFade(1, 0.75f);
+        var mySequence01 = DOTween.Sequence().SetRecyclable(true);
+        mySequence01.Append(((RectTransform)wavePanelGroup.transform).DOAnchorPosX(0, 0.5f));
+        mySequence01.OnComplete(() =>
+        {
+            foreach (var enemyData in waveData.enemySpawnData)
+            {
+                var m = Instantiate(enemySpawnMarker, wavePanelGroup.transform);
+                m.ShowMarker(LevelManager.Instance.GetSpawnTransform(enemyData.spawnLocation), 5);
             }
-        }
+
+            var mySequence02 = DOTween.Sequence().SetRecyclable(true);
+            mySequence02.Append(waveImageGroup.DOFade(1, 0.5f));
+            mySequence02.Append(waveImageGroup.DOFade(0, 0.5f));
+            mySequence02.SetLoops(3);
+
+            mySequence02.OnComplete(() =>
+            {
+                wavePanelGroup.DOFade(0, 0.25f);
+                ((RectTransform)wavePanelGroup.transform).DOAnchorPosX(2000, 0.5f).OnComplete(() =>
+                {
+                    waveImageGroup.alpha = 0;
+                    wavePanelGroup.gameObject.SetActive(false);
+
+                    if (headerCanvasGroup)
+                        headerCanvasGroup.DOFade(1, 0.5f);
+                });
+            });
+        });
     }
 
     #endregion

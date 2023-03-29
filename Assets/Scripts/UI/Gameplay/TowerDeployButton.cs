@@ -14,25 +14,25 @@ public class TowerDeployButton : DraggableButton
 
     [Space(2), Header("Readonly")]
     [SerializeField, ReadOnly] private PlayerUnitDeploymentArea activeDeploymentArea;
-    private MainPlayerControl mainPlayerControl;
-    private UIManager uiManager;
-    private GameObject spawnedRangeVisualObj;
-    private bool initialized = false;
+    private MainPlayerControl _mainPlayerControl;
+    private UIManager _uiManager;
+    private GameObject _spawnedRangeVisualObj;
+    private bool _initialized = false;
     public bool ableToDrag = true;
 
     private bool ResourcesAvailable
     {
         get
         {
-            return mainPlayerControl.GetPlayerUnit(attackType).unitPrefab.resourceCost < mainPlayerControl.currentResourcesCount;
+            return _mainPlayerControl.GetPlayerUnit(attackType).unitPrefab.resourceCost < _mainPlayerControl.currentResourcesCount;
         }
     }
 
     private void Start()
     {
-        mainPlayerControl = MainPlayerControl.Instance;
-        uiManager = UIManager.Instance;
-        initialized = false;
+        _mainPlayerControl = MainPlayerControl.Instance;
+        _uiManager = UIManager.Instance;
+        _initialized = false;
         InitializeButton();
     }
 
@@ -81,7 +81,7 @@ public class TowerDeployButton : DraggableButton
             return;
         if (!ResourcesAvailable)
         {
-            uiManager.ShowWarningText = mainPlayerControl.GetPlayerUnit(attackType).unitPrefab.TowerAttackType.ToString() + "Unit Needs: " + mainPlayerControl.GetPlayerUnit(attackType).unitPrefab.resourceCost.ToString() + " Gems";
+            _uiManager.ShowNotEnoughResourcesEffect();
             return;
         }
 
@@ -104,16 +104,16 @@ public class TowerDeployButton : DraggableButton
 
     void ResetButton()
     {
-        if (!initialized) return;
-        initialized = false;
+        if (!_initialized) return;
+        _initialized = false;
 
         if (activeDeploymentArea)
         {
             activeDeploymentArea.ToggleHighlightArea(false);
         }
 
-        if (spawnedRangeVisualObj)
-            Destroy(spawnedRangeVisualObj);
+        if (_spawnedRangeVisualObj)
+            Destroy(_spawnedRangeVisualObj);
 
         activeDeploymentArea = null;
 
@@ -125,12 +125,12 @@ public class TowerDeployButton : DraggableButton
 
         if (possibleDeploymentArea != null)
         {
-            if (initialized) return;
-            initialized = true;
+            if (_initialized) return;
+            _initialized = true;
 
             activeDeploymentArea = possibleDeploymentArea;
 
-            PlayerUnit possibleTower = mainPlayerControl.GetPlayerUnit(attackType);
+            PlayerUnit possibleTower = _mainPlayerControl.GetPlayerUnit(attackType);
             if (possibleTower == null) return;
 
             buttonIcon.sprite = possibleTower.unitPrefab.TowerIcon;
@@ -138,7 +138,7 @@ public class TowerDeployButton : DraggableButton
         }
         else
         {
-            PlayerUnit defaultPlayerUnit = mainPlayerControl.GetPlayerUnit(attackType);
+            PlayerUnit defaultPlayerUnit = _mainPlayerControl.GetPlayerUnit(attackType);
             buttonIcon.sprite = defaultPlayerUnit.unitPrefab.TowerIcon;
             costText.text = defaultPlayerUnit.unitPrefab.resourceCost.ToString();
         }
@@ -146,21 +146,21 @@ public class TowerDeployButton : DraggableButton
     void HandleRangeVisuaizer(PlayerUnitDeploymentArea possibleDeploymentArea)
     {
 
-        if (!spawnedRangeVisualObj) spawnedRangeVisualObj = Instantiate(rangeVisualObjPrefab);
-        if (spawnedRangeVisualObj)
+        if (!_spawnedRangeVisualObj) _spawnedRangeVisualObj = Instantiate(rangeVisualObjPrefab);
+        if (_spawnedRangeVisualObj)
         {
             if (possibleDeploymentArea.HasDeployedUnit)
             {
-                Destroy(spawnedRangeVisualObj);
+                Destroy(_spawnedRangeVisualObj);
                 return;
             }
 
-            PlayerUnit possibleTower = mainPlayerControl.GetPlayerUnit(attackType);
+            PlayerUnit possibleTower = _mainPlayerControl.GetPlayerUnit(attackType);
 
-            spawnedRangeVisualObj.transform.position = possibleDeploymentArea.transform.position + new Vector3(0, 0.1f, 0);
+            _spawnedRangeVisualObj.transform.position = possibleDeploymentArea.transform.position + new Vector3(0, 0.1f, 0);
             //Multiplied Local Scale by 2 becuase we are dealing with radius in shoooting range,
             //But setting scale here, scale is on either side of pivot while radius extends on one side
-            spawnedRangeVisualObj.transform.localScale =
+            _spawnedRangeVisualObj.transform.localScale =
                 2 * possibleTower.unitPrefab.shootingRange * Vector3.one;
         }
 

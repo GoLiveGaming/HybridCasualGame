@@ -69,7 +69,7 @@ public class PlayerUnitDeploymentArea : MonoBehaviour
         return null;
     }
 
-    public void DeployUnit(PlayerUnit towerSelectedToDeploy)
+    private void DeployUnit(PlayerUnit towerSelectedToDeploy)
     {
         if (towerSelectedToDeploy == null)
         {
@@ -78,7 +78,7 @@ public class PlayerUnitDeploymentArea : MonoBehaviour
         }
         if (towerSelectedToDeploy.unitPrefab.resourceCost > _mainPlayerControl.currentResourcesCount)
         {
-            _uiManager.ShowWarningText = towerSelectedToDeploy.unitPrefab.TowerAttackType.ToString() + "Unit Needs: " + towerSelectedToDeploy.unitPrefab.resourceCost.ToString() + "Gems";
+            _uiManager.ShowNotEnoughResourcesEffect();
             return;
         }
         DeleteChildTowers();

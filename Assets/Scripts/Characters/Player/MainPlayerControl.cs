@@ -1,9 +1,11 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using NaughtyAttributes;
 using UnityEngine.EventSystems;
+using UnityEngine.Serialization;
 
 public class MainPlayerControl : MonoBehaviour
 {
@@ -11,43 +13,60 @@ public class MainPlayerControl : MonoBehaviour
 
     [Space(2), Header("PLAYER ATTACK UNITS"), Space(2)]
     public PlayerUnit[] allPlayerUnits;
+
     public ParticleSystem[] towerParticles;
 
-    [Space(2), Header("UNIT UPGRADES"), Space(2)]
-    [SerializeField] private LayerMask deployAreaLayer;
+    [Space(2), Header("UNIT UPGRADES"), Space(2)] [SerializeField]
+    private LayerMask deployAreaLayer;
+
     [SerializeField] private UnitUpgradesButton upgradeButtonPrefab;
 
-    [Space(2), Header("ENEMY DATA"), Space(2)]
-    [SerializeField] private EnemyData[] allEnemyData;
+    [Space(2), Header("ENEMY DATA"), Space(2)] [SerializeField]
+    private EnemyData[] allEnemyData;
+
     [SerializeField] private ParticleSystem[] enemyParticles;
 
-    [Header("RESOURCE METER"), Space(2)]
-    [Range(1, 20)] public float maxResources = 10;
+    [Header("RESOURCE METER"), Space(2)] [Range(1, 20)]
+    public float maxResources = 10;
+
     [Range(0.1f, 5f)] public float resourceRechargeRate = 1.0f;
 
     [Space(2), Header("SCORE DATA"), Space(2)]
     public ScoringData scoringData;
+
     [SerializeField, ReadOnly] private int totalScore;
-    [Header("Point Allotment")]
-    [SerializeField] private int towerPlacedScore = 10;
+
+    [Header("Point Allotment")] [SerializeField]
+    private int towerPlacedScore = 10;
+
     [SerializeField] private int towerUpgradedScore = 20;
     [SerializeField] private int towerDestroyedScore = -5;
     [SerializeField] private int enemyWaveSurvivedScore = 50;
     [SerializeField] private int mainTowerHealthLostScore = -5;
 
 
-    [Space(2), Header("READONLY")]
-    [ReadOnly, Range(1, 20)] public float currentResourcesCount = 10;
+    [Space(2), Header("READONLY")] [ReadOnly, Range(1, 20)]
+    public float currentResourcesCount = 10;
+
     [ReadOnly] public List<PlayerUnitBase> activePlayerTowersList = new();
     [ReadOnly] public PlayerMainTower mainPlayerTower;
-    [ReadOnly] public PlayerDataManager _dataManager;
+    [ReadOnly] public PlayerDataManager dataManager;
     [ReadOnly] public bool isRecharging = false;
-    private UIManager uiManager;
-    private Camera mainCamera;
+    private UIManager _uiManager;
+    private Camera _mainCamera;
+    private static readonly int Full = Animator.StringToHash("Full");
 
 
-    public EnemyData[] AllEnemyData { get { return allEnemyData; } }
-    public ParticleSystem[] EnemyParticles { get { return enemyParticles; } }
+    public EnemyData[] AllEnemyData
+    {
+        get { return allEnemyData; }
+    }
+
+    public ParticleSystem[] EnemyParticles
+    {
+        get { return enemyParticles; }
+    }
+
     private void Awake()
     {
         Time.timeScale = 1;
@@ -56,11 +75,12 @@ public class MainPlayerControl : MonoBehaviour
 
     void Start()
     {
-        mainCamera = Camera.main;
+        _mainCamera = Camera.main;
 
-        uiManager = UIManager.Instance;
-        _dataManager = PlayerDataManager.Instance;
+        _uiManager = UIManager.Instance;
+        dataManager = PlayerDataManager.Instance;
     }
+
     void Update()
     {
         HandleResources();
@@ -74,29 +94,29 @@ public class MainPlayerControl : MonoBehaviour
             if (unit.unitType == unitType)
                 return unit;
         }
+
         return null;
     }
 
     #region SCORE TRACKING
+
     public void AddEnemiesKilledData(EnemyTypes enemyType)
     {
-        bool flag = false;
-        foreach (EnemiesKilledData data in scoringData.enemiesKilledData)
+        var flag = false;
+        foreach (var data in scoringData.enemiesKilledData.Where(data => data.enemyType == enemyType))
         {
-            if (data.enemyType == enemyType)
-            {
-                data.numKilled++;
-                flag = true;
-                break;
-            }
+            data.numKilled++;
+            flag = true;
+            break;
         }
+
         if (!flag)
         {
             for (int i = 0; i < allEnemyData.Length; i++)
             {
                 if (allEnemyData[i].enemyPrefab.enemyType == enemyType)
                 {
-                    NPCManagerScript npc = allEnemyData[i].enemyPrefab;
+                    var npc = allEnemyData[i].enemyPrefab;
                     EnemiesKilledData data = new()
                     {
                         enemyType = npc.enemyType,
@@ -109,19 +129,22 @@ public class MainPlayerControl : MonoBehaviour
             }
         }
     }
+
     public int CalculateTotalScore()
     {
         totalScore = 0;
 
-        foreach (EnemiesKilledData data in scoringData.enemiesKilledData)
+        foreach (var data in scoringData.enemiesKilledData)
         {
-            foreach (EnemyData enemyData in allEnemyData)
+            foreach (var enemyData in allEnemyData)
             {
-                if (data.enemyType == enemyData.enemyPrefab.enemyType)
+                if (data.enemyType != enemyData.enemyPrefab.enemyType)
                 {
-                    totalScore += (int)enemyData.killedScore * data.numKilled;
-                    break;
+                    continue;
                 }
+
+                totalScore += (int)enemyData.killedScore * data.numKilled;
+                break;
             }
         }
 
@@ -136,97 +159,126 @@ public class MainPlayerControl : MonoBehaviour
 
     public int TotalEnemiesKilledNum
     {
-        get
-        {
-            int num = 0;
-            foreach (EnemiesKilledData data in scoringData.enemiesKilledData)
-            {
-                num += data.numKilled;
-            }
-            return num;
-        }
+        get { return scoringData.enemiesKilledData.Sum(data => data.numKilled); }
     }
-    public int TowersPlacedNum { get { return scoringData.TowersPlaced; } set { scoringData.TowersPlaced = value; } }
-    public int TowersUpgradedNum { get { return scoringData.TowersUpgraded; } set { scoringData.TowersUpgraded = value; } }
-    public int TowersDestroyedNum { get { return scoringData.TowersDestroyed; } set { scoringData.TowersDestroyed = value; } }
-    public int EnemyWavesCompletedNum { get { return scoringData.EnemyWavesSurvived; } set { scoringData.EnemyWavesSurvived = value; } }
-    public int MainTowerHealthLostNum { get { return scoringData.MainTowerHealthLostNum = (int)mainPlayerTower.GetComponent<Stats>().MaxHealth - (int)mainPlayerTower.GetComponent<Stats>().Health; } }
 
+    public int TowersPlacedNum
+    {
+        get { return scoringData.towersPlaced; }
+        set { scoringData.towersPlaced = value; }
+    }
+
+    public int TowersUpgradedNum
+    {
+        get { return scoringData.towersUpgraded; }
+        set { scoringData.towersUpgraded = value; }
+    }
+
+    public int TowersDestroyedNum
+    {
+        get { return scoringData.towersDestroyed; }
+        set { scoringData.towersDestroyed = value; }
+    }
+
+    public int EnemyWavesCompletedNum
+    {
+        get { return scoringData.enemyWavesSurvived; }
+        set { scoringData.enemyWavesSurvived = value; }
+    }
+
+    public int MainTowerHealthLostNum
+    {
+        get { return scoringData.mainTowerHealthLostNum; }
+        set { scoringData.mainTowerHealthLostNum = value; }
+    }
 
     #endregion
 
     #region UPGRADES MANAGEMENT
+
+    // ReSharper disable Unity.PerformanceAnalysis
     private void HandleUnitUpgrades()
     {
-        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
+        if (Input.touchCount <= 0 || Input.GetTouch(0).phase != TouchPhase.Began)
         {
-            // Check if the touch was on a UI element
-            if (EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId))
+            return;
+        }
+
+        // Check if the touch was on a UI element
+        if (EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId))
+        {
+            return;
+        }
+
+        var touch = Input.GetTouch(0);
+        var touchPosition = touch.position;
+
+        // Cast a ray from the touch position in the specified direction
+        var ray = _mainCamera.ScreenPointToRay(touchPosition);
+
+        if (Physics.Raycast(ray, out RaycastHit hit, 200, deployAreaLayer))
+        {
+            if (!hit.transform.TryGetComponent(out PlayerUnitDeploymentArea area))
             {
                 return;
             }
 
-            Touch touch = Input.GetTouch(0);
-            Vector2 touchPosition = touch.position;
-
-            // Cast a ray from the touch position in the specified direction
-            Ray ray = mainCamera.ScreenPointToRay(touchPosition);
-
-            if (Physics.Raycast(ray, out RaycastHit hit, 200, deployAreaLayer))
+            if (!area.HasDeployedUnit)
             {
-                if (hit.transform.TryGetComponent(out PlayerUnitDeploymentArea area))
-                {
-                    if (!area.HasDeployedUnit)
-                    {
-                        uiManager.unitUpgradesPanel.SetActive(false);
-                        return;
-                    }
+                _uiManager.unitUpgradesPanel.SetActive(false);
+                return;
+            }
 
-                    StartUpgradesProcess(area);
-                }
-            }
-            else
-            {
-                uiManager.unitUpgradesPanel.SetActive(false);
-            }
+            StartUpgradesProcess(area);
+        }
+        else
+        {
+            _uiManager.unitUpgradesPanel.SetActive(false);
         }
     }
 
     protected virtual void StartUpgradesProcess(PlayerUnitDeploymentArea area)
     {
-        Vector3 screenPosition = Camera.main.WorldToScreenPoint(area.transform.position);
-
-        foreach (Transform tf in uiManager.unitUpgradesPanel.transform)
+        if (Camera.main != null)
         {
-            Destroy(tf.gameObject);
+            var screenPosition = Camera.main.WorldToScreenPoint(area.transform.position);
+
+            foreach (Transform tf in _uiManager.unitUpgradesPanel.transform)
+            {
+                Destroy(tf.gameObject);
+            }
+
+            foreach (var existingUnitCombination in area.deployedTower.possibleCombinations)
+            {
+                if (!dataManager.IsAttackTypeUnlocked(existingUnitCombination.toYield)) continue;
+
+                var upgradesButton = Instantiate(upgradeButtonPrefab, _uiManager.unitUpgradesPanel.transform);
+
+                upgradesButton.InitializeButton(GetPlayerUnit(existingUnitCombination.toYield), area);
+            }
+
+            var rectTransform = _uiManager.unitUpgradesPanel.GetComponent<RectTransform>();
+            rectTransform.position = screenPosition + new Vector3(0, 400, 0);
         }
-        foreach (MergingCombinations existingUnitCombination in area.deployedTower.possibleCombinations)
-        {
-            if (!_dataManager.IsAttackTypeUnlocked(existingUnitCombination.toYield)) continue;
 
-            UnitUpgradesButton upgradesButton = Instantiate(upgradeButtonPrefab, uiManager.unitUpgradesPanel.transform);
-
-            upgradesButton.InitializeButton(GetPlayerUnit(existingUnitCombination.toYield), area);
-        }
-
-        RectTransform rectTransform = uiManager.unitUpgradesPanel.GetComponent<RectTransform>();
-        rectTransform.position = screenPosition + new Vector3(0, 400, 0);
-        uiManager.unitUpgradesPanel.SetActive(true);
+        _uiManager.unitUpgradesPanel.SetActive(true);
     }
 
     #endregion
 
     #region RESOURCE MANAGEMENT
-    public void HandleResources()
+
+    private void HandleResources()
     {
         if (currentResourcesCount < maxResources && !isRecharging)
         {
             StartCoroutine(RechargeResource());
         }
     }
-    IEnumerator RechargeResource()
+
+    private IEnumerator RechargeResource()
     {
-        if (uiManager.resourceMeterAnimator) uiManager.resourceMeterAnimator.SetBool("Full", false);
+        if (_uiManager.resourceMeterAnimator) _uiManager.resourceMeterAnimator.SetBool(Full, false);
         isRecharging = true;
         if (currentResourcesCount == 0 && AudioManager.Instance)
             AudioManager.Instance.audioSource.PlayOneShot(AudioManager.Instance.ManaOut);
@@ -236,16 +288,16 @@ public class MainPlayerControl : MonoBehaviour
         {
             yield return null;
             currentResourcesCount += resourceRechargeRate * Time.deltaTime;
-            uiManager.resourceMeter.fillAmount = currentResourcesCount / maxResources;
-            uiManager.resourcesCount.text = Mathf.RoundToInt(currentResourcesCount).ToString();
-
+            _uiManager.resourceMeter.fillAmount = currentResourcesCount / maxResources;
+            _uiManager.resourcesCount.text = Mathf.RoundToInt(currentResourcesCount).ToString();
         }
+
         currentResourcesCount = Mathf.Clamp(currentResourcesCount, 0, maxResources);
-        uiManager.resourceMeter.fillAmount = currentResourcesCount / maxResources;
-        uiManager.resourcesCount.text = Mathf.RoundToInt(currentResourcesCount).ToString();
-        if (currentResourcesCount == maxResources && AudioManager.Instance)
+        _uiManager.resourceMeter.fillAmount = currentResourcesCount / maxResources;
+        _uiManager.resourcesCount.text = Mathf.RoundToInt(currentResourcesCount).ToString();
+        if (Math.Abs(currentResourcesCount - maxResources) < 0.1f && AudioManager.Instance)
             AudioManager.Instance.audioSource.PlayOneShot(AudioManager.Instance.ManaFull);
-        if (uiManager.resourceMeterAnimator) uiManager.resourceMeterAnimator.SetBool("Full", true);
+        if (_uiManager.resourceMeterAnimator) _uiManager.resourceMeterAnimator.SetBool(Full, true);
         isRecharging = false;
     }
 
@@ -253,7 +305,7 @@ public class MainPlayerControl : MonoBehaviour
     {
         currentResourcesCount -= amount;
         currentResourcesCount = Mathf.Clamp(currentResourcesCount, 0, maxResources);
-        uiManager.resourceMeter.fillAmount = currentResourcesCount / maxResources;
+        _uiManager.resourceMeter.fillAmount = currentResourcesCount / maxResources;
     }
 
     #endregion
@@ -264,18 +316,20 @@ public class ScoringData
 {
     public List<EnemiesKilledData> enemiesKilledData = new();
 
-    public int TowersPlaced = 0;
-    public int TowersUpgraded = 0;
-    public int TowersDestroyed = 0;
-    public int EnemyWavesSurvived = 0;
-    public int MainTowerHealthLostNum = 0;
+    public int towersPlaced = 0;
+    public int towersUpgraded = 0;
+    public int towersDestroyed = 0;
+    public int enemyWavesSurvived = 0;
+    public int mainTowerHealthLostNum = 0;
 }
+
 [Serializable]
 public class EnemiesKilledData
 {
     public EnemyTypes enemyType;
     public int numKilled = 0;
 }
+
 [Serializable]
 public class EnemyData
 {
