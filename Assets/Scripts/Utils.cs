@@ -12,7 +12,7 @@ public class Utils : MonoBehaviour
     }
 
 
-  
+
 }
 
 
@@ -30,12 +30,6 @@ public enum AttackType
     NONE
 
 }
-public enum TowerState
-{
-    Idle,
-    Attack,
-    Destroyed
-}
 
 public enum EnemyTypes
 {
@@ -49,8 +43,15 @@ public enum EnemyTypes
 [Serializable]
 public class PlayerUnit
 {
+    [Space(10)]
     public AttackType unitType;
     public PlayerTower unitPrefab;
+    public int resourcesCost;
+
+    [Header("UI COMPONENTS")]
+    public Sprite indicatorColorIcon;  //Used to indicate color in PlayerTowerUI
+    public Sprite deployButtonSprite;
+    public Sprite statsUISprite;
 }
 
 [Serializable]

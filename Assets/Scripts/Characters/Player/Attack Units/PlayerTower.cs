@@ -4,8 +4,8 @@ using UnityEngine;
 using NaughtyAttributes;
 public class PlayerTower : PlayerUnitBase
 {
+    public AttackType attackType;
     [Space(2), Header("PLAYER TOWER PROPERTIES"), Space(2)]
-    public Sprite TowerIcon;
     [Range(0, 10)] public int resourceCost = 2;
     [Range(0, 10)] public int constructionTime = 3;
     [SerializeField] private GameObject incompleteTowerObject;
@@ -13,11 +13,11 @@ public class PlayerTower : PlayerUnitBase
 
     [Space(2), Header("Merging Properties")]
     public bool supportsCombining = false;
-    public List<MergingCombinations> possibleCombinations = new();
+    [ShowIf("supportsCombining")] public List<MergingCombinations> possibleCombinations = new();
 
     [Header("ATTACK UNIT PROPERTIES")]
     [Range(0.01f, 10f)] public float delayBetweenShots = 0.5f;      // Delay between consequetive shots
-    [Range(0.1f, 100f)] public float shootingRange = 10f;           // Range of the attack unit to fins enemies
+    [Range(0.1f, 100f)] public float shootingRange = 10f;           // Range of the attack unit to find enemies
     [Range(0.01f, 10f)] public float unitRefreshAfter = 2f;         // Dleay between unit searching for newer targets again
     public GameObject attackBulletPrefab;
     public Transform turretMuzzleTF;
@@ -25,17 +25,18 @@ public class PlayerTower : PlayerUnitBase
     private float timeSinceUnitRefresh = 0;
 
     [Space(2), Header("READONLY")]
+
+    [ReadOnly] public PlayerTowerUI playerTowerUI;
+    [ReadOnly] public PlayerUnit playerUnitProperties;
     [ReadOnly] public List<NPCManagerScript> targetsInRange = new();
     [ReadOnly] public PlayerUnitDeploymentArea deployedAtArea;
-    [ReadOnly] public TowerState currentTowerState;
     [ReadOnly] public float timeSinceLastAttack = 0f;
     [ReadOnly] public Transform targetTF;
     private bool isActive;
     private bool initialized = false;
 
-    internal Stats _stats;
-
-
+    public Stats _stats;
+    public UIManager _uiManager;
 
     private void OnDrawGizmosSelected()
     {
@@ -49,6 +50,11 @@ public class PlayerTower : PlayerUnitBase
     protected void OnDisable()
     {
         RemoveUnitFromMain();
+        if (_mainPlayerControl)
+        {
+            SpawnParticles(2, -90);
+        }
+        if (playerTowerUI) Destroy(playerTowerUI.gameObject);
     }
     protected void Start()
     {
@@ -57,19 +63,28 @@ public class PlayerTower : PlayerUnitBase
 
     private void Update()
     {
-        if (!Utils.isGamePaused)
-            UpdateUnit();
+        UpdateUnit();
+        if (playerTowerUI) playerTowerUI.UpdateUI();
     }
 
     void Initialize()
     {
         isActive = false;
         _stats = GetComponent<Stats>();
+        _uiManager = UIManager.Instance;
+        _mainPlayerControl = MainPlayerControl.Instance;
+
+        playerUnitProperties = _mainPlayerControl.GetPlayerUnit(attackType);
+
+        playerTowerUI = Instantiate(_mainPlayerControl.playerTowerUIPrefab, _uiManager.rootCanvas.transform);
+        playerTowerUI.InitializeStatsUI(this, playerUnitProperties.statsUISprite);
+
         deployedAtArea = GetComponentInParent<PlayerUnitDeploymentArea>();
-        timeSinceUnitRefresh = unitRefreshAfter;
-        currentTowerState = TowerState.Idle;
-        _stats.m_healthBar.sprite = TowerIcon;
+
         _stats.ShowResourceRemovedUI("-" + resourceCost.ToString());
+
+
+        timeSinceUnitRefresh = unitRefreshAfter;
         StartCoroutine(StartDeploymentSequence());
         initialized = true;
     }
@@ -78,19 +93,20 @@ public class PlayerTower : PlayerUnitBase
 
         BuildTower(false);
         isActive = false;
-        _stats.m_healthBar.fillAmount = 0;
+
+        playerTowerUI.HealthBarImage.fillAmount = 0;
         float elapsedTime = 0;
-        float startValue = _stats.m_healthBar.fillAmount;
+        float startValue = 0;
         float endValue = 1f;
 
         while (elapsedTime < constructionTime)
         {
             float t = elapsedTime / constructionTime;
-            _stats.m_healthBar.fillAmount = Mathf.Lerp(startValue, endValue, t);
+            playerTowerUI.HealthBarImage.fillAmount = Mathf.Lerp(startValue, endValue, t);
             elapsedTime += Time.deltaTime;
             yield return null;
         }
-        _stats.m_healthBar.fillAmount = endValue;
+        playerTowerUI.HealthBarImage.fillAmount = endValue;
         AddUnitToMain();
         SpawnParticles(3, -90);
         BuildTower(true);
@@ -117,22 +133,7 @@ public class PlayerTower : PlayerUnitBase
         if (isActive)
         {
             RefreshTargetsList();
-            UpdateTowerState();
-            if (currentTowerState == TowerState.Idle) TurretIdleAction();
-            else if (currentTowerState == TowerState.Attack) TurretAttackAction();
-        }
-    }
-
-    protected void UpdateTowerState()
-    {
-        //Switch Between States of turret 
-        if (targetsInRange.Count > 0 && currentTowerState != TowerState.Attack)
-        {
-            currentTowerState = TowerState.Attack;
-        }
-        else if (targetsInRange.Count == 0 && currentTowerState != TowerState.Idle)
-        {
-            currentTowerState = TowerState.Idle;
+            TurretAttackAction();
         }
     }
     protected void RefreshTargetsList()
@@ -160,11 +161,6 @@ public class PlayerTower : PlayerUnitBase
                     }
                 }
         }
-    }
-
-    protected virtual void TurretIdleAction()
-    {
-
     }
     protected virtual void TurretAttackAction()
     {
@@ -212,17 +208,6 @@ public class PlayerTower : PlayerUnitBase
         GameObject bullet = Instantiate(attackBulletPrefab, bulletSpawnPos, transform.rotation);
 
         bullet.GetComponent<Bullet>().InitializeBullet(targetTF.position);
-
-    }
-
-
-
-    private void OnDestroy()
-    {
-        if (mainPlayerControl)
-        {
-            SpawnParticles(2, -90);
-        }
 
     }
 

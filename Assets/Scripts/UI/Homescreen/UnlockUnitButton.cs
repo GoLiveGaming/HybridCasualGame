@@ -10,7 +10,7 @@ public class UnlockUnitButton : MonoBehaviour
     [ReadOnly] public Button button;
     public AttackType attackType;
     [SerializeField] private GameObject confirmationPanel;
-    PlayerDataManager playerDataManager;
+    MainPlayerControl _mainPlayerControls;
     MainMenuUIManager mainMenuUIManager;
     private void Start()
     {
@@ -21,11 +21,11 @@ public class UnlockUnitButton : MonoBehaviour
     public void initialize()
     {
         if (!button) button = GetComponent<Button>();
-        if (!playerDataManager) playerDataManager = PlayerDataManager.Instance;
+        if (!_mainPlayerControls) _mainPlayerControls = MainPlayerControl.Instance;
         if (!mainMenuUIManager) mainMenuUIManager = FindObjectOfType<MainMenuUIManager>();
 
         if (mainMenuUIManager) mainMenuUIManager.UpdateCoinsAmountText();
-        isUnlocked = playerDataManager.IsAttackTypeUnlocked(attackType);
+        isUnlocked = _mainPlayerControls.IsAttackTypeUnlocked(attackType);
         if (isUnlocked)
         {
             button.interactable = false;
@@ -42,7 +42,7 @@ public class UnlockUnitButton : MonoBehaviour
     }
     public void TriggerFunctionality()
     {
-        isUnlocked = playerDataManager.UnlockAttackType(attackType);
+        isUnlocked = _mainPlayerControls.UnlockAttack(attackType);
 
         if (isUnlocked)
         {

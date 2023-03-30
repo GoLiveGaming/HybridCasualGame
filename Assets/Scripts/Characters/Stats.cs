@@ -1,19 +1,12 @@
 using System.Collections;
-using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 using NaughtyAttributes;
-using UnityEngine.Serialization;
 
 public class Stats : MonoBehaviour
 {
+    [Space(2), Header("STATS UI")]
     [SerializeField] private float m_currentHealth = 100;
     public Color damageNumberColor = Color.white;
-
-    [Space(2), Header("STATS UI")] [SerializeField]
-    private GameObject statsCanvas;
-
-    public Image m_healthBar;
 
     [Space(5)] public bool isPlayer = true;
 
@@ -22,13 +15,15 @@ public class Stats : MonoBehaviour
         get { return !isPlayer; }
     }
 
-    [Space(2), Header("PLAYER EXCLUSIVE OPTIONS")] [SerializeField, ShowIf("isPlayer")]
-    private PlayerUnitBase currentTower;
+    [Space(2), Header("PLAYER EXCLUSIVE OPTIONS")]
+    [SerializeField, ShowIf("isPlayer")]
+    private bool isMainTower = false;
+    [SerializeField, ShowIf("isPlayer")]
+    private PlayerTower ownerTower;
 
-    [SerializeField, ShowIf("isPlayer")] private bool isMainTower = false;
 
-
-    [Space(5)] [Space(2), Header("NPC EXCLUSIVE OPTIONS")] [SerializeField, ShowIf("IsNPC")]
+    [Space(2), Header("NPC EXCLUSIVE OPTIONS")]
+    [SerializeField, ShowIf("IsNpc")]
     private NPCManagerScript nPCManager;
 
     [SerializeField] private float killedScore = 1;
@@ -52,7 +47,7 @@ public class Stats : MonoBehaviour
         {
             m_currentHealth = value;
             m_currentHealth = Mathf.Clamp(Health, 0, MaxHealth);
-            if (m_healthBar) m_healthBar.fillAmount = m_currentHealth / MaxHealth;
+            if (ownerTower) ownerTower.playerTowerUI.HealthBarImage.fillAmount = m_currentHealth / MaxHealth;
 
             if (!(m_currentHealth <= 0) || _isDead)
             {
@@ -94,17 +89,18 @@ public class Stats : MonoBehaviour
         _levelManager = LevelManager.Instance;
         _mainPlayerControl = MainPlayerControl.Instance;
 
-        currentTower = GetComponent<PlayerUnitBase>();
-        if (currentTower)
+        if (isPlayer)
         {
-            if (GetComponent<PlayerMainTower>()) isMainTower = true;
-            isPlayer = true;
+            if (GetComponent<PlayerUnitBase>())
+            {
+                if (GetComponent<PlayerMainTower>()) isMainTower = true;
+                else ownerTower = GetComponent<PlayerTower>();
+            }
         }
         else nPCManager = GetComponent<NPCManagerScript>();
 
         MaxHealth = m_currentHealth;
 
-        if (statsCanvas) statsCanvas.transform.rotation = Camera.main.transform.rotation;
     }
 
 
@@ -147,11 +143,12 @@ public class Stats : MonoBehaviour
     }
 
     #region PLAYER EXCLUSIVES
-
     public void ShowResourceRemovedUI(string value)
     {
         _uiManager.ShowFloatingResourceRemovedUI(value, transform.position, Color.white);
     }
+
+
 
     #endregion
 

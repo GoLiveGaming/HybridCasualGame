@@ -133,13 +133,13 @@ public class TowerDeployButton : DraggableButton
             PlayerUnit possibleTower = _mainPlayerControl.GetPlayerUnit(attackType);
             if (possibleTower == null) return;
 
-            buttonIcon.sprite = possibleTower.unitPrefab.TowerIcon;
+            buttonIcon.sprite = possibleTower.deployButtonSprite;
             costText.text = possibleTower.unitPrefab.resourceCost.ToString();
         }
         else
         {
             PlayerUnit defaultPlayerUnit = _mainPlayerControl.GetPlayerUnit(attackType);
-            buttonIcon.sprite = defaultPlayerUnit.unitPrefab.TowerIcon;
+            buttonIcon.sprite = defaultPlayerUnit.deployButtonSprite;
             costText.text = defaultPlayerUnit.unitPrefab.resourceCost.ToString();
         }
     }

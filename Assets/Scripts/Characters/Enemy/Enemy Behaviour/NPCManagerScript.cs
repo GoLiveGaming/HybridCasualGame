@@ -198,7 +198,7 @@ public class NPCManagerScript : MonoBehaviour
     }
     internal bool IsPlayerAvailable()
     {
-        return _playerControl.mainPlayerTower;
+        return _playerControl._mainPlayerTower;
     }
 
     //ANIMATION EVENTS

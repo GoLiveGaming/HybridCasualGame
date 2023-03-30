@@ -1,27 +1,25 @@
-using System.Collections;
-using System.Collections.Generic;
-using TMPro;
-using UnityEngine;
 using UnityEngine.UI;
 
 public class UnitUpgradesButton : EnhancedButton
 {
-    public AttackType attackType;
-    public Image buttonIcon;
-    public TextMeshProUGUI costText;
+    public Image combineWithIcon;
+    public Image toYieldIcon;
 
-    public PlayerUnitDeploymentArea unitDeploymentArea;
+    private PlayerTower ownerTower;
+    AttackType toYieldUnitType;
 
-    public void InitializeButton(PlayerUnit playerUnit, PlayerUnitDeploymentArea playerUnitDeploymentArea)
+
+    public void InitializeButton(PlayerUnit combinesWithUnit, PlayerUnit toYieldUnit, PlayerTower owner)
     {
-        attackType = playerUnit.unitType;
-        unitDeploymentArea = playerUnitDeploymentArea;
-        buttonIcon.sprite = playerUnit.unitPrefab.TowerIcon;
-        costText.text = playerUnit.unitPrefab.resourceCost.ToString();
+        combineWithIcon.sprite = combinesWithUnit.statsUISprite;
+        toYieldIcon.sprite = toYieldUnit.statsUISprite;
+        ownerTower = owner;
+        toYieldUnitType = toYieldUnit.unitType;
+
     }
 
     public void StartUpgrading()
     {
-        unitDeploymentArea.UpgradeExistingAttackUnit(attackType);
+        ownerTower.deployedAtArea.UpgradeExistingAttackUnit(toYieldUnitType);
     }
 }

@@ -4,12 +4,12 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class UIManager : Singleton<UIManager>
 {
-    [Header("GAME_MODE INFO UI")] [Header("Rect Components")]
+    [Header("GAME_MODE INFO UI")]
+    [Header("Rect Components")]
     public GameObject rootCanvas;
 
     public GameObject pausePanel;
@@ -27,10 +27,13 @@ public class UIManager : Singleton<UIManager>
     public TMP_Text nextWaveTimer;
     public TMP_Text scoreText;
 
-    [Header("Animator Components")] public Animator resourceMeterAnimator;
+    [Header("Animator Components")]
+    public Animator resourceMeterAnimator;
 
-    [Header("GLOBAL REFERENCE UI")] public TMP_Text damageTextPrefab;
+    [Header("GLOBAL REFERENCE UI")]
+    public TMP_Text damageTextPrefab;
     public TMP_Text floatingTextPrefab;
+    public UnitUpgradesButton upgradeButtonPrefab;
 
     [Header("ENEMY DATA PARAMETERS")] public EnemySpawnMarker enemySpawnMarker;
     public GameFinishView gameFinishView;

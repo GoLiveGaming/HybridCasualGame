@@ -4,21 +4,20 @@ using NaughtyAttributes;
 [RequireComponent(typeof(Stats))]
 public class PlayerUnitBase : MonoBehaviour
 {
-    public AttackType TowerAttackType;
-    [ReadOnly] public MainPlayerControl mainPlayerControl;
+    [ReadOnly] internal MainPlayerControl _mainPlayerControl;
     protected void AddUnitToMain()
     {
 
-        if (!mainPlayerControl) mainPlayerControl = MainPlayerControl.Instance;
-        if (mainPlayerControl && !mainPlayerControl.activePlayerTowersList.Contains(this))
-            mainPlayerControl.activePlayerTowersList.Add(this);
+        if (!_mainPlayerControl) _mainPlayerControl = MainPlayerControl.Instance;
+        if (_mainPlayerControl && !_mainPlayerControl.activePlayerTowersList.Contains(this))
+            _mainPlayerControl.activePlayerTowersList.Add(this);
 
     }
 
     protected void RemoveUnitFromMain()
     {
-        if (!mainPlayerControl) mainPlayerControl = MainPlayerControl.Instance;
-        if (mainPlayerControl && mainPlayerControl.activePlayerTowersList.Contains(this))
-            mainPlayerControl.activePlayerTowersList.Remove(this);
+        if (!_mainPlayerControl) _mainPlayerControl = MainPlayerControl.Instance;
+        if (_mainPlayerControl && _mainPlayerControl.activePlayerTowersList.Contains(this))
+            _mainPlayerControl.activePlayerTowersList.Remove(this);
     }
 }

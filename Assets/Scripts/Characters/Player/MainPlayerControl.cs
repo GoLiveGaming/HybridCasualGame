@@ -4,8 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using NaughtyAttributes;
-using UnityEngine.EventSystems;
-using UnityEngine.Serialization;
 
 public class MainPlayerControl : MonoBehaviour
 {
@@ -15,18 +13,22 @@ public class MainPlayerControl : MonoBehaviour
     public PlayerUnit[] allPlayerUnits;
 
     public ParticleSystem[] towerParticles;
+    public PlayerTowerUI playerTowerUIPrefab;
 
-    [Space(2), Header("UNIT UPGRADES"), Space(2)] [SerializeField]
+    [Space(2), Header("UNIT UPGRADES"), Space(2)]
+    [SerializeField]
     private LayerMask deployAreaLayer;
 
     [SerializeField] private UnitUpgradesButton upgradeButtonPrefab;
 
-    [Space(2), Header("ENEMY DATA"), Space(2)] [SerializeField]
+    [Space(2), Header("ENEMY DATA"), Space(2)]
+    [SerializeField]
     private EnemyData[] allEnemyData;
 
     [SerializeField] private ParticleSystem[] enemyParticles;
 
-    [Header("RESOURCE METER"), Space(2)] [Range(1, 20)]
+    [Header("RESOURCE METER"), Space(2)]
+    [Range(1, 20)]
     public float maxResources = 10;
 
     [Range(0.1f, 5f)] public float resourceRechargeRate = 1.0f;
@@ -36,24 +38,23 @@ public class MainPlayerControl : MonoBehaviour
 
     [SerializeField, ReadOnly] private int totalScore;
 
-    [Header("Point Allotment")] [SerializeField]
-    private int towerPlacedScore = 10;
-
+    [Header("Point Allotment")]
+    [SerializeField] private int towerPlacedScore = 10;
     [SerializeField] private int towerUpgradedScore = 20;
     [SerializeField] private int towerDestroyedScore = -5;
     [SerializeField] private int enemyWaveSurvivedScore = 50;
     [SerializeField] private int mainTowerHealthLostScore = -5;
 
 
-    [Space(2), Header("READONLY")] [ReadOnly, Range(1, 20)]
+    [Space(2), Header("READONLY")]
+    [ReadOnly, Range(1, 20)]
     public float currentResourcesCount = 10;
 
     [ReadOnly] public List<PlayerUnitBase> activePlayerTowersList = new();
-    [ReadOnly] public PlayerMainTower mainPlayerTower;
-    [ReadOnly] public PlayerDataManager dataManager;
+    [ReadOnly] public PlayerMainTower _mainPlayerTower;
+    [ReadOnly] public PlayerDataManager _dataManager;
     [ReadOnly] public bool isRecharging = false;
     private UIManager _uiManager;
-    private Camera _mainCamera;
     private static readonly int Full = Animator.StringToHash("Full");
 
 
@@ -75,16 +76,13 @@ public class MainPlayerControl : MonoBehaviour
 
     void Start()
     {
-        _mainCamera = Camera.main;
-
         _uiManager = UIManager.Instance;
-        dataManager = PlayerDataManager.Instance;
+        _dataManager = PlayerDataManager.Instance;
     }
 
     void Update()
     {
         HandleResources();
-        HandleUnitUpgrades();
     }
 
     public PlayerUnit GetPlayerUnit(AttackType unitType)
@@ -96,6 +94,42 @@ public class MainPlayerControl : MonoBehaviour
         }
 
         return null;
+    }
+    public PlayerUnit CanUnitsBeMerged(PlayerUnit unit01, PlayerUnit unit02)
+    {
+        if (unit02.unitPrefab.supportsCombining)
+        {
+            foreach (MergingCombinations existingUnitCombination in unit02.unitPrefab.possibleCombinations)
+            {
+                if (existingUnitCombination.combinesWith == unit01.unitPrefab.attackType)
+                {
+                    PlayerUnit combinedUnit = GetPlayerUnit(existingUnitCombination.combinesWith);
+
+                    if (!IsAttackTypeUnlocked(combinedUnit.unitType)) break;
+                    Debug.Log("Upgrading to: " + combinedUnit);
+                    return combinedUnit;
+                }
+            }
+        }
+        Debug.Log("No possible merge combinations found for: " + unit01.unitType);
+        return null;
+    }
+    public bool IsAttackTypeUnlocked(AttackType type)
+    {
+        foreach (PlayerAttacksData data in _dataManager.PlayerData.AllAttackTypesData)
+        {
+            if (data.AttackType == type)
+            {
+                return data.isUnlocked > 0;
+            }
+        }
+
+        return false;
+    }
+
+    public bool UnlockAttack(AttackType attackType)
+    {
+        return _dataManager.UnlockAttackType(attackType);
     }
 
     #region SCORE TRACKING
@@ -190,78 +224,6 @@ public class MainPlayerControl : MonoBehaviour
     {
         get { return scoringData.mainTowerHealthLostNum; }
         set { scoringData.mainTowerHealthLostNum = value; }
-    }
-
-    #endregion
-
-    #region UPGRADES MANAGEMENT
-
-    // ReSharper disable Unity.PerformanceAnalysis
-    private void HandleUnitUpgrades()
-    {
-        if (Input.touchCount <= 0 || Input.GetTouch(0).phase != TouchPhase.Began)
-        {
-            return;
-        }
-
-        // Check if the touch was on a UI element
-        if (EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId))
-        {
-            return;
-        }
-
-        var touch = Input.GetTouch(0);
-        var touchPosition = touch.position;
-
-        // Cast a ray from the touch position in the specified direction
-        var ray = _mainCamera.ScreenPointToRay(touchPosition);
-
-        if (Physics.Raycast(ray, out RaycastHit hit, 200, deployAreaLayer))
-        {
-            if (!hit.transform.TryGetComponent(out PlayerUnitDeploymentArea area))
-            {
-                return;
-            }
-
-            if (!area.HasDeployedUnit)
-            {
-                _uiManager.unitUpgradesPanel.SetActive(false);
-                return;
-            }
-
-            StartUpgradesProcess(area);
-        }
-        else
-        {
-            _uiManager.unitUpgradesPanel.SetActive(false);
-        }
-    }
-
-    protected virtual void StartUpgradesProcess(PlayerUnitDeploymentArea area)
-    {
-        if (Camera.main != null)
-        {
-            var screenPosition = Camera.main.WorldToScreenPoint(area.transform.position);
-
-            foreach (Transform tf in _uiManager.unitUpgradesPanel.transform)
-            {
-                Destroy(tf.gameObject);
-            }
-
-            foreach (var existingUnitCombination in area.deployedTower.possibleCombinations)
-            {
-                if (!dataManager.IsAttackTypeUnlocked(existingUnitCombination.toYield)) continue;
-
-                var upgradesButton = Instantiate(upgradeButtonPrefab, _uiManager.unitUpgradesPanel.transform);
-
-                upgradesButton.InitializeButton(GetPlayerUnit(existingUnitCombination.toYield), area);
-            }
-
-            var rectTransform = _uiManager.unitUpgradesPanel.GetComponent<RectTransform>();
-            rectTransform.position = screenPosition + new Vector3(0, 400, 0);
-        }
-
-        _uiManager.unitUpgradesPanel.SetActive(true);
     }
 
     #endregion

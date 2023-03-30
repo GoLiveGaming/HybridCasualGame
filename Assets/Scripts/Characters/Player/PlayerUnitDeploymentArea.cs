@@ -7,7 +7,6 @@ public class PlayerUnitDeploymentArea : MonoBehaviour
     [ReadOnly] public PlayerTower deployedTower;
     private MainPlayerControl _mainPlayerControl;
     private UIManager _uiManager;
-    private PlayerDataManager _dataManager;
     private AudioManager _audioManager;
 
     private BoxCollider boxCollider;
@@ -27,7 +26,6 @@ public class PlayerUnitDeploymentArea : MonoBehaviour
         _mainPlayerControl = MainPlayerControl.Instance;
         _uiManager = UIManager.Instance;
         _audioManager = AudioManager.Instance;
-        _dataManager = PlayerDataManager.Instance;
 
     }
 
@@ -40,9 +38,10 @@ public class PlayerUnitDeploymentArea : MonoBehaviour
         _mainPlayerControl.TowersPlacedNum++;
     }
 
-    public virtual void UpgradeExistingAttackUnit(AttackType unitType)
+    public virtual void UpgradeExistingAttackUnit(AttackType unitToDeployType)
     {
-        PlayerUnit unitSelectedToDeploy = _mainPlayerControl.GetPlayerUnit(unitType);
+        PlayerUnit unitSelectedToDeploy = _mainPlayerControl.GetPlayerUnit(unitToDeployType);
+
         DeployUnit(GetUnitAfterMergeCheck(unitSelectedToDeploy));
         _mainPlayerControl.TowersUpgradedNum++;
     }
@@ -55,11 +54,11 @@ public class PlayerUnitDeploymentArea : MonoBehaviour
         {
             foreach (MergingCombinations existingUnitCombination in existingUnit.possibleCombinations)
             {
-                if (towerSelectedToDeploy.unitPrefab.TowerAttackType == existingUnitCombination.toYield)
+                if (towerSelectedToDeploy.unitPrefab.attackType == existingUnitCombination.toYield)
                 {
                     PlayerUnit combinedTower = _mainPlayerControl.GetPlayerUnit(existingUnitCombination.toYield);
 
-                    if (!_dataManager.IsAttackTypeUnlocked(combinedTower.unitType)) break;
+                    if (!_mainPlayerControl.IsAttackTypeUnlocked(combinedTower.unitType)) break;
                     Debug.Log("Upgrading to: " + combinedTower);
                     return combinedTower;
                 }

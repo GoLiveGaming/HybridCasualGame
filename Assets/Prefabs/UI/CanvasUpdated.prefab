@@ -7999,6 +7999,8 @@ MonoBehaviour:
     type: 3}
   floatingTextPrefab: {fileID: 8290664738074129026, guid: d441837228f03724dbaed3957e01d9bc,
     type: 3}
+  upgradeButtonPrefab: {fileID: 4682743607638969579, guid: 0352d460eea17544faa430900e660b08,
+    type: 3}
   enemySpawnMarker: {fileID: 6160838839849104270, guid: a3b764a6421f1fc48a848b3af353d630,
     type: 3}
   gameFinishView: {fileID: 2926938366910208636}

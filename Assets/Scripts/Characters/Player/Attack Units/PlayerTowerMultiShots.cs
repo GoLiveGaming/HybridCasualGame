@@ -23,7 +23,8 @@ public class PlayerTowerMultiShots : PlayerTower
         if (shotType == ShotType.BurstShot) StartCoroutine(FireBurstShot());
         else FireSpreadShot();
     }
-    IEnumerator FireBurstShot()
+
+    private IEnumerator FireBurstShot()
     {
         Vector3 bulletSpawnPos = turretMuzzleTF ? turretMuzzleTF.position : transform.position;
 
@@ -38,7 +39,7 @@ public class PlayerTowerMultiShots : PlayerTower
 
     }
 
-    void FireSpreadShot()
+    private void FireSpreadShot()
     {
         for (int i = 0; i < bulletsShotAtOnce; i++)
         {

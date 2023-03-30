@@ -7,6 +7,8 @@ public class PlayerDataManager : SingletonPersistent<PlayerDataManager>
     [SerializeField] private PlayerDataContainer _playerData = new();
     public PlayerDataContainer PlayerData { get { return _playerData; } }
 
+    private MainPlayerControl _mainPlayerControl;
+
 
     protected override void Awake()
     {
@@ -38,6 +40,10 @@ public class PlayerDataManager : SingletonPersistent<PlayerDataManager>
         }
         UpdateDataFromPlayerPrefs();
         PlayerPrefs.Save();
+    }
+    private void Start()
+    {
+        _mainPlayerControl = MainPlayerControl.Instance;
     }
 
     [ContextMenu("UpdateDataFromPlayerPrefs")]
@@ -125,7 +131,7 @@ public class PlayerDataManager : SingletonPersistent<PlayerDataManager>
     public bool UnlockAttackType(AttackType attackType)
     {
         if (CoinsAmount <= 0) return false;
-        if (IsAttackTypeUnlocked(attackType)) return false;
+        if (_mainPlayerControl.IsAttackTypeUnlocked(attackType)) return false;
 
         foreach (var data in _playerData.AllAttackTypesData)
         {
@@ -138,18 +144,6 @@ public class PlayerDataManager : SingletonPersistent<PlayerDataManager>
                 return true;
             }
         }
-        return false;
-    }
-    public bool IsAttackTypeUnlocked(AttackType type)
-    {
-        foreach (PlayerAttacksData data in _playerData.AllAttackTypesData)
-        {
-            if (data.AttackType == type)
-            {
-                return data.isUnlocked > 0;
-            }
-        }
-
         return false;
     }
     public void ClearAllPlayerPrefs()
