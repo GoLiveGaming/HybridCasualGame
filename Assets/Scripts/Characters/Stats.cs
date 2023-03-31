@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 using NaughtyAttributes;
 
 public class Stats : MonoBehaviour

@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class PlayerTowerUI : MonoBehaviour
 {
     [SerializeField] private Image currentUnitTypeImage;
+    [SerializeField] private Image currentUnitTypeImageBG;
     [SerializeField] private Image healthBarImage;
     [SerializeField] private Image sourceIndicatorIcon01;
     [SerializeField] private Image sourceIndicatorIcon02;
@@ -26,7 +27,7 @@ public class PlayerTowerUI : MonoBehaviour
     private MainPlayerControl _mainPlayerControl;
 
 
-    public void InitializeStatsUI(PlayerTower owner, Sprite unityTypeImage)
+    public void InitializeStatsUI(PlayerTower owner, Sprite unitTypeImage)
     {
         ownerTower = owner;
         _mainPlayerControl = owner._mainPlayerControl;
@@ -80,7 +81,8 @@ public class PlayerTowerUI : MonoBehaviour
             sourceIndicatorIconsParent?.gameObject.SetActive(true);
         }
 
-        currentUnitTypeImage.sprite = unityTypeImage;
+        currentUnitTypeImage.sprite = unitTypeImage;
+        currentUnitTypeImageBG.sprite = unitTypeImage;
 
 
 
