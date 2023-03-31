@@ -2,27 +2,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using NaughtyAttributes;
+using static UnityEngine.Rendering.DebugUI;
+
 public class PlayerTower : PlayerUnitBase
 {
-    public AttackType attackType;
     [Space(2), Header("PLAYER TOWER PROPERTIES"), Space(2)]
-    [Range(0, 10)] public int resourceCost = 2;
+    [SerializeField] private AttackType attackType;
     [Range(0, 10)] public int constructionTime = 3;
     [SerializeField] private GameObject incompleteTowerObject;
     [SerializeField] private GameObject completedTowerObject;
 
-    [Space(2), Header("Merging Properties")]
-    public bool supportsCombining = false;
-    [ShowIf("supportsCombining")] public List<MergingCombinations> possibleCombinations = new();
-
     [Header("ATTACK UNIT PROPERTIES")]
+
     [Range(0.01f, 10f)] public float delayBetweenShots = 0.5f;      // Delay between consequetive shots
     [Range(0.1f, 100f)] public float shootingRange = 10f;           // Range of the attack unit to find enemies
     [Range(0.01f, 10f)] public float unitRefreshAfter = 2f;         // Dleay between unit searching for newer targets again
     public GameObject attackBulletPrefab;
     public Transform turretMuzzleTF;
     public LayerMask enemyLayerMask;
-    private float timeSinceUnitRefresh = 0;
+
 
     [Space(2), Header("READONLY")]
 
@@ -30,10 +28,10 @@ public class PlayerTower : PlayerUnitBase
     [ReadOnly] public PlayerUnit playerUnitProperties;
     [ReadOnly] public List<NPCManagerScript> targetsInRange = new();
     [ReadOnly] public PlayerUnitDeploymentArea deployedAtArea;
+    [ReadOnly] private float timeSinceUnitRefresh = 0;
     [ReadOnly] public float timeSinceLastAttack = 0f;
     [ReadOnly] public Transform targetTF;
     private bool isActive;
-    private bool initialized = false;
 
     public Stats _stats;
     public UIManager _uiManager;
@@ -56,10 +54,6 @@ public class PlayerTower : PlayerUnitBase
         }
         if (playerTowerUI) Destroy(playerTowerUI.gameObject);
     }
-    protected void Start()
-    {
-        if (!initialized) Initialize();
-    }
 
     private void Update()
     {
@@ -67,26 +61,29 @@ public class PlayerTower : PlayerUnitBase
         if (playerTowerUI) playerTowerUI.UpdateUI();
     }
 
-    void Initialize()
+    public void Initialize(PlayerUnit unit)
     {
         isActive = false;
-        _stats = GetComponent<Stats>();
+        playerUnitProperties = unit;
+
         _uiManager = UIManager.Instance;
         _mainPlayerControl = MainPlayerControl.Instance;
 
-        playerUnitProperties = _mainPlayerControl.GetPlayerUnit(attackType);
-
-        playerTowerUI = Instantiate(_mainPlayerControl.playerTowerUIPrefab, _uiManager.rootCanvas.transform);
-        playerTowerUI.InitializeStatsUI(this, playerUnitProperties.statsUISprite);
+        _stats = GetComponent<Stats>();
 
         deployedAtArea = GetComponentInParent<PlayerUnitDeploymentArea>();
 
-        _stats.ShowResourceRemovedUI("-" + resourceCost.ToString());
+
+        _uiManager.ShowFloatingResourceRemovedUI("-" + playerUnitProperties.resourceCost.ToString(), transform.position);
+        playerTowerUI = Instantiate(_mainPlayerControl.playerTowerUIPrefab, _uiManager.rootCanvas.transform);
+        playerTowerUI.InitializeUI(this, playerUnitProperties.statsUISprite);
+
+
+        _stats.InitializeStats();
 
 
         timeSinceUnitRefresh = unitRefreshAfter;
         StartCoroutine(StartDeploymentSequence());
-        initialized = true;
     }
     IEnumerator StartDeploymentSequence()
     {
@@ -130,11 +127,10 @@ public class PlayerTower : PlayerUnitBase
 
     public void UpdateUnit()
     {
-        if (isActive)
-        {
-            RefreshTargetsList();
-            TurretAttackAction();
-        }
+        if (!isActive) return;
+
+        RefreshTargetsList();
+        TurretAttackAction();
     }
     protected void RefreshTargetsList()
     {

@@ -19,25 +19,36 @@ public class Stats : MonoBehaviour
     [Space(2), Header("PLAYER EXCLUSIVE OPTIONS")]
     [SerializeField, ShowIf("isPlayer")]
     private bool isMainTower = false;
-    [SerializeField, ShowIf("isPlayer")]
-    private PlayerTower ownerTower;
 
 
     [Space(2), Header("NPC EXCLUSIVE OPTIONS")]
     [SerializeField, ShowIf("IsNpc")]
     private NPCManagerScript nPCManager;
 
-    [SerializeField] private float killedScore = 1;
+    private Image healthbarImage;
+
+    private Image HealthBarImage
+    {
+        get
+        {
+            if (healthbarImage == null)
+            {
+                if (isPlayer)
+                {
+                    if (isMainTower) healthbarImage = GetComponent<PlayerTowerMain>().playerTowerUI.HealthBarImage;
+                    else healthbarImage = GetComponent<PlayerTower>().playerTowerUI.HealthBarImage;
+                }
+            }
+            return healthbarImage;
+        }
+    }
+
+
 
     private bool _isDead = false;
     private UIManager _uiManager;
     private LevelManager _levelManager;
     private MainPlayerControl _mainPlayerControl;
-
-    public float KilledScore
-    {
-        get { return killedScore; }
-    }
 
     private float MaxHealth { get; set; }
 
@@ -47,44 +58,51 @@ public class Stats : MonoBehaviour
         private set
         {
             m_currentHealth = value;
-            m_currentHealth = Mathf.Clamp(Health, 0, MaxHealth);
-            if (ownerTower) ownerTower.playerTowerUI.HealthBarImage.fillAmount = m_currentHealth / MaxHealth;
+            m_currentHealth = Mathf.Clamp(m_currentHealth, 0, MaxHealth);
+            if (HealthBarImage) HealthBarImage.fillAmount = m_currentHealth / MaxHealth;
 
-            if (!(m_currentHealth <= 0) || _isDead)
-            {
-                return;
-            }
-
-            if (isPlayer)
-            {
-                if (isMainTower)
-                {
-                    _uiManager.MatchFinished(false);
-                    _mainPlayerControl.MainTowerHealthLostNum = (int)(MaxHealth - m_currentHealth);
-                    if (AudioManager.Instance) AudioManager.Instance.audioSource.PlayOneShot(AudioManager.Instance.LevelLost);
-                }
-                else
-                {
-                    _mainPlayerControl.TowersDestroyedNum++;
-                }
-            }
-            else
-            {
-                _levelManager.deadEnemiesCount++;
-                _mainPlayerControl.AddEnemiesKilledData(nPCManager.enemyType);
-                if (_levelManager.AliveEnemiesLeft <= 0)
-                {
-                    _uiManager.MatchFinished(true);
-                    if (AudioManager.Instance) AudioManager.Instance.audioSource.PlayOneShot(AudioManager.Instance.Victory);
-                }
-            }
-
-            Destroy(gameObject);
-            _isDead = true;
+            CheckIfDead();
         }
     }
 
-    private void Start()
+
+    private void CheckIfDead()
+    {
+
+        if ((m_currentHealth > 0) || _isDead) //Check if dead
+        {
+            return;
+        }
+
+        if (isPlayer)
+        {
+            if (isMainTower)
+            {
+                _mainPlayerControl.MainTowerHealthLostNum = (int)(MaxHealth - m_currentHealth);
+                _uiManager.MatchFinished(false);
+                if (AudioManager.Instance) AudioManager.Instance.audioSource.PlayOneShot(AudioManager.Instance.LevelLost);
+            }
+            else
+            {
+                _mainPlayerControl.TowersDestroyedNum++;
+            }
+        }
+        else
+        {
+            _levelManager.deadEnemiesCount++;
+            _mainPlayerControl.AddEnemiesKilledData(nPCManager.enemyType);
+            if (_levelManager.AliveEnemiesLeft <= 0)
+            {
+                _uiManager.MatchFinished(true);
+                if (AudioManager.Instance) AudioManager.Instance.audioSource.PlayOneShot(AudioManager.Instance.Victory);
+            }
+        }
+
+        Destroy(gameObject);
+        _isDead = true;
+    }
+
+    public void InitializeStats()
     {
         _uiManager = UIManager.Instance;
         _levelManager = LevelManager.Instance;
@@ -92,18 +110,14 @@ public class Stats : MonoBehaviour
 
         if (isPlayer)
         {
-            if (GetComponent<PlayerUnitBase>())
-            {
-                if (GetComponent<PlayerMainTower>()) isMainTower = true;
-                else ownerTower = GetComponent<PlayerTower>();
-            }
+            if (isMainTower) healthbarImage = GetComponent<PlayerTowerMain>().playerTowerUI.HealthBarImage;
+            else healthbarImage = GetComponent<PlayerTower>().playerTowerUI.HealthBarImage;
         }
         else nPCManager = GetComponent<NPCManagerScript>();
 
         MaxHealth = m_currentHealth;
 
     }
-
 
     public void AddDamage(float damageAmount)
     {
@@ -142,16 +156,6 @@ public class Stats : MonoBehaviour
             mat.DisableKeyword("_EMISSION");
         }
     }
-
-    #region PLAYER EXCLUSIVES
-    public void ShowResourceRemovedUI(string value)
-    {
-        _uiManager.ShowFloatingResourceRemovedUI(value, transform.position, Color.white);
-    }
-
-
-
-    #endregion
 
     #region NPC EXCLUSIVES
 

@@ -209,15 +209,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9746430a183cc0e48ac989c7c4fc1d67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_MaxHealth: 900
   m_currentHealth: 900
   damageNumberColor: {r: 1, g: 1, b: 1, a: 1}
-  statsCanvas: {fileID: 2160611799004808332}
-  m_healthBar: {fileID: 2160611798254373785}
-  m_currentTowerTypeText: {fileID: 0}
-  m_currentTower: {fileID: 0}
-  m_NPCManager: {fileID: 0}
-  ownerIsPlayer: 0
+  isPlayer: 1
+  isMainTower: 1
+  nPCManager: {fileID: 0}
 --- !u!114 &2160611797683153261
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -230,8 +226,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 333636e054d194345aeb3bd458fc67a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TowerAttackType: 0
-  mainPlayerControl: {fileID: 0}
+  playerTowerUI: {fileID: 0}
 --- !u!65 &2160611797683153260
 BoxCollider:
   m_ObjectHideFlags: 0

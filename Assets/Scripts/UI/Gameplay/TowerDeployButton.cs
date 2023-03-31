@@ -24,7 +24,7 @@ public class TowerDeployButton : DraggableButton
     {
         get
         {
-            return _mainPlayerControl.GetPlayerUnit(attackType).unitPrefab.resourceCost < _mainPlayerControl.currentResourcesCount;
+            return _mainPlayerControl.GetPlayerUnit(attackType).resourceCost < _mainPlayerControl.currentResourcesCount;
         }
     }
 
@@ -134,13 +134,13 @@ public class TowerDeployButton : DraggableButton
             if (possibleTower == null) return;
 
             buttonIcon.sprite = possibleTower.deployButtonSprite;
-            costText.text = possibleTower.unitPrefab.resourceCost.ToString();
+            costText.text = possibleTower.resourceCost.ToString();
         }
         else
         {
             PlayerUnit defaultPlayerUnit = _mainPlayerControl.GetPlayerUnit(attackType);
             buttonIcon.sprite = defaultPlayerUnit.deployButtonSprite;
-            costText.text = defaultPlayerUnit.unitPrefab.resourceCost.ToString();
+            costText.text = defaultPlayerUnit.resourceCost.ToString();
         }
     }
     void HandleRangeVisuaizer(PlayerUnitDeploymentArea possibleDeploymentArea)

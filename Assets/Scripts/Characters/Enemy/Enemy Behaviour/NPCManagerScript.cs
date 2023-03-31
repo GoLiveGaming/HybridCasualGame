@@ -35,11 +35,11 @@ public class NPCManagerScript : MonoBehaviour
 
     public NavMeshAgent _agent;
     [HideInInspector] public Stats _stats;
-    [HideInInspector] public Animator m_Animator;
+    [HideInInspector] public Animator _animator;
 
 
 
-    Rigidbody m_Rigidbody;
+    Rigidbody _rigidbody;
     float m_TurnAmount;
     float m_ForwardAmount;
     float defaultMoveSpeed;
@@ -93,17 +93,19 @@ public class NPCManagerScript : MonoBehaviour
             return;
         isInitialized = true;
         _playerControl = MainPlayerControl.Instance;
-        m_Animator = GetComponent<Animator>();
-        m_Rigidbody = GetComponent<Rigidbody>();
+        _animator = GetComponent<Animator>();
+        _rigidbody = GetComponent<Rigidbody>();
         _stats = GetComponent<Stats>();
         _agent = GetComponent<NavMeshAgent>();
+
+        _stats.InitializeStats();
 
         m_canUpdate = true;
         defaultMoveSpeed = moveSpeed;
         _agent.speed = defaultMoveSpeed;
-        m_Animator.speed = animatorSpeed;
+        _animator.speed = animatorSpeed;
 
-        m_Rigidbody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
+        _rigidbody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
         //Adding random parity in state refresh delay to reduce stress on cpu when large quantity of npc's are spawning
         stateRefreshDelay = Mathf.Clamp(Random.Range(stateRefreshDelay - 1f, stateRefreshDelay + 1f), 0f, 5f);
 
@@ -118,8 +120,8 @@ public class NPCManagerScript : MonoBehaviour
         m_TurnAmount = Mathf.Atan2(move.x, move.z);
         m_ForwardAmount = move.z;
 
-        m_Animator.SetFloat("Forward", m_ForwardAmount, 0.1f, Time.deltaTime);
-        m_Animator.SetFloat("Turn", m_TurnAmount, 0.1f, Time.deltaTime);
+        _animator.SetFloat("Forward", m_ForwardAmount, 0.1f, Time.deltaTime);
+        _animator.SetFloat("Turn", m_TurnAmount, 0.1f, Time.deltaTime);
     }
 
     public void SwitchState(NPCBaseState state)
@@ -174,7 +176,8 @@ public class NPCManagerScript : MonoBehaviour
 
     private bool CheckIfTargetInFront()
     {
-        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out RaycastHit hit, detectionRange, playerTowerLayer))
+        Debug.DrawRay(transform.position, firePointTransform.TransformDirection(Vector3.forward) * detectionRange, Color.green);
+        if (Physics.Raycast(transform.position, firePointTransform.TransformDirection(Vector3.forward), out RaycastHit hit, detectionRange, playerTowerLayer))
         {
             Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * hit.distance, Color.green);
             return true;

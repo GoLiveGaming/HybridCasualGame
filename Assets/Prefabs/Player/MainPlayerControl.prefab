@@ -60,7 +60,9 @@ MonoBehaviour:
   - {fileID: 19800000, guid: b5d5bac6bdebee7429499e3341bdc6fa, type: 3}
   - {fileID: 2433282508523890284, guid: d037d5dc95c91c64281843a93533370b, type: 3}
   - {fileID: 198681264470032530, guid: 36c9adf15067b754f95517443aa3abda, type: 3}
-  playerTowerUIPrefab: {fileID: 6366552543704700799, guid: 4047dd929fa747d4db6fcbe4100d6266,
+  playerTowerUIPrefab: {fileID: 4348101995561901118, guid: 4047dd929fa747d4db6fcbe4100d6266,
+    type: 3}
+  playerTowerMainUIPrefab: {fileID: -6209132314473579964, guid: 3beb7244095749044b8bad3cda2e8e09,
     type: 3}
   deployAreaLayer:
     serializedVersion: 2

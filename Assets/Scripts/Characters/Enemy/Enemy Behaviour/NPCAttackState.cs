@@ -6,7 +6,7 @@ public class NPCAttackState : NPCBaseState
         npcManager.activeState = NPCManagerScript.NPCStates.Attack;
         npcManager._agent.isStopped = true;
         npcManager._agent.ResetPath();
-        npcManager.m_Animator.SetBool("Attack", true);
+        npcManager._animator.SetBool("Attack", true);
     }
     public override void UpdateState(NPCManagerScript npcManager)
     {
@@ -19,7 +19,7 @@ public class NPCAttackState : NPCBaseState
 
     public override void ExitState(NPCManagerScript npcManager)
     {
-        npcManager.m_Animator.SetBool("Attack", false);
+        npcManager._animator.SetBool("Attack", false);
         npcManager.SwitchState(npcManager.PursueState);
     }
 }

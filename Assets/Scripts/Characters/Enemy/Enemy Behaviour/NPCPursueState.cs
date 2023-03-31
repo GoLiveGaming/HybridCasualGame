@@ -4,6 +4,7 @@ public class NPCPursueState : NPCBaseState
     public override void EnterState(NPCManagerScript npcManager)
     {
         npcManager.activeState = NPCManagerScript.NPCStates.Pursue;
+        npcManager._agent.ResetPath();
     }
     public override void UpdateState(NPCManagerScript npcManager)
     {

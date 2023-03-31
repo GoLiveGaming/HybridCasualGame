@@ -146,7 +146,7 @@ public class UIManager : Singleton<UIManager>
         (resourcesCount.transform as RectTransform).DOShakeAnchorPos(1, 10);
     }
 
-    public void ShowFloatingResourceRemovedUI(string text, Vector3 atPosition, Color textColor)
+    public void ShowFloatingResourceRemovedUI(string text, Vector3 atPosition)
     {
         if (!floatingTextPrefab) return;
         if (Camera.main == null)
@@ -160,7 +160,6 @@ public class UIManager : Singleton<UIManager>
         var tempTxt = Instantiate(floatingTextPrefab, spawnPos, Quaternion.identity, rootCanvas.transform);
 
         tempTxt.transform.position = spawnPos;
-        tempTxt.color = textColor;
         tempTxt.text = text;
 
         tempTxt.gameObject.SetActive(true);

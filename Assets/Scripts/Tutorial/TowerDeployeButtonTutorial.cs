@@ -24,7 +24,7 @@ public class TowerDeployeButtonTutorial : DraggableButton
     {
         get
         {
-            return mainPlayerControl.GetPlayerUnit(attackType).unitPrefab.resourceCost < mainPlayerControl.currentResourcesCount;
+            return mainPlayerControl.GetPlayerUnit(attackType).resourceCost < mainPlayerControl.currentResourcesCount;
         }
     }
 
@@ -95,8 +95,8 @@ public class TowerDeployeButtonTutorial : DraggableButton
             return;
         if (!ResourcesAvailable)
         {
-            uiManager.ShowWarningText = mainPlayerControl.GetPlayerUnit(attackType).unitPrefab.attackType.ToString() +
-                "Unit Needs: " + mainPlayerControl.GetPlayerUnit(attackType).unitPrefab.resourceCost.ToString() + " Gems";
+            uiManager.ShowWarningText = mainPlayerControl.GetPlayerUnit(attackType).unitType.ToString() +
+                "Unit Needs: " + mainPlayerControl.GetPlayerUnit(attackType).resourceCost.ToString() + " Gems";
             return;
         }
 
@@ -171,13 +171,13 @@ public class TowerDeployeButtonTutorial : DraggableButton
             if (possibleTower == null) return;
 
             buttonIcon.sprite = possibleTower.deployButtonSprite;
-            costText.text = possibleTower.unitPrefab.resourceCost.ToString();
+            costText.text = possibleTower.resourceCost.ToString();
         }
         else
         {
             PlayerUnit defaultPlayerUnit = mainPlayerControl.GetPlayerUnit(attackType);
             buttonIcon.sprite = defaultPlayerUnit.deployButtonSprite;
-            costText.text = defaultPlayerUnit.unitPrefab.resourceCost.ToString();
+            costText.text = defaultPlayerUnit.resourceCost.ToString();
         }
     }
     void HandleRangeVisuaizer(PlayerUnitDeploymentArea possibleDeploymentArea)

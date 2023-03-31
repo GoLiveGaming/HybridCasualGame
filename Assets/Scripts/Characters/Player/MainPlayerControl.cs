@@ -14,6 +14,7 @@ public class MainPlayerControl : MonoBehaviour
 
     public ParticleSystem[] towerParticles;
     public PlayerTowerUI playerTowerUIPrefab;
+    public PlayerTowerMainUI playerTowerMainUIPrefab;
 
     [Space(2), Header("UNIT UPGRADES"), Space(2)]
     [SerializeField]
@@ -51,7 +52,7 @@ public class MainPlayerControl : MonoBehaviour
     public float currentResourcesCount = 10;
 
     [ReadOnly] public List<PlayerUnitBase> activePlayerTowersList = new();
-    [ReadOnly] public PlayerMainTower _mainPlayerTower;
+    [ReadOnly] public PlayerTowerMain _mainPlayerTower;
     [ReadOnly] public PlayerDataManager _dataManager;
     [ReadOnly] public bool isRecharging = false;
     private UIManager _uiManager;
@@ -97,11 +98,11 @@ public class MainPlayerControl : MonoBehaviour
     }
     public PlayerUnit CanUnitsBeMerged(PlayerUnit unit01, PlayerUnit unit02)
     {
-        if (unit02.unitPrefab.supportsCombining)
+        if (unit02.supportsCombining)
         {
-            foreach (MergingCombinations existingUnitCombination in unit02.unitPrefab.possibleCombinations)
+            foreach (MergingCombinations existingUnitCombination in unit02.possibleCombinations)
             {
-                if (existingUnitCombination.combinesWith == unit01.unitPrefab.attackType)
+                if (existingUnitCombination.combinesWith == unit01.unitType)
                 {
                     PlayerUnit combinedUnit = GetPlayerUnit(existingUnitCombination.combinesWith);
 

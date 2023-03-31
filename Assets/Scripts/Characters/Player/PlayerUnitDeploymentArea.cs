@@ -46,15 +46,16 @@ public class PlayerUnitDeploymentArea : MonoBehaviour
         _mainPlayerControl.TowersUpgradedNum++;
     }
 
-    public PlayerUnit GetUnitAfterMergeCheck(PlayerUnit towerSelectedToDeploy)
+    public PlayerUnit GetUnitAfterMergeCheck(PlayerUnit unitSelectedToDeploy)
     {
-        PlayerTower existingUnit = deployedTower;
+
+        PlayerUnit existingUnit = deployedTower.playerUnitProperties;
 
         if (existingUnit && existingUnit.supportsCombining)
         {
             foreach (MergingCombinations existingUnitCombination in existingUnit.possibleCombinations)
             {
-                if (towerSelectedToDeploy.unitPrefab.attackType == existingUnitCombination.toYield)
+                if (existingUnitCombination.toYield == unitSelectedToDeploy.unitType)
                 {
                     PlayerUnit combinedTower = _mainPlayerControl.GetPlayerUnit(existingUnitCombination.toYield);
 
@@ -64,27 +65,28 @@ public class PlayerUnitDeploymentArea : MonoBehaviour
                 }
             }
         }
-        Debug.Log("No possible merge combinations found for: " + towerSelectedToDeploy.unitType);
+        Debug.Log("No possible merge combinations found for: " + unitSelectedToDeploy.unitType);
         return null;
     }
 
-    private void DeployUnit(PlayerUnit towerSelectedToDeploy)
+    private void DeployUnit(PlayerUnit unitSelectedToDeploy)
     {
-        if (towerSelectedToDeploy == null)
+        if (unitSelectedToDeploy == null)
         {
-            _uiManager.ShowWarningText = "Selected Unit Cannot be placed here.";
+            _uiManager.ShowWarningText = "Selected Unit is Null.";
             return;
         }
-        if (towerSelectedToDeploy.unitPrefab.resourceCost > _mainPlayerControl.currentResourcesCount)
+        if (unitSelectedToDeploy.resourceCost > _mainPlayerControl.currentResourcesCount)
         {
             _uiManager.ShowNotEnoughResourcesEffect();
             return;
         }
         DeleteChildTowers();
 
-        PlayerTower spawnedTower = Instantiate(towerSelectedToDeploy.unitPrefab, transform.position, Quaternion.identity);
+        PlayerTower spawnedTower = Instantiate(unitSelectedToDeploy.unitPrefab, transform.position, Quaternion.identity);
         spawnedTower.transform.SetParent(this.transform, true);
-        _mainPlayerControl.RemoveResource(spawnedTower.resourceCost);
+        spawnedTower.Initialize(unitSelectedToDeploy);
+        _mainPlayerControl.RemoveResource(unitSelectedToDeploy.resourceCost);
         if (_audioManager)
         {
             if (deployedTower != null)
