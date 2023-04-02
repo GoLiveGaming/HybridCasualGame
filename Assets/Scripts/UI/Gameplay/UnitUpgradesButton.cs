@@ -1,6 +1,6 @@
+using UnityEngine;
 using UnityEngine.UI;
-
-public class UnitUpgradesButton : EnhancedButton
+public class UnitUpgradesButton : MonoBehaviour
 {
     public Image combineWithIcon;
     public Image toYieldIcon;

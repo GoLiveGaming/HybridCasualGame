@@ -19,12 +19,13 @@ public class TowerDeployButton : DraggableButton
     private GameObject _spawnedRangeVisualObj;
     private bool _initialized = false;
     public bool ableToDrag = true;
+    private PlayerUnit associatedUnit;
 
     private bool ResourcesAvailable
     {
         get
         {
-            return _mainPlayerControl.GetPlayerUnit(attackType).resourceCost < _mainPlayerControl.currentResourcesCount;
+            return associatedUnit.resourceCost < _mainPlayerControl.currentResourcesCount;
         }
     }
 
@@ -32,6 +33,7 @@ public class TowerDeployButton : DraggableButton
     {
         _mainPlayerControl = MainPlayerControl.Instance;
         _uiManager = UIManager.Instance;
+        associatedUnit = _mainPlayerControl.GetPlayerUnit(attackType);
         _initialized = false;
         InitializeButton();
     }
@@ -81,7 +83,7 @@ public class TowerDeployButton : DraggableButton
             return;
         if (!ResourcesAvailable)
         {
-            _uiManager.ShowNotEnoughResourcesEffect();
+            _uiManager.ShowNotEnoughResourcesEffect(associatedUnit.resourceCost);
             return;
         }
 

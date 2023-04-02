@@ -78,7 +78,7 @@ public class PlayerUnitDeploymentArea : MonoBehaviour
         }
         if (unitSelectedToDeploy.resourceCost > _mainPlayerControl.currentResourcesCount)
         {
-            _uiManager.ShowNotEnoughResourcesEffect();
+            _uiManager.ShowNotEnoughResourcesEffect(unitSelectedToDeploy.resourceCost);
             return;
         }
         DeleteChildTowers();

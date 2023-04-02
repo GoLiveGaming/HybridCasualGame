@@ -252,12 +252,12 @@ public class MainPlayerControl : MonoBehaviour
             yield return null;
             currentResourcesCount += resourceRechargeRate * Time.deltaTime;
             _uiManager.resourceMeter.fillAmount = currentResourcesCount / maxResources;
-            _uiManager.resourcesCount.text = Mathf.RoundToInt(currentResourcesCount).ToString();
+            _uiManager.resourcesCountText.text = Mathf.RoundToInt(currentResourcesCount).ToString();
         }
 
         currentResourcesCount = Mathf.Clamp(currentResourcesCount, 0, maxResources);
         _uiManager.resourceMeter.fillAmount = currentResourcesCount / maxResources;
-        _uiManager.resourcesCount.text = Mathf.RoundToInt(currentResourcesCount).ToString();
+        _uiManager.resourcesCountText.text = Mathf.RoundToInt(currentResourcesCount).ToString();
         if (Math.Abs(currentResourcesCount - maxResources) < 0.1f && AudioManager.Instance)
             AudioManager.Instance.audioSource.PlayOneShot(AudioManager.Instance.ManaFull);
         if (_uiManager.resourceMeterAnimator) _uiManager.resourceMeterAnimator.SetBool(Full, true);

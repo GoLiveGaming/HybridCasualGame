@@ -58,7 +58,6 @@ public class PlayerTower : PlayerUnitBase
     private void Update()
     {
         UpdateUnit();
-        if (playerTowerUI) playerTowerUI.UpdateUI();
     }
 
     public void Initialize(PlayerUnit unit)

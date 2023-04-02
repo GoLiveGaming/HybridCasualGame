@@ -83,27 +83,6 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1946103517481980647}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
---- !u!114 &4682743607638969579
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 727990565412648313}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 344b9c160b24db94a8a819b068bfc1bb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  onSelectScaleMultiplier: 1.25
-  onSelectResponseTime: 0.15
-  m_Button: {fileID: 0}
-  buttonPressedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  buttonReleasedEvent:
-    m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 4682743607638969579}
         m_TargetAssemblyTypeName: UnitUpgradesButton, Assembly-CSharp
@@ -117,6 +96,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &4682743607638969579
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 727990565412648313}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 344b9c160b24db94a8a819b068bfc1bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   combineWithIcon: {fileID: 1946103517481980647}
   toYieldIcon: {fileID: 7651669902510494914}
 --- !u!1 &6182048969632006928

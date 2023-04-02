@@ -12,8 +12,9 @@ public class PlayerTowerUI : MonoBehaviour
     [SerializeField, Range(0.1f, 5)] private float uiUpdateRate = 1;
 
     [Space(2), Header("UPGRADES")]
-    [SerializeField] private GameObject upgradeButton;
+    [SerializeField] private UnitUpgradesButton upgradeButtonPrefab;
     [SerializeField] private CanvasGroup upgradesPanelGroup;
+    [SerializeField] private Transform toggleUpgradesPanelButton;
     [SerializeField] private Transform upgradeButtonsSpawnParent;
     [SerializeField] private Transform sourceComponentsParent;
     [SerializeField] private Image sourceComponentIcon01;
@@ -47,7 +48,7 @@ public class PlayerTowerUI : MonoBehaviour
                 // Initialize all the upgrades buttons
                 if (_mainPlayerControl.IsAttackTypeUnlocked(combinations.toYield))
                 {
-                    var upgradesButton = Instantiate(owner._uiManager.upgradeButtonPrefab, upgradeButtonsSpawnParent);
+                    var upgradesButton = Instantiate(upgradeButtonPrefab, upgradeButtonsSpawnParent);
                     upgradesButton.InitializeButton(_mainPlayerControl.GetPlayerUnit(combinations.combinesWith),
                         _mainPlayerControl.GetPlayerUnit(combinations.toYield), owner);
                 }
@@ -63,24 +64,10 @@ public class PlayerTowerUI : MonoBehaviour
         }
         else
         {
-            upgradeButton.gameObject.SetActive(false);
+            toggleUpgradesPanelButton.gameObject.SetActive(false);
 
-            bool flag = false;
-            foreach (var unit_01 in _mainPlayerControl.allPlayerUnits)
-            {
-                foreach (var unit_02 in _mainPlayerControl.allPlayerUnits)
-                {
-                    PlayerUnit mergedUnit = _mainPlayerControl.CanUnitsBeMerged(unit_01, unit_02);
-                    if (mergedUnit != null && mergedUnit == owner.playerUnitProperties)
-                    {
-                        sourceComponentIcon01.sprite = unit_01.indicatorColorIcon;
-                        sourceComponentIcon02.sprite = unit_02.indicatorColorIcon;
-                        flag = true;
-                        break;
-                    }
-                }
-                if (flag) break;
-            }
+            sourceComponentIcon01.sprite = ownerTower.playerUnitProperties.sourceComponent01;
+            sourceComponentIcon02.sprite = ownerTower.playerUnitProperties.sourceComponent02;
 
             sourceComponentsParent.gameObject.SetActive(true);
         }
@@ -99,42 +86,6 @@ public class PlayerTowerUI : MonoBehaviour
 
         timer = uiUpdateRate;
     }
-    public virtual void UpdateUI()
-    {
-        if (timer < uiUpdateRate)
-        {
-            timer += Time.deltaTime;
-            return;
-        }
-        else
-            timer = 0;
-
-
-        if (!ownerTower) return;
-        if (!ownerTower.playerUnitProperties.supportsCombining) return;
-
-        if (_mainPlayerControl.currentResourcesCount >= leastUpgradeCost)
-        {
-            if (!upgradeButton.activeSelf)
-            {
-                ((RectTransform)upgradeButton.transform).localScale = Vector3.zero;
-
-                upgradeButton.SetActive(true);
-
-                ((RectTransform)upgradeButton.transform).DOScale(Vector3.one * 1.25f, 0.15f).OnComplete(() =>
-            ((RectTransform)upgradeButton.transform).DOScale(Vector3.one, 0.15f));
-            }
-        }
-        else
-        {
-            if (upgradeButton.activeSelf)
-            {
-                ((RectTransform)upgradeButton.transform).DOScale(Vector3.zero, 0.25f).OnComplete(()
-                    => upgradeButton.SetActive(false));
-            }
-        }
-    }
-
 
 
     //BUTTON REFRENCE

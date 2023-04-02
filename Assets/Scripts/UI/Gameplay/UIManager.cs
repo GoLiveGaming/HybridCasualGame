@@ -9,33 +9,38 @@ using UnityEngine.UI;
 public class UIManager : Singleton<UIManager>
 {
     [Header("GAME_MODE INFO UI")]
-    [Header("Rect Components")]
+    [Header("UI Panels")]
     public GameObject rootCanvas;
 
     public GameObject pausePanel;
     public GameObject floatingTextPanel;
     public GameObject unitUpgradesPanel;
     public GameObject headerPanel;
+    public GameObject resourcesPanel;
 
-    [Header("Canvas Groups")] public CanvasGroup wavePanelGroup;
+    [Header("Enemy Waves")]
+    public CanvasGroup wavePanelGroup;
     public CanvasGroup waveImageGroup;
-
-    [Header("Image Components")] public Image resourceMeter;
-
-    [Header("Text Components")] public TMP_Text resourcesCount;
-    public TMP_Text warningText;
     public TMP_Text nextWaveTimer;
-    public TMP_Text scoreText;
+    public EnemySpawnMarker enemySpawnMarker;
 
-    [Header("Animator Components")]
+    [Header("Resource Meter")]
+    public Image resourceMeter;
+    public Image resourcesNeededIndicator;
+    public TMP_Text resourcesCountText;
     public Animator resourceMeterAnimator;
+    public CanvasGroup resourceMeterHighlight;
+    private bool resourceAnimInProgress = false;
 
-    [Header("GLOBAL REFERENCE UI")]
+    [Header("Gameplay UI")]
+    public TMP_Text warningText;
+    public TMP_Text scoreText;
     public TMP_Text damageTextPrefab;
     public TMP_Text floatingTextPrefab;
-    public UnitUpgradesButton upgradeButtonPrefab;
 
-    [Header("ENEMY DATA PARAMETERS")] public EnemySpawnMarker enemySpawnMarker;
+    [Header("Animator Components")]
+
+    [Header("UI Classes")]
     public GameFinishView gameFinishView;
 
 
@@ -140,10 +145,47 @@ public class UIManager : Singleton<UIManager>
         (tempTxt.transform as RectTransform).DOMoveX(spawnPos.x + Random.Range(-100, 100), 1).SetRecyclable(true);
     }
 
-    public void ShowNotEnoughResourcesEffect()
+    public void ShowNotEnoughResourcesEffect(float requiredResourcesAmount)
     {
-        if (!resourcesCount) return;
-        (resourcesCount.transform as RectTransform).DOShakeAnchorPos(1, 10);
+        if(resourceAnimInProgress) return;
+
+        if (resourceMeterHighlight)
+        {
+            resourceAnimInProgress = true;
+            resourceMeterHighlight.alpha = 0;
+            resourcesCountText.color = Color.red;
+            resourcesNeededIndicator.gameObject.SetActive(true);
+
+            if (!resourceMeterHighlight.gameObject.activeSelf) resourceMeterHighlight.gameObject.SetActive(true);
+            resourceMeterHighlight.DOFade(1, 0.5f).SetRecyclable(true);
+        }
+        (resourcesPanel.transform as RectTransform).DOShakeAnchorPos(1, 10).SetRecyclable(true).OnComplete(() =>
+        {
+            if (resourceMeterHighlight)
+            {
+                resourceMeterHighlight.alpha = 1;
+                resourceMeterHighlight.DOFade(0, 0.5f).SetRecyclable(true).OnComplete(() =>
+                {
+                    if (resourceMeterHighlight.gameObject.activeSelf) resourceMeterHighlight.gameObject.SetActive(false);
+                    resourcesNeededIndicator.gameObject.SetActive(false);
+                    resourcesCountText.color = Color.white;
+                    resourceAnimInProgress = false;
+                });
+            }
+        });
+
+        // Get the fill percentage
+        float fillPercentage = requiredResourcesAmount / _mainPlayerControl.maxResources;
+
+        // Calculate the tip position based on the fill percentage
+        float resourceMeterWidth = ((RectTransform)resourceMeter.transform).rect.width;
+        float tipX = fillPercentage * resourceMeterWidth;
+
+        // Set the tip position
+        Vector2 anchorPosition = new(0f, 0.5f);
+        ((RectTransform)resourcesNeededIndicator.transform).anchorMin = anchorPosition;
+        ((RectTransform)resourcesNeededIndicator.transform).anchorMax = anchorPosition;
+        ((RectTransform)resourcesNeededIndicator.transform).anchoredPosition = new Vector2(tipX, 0f);
     }
 
     public void ShowFloatingResourceRemovedUI(string text, Vector3 atPosition)
