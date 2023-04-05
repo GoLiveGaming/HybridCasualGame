@@ -33,7 +33,7 @@ public class LevelManager : MonoBehaviour
     {
         get { return totalEnemiesInLevel - deadEnemiesCount; }
     }
-    public bool FreezeEnemies
+    public bool PauseEnemies
     {
         get { return freezeEnemies; }
         set

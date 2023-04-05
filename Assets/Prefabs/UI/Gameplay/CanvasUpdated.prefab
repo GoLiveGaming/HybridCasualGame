@@ -2224,7 +2224,7 @@ GameObject:
   - component: {fileID: 3673217898203252343}
   - component: {fileID: 3673217898203252342}
   m_Layer: 5
-  m_Name: WaveImage
+  m_Name: Wave Warning
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2438,7 +2438,7 @@ GameObject:
   - component: {fileID: 3673217898408402658}
   - component: {fileID: 6122169293414358122}
   m_Layer: 5
-  m_Name: Wave Incoming
+  m_Name: Wave Incoming Image Group
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3644,7 +3644,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &8992639754683610238
 RectTransform:
   m_ObjectHideFlags: 0

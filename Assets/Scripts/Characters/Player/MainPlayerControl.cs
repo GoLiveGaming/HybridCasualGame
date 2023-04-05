@@ -16,12 +16,6 @@ public class MainPlayerControl : MonoBehaviour
     public PlayerTowerUI playerTowerUIPrefab;
     public PlayerTowerMainUI playerTowerMainUIPrefab;
 
-    [Space(2), Header("UNIT UPGRADES"), Space(2)]
-    [SerializeField]
-    private LayerMask deployAreaLayer;
-
-    [SerializeField] private UnitUpgradesButton upgradeButtonPrefab;
-
     [Space(2), Header("ENEMY DATA"), Space(2)]
     [SerializeField]
     private EnemyData[] allEnemyData;

@@ -18,7 +18,7 @@ public class UnitUpgradesButton : MonoBehaviour
 
     }
 
-    public void StartUpgrading()
+    public virtual void StartUpgrading()
     {
         ownerTower.deployedAtArea.UpgradeExistingAttackUnit(toYieldUnitType);
     }

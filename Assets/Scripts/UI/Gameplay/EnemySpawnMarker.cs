@@ -1,5 +1,6 @@
 using System;
 using DG.Tweening;
+using TMPro;
 using UnityEngine;
 
 [RequireComponent(typeof(CanvasGroup))]
@@ -80,8 +81,22 @@ public class EnemySpawnMarker : MonoBehaviour
 
                 imageRect.anchoredPosition = anchoredPosition;
             }
-        }
 
+
+            // Get the position of the target object and the image
+            Vector3 targetPosition = targetTransform.position;
+            Vector3 imagePosition = imageRect.position;
+
+            // Convert the target position to screen space
+            Vector2 screenPoint = RectTransformUtility.WorldToScreenPoint(Camera.main, targetPosition);
+
+            // Calculate the angle between the target position and the image position
+            Vector2 direction = screenPoint - (Vector2)imagePosition;
+            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+
+            // Apply the rotation to the image
+            imageRect.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
+        }
         Destroy(gameObject, duration);
     }
 }

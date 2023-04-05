@@ -27,7 +27,7 @@ public class TutorialManager : UIManager
     public Animator cameraAnimator;
     public Animator mainBarracks;
 
-    [ReadOnly] public TutorialStep completedTutorialSteps;
+    [ReadOnly] public TutorialStep currentlyOnStep;
 
     public enum TutorialStep { NONE, STEP_ONE, STEP_TWO, STEP_THREE, STEP_FOUR };
     public override void Start()
@@ -62,12 +62,12 @@ public class TutorialManager : UIManager
         tutorialTextBig.text = "Let's bring in a Wizard to help defend your Castle!";
         ShowTextSmall("Place your Wizard Tower where it can protect your Castle");
 
-        LevelManager.Instance.FreezeEnemies = true;
+        LevelManager.Instance.PauseEnemies = true;
 
         ChangeDeployedAreaState(2);
         EndFirstStep();
 
-        completedTutorialSteps = TutorialStep.STEP_ONE;
+        currentlyOnStep = TutorialStep.STEP_ONE;
     }
     public IEnumerator TutorialSecondStep()
     {
@@ -76,7 +76,7 @@ public class TutorialManager : UIManager
 
         tutorialTextBig.gameObject.SetActive(false);
 
-        LevelManager.Instance.FreezeEnemies = false;
+        LevelManager.Instance.PauseEnemies = false;
 
         Utils.isGamePaused = false;
         for (int i = 0; i < deployAreas.Length; i++)
@@ -109,7 +109,7 @@ public class TutorialManager : UIManager
         tutorialTextBig.gameObject.SetActive(true);
         tutorialTextBig.text = "Combine Spells to make stronger Towers!";
 
-        foreach(var area in deployAreas)
+        foreach (var area in deployAreas)
         {
             if (!area.HasDeployedUnit)
             {
@@ -118,7 +118,7 @@ public class TutorialManager : UIManager
 
             // ReSharper disable once Unity.PerformanceCriticalCodeInvocation
             var renderers = area.GetComponentsInChildren<Renderer>();
-            foreach(var rnd in renderers)
+            foreach (var rnd in renderers)
             {
                 if (rnd) rnd.material.EnableKeyword("_EMISSION");
             }
@@ -127,16 +127,18 @@ public class TutorialManager : UIManager
         // ReSharper disable once Unity.PerformanceCriticalCodeInvocation
         ChangeDeployedAreaState(2);
 
-        LevelManager.Instance.FreezeEnemies = true;
+        LevelManager.Instance.PauseEnemies = true;
 
         // ReSharper disable once Unity.PerformanceCriticalCodeInvocation
         EndSecondStep();
-        completedTutorialSteps = TutorialStep.STEP_TWO;
+        currentlyOnStep = TutorialStep.STEP_TWO;
     }
 
     public IEnumerator TutorialThirdStep()
     {
-        LevelManager.Instance.FreezeEnemies = true;
+        LevelManager.Instance.PauseEnemies = true;
+        ToggleDeployButtons(false);
+
 
         tutorialTextBig.gameObject.SetActive(true);
         tutorialTextBig.text = "Mix the tower with another element to make new Magic!";
@@ -144,7 +146,7 @@ public class TutorialManager : UIManager
         yield return new WaitForSeconds(4f);
         tutorialTextBig.gameObject.SetActive(false);
 
-        completedTutorialSteps = TutorialStep.STEP_THREE;
+        currentlyOnStep = TutorialStep.STEP_THREE;
     }
     public IEnumerator TutorialFourthStep()
     {
@@ -152,14 +154,14 @@ public class TutorialManager : UIManager
         // ReSharper disable once Unity.PerformanceCriticalCodeInvocation
         ToggleDeployButtons(true);
 
-        LevelManager.Instance.FreezeEnemies = false;
+        LevelManager.Instance.PauseEnemies = false;
         // ReSharper disable once Unity.PerformanceCriticalCodeInvocation
         ChangeDeployedAreaState(2);
 
         pauseBtn.gameObject.SetActive(true);
         yield return null;
-        LevelManager.Instance.FreezeEnemies = false;
-        completedTutorialSteps = TutorialStep.STEP_FOUR;
+        LevelManager.Instance.PauseEnemies = false;
+        currentlyOnStep = TutorialStep.STEP_FOUR;
     }
 
     public void ToggleDeployButtons(bool value)

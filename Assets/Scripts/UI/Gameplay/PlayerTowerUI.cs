@@ -89,7 +89,7 @@ public class PlayerTowerUI : MonoBehaviour
 
 
     //BUTTON REFRENCE
-    public void ToggleUpgradesPanel()
+    public virtual void ToggleUpgradesPanel()
     {
         if (!upgradesPanelGroup.gameObject.activeSelf)
         {

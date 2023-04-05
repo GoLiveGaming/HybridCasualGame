@@ -47,7 +47,7 @@ public class TowerDeployeButtonTutorial : DraggableButton
         #region Tutorial Stuff
         if (UIManager.Instance.TryGetComponent(out TutorialManager tutorialManager))
         {
-            if (tutorialManager.completedTutorialSteps == TutorialManager.TutorialStep.STEP_ONE)
+            if (tutorialManager.currentlyOnStep == TutorialManager.TutorialStep.STEP_ONE)
             {
                 tutorialManager.blackPanel.SetActive(false);
                 tutorialManager.deployAreas[0].transform.GetComponent<Renderer>().material.color = new Color32(0, 106, 2, 255);
@@ -119,7 +119,7 @@ public class TowerDeployeButtonTutorial : DraggableButton
 
         if (UIManager.Instance.TryGetComponent(out TutorialManager tutorialManager))
         {
-            if (tutorialManager.completedTutorialSteps == TutorialManager.TutorialStep.STEP_ONE)
+            if (tutorialManager.currentlyOnStep == TutorialManager.TutorialStep.STEP_ONE)
             {
                 if (!activeDeploymentArea)
                 {
